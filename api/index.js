@@ -10,9 +10,11 @@ app.use(express.urlencoded({ extended: true }));
 
 // Require & Import API routes
 const pagar = require('./routes/pagar');
+const unidades = require('./routes/unidades');
 
 // Use API Routes
 app.use(pagar);
+app.use(unidades);
 
 // Export the server middleware
 module.exports = {
