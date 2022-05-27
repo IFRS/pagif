@@ -52,9 +52,7 @@
       <v-spacer />
     </v-app-bar>
     <v-main>
-      <v-container>
-        <Nuxt />
-      </v-container>
+      <Nuxt />
     </v-main>
     <v-footer
       :absolute="!fixed"
@@ -77,12 +75,12 @@ export default {
         {
           icon: 'mdi-apps',
           title: 'Início',
-          to: '/',
+          to: '/admin',
         },
         {
-          icon: 'mdi-currency-brl',
-          title: 'Pagar',
-          to: '/pagar'
+          icon: 'mdi-office-building-marker',
+          title: 'Unidades',
+          to: '/admin/unidades',
         }
       ],
       miniVariant: false,
