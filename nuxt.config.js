@@ -7,7 +7,7 @@ export default {
     titleTemplate: '%s - ifpag',
     title: 'ifpag',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'pt-BR'
     },
     meta: [
       { charset: 'utf-8' },
@@ -33,20 +33,22 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+  ],
+
+  serverMiddleware: [
+    '~/api/index.js',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: 'http://localhost:3000',
+    browserBaseURL: '/',
   },
 
   publicRuntimeConfig: {
@@ -60,10 +62,6 @@ export default {
       baseURL: process.env.BASE_URL
     }
   },
-
-  serverMiddleware: [
-    '~/api/index.js',
-  ],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
