@@ -7,10 +7,19 @@
     </v-row>
     <v-row>
       <v-col>
+        <v-text-field
+          v-model="busca"
+          append-icon="mdi-magnify"
+          label="Buscar"
+          single-line
+          hide-details
+        ></v-text-field>
         <v-data-table
+          :loading="tableLoading"
           :headers="tableHeaders"
           :items="unidades"
           :items-per-page="10"
+          :search="busca"
         ></v-data-table>
       </v-col>
     </v-row>
@@ -40,6 +49,8 @@
     layout: 'admin',
     data() {
       return {
+        busca: '',
+        tableLoading: false,
         tableHeaders: [
           { text: 'Nome', value: 'nome' },
           { text: 'Slug', value: 'slug' },
@@ -53,12 +64,17 @@
       this.hidden = false;
     },
     async fetch() {
+      this.tableLoading = true;
+
       await this.$axios.get('/api/unidades')
       .then((response) => {
         this.unidades = response.data;
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        this.tableLoading = false;
       });
     },
   };
