@@ -7,37 +7,41 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-text-field
-          v-model="busca"
-          append-icon="mdi-magnify"
-          label="Buscar"
-          single-line
-          hide-details
-        ></v-text-field>
         <v-data-table
           :loading="tableLoading"
           :headers="tableHeaders"
           :items="unidades"
           :items-per-page="10"
           :search="busca"
-        ></v-data-table>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-fab-transition>
-          <v-btn
-            v-show="!hidden"
-            color="primary"
-            fab
-            absolute
-            bottom
-            right
-            to="/admin/unidades/nova"
-          >
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
-        </v-fab-transition>
+        >
+          <template v-slot:top>
+            <v-toolbar
+              flat
+            >
+              <v-toolbar-title>Unidades</v-toolbar-title>
+              <v-divider
+                class="mx-4"
+                inset
+                vertical
+              ></v-divider>
+              <v-text-field
+                v-model="busca"
+                append-icon="mdi-magnify"
+                label="Buscar"
+                single-line
+                hide-details
+              ></v-text-field>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="primary"
+                to="/admin/unidades/nova"
+              >
+                <v-icon>mdi-plus</v-icon>
+                Nova Unidade
+              </v-btn>
+            </v-toolbar>
+          </template>
+        </v-data-table>
       </v-col>
     </v-row>
   </v-container>
@@ -57,11 +61,7 @@
           { text: 'Token', value: 'token', sortable: false },
         ],
         unidades: [],
-        hidden: true,
       }
-    },
-    mounted() {
-      this.hidden = false;
     },
     async fetch() {
       this.tableLoading = true;
@@ -71,6 +71,7 @@
         this.unidades = response.data;
       })
       .catch((error) => {
+        this.$toast.error('Ocorreu um erro ao carregar as Unidades: ' + error.message);
         console.log(error);
       })
       .finally(() => {
