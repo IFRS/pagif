@@ -21,11 +21,13 @@
       async handleSubmit(unidade) {
         await this.$axios.post('/api/unidades', unidade)
         .then((response) => {
+          this.$toast.success('Unidade cadastrada com sucesso!');
           this.$router.push({
             path: '/admin/unidades',
           });
         })
         .catch((error) => {
+          this.$toast.error('Ocorreu um erro ao cadastrar a Unidade. ' + error.message);
           console.error(error);
         });
       },
