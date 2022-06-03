@@ -32,6 +32,12 @@
           >
             Salvar
           </v-btn>
+          <v-btn
+            color="secondary"
+            @click="handleCancel"
+          >
+            Cancelar
+          </v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -41,12 +47,6 @@
 <script>
   export default {
     name: 'FormUnidade',
-    props: {
-      unidadeInicial: {
-        type: Object,
-        default: () => ({}),
-      },
-    },
     data() {
       return {
         validation: {
@@ -63,18 +63,41 @@
             v => !(/\s/).test(v) || 'Token não pode conter espaços.',
           ],
         },
-        nome: this.unidadeInicial.nome || '',
-        slug: this.unidadeInicial.slug || '',
-        token: this.unidadeInicial.token || '',
-      };
+      }
+    },
+    computed: {
+      nome: {
+        get() {
+          return this.$store.state.unidades.item.nome;
+        },
+        set(value) {
+          this.$store.commit('unidades/updateUnidade', { ...this.$store.state.unidades.item, nome: value });
+        }
+      },
+      slug: {
+        get() {
+          return this.$store.state.unidades.item.slug;
+        },
+        set(value) {
+          this.$store.commit('unidades/updateUnidade', { ...this.$store.state.unidades.item, slug: value });
+        }
+      },
+      token: {
+        get() {
+          return this.$store.state.unidades.item.token;
+        },
+        set(value) {
+          this.$store.commit('unidades/updateUnidade', { ...this.$store.state.unidades.item, token: value });
+        }
+      },
     },
     methods: {
       handleSubmit() {
-        this.$emit('salvar', {
-          nome: this.nome,
-          slug: this.slug,
-          token: this.token,
-        });
+        this.$emit('ok');
+      },
+      handleCancel() {
+        this.$refs.form.reset();
+        this.$emit('cancel');
       },
     },
   }

@@ -7,7 +7,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <FormUnidade @salvar="handleSubmit"></FormUnidade>
+        <FormUnidade @ok="handleSubmit" @cancel="handleCancel"></FormUnidade>
       </v-col>
     </v-row>
   </v-container>
@@ -18,8 +18,8 @@
     name: 'NovaUnidade',
     layout: 'admin',
     methods: {
-      async handleSubmit(unidade) {
-        await this.$axios.post('/api/unidades', unidade)
+      async handleSubmit() {
+        await this.$store.dispatch('unidades/save')
         .then((response) => {
           this.$toast.success('Unidade cadastrada com sucesso!');
           this.$router.push({
@@ -29,6 +29,12 @@
         .catch((error) => {
           this.$toast.error('Ocorreu um erro ao cadastrar a Unidade. ' + error.message);
           console.error(error);
+        });
+      },
+      handleCancel() {
+        this.$toast.info('Cadastro de Unidade cancelado.');
+        this.$router.push({
+          path: '/admin/unidades',
         });
       },
     },
