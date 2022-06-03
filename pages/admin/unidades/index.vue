@@ -8,7 +8,7 @@
     <v-row>
       <v-col>
         <v-data-table
-          :loading="tableLoading"
+          :loading="$fetchState.pending"
           :headers="tableHeaders"
           :items="$store.state.unidades.list"
           :items-per-page="10"
@@ -103,7 +103,6 @@
       return {
         confirmDialog: false,
         busca: '',
-        tableLoading: false,
         tableHeaders: [
           { text: 'Nome', value: 'nome' },
           { text: 'Slug', value: 'slug' },
@@ -113,8 +112,6 @@
       }
     },
     async fetch() {
-      this.tableLoading = true;
-
       await this.$axios.get('/api/unidades')
       .then((response) => {
         this.$store.commit('unidades/updateUnidades', response.data);
@@ -122,9 +119,6 @@
       .catch((error) => {
         this.$toast.error('Ocorreu um erro ao carregar as Unidades: ' + error.message);
         console.log(error);
-      })
-      .finally(() => {
-        this.tableLoading = false;
       });
     },
     methods: {
