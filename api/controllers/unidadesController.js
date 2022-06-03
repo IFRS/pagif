@@ -54,7 +54,7 @@ module.exports.save = [
         req.params.id,
         {
           nome: req.body.nome,
-          slug: req.body.slug,
+          slug: slug(req.body.slug),
           token: req.body.token,
         },
         function(err, unidade) {

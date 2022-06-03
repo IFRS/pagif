@@ -45,6 +45,8 @@
 </template>
 
 <script>
+  let slug = require('slug');
+
   export default {
     name: 'FormUnidade',
     data() {
@@ -56,7 +58,7 @@
           slug: [
             v => !!v || 'Slug é obrigatório.',
             v => !(/\s/).test(v) || 'Slug não pode conter espaços.',
-            v => (/^[a-z]+$/).test(v) || 'Slug pode conter somente letras.',
+            // v => (/^[a-z]+$/).test(v) || 'Slug pode conter somente letras.',
           ],
           token: [
             v => !!v || 'Token é obrigatório.',
@@ -79,7 +81,7 @@
           return this.$store.state.unidades.item.slug;
         },
         set(value) {
-          this.$store.commit('unidades/updateUnidade', { ...this.$store.state.unidades.item, slug: value });
+          this.$store.commit('unidades/updateUnidade', { ...this.$store.state.unidades.item, slug: slug(value) });
         }
       },
       token: {
