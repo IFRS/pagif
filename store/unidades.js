@@ -22,9 +22,14 @@ export const actions = {
   async save(context) {
     return await this.$axios.post('/api/unidades', context.state.item)
     .then((response) => {
-      context.commit('addUnidade', response.data);
       context.commit('updateUnidade', {});
     });
+  },
+  async update(context) {
+    return await this.$axios.put('/api/unidades/' + context.state.item._id, context.state.item)
+    .then((response) => {
+      context.commit('updateUnidade', {});
+    })
   },
   async delete(context) {
     return await this.$axios.delete('/api/unidades/' + context.state.item._id)

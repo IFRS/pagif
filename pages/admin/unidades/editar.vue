@@ -1,0 +1,43 @@
+<template>
+  <v-container>
+    <v-row>
+      <v-col>
+        <h2>Editar Unidade "{{ this.$store.state.unidades.item.nome }}"</h2>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <FormUnidade @ok="handleSubmit" @cancel="handleCancel"></FormUnidade>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+  export default {
+    name: 'EditarUnidade',
+    layout: 'admin',
+    methods: {
+      async handleSubmit() {
+        await this.$store.dispatch('unidades/update')
+        .then((response) => {
+          this.$toast.success('Unidade atualizada com sucesso!');
+          this.$router.push({
+            path: '/admin/unidades',
+          });
+        })
+        .catch((error) => {
+          this.$toast.error('Ocorreu um erro ao atualizar a Unidade. ' + error.message);
+          console.error(error);
+        });
+      },
+      handleCancel() {
+        this.$store.commit('unidades/updateUnidade', {});
+        this.$toast.info('Edição da Unidade cancelada.');
+        this.$router.push({
+          path: '/admin/unidades',
+        });
+      },
+    },
+  }
+</script>
