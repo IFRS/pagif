@@ -1,5 +1,6 @@
 const Unidade = require('../models/Unidade');
 const validator = require('express-validator');
+const slug = require('slug');
 
 module.exports.list = function(req, res) {
   Unidade.find({}, function(err, unidades) {
@@ -14,9 +15,7 @@ module.exports.list = function(req, res) {
 };
 
 module.exports.show = function(req, res) {
-  let id = req.params.id;
-
-  Unidade.findById(id, function(err, unidade) {
+  Unidade.findById(req.params.id, function(err, unidade) {
     if (err) {
       return res.status(500).json({
         message: 'Erro obtendo a Unidade.',
@@ -52,22 +51,22 @@ module.exports.save = [
 
     if (req.params.id) {
       Unidade.findByIdAndUpdate(
-        id,
+        req.params.id,
         {
           nome: req.body.nome,
           slug: req.body.slug,
           token: req.body.token,
         },
         function(err, unidade) {
-          if (err) {
-            return res.status(500).json({
-              message: 'Erro atualizando Unidade.',
-            });
-          }
-
           if (!unidade) {
             return res.status(404).json({
               message: 'Unidade não encontrada.',
+            });
+          }
+
+          if (err) {
+            return res.status(500).json({
+              message: 'Erro atualizando Unidade.',
             });
           }
 
@@ -83,7 +82,7 @@ module.exports.save = [
 
       unidade.save(function(err, unidade) {
         if (err) {
-          res.status(500).json({
+          return res.status(500).json({
             message: 'Erro ao adicionar a Unidade.',
             error: err,
           });
@@ -96,9 +95,7 @@ module.exports.save = [
 ];
 
 module.exports.delete = function(req, res) {
-  let id = req.params.id;
-
-  Unidade.findByIdAndRemove(id, function(err, unidade) {
+  Unidade.findByIdAndRemove(req.params.id, function(err, unidade) {
     if (err) {
       return res.status(500).json({
         message: 'Erro ao remover a Unidade.',
