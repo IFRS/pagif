@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" @submit.prevent="handleSubmit">
+  <v-form ref="form" @submit.prevent="handleSubmit()">
     <v-container>
       <v-row>
         <v-col>
@@ -9,13 +9,40 @@
             v-model="nome"
             :rules="validation.nome"
             required
+            @blur="slugify()"
           ></v-text-field>
-          <v-text-field
-            label="Slug"
-            v-model="slug"
-            :rules="validation.slug"
-            required
-          ></v-text-field>
+          <v-row no-gutters align="center">
+            <v-col>
+              <v-text-field
+                :disabled="!isEditSlug"
+                label="Slug"
+                v-model="slug"
+                ref="slug"
+                :rules="validation.slug"
+                required
+              >
+              </v-text-field>
+            </v-col>
+            <v-col cols="1" sm="auto">
+              <v-btn
+                v-if="!isEditSlug"
+                color="secondary"
+                icon
+                @click="editSlug()"
+              >
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+              <v-btn
+                v-else
+                color="success"
+                small
+                text
+                @click="slugify()"
+              >
+                Ok
+              </v-btn>
+            </v-col>
+          </v-row>
           <v-text-field
             label="Token"
             v-model="token"
@@ -30,11 +57,11 @@
             color="primary"
             type="submit"
           >
-            Salvar
+            {{ submitText }}
           </v-btn>
           <v-btn
             color="secondary"
-            @click="handleCancel"
+            @click="handleCancel()"
           >
             Cancelar
           </v-btn>
@@ -51,15 +78,13 @@
     name: 'FormUnidade',
     data() {
       return {
+        submitText: this.$store.state.unidades.item._id ? 'Atualizar' : 'Salvar',
+        isEditSlug: false,
         validation: {
           nome: [
             v => !!v || 'Nome é obrigatório.',
           ],
-          slug: [
-            v => !!v || 'Slug é obrigatório.',
-            v => !(/\s/).test(v) || 'Slug não pode conter espaços.',
-            // v => (/^[a-z]+$/).test(v) || 'Slug pode conter somente letras.',
-          ],
+          slug: [],
           token: [
             v => !!v || 'Token é obrigatório.',
             v => !(/\s/).test(v) || 'Token não pode conter espaços.',
@@ -81,7 +106,7 @@
           return this.$store.state.unidades.item.slug;
         },
         set(value) {
-          this.$store.commit('unidades/updateUnidade', { ...this.$store.state.unidades.item, slug: slug(value) });
+          this.$store.commit('unidades/updateUnidade', { ...this.$store.state.unidades.item, slug: value });
         }
       },
       token: {
@@ -94,8 +119,25 @@
       },
     },
     methods: {
+      editSlug() {
+        this.isEditSlug = true;
+        setTimeout(() => {
+          this.$refs.slug.$refs.input.focus();
+        }, 100);
+      },
+      slugify() {
+        if (this.slug === undefined || this.slug === '') {
+          this.slug = slug(this.nome || '');
+        } else {
+          this.slug = slug(this.slug);
+        }
+        this.isEditSlug = false;
+      },
       handleSubmit() {
-        this.$emit('ok');
+        this.slugify();
+        if (this.$refs.form.validate()) {
+          this.$emit('ok');
+        }
       },
       handleCancel() {
         this.$refs.form.reset();
