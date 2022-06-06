@@ -12,6 +12,11 @@ app.use(express.urlencoded({ extended: true }));
 const pagar = require('./routes/pagar');
 const unidades = require('./routes/unidades');
 
+// Add development latency
+if (process.env.NODE_ENV === 'development') {
+  app.use((req, res, next) => setTimeout(next, 999));
+}
+
 // Use API Routes
 app.use(pagar);
 app.use(unidades);
