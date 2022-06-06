@@ -19,6 +19,12 @@ export const mutations = {
 }
 
 export const actions = {
+  async fetchAll(context) {
+    return await this.$axios.get('/api/unidades')
+    .then((response) => {
+      context.commit('updateUnidades', response.data);
+    });
+  },
   async save(context) {
     return await this.$axios.post('/api/unidades', context.state.item)
     .then((response) => {

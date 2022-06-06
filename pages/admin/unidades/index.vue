@@ -112,10 +112,7 @@
       }
     },
     async fetch() {
-      await this.$axios.get('/api/unidades')
-      .then((response) => {
-        this.$store.commit('unidades/updateUnidades', response.data);
-      })
+      await this.$store.dispatch('unidades/fetchAll')
       .catch((error) => {
         this.$toast.error('Ocorreu um erro ao carregar as Unidades: ' + error.message);
         console.log(error);
