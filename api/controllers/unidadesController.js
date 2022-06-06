@@ -39,7 +39,7 @@ module.exports.save = [
   validator.body('slug', '')
     .trim()
     .notEmpty()
-    .isAlpha(),
+    .isSlug(),
   validator.body('token', '')
     .trim()
     .notEmpty(),
