@@ -62,6 +62,15 @@
               <span> Deletar {{ item.nome }} </span>
             </v-tooltip>
           </template>
+          <template slot="no-data">
+            <v-alert
+              dense
+              type="info"
+              class="my-3"
+            >
+              N&atilde;o h&aacute; Unidades cadastradas.
+            </v-alert>
+          </template>
         </v-data-table>
       </v-col>
     </v-row>
