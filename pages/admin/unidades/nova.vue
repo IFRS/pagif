@@ -20,7 +20,7 @@
     methods: {
       async handleSubmit() {
         await this.$store.dispatch('unidades/save')
-        .then((response) => {
+        .then(() => {
           this.$toast.success('Unidade cadastrada com sucesso!');
           this.$router.push({
             path: '/admin/unidades',
