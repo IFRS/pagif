@@ -32,12 +32,14 @@
         });
       },
       handleCancel() {
-        this.$store.commit('unidades/updateUnidade', {});
         this.$toast.info('Cadastro de Unidade cancelado.');
         this.$router.push({
           path: '/admin/unidades',
         });
       },
+    },
+    destroyed () {
+      this.$store.commit('unidades/updateUnidade', {});
     },
   }
 </script>

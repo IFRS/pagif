@@ -32,12 +32,14 @@
         });
       },
       handleCancel() {
-        this.$store.commit('unidades/updateUnidade', {});
         this.$toast.info('Edição da Unidade cancelada.');
         this.$router.push({
           path: '/admin/unidades',
         });
       },
+    },
+    destroyed () {
+      this.$store.commit('unidades/updateUnidade', {});
     },
   }
 </script>
