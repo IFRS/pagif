@@ -97,7 +97,7 @@
 
 <script>
   export default {
-    name: 'Pagamentos',
+    name: 'Unidades',
     layout: 'admin',
     data() {
       return {
