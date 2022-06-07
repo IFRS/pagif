@@ -1,5 +1,6 @@
 {
   "vueCompilerOptions": {
+    "target": 2,
     "experimentalDisableTemplateSupport": true,
   },
   "compilerOptions": {
