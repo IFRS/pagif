@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>Nova Unidade</h2>
+        <h2>Nova Unidade Gestora</h2>
       </v-col>
     </v-row>
     <v-row>
@@ -21,18 +21,18 @@
       async handleSubmit() {
         await this.$store.dispatch('unidades/save')
         .then(() => {
-          this.$toast.success('Unidade cadastrada com sucesso!');
+          this.$toast.success('Unidade Gestora cadastrada com sucesso!');
           this.$router.push({
             path: '/admin/unidades',
           });
         })
         .catch((error) => {
-          this.$toast.error('Ocorreu um erro ao cadastrar a Unidade. ' + error.message);
+          this.$toast.error('Ocorreu um erro ao cadastrar a Unidade Gestora. ' + error.message);
           console.error(error);
         });
       },
       handleCancel() {
-        this.$toast.info('Cadastro de Unidade cancelado.');
+        this.$toast.info('Cadastro de Unidade Gestora cancelado.');
         this.$router.push({
           path: '/admin/unidades',
         });

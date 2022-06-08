@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>Editar Unidade "{{ this.$store.state.unidades.item.nome }}"</h2>
+        <h2>Editar Unidade Gestora "{{ this.$store.state.unidades.item.nome }}"</h2>
       </v-col>
     </v-row>
     <v-row>
@@ -21,18 +21,18 @@
       async handleSubmit() {
         await this.$store.dispatch('unidades/update')
         .then((response) => {
-          this.$toast.success('Unidade atualizada com sucesso!');
+          this.$toast.success('Unidade Gestora atualizada com sucesso!');
           this.$router.push({
             path: '/admin/unidades',
           });
         })
         .catch((error) => {
-          this.$toast.error('Ocorreu um erro ao atualizar a Unidade. ' + error.message);
+          this.$toast.error('Ocorreu um erro ao atualizar a Unidade Gestora. ' + error.message);
           console.error(error);
         });
       },
       handleCancel() {
-        this.$toast.info('Edição da Unidade cancelada.');
+        this.$toast.info('Edição da Unidade Gestora cancelada.');
         this.$router.push({
           path: '/admin/unidades',
         });
