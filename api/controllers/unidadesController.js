@@ -3,7 +3,11 @@ const validator = require('express-validator');
 const slug = require('slug');
 
 module.exports.list = function(req, res) {
-  Unidade.find({}, function(err, unidades) {
+  let fields = req.query.fields?.split(',');
+
+  let select = (Array.isArray(fields)) ? fields : [];
+
+  Unidade.find({}, select, function(err, unidades) {
     if (err) {
       console.error(err);
       return res.status(500).json({
