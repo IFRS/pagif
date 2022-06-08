@@ -5,7 +5,7 @@
         <v-col>
           <v-text-field
             label="Nome"
-            hint="Nome da Unidade"
+            hint="Nome da Unidade Gestora, que será apresentado no pagamento."
             v-model="nome"
             :rules="validation.nome"
             required
@@ -16,6 +16,8 @@
               <v-text-field
                 :disabled="!isEditSlug"
                 label="Slug"
+                hint="O slug é gerado automaticamente usando o nome da Unidade. Se preferir, é possível editá-lo no botão ao lado do campo."
+                persistent-hint
                 v-model="slug"
                 ref="slug"
                 :rules="validation.slug"
@@ -44,7 +46,8 @@
             </v-col>
           </v-row>
           <v-text-field
-            label="Token"
+            label="Token do PagTesouro"
+            hint="Token de acesso gerado no SISGRU."
             v-model="token"
             :rules="validation.token"
             required
@@ -83,6 +86,7 @@
         validation: {
           nome: [
             v => !!v || 'Nome é obrigatório.',
+            v => !(/^\d/).test(v) || 'Nome não pode iniciar com um número.'
           ],
           slug: [],
           token: [
