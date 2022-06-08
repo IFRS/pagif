@@ -81,7 +81,7 @@
     name: 'FormUnidade',
     data() {
       return {
-        submitText: this.$store.state.unidades.item._id ? 'Atualizar' : 'Salvar',
+        submitText: this.$store.state.admin.unidade._id ? 'Atualizar' : 'Salvar',
         isEditSlug: false,
         validation: {
           nome: [
@@ -99,26 +99,26 @@
     computed: {
       nome: {
         get() {
-          return this.$store.state.unidades.item.nome;
+          return this.$store.state.admin.unidade.nome;
         },
         set(value) {
-          this.$store.commit('unidades/updateUnidade', { ...this.$store.state.unidades.item, nome: value });
+          this.$store.commit('admin/setUnidade', { ...this.$store.state.admin.unidade, nome: value });
         }
       },
       slug: {
         get() {
-          return this.$store.state.unidades.item.slug;
+          return this.$store.state.admin.unidade.slug;
         },
         set(value) {
-          this.$store.commit('unidades/updateUnidade', { ...this.$store.state.unidades.item, slug: value });
+          this.$store.commit('admin/setUnidade', { ...this.$store.state.admin.unidade, slug: value });
         }
       },
       token: {
         get() {
-          return this.$store.state.unidades.item.token;
+          return this.$store.state.admin.unidade.token;
         },
         set(value) {
-          this.$store.commit('unidades/updateUnidade', { ...this.$store.state.unidades.item, token: value });
+          this.$store.commit('admin/setUnidade', { ...this.$store.state.admin.unidade, token: value });
         }
       },
     },

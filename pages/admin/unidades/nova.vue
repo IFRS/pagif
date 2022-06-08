@@ -19,7 +19,7 @@
     layout: 'admin',
     methods: {
       async handleSubmit() {
-        await this.$store.dispatch('unidades/save')
+        await this.$store.dispatch('admin/saveUnidade')
         .then(() => {
           this.$toast.success('Unidade Gestora cadastrada com sucesso!');
           this.$router.push({
@@ -39,7 +39,7 @@
       },
     },
     destroyed () {
-      this.$store.commit('unidades/updateUnidade', {});
+      this.$store.commit('admin/setUnidade', {});
     },
   }
 </script>

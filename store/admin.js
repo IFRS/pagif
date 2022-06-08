@@ -1,0 +1,46 @@
+export const state = () => ({
+  unidades: [],
+  unidade: {},
+})
+
+export const mutations = {
+  setUnidades: (state, payload) => {
+    state.unidades = payload;
+  },
+  setUnidade: (state, payload) => {
+    state.unidade = payload;
+  },
+  removeUnidade: (state, payload) => {
+    state.unidade = {};
+    state.unidades = state.unidades.filter((value) => {
+      return value._id !== payload._id;
+    });
+  },
+}
+
+export const actions = {
+  async fetchUnidades(context) {
+    return await this.$axios.get('/api/unidades')
+    .then((response) => {
+      context.commit('setUnidades', response.data);
+    });
+  },
+  async saveUnidade(context) {
+    return await this.$axios.post('/api/unidades', context.state.unidade)
+    .then((response) => {
+      context.commit('setUnidade', {});
+    });
+  },
+  async updateUnidade(context) {
+    return await this.$axios.put('/api/unidades/' + context.state.unidade._id, context.state.unidade)
+    .then((response) => {
+      context.commit('setUnidade', {});
+    })
+  },
+  async deleteUnidade(context) {
+    return await this.$axios.delete('/api/unidades/' + context.state.unidade._id)
+    .then((response) => {
+      context.commit('removeUnidade', response.data);
+    });
+  },
+}

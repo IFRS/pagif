@@ -10,7 +10,7 @@
         <v-data-table
           :loading="$fetchState.pending"
           :headers="tableHeaders"
-          :items="$store.state.unidades.list"
+          :items="$store.state.admin.unidades"
           :items-per-page="10"
           :search="busca"
         >
@@ -80,7 +80,7 @@
     >
       <v-card>
         <v-card-title class="text-h5">
-          Deletar a Unidade "{{ $store.state.unidades.item.nome }}"?
+          Deletar a Unidade "{{ $store.state.admin.unidade.nome }}"?
         </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -121,32 +121,32 @@
       }
     },
     async fetch() {
-      await this.$store.dispatch('unidades/fetchAll')
+      await this.$store.dispatch('admin/fetchUnidades')
       .catch((error) => {
-        this.$toast.error('Ocorreu um erro ao carregar as Unidades: ' + error.message);
+        this.$toast.error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.message);
         console.log(error);
       });
     },
     methods: {
       editUnidade(unidade) {
-        this.$store.commit('unidades/updateUnidade', unidade);
+        this.$store.commit('admin/setUnidade', unidade);
         this.$router.push({
           path: '/admin/unidades/editar'
         });
       },
       confirmDelete(unidade) {
-        this.$store.commit('unidades/updateUnidade', unidade);
+        this.$store.commit('admin/setUnidade', unidade);
         this.confirmDialog = true;
       },
       async deleteUnidade() {
         this.confirmDialog = false;
-        await this.$store.dispatch('unidades/delete')
+        await this.$store.dispatch('admin/deleteUnidade')
         .then(() => {
-          this.$toast.success('Unidade removida com sucesso!');
+          this.$toast.success('Unidade Gestora removida com sucesso!');
         })
         .catch((error) => {
           console.error(error);
-          this.$toast.error('Erro ao tentar deletar a Unidade. ' + error.message);
+          this.$toast.error('Erro ao tentar deletar a Unidade Gestora. ' + error.message);
         });
       },
     },
