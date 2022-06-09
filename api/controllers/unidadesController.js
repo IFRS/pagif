@@ -52,14 +52,16 @@ module.exports.save = [
       return res.status(422).json({ errors: errors.mapped() });
     }
 
+    const data = {
+      nome: req.body.nome,
+      slug: req.body.slug,
+      token: req.body.token,
+    };
+
     if (req.params.id) {
       Unidade.findByIdAndUpdate(
         req.params.id,
-        {
-          nome: req.body.nome,
-          slug: req.body.slug,
-          token: req.body.token,
-        },
+        data,
         function(err, unidade) {
           if (!unidade) {
             return res.status(404).json({
@@ -77,11 +79,7 @@ module.exports.save = [
         }
       );
     } else {
-      let unidade = new Unidade({
-        nome: req.body.nome,
-        slug: req.body.slug,
-        token: req.body.token,
-      });
+      let unidade = new Unidade(data);
 
       unidade.save(function(err, unidade) {
         if (err) {
