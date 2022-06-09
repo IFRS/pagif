@@ -1,6 +1,5 @@
 const Unidade = require('../models/Unidade');
 const validator = require('express-validator');
-const slug = require('slug');
 
 module.exports.list = function(req, res) {
   let fields = req.query.fields?.split(',');
@@ -58,7 +57,7 @@ module.exports.save = [
         req.params.id,
         {
           nome: req.body.nome,
-          slug: slug(req.body.slug),
+          slug: req.body.slug,
           token: req.body.token,
         },
         function(err, unidade) {
