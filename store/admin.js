@@ -3,7 +3,7 @@ export const state = () => ({
   unidade: {},
   servicos: [],
   servico: {},
-})
+});
 
 export const mutations = {
   setUnidades: (state, payload) => {
@@ -24,7 +24,7 @@ export const mutations = {
   setServico: (state, payload) => {
     state.servico = payload;
   },
-}
+};
 
 export const actions = {
   async fetchUnidades(context) {
@@ -51,4 +51,4 @@ export const actions = {
       context.commit('removeUnidade', response.data);
     });
   },
-}
+};
