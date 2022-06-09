@@ -47,7 +47,7 @@ export default {
       max: null,
       defaultValue: null,
       allowNegative: false,
-      valueAsInteger: false,
+      valueAsInteger: true,
     }],
   ],
 
