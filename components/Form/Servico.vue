@@ -6,8 +6,8 @@
           <v-autocomplete
             prepend-icon="mdi-office-building-marker"
             label="Unidade Gestora"
-            v-model="unidadeID"
-            :rules="validation.unidadeID"
+            v-model="unidade_id"
+            :rules="validation.unidade_id"
             :loading="$fetchState.pending"
             :items="$store.state.admin.unidades"
             item-text="nome"
@@ -75,7 +75,7 @@
             v-model="desc"
             :rules="validation.desc"
             prepend-icon="mdi-text"
-            counter
+            :counter="999"
             rows="8"
           ></v-textarea>
         </v-col>
@@ -114,7 +114,7 @@
       return {
         submitText: this.$store.state.admin.servico._id ? 'Atualizar' : 'Salvar',
         validation: {
-          unidadeID: [
+          unidade_id: [
             v => !!v || 'Selecione uma Unidade Gestora.',
           ],
           codigo: [
@@ -125,8 +125,11 @@
           nome: [
             v => !!v || 'Nome é obrigatório.',
           ],
+          desc: [
+            v => (!v || v?.length <= 999) || 'Descrição deve ter até 999 caracteres.',
+          ],
           vencimentoDias: [
-            v => (/^\d+$/).test(v) || 'Número de Dias precisa ser um número.',
+            v => ((/^\d+$/).test(v) || !v) || 'Número de Dias precisa ser um número.',
           ],
         },
         enableVencimentoPadrao: false,
@@ -134,12 +137,12 @@
       }
     },
     computed: {
-      unidadeID: {
+      unidade_id: {
         get() {
-          return this.$store.state.admin.servico.unidade_id;
+          return this.$store.state.admin.servico.unidade;
         },
         set(value) {
-          this.$store.commit('admin/setServico', { ...this.$store.state.admin.servico, unidade_id: value });
+          this.$store.commit('admin/setServico', { ...this.$store.state.admin.servico, unidade: value });
         }
       },
       codigo: {
