@@ -1,6 +1,7 @@
 export const state = () => ({
   unidades: [],
   unidade: {},
+
   servicos: [],
   servico: {},
 });
@@ -18,6 +19,7 @@ export const mutations = {
       return value._id !== payload._id;
     });
   },
+
   setServicos: (state, payload) => {
     state.servicos = payload;
   },
@@ -35,13 +37,13 @@ export const actions = {
   },
   async saveUnidade(context) {
     return await this.$axios.post('/api/unidades', context.state.unidade)
-    .then((response) => {
+    .then(() => {
       context.commit('setUnidade', {});
     });
   },
   async updateUnidade(context) {
     return await this.$axios.put('/api/unidades/' + context.state.unidade._id, context.state.unidade)
-    .then((response) => {
+    .then(() => {
       context.commit('setUnidade', {});
     })
   },
@@ -49,6 +51,19 @@ export const actions = {
     return await this.$axios.delete('/api/unidades/' + context.state.unidade._id)
     .then((response) => {
       context.commit('removeUnidade', response.data);
+    });
+  },
+
+  async fetchServicos(context) {
+    return await this.$axios.get('/api/servicos/?populate=unidade&populate_fields=nome')
+    .then((response) => {
+      context.commit('setServicos', response.data);
+    });
+  },
+  async saveServico(context) {
+    return await this.$axios.post('/api/servicos', context.state.servico)
+    .then(() => {
+      context.commit('setServico', {});
     });
   },
 };
