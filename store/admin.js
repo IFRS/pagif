@@ -1,6 +1,8 @@
 export const state = () => ({
   unidades: [],
   unidade: {},
+  servicos: [],
+  servico: {},
 })
 
 export const mutations = {
@@ -15,6 +17,12 @@ export const mutations = {
     state.unidades = state.unidades.filter((value) => {
       return value._id !== payload._id;
     });
+  },
+  setServicos: (state, payload) => {
+    state.servicos = payload;
+  },
+  setServico: (state, payload) => {
+    state.servico = payload;
   },
 }
 

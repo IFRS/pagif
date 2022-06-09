@@ -94,6 +94,11 @@ export default {
           icon: 'mdi-office-building-marker',
           title: 'Unidades',
           to: '/admin/unidades',
+        },
+        {
+          icon: 'mdi-basket',
+          title: 'Serviços',
+          to: '/admin/servicos',
         }
       ],
       miniVariant: false,
