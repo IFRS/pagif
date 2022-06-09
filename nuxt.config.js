@@ -39,6 +39,16 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
+    ['v-currency-field/nuxt', {
+      locale: 'pt-BR',
+      autoDecimalMode: true,
+      decimalLength: 2,
+      min: 0.01,
+      max: null,
+      defaultValue: null,
+      allowNegative: false,
+      valueAsInteger: false,
+    }],
   ],
 
   serverMiddleware: [
