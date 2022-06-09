@@ -113,7 +113,10 @@
         confirmDialog: false,
         busca: '',
         tableHeaders: [
-
+          { text: 'Unidade', value: 'unidade.nome' },
+          { text: 'Código', value: 'codigo' },
+          { text: 'Nome', value: 'nome' },
+          { text: 'Ações', value: 'actions', sortable: false, align: 'center', width: 100 },
         ],
       }
     },
