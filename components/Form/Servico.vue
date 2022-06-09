@@ -168,10 +168,10 @@
       },
       vencimentoDias: {
         get() {
-          return this.$store.state.admin.servico.vencimentoPadrao;
+          return this.$store.state.admin.servico.vencimentoDias;
         },
         set(value) {
-          this.$store.commit('admin/setServico', { ...this.$store.state.admin.servico, vencimentoPadrao: value });
+          this.$store.commit('admin/setServico', { ...this.$store.state.admin.servico, vencimentoDias: value });
         }
       },
       valorPadrao: {
@@ -186,12 +186,12 @@
     watch: {
       enableVencimentoPadrao(newValue) {
         if (newValue === false) {
-          this.vencimentoPadrao = null;
+          this.vencimentoPadrao = undefined;
         }
       },
       enableValorFixo(newValue) {
         if (newValue === false) {
-          this.valorPadrao = null;
+          this.valorPadrao = undefined;
         }
       },
     },
