@@ -33,16 +33,21 @@
               </v-btn>
             </v-toolbar>
           </template>
-          <template v-slot:item.token="{ value }">
-              <v-btn
-                plain
-                class="text-none sensitive"
-                @click.prevent="toggleToken"
-              >
-                {{ value }}
-              </v-btn>
-          </template>
           <template v-slot:item.actions="{ item }">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon
+                  v-bind="attrs"
+                  v-on="on"
+                  small
+                  class="mr-2"
+                  @click="showTokenDialog(item)"
+                >
+                  mdi-key
+                </v-icon>
+              </template>
+              <span> Ver Token de {{ item.nome }} </span>
+            </v-tooltip>
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
                 <v-icon
@@ -84,6 +89,23 @@
       </v-col>
     </v-row>
     <v-dialog
+      v-model="tokenDialog"
+      max-width="500"
+      @click:outside="hideTokenDialog()"
+    >
+      <v-card>
+        <v-card-title>
+          Token PagTesouro
+        </v-card-title>
+        <v-card-subtitle>
+          {{ $store.state.admin.unidade.nome }}
+        </v-card-subtitle>
+        <v-card-text>
+          {{ $store.state.admin.unidade.token }}
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+    <v-dialog
       v-model="confirmDialog"
       max-width="400"
     >
@@ -119,13 +141,13 @@
     layout: 'admin',
     data() {
       return {
+        tokenDialog: false,
         confirmDialog: false,
         busca: '',
         tableHeaders: [
           { text: 'Nome', value: 'nome' },
           { text: 'Slug', value: 'slug' },
-          { text: 'Token', value: 'token', sortable: false },
-          { text: 'Ações', value: 'actions', sortable: false, align: 'center', width: 100 },
+          { text: 'Ações', value: 'actions', sortable: false, align: 'center', width: 150 },
         ],
       }
     },
@@ -137,18 +159,13 @@
       });
     },
     methods: {
-      toggleToken(e) {
-        let button = null;
-
-        if (e.target.tagName === 'button') {
-          button = e.target;
-        } else {
-          button = e.target.closest('button');
-        }
-
-        if (button) {
-          button.classList.toggle('sensitive');
-        }
+      showTokenDialog(item) {
+        this.$store.commit('admin/setUnidade', item);
+        this.tokenDialog = true;
+      },
+      hideTokenDialog() {
+        this.$store.commit('admin/setUnidade', {});
+        this.tokenDialog = false;
       },
       editUnidade(unidade) {
         this.$store.commit('admin/setUnidade', unidade);
@@ -174,9 +191,3 @@
     },
   };
 </script>
-
-<style lang="scss" scoped>
- .sensitive {
-  filter: blur(5px);
- }
-</style>
