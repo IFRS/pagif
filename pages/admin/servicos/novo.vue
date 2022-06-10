@@ -7,7 +7,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <FormServico @ok="handleSubmit" @cancel="handleCancel"></FormServico>
+        <FormServico @ok="handleSubmit" @cancel="handleCancel" :submitting="submitting"></FormServico>
       </v-col>
     </v-row>
   </v-container>
@@ -17,8 +17,14 @@
   export default {
     name: 'NovoServico',
     layout: 'admin',
+    data() {
+      return {
+        submitting: false,
+      }
+    },
     methods: {
       async handleSubmit() {
+        this.submitting = true;
         await this.$store.dispatch('admin/saveServico')
         .then(() => {
           this.$toast.success('Serviço cadastrado com sucesso!');
@@ -29,6 +35,9 @@
         .catch((error) => {
           this.$toast.error('Ocorreu um erro ao cadastrar o Serviço. ' + error.message);
           console.error(error);
+        })
+        .finally(() => {
+          this.submitting = false;
         });
       },
       handleCancel() {

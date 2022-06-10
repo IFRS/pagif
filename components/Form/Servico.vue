@@ -85,12 +85,15 @@
           <v-btn
             color="primary"
             type="submit"
+            :loading="submitting"
+            :disabled="submitting"
           >
             {{ submitText }}
           </v-btn>
           <v-btn
             color="secondary"
             @click="handleCancel()"
+            :disabled="submitting"
           >
             Cancelar
           </v-btn>
@@ -109,6 +112,12 @@
         this.$toast.error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.message);
         console.log(error);
       });
+    },
+    props: {
+      submitting: {
+        type: Boolean,
+        default: false,
+      },
     },
     data() {
       return {

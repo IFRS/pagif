@@ -60,11 +60,14 @@
           <v-btn
             color="primary"
             type="submit"
+            :loading="submitting"
+            :disabled="submitting"
           >
             {{ submitText }}
           </v-btn>
           <v-btn
             color="secondary"
+            :disabled="submitting"
             @click="handleCancel()"
           >
             Cancelar
@@ -80,6 +83,12 @@
 
   export default {
     name: 'FormUnidade',
+    props: {
+      submitting: {
+        type: Boolean,
+        default: false,
+      },
+    },
     data() {
       return {
         submitText: this.$store.state.admin.unidade._id ? 'Atualizar' : 'Salvar',

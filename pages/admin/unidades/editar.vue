@@ -7,7 +7,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <FormUnidade @ok="handleSubmit" @cancel="handleCancel"></FormUnidade>
+        <FormUnidade @ok="handleSubmit" @cancel="handleCancel" :submitting="submitting"></FormUnidade>
       </v-col>
     </v-row>
   </v-container>
@@ -17,8 +17,14 @@
   export default {
     name: 'EditarUnidade',
     layout: 'admin',
+    data() {
+      return {
+        submitting: false,
+      }
+    },
     methods: {
       async handleSubmit() {
+        this.submitting = true;
         await this.$store.dispatch('admin/updateUnidade')
         .then(() => {
           this.$toast.success('Unidade Gestora atualizada com sucesso!');
@@ -29,6 +35,9 @@
         .catch((error) => {
           this.$toast.error('Ocorreu um erro ao atualizar a Unidade Gestora. ' + error.message);
           console.error(error);
+        })
+        .finally(() => {
+          this.submitting = false;
         });
       },
       handleCancel() {
