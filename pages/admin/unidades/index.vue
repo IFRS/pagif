@@ -33,6 +33,15 @@
               </v-btn>
             </v-toolbar>
           </template>
+          <template v-slot:item.token="{ value }">
+              <v-btn
+                plain
+                class="text-none sensitive"
+                @click.prevent="toggleToken"
+              >
+                {{ value }}
+              </v-btn>
+          </template>
           <template v-slot:item.actions="{ item }">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -128,6 +137,19 @@
       });
     },
     methods: {
+      toggleToken(e) {
+        let button = null;
+
+        if (e.target.tagName === 'button') {
+          button = e.target;
+        } else {
+          button = e.target.closest('button');
+        }
+
+        if (button) {
+          button.classList.toggle('sensitive');
+        }
+      },
       editUnidade(unidade) {
         this.$store.commit('admin/setUnidade', unidade);
         this.$router.push({
@@ -152,3 +174,9 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+ .sensitive {
+  filter: blur(5px);
+ }
+</style>
