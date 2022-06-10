@@ -45,13 +45,14 @@
               </v-btn>
             </v-col>
           </v-row>
-          <v-text-field
+          <v-textarea
             label="Token do PagTesouro"
             hint="Token de acesso gerado no SISGRU."
             v-model="token"
             :rules="validation.token"
+            auto-grow
             required
-          ></v-text-field>
+          ></v-textarea>
         </v-col>
       </v-row>
       <v-row>
