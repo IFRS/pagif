@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-mongoose.connect('mongodb://localhost/ifpag');
+mongoose.connect(`mongodb://${process.env.DB_URL}:${process.env.DB_PORT}/${process.env.DB_NAME}`);
 
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Erro na Conexão:'));
 db.once('open', function callback () {
-  console.log("MongoDB Conectado...");
+  console.log("MongoDB Conectado!");
 });
 
 module.exports = db;
