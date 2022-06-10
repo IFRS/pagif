@@ -25,7 +25,6 @@
     "webpack": "^4.46.0"
   },
   "devDependencies": {
-    "@nuxtjs/vuetify": "^1.12.3",
-    "@vue/runtime-dom": "^3.2.37"
+    "@nuxtjs/vuetify": "^1.12.3"
   }
 }
