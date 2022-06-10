@@ -4,9 +4,15 @@ const validator = require('express-validator');
 module.exports.list = function(req, res) {
   let fields = req.query.fields?.split(',');
 
-  let select = (Array.isArray(fields)) ? fields : [];
+  const query = Unidade.find({});
 
-  Unidade.find({}, select, function(err, unidades) {
+  if (Array.isArray(fields)) {
+    query.select(fields);
+  }
+
+  query.sort('nome');
+
+  query.exec(function(err, unidades) {
     if (err) {
       console.error(err);
       return res.status(500).json({

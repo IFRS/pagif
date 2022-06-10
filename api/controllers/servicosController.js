@@ -5,13 +5,13 @@ module.exports.list = function(req, res) {
   const populate = req.query.populate;
   const populate_fields = req.query.populate_fields?.replaceAll(',', ' ');
 
-  const options = {
-    path: populate,
-    select: populate_fields,
-  };
+  const query = Servico.find({});
 
+  if (populate && populate_fields) {
+    query.populate(populate, populate_fields);
+  }
 
-  Servico.find({}, function(err, servicos) {
+  query.exec(function(err, servicos) {
     if (err) {
       console.error(err);
       return res.status(500).json({
@@ -19,20 +19,7 @@ module.exports.list = function(req, res) {
       });
     }
 
-    if (populate) {
-      Servico.populate(servicos, options, function(err, servicos_populated) {
-        if (err) {
-          console.error(err);
-          return res.status(500).json({
-            message: 'Erro populando Serviços.',
-          });
-        }
-
-        return res.json(servicos_populated);
-      });
-    } else {
-      return res.json(servicos);
-    }
+    return res.json(servicos);
   });
 };
 
