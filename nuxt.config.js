@@ -43,7 +43,7 @@ export default {
       locale: 'pt-BR',
       autoDecimalMode: true,
       decimalLength: 2,
-      min: 0.01,
+      min: null,
       max: null,
       defaultValue: null,
       allowNegative: false,
