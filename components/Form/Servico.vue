@@ -9,6 +9,7 @@
             v-model="unidade_id"
             :rules="validation.unidade_id"
             :loading="$fetchState.pending"
+            :disabled="$fetchState.pending"
             :items="$store.state.admin.unidades"
             item-text="nome"
             item-value="_id"
@@ -41,33 +42,41 @@
       </v-row>
       <v-row>
         <v-col cols="12" md="4" lg="3" xl="2">
-          <v-switch
-            v-model="enableVencimentoPadrao"
-            label="Vencimento Padrão?"
-          ></v-switch>
-          <v-text-field
-            prepend-icon="mdi-calendar-today"
-            label="Número de Dias"
-            hint="Número de dias para o vencimento. Esses dias serão adicionados a data do pagamento."
-            v-model="vencimentoDias"
-            :rules="validation.vencimentoDias"
-            :disabled="!enableVencimentoPadrao"
-            :required="enableVencimentoPadrao"
-          ></v-text-field>
+          <v-row>
+            <v-col>
+              <v-switch
+                v-model="enableVencimentoPadrao"
+                label="Vencimento Padrão?"
+              ></v-switch>
+              <v-text-field
+                prepend-icon="mdi-calendar-today"
+                label="Número de Dias"
+                hint="Número de dias para o vencimento. Esses dias serão adicionados a data do pagamento."
+                v-model="vencimentoDias"
+                :rules="validation.vencimentoDias"
+                :disabled="!enableVencimentoPadrao"
+                :required="enableVencimentoPadrao"
+              ></v-text-field>
+            </v-col>
+          </v-row>
 
-          <v-switch
-            v-model="enableValorFixo"
-            label="Valor Fixo?"
-          ></v-switch>
-          <v-currency-field
-            prepend-icon="mdi-currency-brl"
-            label="Valor"
-            hint="Valor padrão do Serviço. Esse valor não poderá ser alterado pelo usuário."
-            v-model="valorPadrao"
-            :rules="validation.valorPadrao"
-            :disabled="!enableValorFixo"
-            :required="enableValorFixo"
-          ></v-currency-field>
+          <v-row>
+            <v-col>
+              <v-switch
+                v-model="enableValorFixo"
+                label="Valor Fixo?"
+              ></v-switch>
+              <v-currency-field
+                prepend-icon="mdi-currency-brl"
+                label="Valor"
+                hint="Valor padrão do Serviço. Esse valor não poderá ser alterado pelo usuário."
+                v-model="valorPadrao"
+                :rules="validation.valorPadrao"
+                :disabled="!enableValorFixo"
+                :required="enableValorFixo"
+              ></v-currency-field>
+            </v-col>
+          </v-row>
         </v-col>
         <v-col>
           <v-textarea
@@ -76,7 +85,7 @@
             :rules="validation.desc"
             prepend-icon="mdi-text"
             :counter="999"
-            rows="8"
+            rows="9"
           ></v-textarea>
         </v-col>
       </v-row>
