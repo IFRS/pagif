@@ -207,7 +207,7 @@
     watch: {
       enableVencimentoPadrao(newValue) {
         if (newValue === false) {
-          this.vencimentoPadrao = undefined;
+          this.vencimentoDias = undefined;
         }
       },
       enableValorFixo(newValue) {
