@@ -2,10 +2,16 @@ const Servico = require('../models/Servico');
 const validator = require('express-validator');
 
 module.exports.list = function(req, res) {
+  const unidade_id = req.query.unidade;
+
   const populate = req.query.populate;
   const populate_fields = req.query.populate_fields?.replaceAll(',', ' ');
 
   const query = Servico.find({});
+
+  if (unidade_id) {
+    query.where({unidade: unidade_id});
+  }
 
   if (populate && populate_fields) {
     query.populate(populate, populate_fields);
