@@ -4,6 +4,9 @@ export const state = () => ({
 
   servicos: [],
   servico: {},
+
+  pagamentos: [],
+  pagamento: {},
 });
 
 export const mutations = {
@@ -29,6 +32,19 @@ export const mutations = {
   removeServico: (state, payload) => {
     state.servico = {};
     state.servicos = state.servicos.filter((value) => {
+      return value._id !== payload._id;
+    });
+  },
+
+  setPagamentos: (state, payload) => {
+    state.pagamentos = payload;
+  },
+  setPagamento: (state, payload) => {
+    state.pagamento = { ...state.pagamento, ...payload };
+  },
+  removePagamento: (state, payload) => {
+    state.pagamento = {};
+    state.pagamentos = state.pagamentos.filter((value) => {
       return value._id !== payload._id;
     });
   },
@@ -60,8 +76,9 @@ export const actions = {
     });
   },
 
-  async fetchServicos(context) {
-    return await this.$axios.get('/api/servicos/?populate=unidade&populate_fields=nome')
+  async fetchServicos(context, payload) {
+    const query = (payload.unidade) ? '?unidade=' + payload.unidade : '?populate=unidade&populate_fields=nome';
+    return await this.$axios.get('/api/servicos/' + query)
     .then((response) => {
       context.commit('setServicos', response.data);
     });
