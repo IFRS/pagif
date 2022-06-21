@@ -1,4 +1,5 @@
-export const state = () => ({
+const defaultState = {
+  _id: null,
   codigoServico: null,
   referencia: null,
   competencia: null,
@@ -11,9 +12,14 @@ export const state = () => ({
   valorMulta: null,
   valorJuros: null,
   valorOutrosAcrescimos: null,
-});
+  createdAt: null,
+  updatedAt: null,
+};
+
+export const state = () => defaultState;
 
 export const getters = {
+  id: state => state._id,
   codigoServico: state => state.codigoServico,
   referencia: state => state.referencia,
   competencia: state => state.competencia,
@@ -26,9 +32,14 @@ export const getters = {
   valorMulta: state => state.valorMulta,
   valorJuros: state => state.valorJuros,
   valorOutrosAcrescimos: state => state.valorOutrosAcrescimos,
+  createdAt: state => state.createdAt,
+  updatedAt: state => state.updatedAt,
 };
 
 export const mutations = {
+  id: (state, payload) => {
+    state._id = payload;
+  },
   codigoServico: (state, payload) => {
     state.codigoServico = payload;
   },
@@ -64,6 +75,18 @@ export const mutations = {
   },
   valorOutrosAcrescimos: (state, payload) => {
     state.valorOutrosAcrescimos = payload;
+  },
+  createdAt: (state, payload) => {
+    state.createdAt = payload;
+  },
+  updatedAt: (state, payload) => {
+    state.updatedAt = payload;
+  },
+  clear: (state) => {
+    Object.assign(state, defaultState);
+  },
+  replace: (state, payload) => {
+    Object.assign(state, payload);
   },
 };
 
