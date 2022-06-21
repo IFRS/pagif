@@ -6,8 +6,8 @@ const Servico = new Schema({
   codigo: {type: Number, required: true },
   nome: { type: String, required: true },
   desc: { type: String },
-  vencimento_dias: { type: Number },
-  valor_fixo: { type: Number },
+  vencimentoDias: { type: Number },
+  valorPadrao: { type: Number },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Servico', Servico);

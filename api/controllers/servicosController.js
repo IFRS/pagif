@@ -83,8 +83,8 @@ module.exports.save = [
       codigo: req.body.codigo,
       nome: req.body.nome,
       desc: req.body.desc,
-      vencimento_dias: req.body.vencimentoDias,
-      valor_fixo: req.body.valorPadrao,
+      vencimentoDias: req.body.vencimentoDias,
+      valorPadrao: req.body.valorPadrao,
     };
 
     if (req.params.id) {
