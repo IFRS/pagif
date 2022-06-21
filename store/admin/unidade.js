@@ -38,7 +38,7 @@ export const mutations = {
     state.updatedAt = payload;
   },
   clear: (state) => {
-    Object.assign(state, defaultState());
+    Object.assign(state, defaultState);
   },
   replace: (state, payload) => {
     Object.assign(state, payload);
