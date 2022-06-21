@@ -6,7 +6,6 @@ export const state = () => ({
   servico: {},
 
   pagamentos: [],
-  pagamento: {},
 });
 
 export const mutations = {
@@ -39,11 +38,7 @@ export const mutations = {
   setPagamentos: (state, payload) => {
     state.pagamentos = payload;
   },
-  setPagamento: (state, payload) => {
-    state.pagamento = { ...state.pagamento, ...payload };
-  },
   removePagamento: (state, payload) => {
-    state.pagamento = {};
     state.pagamentos = state.pagamentos.filter((value) => {
       return value._id !== payload._id;
     });

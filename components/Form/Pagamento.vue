@@ -7,7 +7,7 @@
           <v-autocomplete
             prepend-icon="mdi-office-building-marker"
             label="Unidade Gestora"
-            :rules="validation.unidade_id"
+            :rules="validation.unidade"
             :loading="$fetchState.pending"
             :disabled="$fetchState.pending"
             :items="$store.state.admin.unidades"
@@ -153,7 +153,6 @@
             label="Valor Descontos"
             hint="Valor dos descontos."
             v-model="valorDescontos"
-            :rules="validation.valorDescontos"
           ></v-currency-field>
         </v-col>
         <v-col>
@@ -162,8 +161,7 @@
             prepend-icon="mdi-currency-brl"
             label="Valor Deduções"
             hint="Valor de outras deduções."
-            v-model="valorDeducoes"
-            :rules="validation.valorDeducoes"
+            v-model="valorOutrasDeducoes"
           ></v-currency-field>
         </v-col>
         <v-col>
@@ -173,7 +171,6 @@
             label="Valor Multa"
             hint="Valor da multa."
             v-model="valorMulta"
-            :rules="validation.valorMulta"
           ></v-currency-field>
         </v-col>
         <v-col>
@@ -183,7 +180,6 @@
             label="Valor Juros"
             hint="Valor dos juros."
             v-model="valorJuros"
-            :rules="validation.valorJuros"
           ></v-currency-field>
         </v-col>
         <v-col>
@@ -192,8 +188,7 @@
             prepend-icon="mdi-currency-brl"
             label="Valor Acréscimos"
             hint="Valor de outros acréscimos."
-            v-model="valorAcrescimos"
-            :rules="validation.valorAcrescimos"
+            v-model="valorOutrosAcrescimos"
           ></v-currency-field>
         </v-col>
       </v-row>
@@ -221,6 +216,7 @@
 </template>
 
 <script>
+  import { mapGetters, mapMutations } from 'vuex'
   const dayjs = require('dayjs');
   const customParseFormat = require('dayjs/plugin/customParseFormat')
   const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
@@ -245,6 +241,12 @@
     data() {
       return {
         validation: {
+          unidade: [
+            v => !!v || 'Selecione uma Unidade.',
+          ],
+          codigoServico: [
+            v => !!v || 'Selecione um Serviço.',
+          ],
           referencia: [
             v => !v || (/^\d+$/).test(v) || 'Número de Referência precisa ser um número.',
             v => !v || v?.length <= 20 || 'Número de Referência deve ter no máximo 20 dígitos.',
@@ -261,7 +263,7 @@
               }
 
               return 'O Vencimento precisa ser em data posterior à data de hoje.';
-            }
+            },
           ],
           nomeContribuinte: [
             v => !!v || 'O Nome do Contribuinte é obrigatório.',
@@ -279,72 +281,62 @@
     },
     computed: {
       codigoServico: {
-        get() {
-          return this.$store.state.admin.pagamento.codigoServico;
-        },
-        set(value) {
-          this.$store.commit('admin/setPagamento', { codigoServico: value });
-        }
+        ...mapGetters({ get: 'admin/pagamento/codigoServico' }),
+        ...mapMutations({ set: 'admin/pagamento/codigoServico' }),
       },
       referencia: {
-        get() {
-          return this.$store.state.admin.pagamento.referencia;
-        },
-        set(value) {
-          this.$store.commit('admin/setPagamento', { referencia: value });
-        }
+        ...mapGetters({ get: 'admin/pagamento/referencia' }),
+        ...mapMutations({ set: 'admin/pagamento/referencia' }),
       },
       competencia: {
-        get() {
-          return this.$store.state.admin.pagamento.competencia;
-        },
-        set(value) {
-          this.$store.commit('admin/setPagamento', { competencia: value });
-        }
+        ...mapGetters({ get: 'admin/pagamento/competencia' }),
+        ...mapMutations({ set: 'admin/pagamento/competencia' }),
       },
       competenciaFormatted() {
         if (!this.competencia) return null;
 
-        const [year, month] = this.competencia.split('-');
-        return `${month}/${year}`;
+        return dayjs(this.competencia).format('MM/YYYY');
       },
       vencimento: {
-        get() {
-          return this.$store.state.admin.pagamento.vencimento;
-        },
-        set(value) {
-          this.$store.commit('admin/setPagamento', { vencimento: value });
-        }
+        ...mapGetters({ get: 'admin/pagamento/vencimento' }),
+        ...mapMutations({ set: 'admin/pagamento/vencimento' }),
       },
       vencimentoFormatted() {
         if (!this.vencimento) return null;
 
-        const [year, month, day] = this.vencimento.split('-');
-        return `${day}/${month}/${year}`;
+        return dayjs(this.vencimento).format('DD/MM/YYYY');
       },
       nomeContribuinte: {
-        get() {
-          return this.$store.state.admin.pagamento.nomeContribuinte;
-        },
-        set(value) {
-          this.$store.commit('admin/setPagamento', { nomeContribuinte: value });
-        }
+        ...mapGetters({ get: 'admin/pagamento/nomeContribuinte' }),
+        ...mapMutations({ set: 'admin/pagamento/nomeContribuinte' }),
       },
       cnpjCpf: {
-        get() {
-          return this.$store.state.admin.pagamento.cnpjCpf;
-        },
-        set(value) {
-          this.$store.commit('admin/setPagamento', { cnpjCpf: value });
-        }
+        ...mapGetters({ get: 'admin/pagamento/cnpjCpf' }),
+        ...mapMutations({ set: 'admin/pagamento/cnpjCpf' }),
       },
       valorPrincipal: {
-        get() {
-          return this.$store.state.admin.pagamento.valorPrincipal;
-        },
-        set(value) {
-          this.$store.commit('admin/setPagamento', { valorPrincipal: value });
-        }
+        ...mapGetters({ get: 'admin/pagamento/valorPrincipal' }),
+        ...mapMutations({ set: 'admin/pagamento/valorPrincipal' }),
+      },
+      valorDescontos: {
+        ...mapGetters({ get: 'admin/pagamento/valorDescontos' }),
+        ...mapMutations({ set: 'admin/pagamento/valorDescontos' }),
+      },
+      valorOutrasDeducoes: {
+        ...mapGetters({ get: 'admin/pagamento/valorOutrasDeducoes' }),
+        ...mapMutations({ set: 'admin/pagamento/valorOutrasDeducoes' }),
+      },
+      valorMulta: {
+        ...mapGetters({ get: 'admin/pagamento/valorMulta' }),
+        ...mapMutations({ set: 'admin/pagamento/valorMulta' }),
+      },
+      valorJuros: {
+        ...mapGetters({ get: 'admin/pagamento/valorJuros' }),
+        ...mapMutations({ set: 'admin/pagamento/valorJuros' }),
+      },
+      valorOutrosAcrescimos: {
+        ...mapGetters({ get: 'admin/pagamento/valorOutrosAcrescimos' }),
+        ...mapMutations({ set: 'admin/pagamento/valorOutrosAcrescimos' }),
       },
     },
     methods: {
@@ -462,7 +454,6 @@
         if (resultado != digitos.charAt(1)) return false;
 
         return true;
-
       },
     },
   }
