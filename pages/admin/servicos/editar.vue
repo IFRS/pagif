@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>Editar Serviço "{{ this.$store.state.admin.servico.nome }}"</h2>
+        <h2>Editar Serviço "{{ this.$store.getters['admin/servico/nome'] }}"</h2>
       </v-col>
     </v-row>
     <v-row>
@@ -25,7 +25,7 @@
     methods: {
       async handleSubmit() {
         this.submitting = true,
-        await this.$store.dispatch('admin/updateServico')
+        await this.$store.dispatch('admin/servico/update')
         .then(() => {
           this.$toast.success('Serviço atualizado com sucesso!');
           this.$router.push({
@@ -48,7 +48,7 @@
       },
     },
     destroyed () {
-      this.$store.commit('admin/setServico', {});
+      this.$store.commit('admin/servico/clear');
     },
   }
 </script>

@@ -1,9 +1,6 @@
 export const state = () => ({
   unidades: [],
-
   servicos: [],
-  servico: {},
-
   pagamentos: [],
 });
 
@@ -20,11 +17,7 @@ export const mutations = {
   setServicos: (state, payload) => {
     state.servicos = payload;
   },
-  setServico: (state, payload) => {
-    state.servico = payload;
-  },
   removeServico: (state, payload) => {
-    state.servico = {};
     state.servicos = state.servicos.filter((value) => {
       return value._id !== payload._id;
     });
@@ -49,36 +42,10 @@ export const actions = {
   },
 
   async fetchServicos(context, payload) {
-    const query = (payload.unidade) ? '?unidade=' + payload.unidade : '?populate=unidade&populate_fields=nome';
+    const query = (payload?.unidade) ? '?unidade=' + payload.unidade : '?populate=unidade&populate_fields=nome';
     return await this.$axios.get('/api/servicos/' + query)
     .then((response) => {
       context.commit('setServicos', response.data);
-    });
-  },
-  async saveServico(context) {
-    let servico = {
-      ...context.state.servico,
-      unidade: (context.state.servico.unidade.hasOwnProperty('_id')) ? context.state.servico.unidade._id : context.state.servico.unidade
-    };
-    return await this.$axios.post('/api/servicos', servico)
-    .then(() => {
-      context.commit('setServico', {});
-    });
-  },
-  async updateServico(context) {
-    let servico = {
-      ...context.state.servico,
-      unidade: (context.state.servico.unidade.hasOwnProperty('_id')) ? context.state.servico.unidade._id : context.state.servico.unidade
-    };
-    return await this.$axios.put('/api/servicos/' + context.state.servico._id, servico)
-    .then(() => {
-      context.commit('setUnidade', {});
-    })
-  },
-  async deleteServico(context) {
-    return await this.$axios.delete('/api/servicos/' + context.state.servico._id)
-    .then((response) => {
-      context.commit('removeServico', response.data);
     });
   },
 };

@@ -77,17 +77,18 @@
     <v-dialog
       v-model="confirmDialog"
       max-width="400"
+      @click:outside="closeDelete()"
     >
       <v-card>
         <v-card-title class="text-h5">
-          Deletar o Servi&ccedil;o "{{ $store.state.admin.servico.nome }}"?
+          Deletar o Servi&ccedil;o "{{ $store.getters['admin/servico/nome'] }}"?
         </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
             color="secondary"
             text
-            @click="confirmDialog = false"
+            @click="closeDelete()"
           >
             Cancelar
           </v-btn>
@@ -129,18 +130,22 @@
     },
     methods: {
       editServico(servico) {
-        this.$store.commit('admin/setServico', servico);
+        this.$store.commit('admin/servico/replace', servico);
         this.$router.push({
           path: '/admin/servicos/editar'
         });
       },
       confirmDelete(servico) {
-        this.$store.commit('admin/setServico', servico);
+        this.$store.commit('admin/servico/replace', servico);
         this.confirmDialog = true;
+      },
+      closeDelete() {
+        this.$store.commit('admin/servico/clear');
+        this.confirmDialog = false;
       },
       async deleteServico() {
         this.confirmDialog = false;
-        await this.$store.dispatch('admin/deleteServico')
+        await this.$store.dispatch('admin/servico/delete')
         .then(() => {
           this.$toast.success('Serviço removido com sucesso!');
         })

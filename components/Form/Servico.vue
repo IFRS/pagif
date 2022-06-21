@@ -6,8 +6,8 @@
           <v-autocomplete
             prepend-icon="mdi-office-building-marker"
             label="Unidade Gestora"
-            v-model="unidade_id"
-            :rules="validation.unidade_id"
+            v-model="unidade"
+            :rules="validation.unidade"
             :loading="$fetchState.pending"
             :disabled="$fetchState.pending"
             :items="$store.state.admin.unidades"
@@ -113,6 +113,8 @@
 </template>
 
 <script>
+  import { mapGetters, mapMutations } from 'vuex';
+
   export default {
     name: 'FormServico',
     async fetch() {
@@ -130,15 +132,15 @@
     },
     data() {
       return {
-        submitText: this.$store.state.admin.servico._id ? 'Atualizar' : 'Salvar',
+        submitText: this.id ? 'Atualizar' : 'Salvar',
         validation: {
-          unidade_id: [
+          unidade: [
             v => !!v || 'Selecione uma Unidade Gestora.',
           ],
           codigo: [
             v => !!v || 'Código do Serviço é obrigatório.',
             v => (/^\d+$/).test(v) || 'Código do Serviço precisa ser um número.',
-            v => v?.length <= 5 || 'Código do Serviço deve ter no máximo 5 dígitos.',
+            v => v?.toString().length <= 5 || 'Código do Serviço deve ter no máximo 5 dígitos.',
           ],
           nome: [
             v => !!v || 'Nome é obrigatório.',
@@ -147,72 +149,52 @@
             v => (!v || v?.length <= 999) || 'Descrição deve ter até 999 caracteres.',
           ],
           vencimentoDias: [
-            v => ((/^\d+$/).test(v) || !v) || 'Número de Dias precisa ser um número.',
+            v => (!v || (/^\d+$/).test(v)) || 'Número de Dias precisa ser um número.',
           ],
         },
-        enableVencimentoPadrao: false,
-        enableValorFixo: false,
+        enableVencimentoPadrao: (this.$store.getters['admin/servico/vencimentoDias']) ? true : false,
+        enableValorFixo: (this.$store.getters['admin/servico/valorPadrao']) ? true : false,
       }
     },
     computed: {
-      unidade_id: {
-        get() {
-          return this.$store.state.admin.servico.unidade;
-        },
-        set(value) {
-          this.$store.commit('admin/setServico', { ...this.$store.state.admin.servico, unidade: value });
-        }
+      id: {
+        ...mapGetters({ get: 'admin/servico/id' }),
+        ...mapMutations({ set: 'admin/servico/id' }),
+      },
+      unidade: {
+        ...mapGetters({ get: 'admin/servico/unidade' }),
+        ...mapMutations({ set: 'admin/servico/unidade' }),
       },
       codigo: {
-        get() {
-          return this.$store.state.admin.servico.codigo;
-        },
-        set(value) {
-          this.$store.commit('admin/setServico', { ...this.$store.state.admin.servico, codigo: value });
-        }
+        ...mapGetters({ get: 'admin/servico/codigo' }),
+        ...mapMutations({ set: 'admin/servico/codigo' }),
       },
       nome: {
-        get() {
-          return this.$store.state.admin.servico.nome;
-        },
-        set(value) {
-          this.$store.commit('admin/setServico', { ...this.$store.state.admin.servico, nome: value });
-        }
+        ...mapGetters({ get: 'admin/servico/nome' }),
+        ...mapMutations({ set: 'admin/servico/nome' }),
       },
       desc: {
-        get() {
-          return this.$store.state.admin.servico.desc;
-        },
-        set(value) {
-          this.$store.commit('admin/setServico', { ...this.$store.state.admin.servico, desc: value });
-        }
+        ...mapGetters({ get: 'admin/servico/desc' }),
+        ...mapMutations({ set: 'admin/servico/desc' }),
       },
       vencimentoDias: {
-        get() {
-          return this.$store.state.admin.servico.vencimentoDias;
-        },
-        set(value) {
-          this.$store.commit('admin/setServico', { ...this.$store.state.admin.servico, vencimentoDias: value });
-        }
+        ...mapGetters({ get: 'admin/servico/vencimentoDias' }),
+        ...mapMutations({ set: 'admin/servico/vencimentoDias' }),
       },
       valorPadrao: {
-        get() {
-          return this.$store.state.admin.servico.valorPadrao;
-        },
-        set(value) {
-          this.$store.commit('admin/setServico', { ...this.$store.state.admin.servico, valorPadrao: value });
-        }
+        ...mapGetters({ get: 'admin/servico/valorPadrao' }),
+        ...mapMutations({ set: 'admin/servico/valorPadrao' }),
       },
     },
     watch: {
       enableVencimentoPadrao(newValue) {
         if (newValue === false) {
-          this.vencimentoDias = undefined;
+          this.vencimentoDias = null;
         }
       },
       enableValorFixo(newValue) {
         if (newValue === false) {
-          this.valorPadrao = undefined;
+          this.valorPadrao = null;
         }
       },
     },
