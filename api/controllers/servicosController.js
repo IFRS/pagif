@@ -61,15 +61,15 @@ module.exports.save = [
     .notEmpty(),
   validator.body('desc', '')
     .trim()
-    .optional()
+    .optional({ checkFalsy: true })
     .isLength({ min: 1, max: 999 }),
   validator.body('vencimentoDias', '')
     .trim()
-    .optional()
+    .optional({ checkFalsy: true })
     .isNumeric({ no_symbols: true }),
   validator.body('valorPadrao', '')
     .trim()
-    .optional()
+    .optional({ checkFalsy: true })
     .isNumeric({ no_symbols: true })
     .isLength({ min: 3, max: 17 }),
   function(req, res) {
