@@ -79,6 +79,7 @@
 </template>
 
 <script>
+  import { mapGetters, mapMutations } from 'vuex';
   let slug = require('slug');
 
   export default {
@@ -91,14 +92,13 @@
     },
     data() {
       return {
-        submitText: this.$store.state.admin.unidade._id ? 'Atualizar' : 'Salvar',
+        submitText: this.id ? 'Atualizar' : 'Salvar',
         isEditSlug: false,
         validation: {
           nome: [
             v => !!v || 'Nome é obrigatório.',
             v => !(/^\d/).test(v) || 'Nome não pode iniciar com um número.'
           ],
-          slug: [],
           token: [
             v => !!v || 'Token é obrigatório.',
             v => !(/\s/).test(v) || 'Token não pode conter espaços.',
@@ -107,29 +107,21 @@
       }
     },
     computed: {
+      id: {
+        ...mapGetters({ get: 'admin/unidade/id' }),
+        ...mapMutations({ set: 'admin/unidade/id' }),
+      },
       nome: {
-        get() {
-          return this.$store.state.admin.unidade.nome;
-        },
-        set(value) {
-          this.$store.commit('admin/setUnidade', { ...this.$store.state.admin.unidade, nome: value });
-        }
+        ...mapGetters({ get: 'admin/unidade/nome' }),
+        ...mapMutations({ set: 'admin/unidade/nome' }),
       },
       slug: {
-        get() {
-          return this.$store.state.admin.unidade.slug;
-        },
-        set(value) {
-          this.$store.commit('admin/setUnidade', { ...this.$store.state.admin.unidade, slug: value });
-        }
+        ...mapGetters({ get: 'admin/unidade/slug' }),
+        ...mapMutations({ set: 'admin/unidade/slug' }),
       },
       token: {
-        get() {
-          return this.$store.state.admin.unidade.token;
-        },
-        set(value) {
-          this.$store.commit('admin/setUnidade', { ...this.$store.state.admin.unidade, token: value });
-        }
+        ...mapGetters({ get: 'admin/unidade/token' }),
+        ...mapMutations({ set: 'admin/unidade/token' }),
       },
     },
     methods: {
