@@ -216,11 +216,11 @@
 </template>
 
 <script>
-  import { mapGetters, mapMutations } from 'vuex'
+  import { mapGetters, mapMutations } from 'vuex';
   const dayjs = require('dayjs');
-  const customParseFormat = require('dayjs/plugin/customParseFormat')
+  const customParseFormat = require('dayjs/plugin/customParseFormat');
   const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
-  dayjs.extend(customParseFormat)
+  dayjs.extend(customParseFormat);
   dayjs.extend(isSameOrAfter);
 
   export default {
