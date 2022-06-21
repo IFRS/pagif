@@ -1,15 +1,13 @@
-const defaultState = () => {
-  return {
-    _id: null,
-    nome: '',
-    slug: '',
-    token: '',
-    createdAt: null,
-    updatedAt: null,
-  }
+const defaultState = {
+  _id: null,
+  nome: '',
+  slug: '',
+  token: '',
+  createdAt: null,
+  updatedAt: null,
 };
 
-export const state = defaultState();
+export const state = () => defaultState;
 
 export const getters = {
   id: state => state._id,
@@ -58,12 +56,13 @@ export const actions = {
     return await this.$axios.put('/api/unidades/' + context.state._id, context.state)
     .then(() => {
       context.commit('clear');
-    })
+    });
   },
   async delete(context) {
     return await this.$axios.delete('/api/unidades/' + context.state._id)
-    .then(() => {
+    .then((response) => {
       context.commit('clear');
+      context.commit('admin/removeUnidade', response.data, { root: true });
     });
   },
 };
