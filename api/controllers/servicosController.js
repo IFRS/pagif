@@ -71,7 +71,7 @@ module.exports.save = [
     .trim()
     .optional({ checkFalsy: true })
     .isNumeric({ no_symbols: true })
-    .isLength({ min: 3, max: 17 }),
+    .isLength({ min: 1, max: 17 }),
   function(req, res) {
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {
