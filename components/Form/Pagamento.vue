@@ -267,7 +267,7 @@
           ],
           nomeContribuinte: [
             v => !!v || 'O Nome do Contribuinte é obrigatório.',
-            v => v?.length <= 45 || 'Nome do Contribuinte precisa ter no máximo 45 caracteres.',
+            v => (v?.length >= 2 && v?.length <= 45) || 'Nome do Contribuinte precisa ter entre 2 e 45 caracteres.',
           ],
           cnpjCpf: [
             v => !v || (this.validaCPF(v) || this.validaCNPJ(v)) || 'CPF / CNPJ deve ser válido.',
