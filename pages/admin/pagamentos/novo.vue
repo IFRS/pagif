@@ -15,7 +15,7 @@
 
 <script>
   export default {
-    name: 'NovaCobranca',
+    name: 'NovoPagamento',
     layout: 'admin',
     data() {
       return {
@@ -25,7 +25,7 @@
     methods: {
       async handleSubmit() {
         this.submitting = true;
-        await this.$store.dispatch('admin/savePagamento')
+        await this.$store.dispatch('admin/pagamento/save')
         .then(() => {
           this.$toast.success('Cobrança cadastrada com sucesso!');
           this.$router.push({
@@ -48,7 +48,7 @@
       },
     },
     destroyed () {
-      this.$store.commit('admin/setPagamento', {});
+      this.$store.commit('admin/pagamento/clear');
     },
   }
 </script>
