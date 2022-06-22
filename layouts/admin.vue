@@ -99,7 +99,12 @@ export default {
           icon: 'mdi-basket',
           title: 'Serviços',
           to: '/admin/servicos',
-        }
+        },
+        {
+          icon: 'mdi-credit-card-outline',
+          title: 'Pagamentos',
+          to: '/admin/pagamentos',
+        },
       ],
       miniVariant: false,
       title: 'IFpag',
