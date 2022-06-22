@@ -91,4 +91,23 @@ export const mutations = {
 };
 
 export const actions = {
+  async save(context) {
+    return await this.$axios.post('/api/pagamentos', context.state)
+    .then(() => {
+      context.commit('clear');
+    });
+  },
+  async update(context) {
+    return await this.$axios.put('/api/pagamentos/' + context.state._id, context.state)
+    .then(() => {
+      context.commit('clear');
+    });
+  },
+  async delete(context) {
+    return await this.$axios.delete('/api/pagamentos/' + context.state._id)
+    .then((response) => {
+      context.commit('clear');
+      context.commit('admin/removePagamento', response.data, { root: true });
+    });
+  },
 };

@@ -48,4 +48,11 @@ export const actions = {
       context.commit('setServicos', response.data);
     });
   },
+
+  async fetchPagamentos(context) {
+    return await this.$axios.get('/api/pagamentos')
+    .then((response) => {
+      context.commit('setPagamentos', response.data);
+    });
+  },
 };
