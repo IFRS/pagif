@@ -1,6 +1,7 @@
 const Pagamento = require('../models/Pagamento');
 const validator = require('express-validator');
 const pagtesouro = require('../pagtesouro');
+const dayjs = require('dayjs');
 
 module.exports.list = function(req, res) {
   const query = Pagamento.find({});
@@ -17,7 +18,7 @@ module.exports.list = function(req, res) {
 };
 
 module.exports.show = function(req, res) {
-  Servico.findById(req.params.id, function(err, pagamento) {
+  Pagamento.findById(req.params.id, function(err, pagamento) {
     if (err) {
       return res.status(500).json({
         message: 'Erro obtendo o Pagamento.',
@@ -79,8 +80,6 @@ module.exports.save = [
       return res.status(422).json({ errors: errors.mapped() });
     }
 
-    console.log(req.body);
-
     const data = {
       codigoServico: req.body.codigoServico,
       referencia: req.body.referencia,
@@ -96,9 +95,9 @@ module.exports.save = [
       valorOutrosAcrescimos: req.body.valorOutrosAcrescimos,
     };
 
-    // pagtesouro.post('/api/gru/solicitacao-pagamento', pagar(data))
-    // .then((response) => {
-    //   Object.assign(data, response.data);
+    pagtesouro.post('/api/gru/solicitacao-pagamento', data, { headers: {'Authorization': `Bearer ${process.env.PAGTESOURO_TOKEN}`} })
+    .then((response) => {
+      Object.assign(data, response.data);
 
       let pagamento = new Pagamento(data);
 
@@ -112,10 +111,10 @@ module.exports.save = [
 
         return res.json(pagamento);
       });
-    // })
-    // .catch((error) => {
-    //   return res.status(500).json(error);
-    // });
+    })
+    .catch((error) => {
+      return res.status(500).json(error);
+    });
   }
 ];
 
@@ -159,7 +158,7 @@ module.exports.update = [
         situacao: req.body.situacao,
       };
 
-      Servico.findByIdAndUpdate(
+      Pagamento.findByIdAndUpdate(
         req.params.id,
         data,
         function(err, pagamento) {
@@ -188,7 +187,7 @@ module.exports.update = [
 ];
 
 module.exports.delete = function(req, res) {
-  Servico.findByIdAndRemove(req.params.id, function(err, pagamento) {
+  Pagamento.findByIdAndRemove(req.params.id, function(err, pagamento) {
     if (err) {
       return res.status(500).json({
         message: 'Erro ao remover o Pagamento.',
@@ -197,9 +196,4 @@ module.exports.delete = function(req, res) {
 
     return res.json(pagamento);
   });
-};
-
-function pagar(data) {
-  if (typeof data !== 'object') return false;
-  if (!data.hasOwnProperty('codigoServico') || !data.hasOwnProperty('nomeContribuinte') || !data.hasOwnProperty('valorPrincipal')) return false;
 };
