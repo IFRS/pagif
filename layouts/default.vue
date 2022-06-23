@@ -5,9 +5,7 @@
       <v-spacer></v-spacer>
     </v-app-bar>
     <v-main>
-      <v-container>
-        <Nuxt />
-      </v-container>
+      <Nuxt />
     </v-main>
   </v-app>
 </template>
