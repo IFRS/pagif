@@ -117,73 +117,104 @@ module.exports.save = [
   }
 ];
 
-module.exports.update = [
-  validator.body('tipoPagamentoEscolhido', '')
-    .optional({ checkFalsy: true })
-    .trim()
-    .isAlpha()
-    .isLength({ max: 20 }),
-  validator.body('valor', '')
-    .trim()
-    .notEmpty()
-    .isInt({ allow_leading_zeroes: false })
-    .isLength({ min: 1, max: 17 }),
-  validator.body('nomePSP', '')
-    .trim()
-    .notEmpty()
-    .isAlpha()
-    .isLength({ max: 50 }),
-  validator.body('transacaoPSP', '')
-    .trim()
-    .notEmpty()
-    .isAlpha()
-    .isLength({ max: 50 }),
-  validator.body('situacao', '')
-    .trim()
-    .notEmpty()
-    .isJSON(),
-  function(req, res) {
-    const errors = validator.validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.mapped() });
-    }
-
-    if (req.params.id) {
-      const data = {
-        tipoPagamentoEscolhido: req.body.tipoPagamentoEscolhido,
-        valor: req.body.valor,
-        nomePSP: req.body.nomePSP,
-        transacaoPSP: req.body.transacaoPSP,
-        situacao: req.body.situacao,
-      };
-
-      Pagamento.findByIdAndUpdate(
-        req.params.id,
-        data,
-        function(err, pagamento) {
-          if (!pagamento) {
-            return res.status(404).json({
-              message: 'Pagamento não encontrado.',
-            });
-          }
-
-          if (err) {
-            return res.status(500).json({
-              message: 'Erro atualizando Pagamento.',
-            });
-          }
-
-          return res.json(pagamento);
+module.exports.update = function(req, res) {
+  if (req.body.idPagamento) {
+    pagtesouro.get(`/api/gru/pagamentos/${req.body.idPagamento}`, { headers: {'Authorization': `Bearer ${process.env.PAGTESOURO_TOKEN}`} })
+    .then((response) => {
+      Pagamento.findOneAndUpdate({ idPagamento: req.body.idPagamento }, response.data, (err) => {
+        if (err) {
+          console.error('Erro atualizando o Pagamento: ' + err);
+          return res.status(500).json([{
+            codigo: 'C0027',
+            descricao: 'Falha ao verificar a situação do pagamento.',
+          }]);
         }
-      );
-    } else {
-      return res.status(400).json({
-        message: 'ID não presente.',
-        error: err,
+
+        return res.json();
       });
-    }
+    })
+    .catch((error) => {
+      console.error('Erro consultando o Pagamento!', error, error.response?.data);
+      return res.status(500).json([{
+        codigo: 'C0027',
+        descricao: 'Falha ao verificar a situação do pagamento.',
+      }]);
+    });
+  } else {
+    return res.status(400).json({
+      message: 'IdPagamento não presente.',
+      error: err,
+    });
   }
-];
+};
+
+// module.exports.update = [
+//   validator.body('tipoPagamentoEscolhido', '')
+//     .optional({ checkFalsy: true })
+//     .trim()
+//     .isAlpha()
+//     .isLength({ max: 20 }),
+//   validator.body('valor', '')
+//     .trim()
+//     .notEmpty()
+//     .isInt({ allow_leading_zeroes: false })
+//     .isLength({ min: 1, max: 17 }),
+//   validator.body('nomePSP', '')
+//     .trim()
+//     .notEmpty()
+//     .isAlpha()
+//     .isLength({ max: 50 }),
+//   validator.body('transacaoPSP', '')
+//     .trim()
+//     .notEmpty()
+//     .isAlpha()
+//     .isLength({ max: 50 }),
+//   validator.body('situacao', '')
+//     .trim()
+//     .notEmpty()
+//     .isJSON(),
+//   function(req, res) {
+//     const errors = validator.validationResult(req);
+//     if (!errors.isEmpty()) {
+//       return res.status(422).json({ errors: errors.mapped() });
+//     }
+
+//     if (req.params.id) {
+//       const data = {
+//         tipoPagamentoEscolhido: req.body.tipoPagamentoEscolhido,
+//         valor: req.body.valor,
+//         nomePSP: req.body.nomePSP,
+//         transacaoPSP: req.body.transacaoPSP,
+//         situacao: req.body.situacao,
+//       };
+
+//       Pagamento.findByIdAndUpdate(
+//         req.params.id,
+//         data,
+//         function(err, pagamento) {
+//           if (!pagamento) {
+//             return res.status(404).json({
+//               message: 'Pagamento não encontrado.',
+//             });
+//           }
+
+//           if (err) {
+//             return res.status(500).json({
+//               message: 'Erro atualizando Pagamento.',
+//             });
+//           }
+
+//           return res.json(pagamento);
+//         }
+//       );
+//     } else {
+//       return res.status(400).json({
+//         message: 'ID não presente.',
+//         error: err,
+//       });
+//     }
+//   }
+// ];
 
 module.exports.delete = function(req, res) {
   Pagamento.findByIdAndRemove(req.params.id, function(err, pagamento) {
