@@ -12,6 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 const unidades = require('./routes/unidades');
 const servicos = require('./routes/servicos');
 const pagamentos = require('./routes/pagamentos');
+const notifica = require('./routes/notifica');
 
 // Add development latency
 if (process.env.NODE_ENV === 'development') {
@@ -22,6 +23,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use(unidades);
 app.use(servicos);
 app.use(pagamentos);
+app.use(notifica);
 
 // Export the server middleware
 module.exports = {
