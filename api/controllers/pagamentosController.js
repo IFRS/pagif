@@ -1,7 +1,6 @@
 const Pagamento = require('../models/Pagamento');
 const validator = require('express-validator');
 const pagtesouro = require('../pagtesouro');
-const dayjs = require('dayjs');
 
 module.exports.list = function(req, res) {
   const query = Pagamento.find({});
