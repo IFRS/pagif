@@ -12,7 +12,34 @@ function valor_formatter(valor) {
 module.exports = axios.create({
   baseURL: process.env.PAGTESOURO_URL,
   transformRequest: [
-    (data, headers) => {
+    (rawData, headers) => {
+      if (!rawData) return rawData;
+
+      const allowed_fields = [
+        'codigoServico',
+        'referencia',
+        'competencia',
+        'vencimento',
+        'expiracaoPix',
+        'cnpjCpf',
+        'nomeContribuinte',
+        'valorPrincipal',
+        'valorDescontos',
+        'valorOutrasDeducoes',
+        'valorMulta',
+        'valorJuros',
+        'valorOutrosAcrescimos',
+      ];
+
+      const data = Object.keys(rawData)
+      .filter((key => allowed_fields.includes(key)))
+      .reduce((obj, key) => {
+        obj[key] = rawData[key];
+        return obj;
+      });
+
+      data.urlRetorno = process.env.SERVER_BASE_URL + '/';
+
       if (data.hasOwnProperty('competencia') && data.competencia) {
         let competencia = dayjs(data.competencia).format('MMYYYY');
         if (competencia) {
@@ -90,8 +117,6 @@ module.exports = axios.create({
           data.valorOutrosAcrescimos = null;
         }
       }
-
-      data.urlRetorno = process.env.SERVER_BASE_URL + '/';
 
       return data;
     }
