@@ -1,6 +1,9 @@
 const Pagamento = require('../models/Pagamento');
+const Servico = require('../models/Servico');
+const Unidade = require('../models/Unidade');
 const validator = require('express-validator');
 const pagtesouro = require('../pagtesouro');
+const { Model } = require('mongoose');
 
 module.exports.list = function(req, res) {
   const query = Pagamento.find({});
@@ -21,6 +24,7 @@ module.exports.show = function(req, res) {
     if (err) {
       return res.status(500).json({
         message: 'Erro obtendo o Pagamento.',
+        error: err,
       });
     }
 
@@ -94,25 +98,41 @@ module.exports.save = [
       valorOutrosAcrescimos: req.body.valorOutrosAcrescimos,
     };
 
-    pagtesouro.post('/api/gru/solicitacao-pagamento', data, { headers: {'Authorization': `Bearer ${process.env.PAGTESOURO_TOKEN}`} })
-    .then((response) => {
-      Object.assign(data, response.data);
+    Servico.findOne({ codigo: req.body.codigoServico }, 'unidade').populate('unidade').exec((err, servico) => {
+      if (err) {
+        return res.status(500).json({
+          message: 'Erro ao buscar Serviço.',
+          error: err,
+        });
+      }
 
-      let pagamento = new Pagamento(data);
+      if (!servico) {
+        return res.status(500).json({
+          message: `Serviço de código ${req.body.codigoServico} não encontrado.`,
+          error: err,
+        });
+      }
 
-      pagamento.save(function(err, pagamento) {
-        if (err) {
-          return res.status(500).json({
-            message: 'Erro ao adicionar o Pagamento.',
-            error: err,
-          });
-        }
+      pagtesouro.post('/api/gru/solicitacao-pagamento', data, { headers: {'Authorization': `Bearer ${servico.unidade.token}`} })
+      .then((response) => {
+        Object.assign(data, response.data);
 
-        return res.json(pagamento);
+        let pagamento = new Pagamento(data);
+
+        pagamento.save(function(err, pagamento) {
+          if (err) {
+            return res.status(500).json({
+              message: 'Erro ao adicionar o Pagamento.',
+              error: err,
+            });
+          }
+
+          return res.json(pagamento);
+        });
+      })
+      .catch((error) => {
+        return res.status(500).json(error);
       });
-    })
-    .catch((error) => {
-      return res.status(500).json(error);
     });
   }
 ];
@@ -125,26 +145,54 @@ module.exports.update = [
     .isLength({ max: 50 }),
   function(req, res) {
     if (req.body.idPagamento) {
-      pagtesouro.get(`/api/gru/pagamentos/${req.body.idPagamento}`, { headers: {'Authorization': `Bearer ${process.env.PAGTESOURO_TOKEN}`} })
-      .then((response) => {
-        Pagamento.findOneAndUpdate({ idPagamento: req.body.idPagamento }, response.data, (err) => {
-          if (err) {
-            console.error('Erro atualizando o Pagamento: ' + err);
-            return res.status(500).json([{
-              codigo: 'C0027',
-              descricao: 'Falha ao verificar a situação do pagamento.',
-            }]);
-          }
-
-          return res.json();
-        });
+      Pagamento.aggregate() // TODO: ao invés de usar esse aggregate, incorporar os dados do Serviço e da Unidade ao documento de Pagamento.
+      .match({idPagamento: req.body.idPagamento})
+      .limit(1)
+      .lookup({
+        from: Servico.collection.name,
+        localField: 'codigoServico',
+        foreignField: 'codigo',
+        as: 'servico',
       })
-      .catch((error) => {
-        console.error('Erro consultando o Pagamento!', error, error.response?.data);
-        return res.status(500).json([{
-          codigo: 'C0027',
-          descricao: 'Falha ao verificar a situação do pagamento.',
-        }]);
+      .unwind('servico')
+      .lookup({
+        from: Unidade.collection.name,
+        localField: 'servico.unidade',
+        foreignField: '_id',
+        as: 'unidade',
+      })
+      .unwind('unidade')
+      .exec((err, agregado) => {
+        if (err || !agregado) {
+          return res.status(500).json([{
+            codigo: 'C0027',
+            descricao: 'Falha ao verificar a situação do pagamento.',
+          }]);
+        }
+
+        const token = agregado[0].unidade.token;
+
+        pagtesouro.get(`/api/gru/pagamentos/${req.body.idPagamento}`, { headers: {'Authorization': `Bearer ${token}`} })
+        .then((response) => {
+          Pagamento.findOneAndUpdate({ idPagamento: req.body.idPagamento }, response.data, (err, pagamento) => {
+            if (err) {
+              console.error('Erro atualizando o Pagamento: ' + err);
+              return res.status(500).json([{
+                codigo: 'C0027',
+                descricao: 'Falha ao verificar a situação do pagamento.',
+              }]);
+            }
+
+            return res.json(pagamento);
+          });
+        })
+        .catch((error) => {
+          console.error('Erro consultando o Pagamento!', error, error.response?.data);
+          return res.status(500).json([{
+            codigo: 'C0027',
+            descricao: 'Falha ao verificar a situação do pagamento.',
+          }]);
+        });
       });
     } else {
       return res.status(400).json({
