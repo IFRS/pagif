@@ -39,6 +39,7 @@ module.exports = axios.create({
       }, {});
 
       data.urlRetorno = process.env.SERVER_BASE_URL + '/';
+      data.urlNotificacao = process.env.SERVER_BASE_URL + '/api/notifica';
 
       if (data.hasOwnProperty('competencia') && data.competencia) {
         let competencia = dayjs(data.competencia).format('MMYYYY');
