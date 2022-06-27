@@ -31,12 +31,12 @@ module.exports = axios.create({
         'valorOutrosAcrescimos',
       ];
 
-      const data = Object.keys(rawData)
+      let data = Object.keys(rawData)
       .filter((key => allowed_fields.includes(key)))
       .reduce((obj, key) => {
         obj[key] = rawData[key];
         return obj;
-      });
+      }, {});
 
       data.urlRetorno = process.env.SERVER_BASE_URL + '/';
 
