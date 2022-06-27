@@ -26,6 +26,13 @@ export const mutations = {
   setPagamentos: (state, payload) => {
     state.pagamentos = payload;
   },
+  updatePagamento: (state, payload) => {
+    state.pagamentos.find((pagamento, i, pagamentos) => {
+      if (pagamento.idPagamento === payload.idPagamento) {
+        pagamentos[i] = payload;
+      }
+    });
+  },
   removePagamento: (state, payload) => {
     state.pagamentos = state.pagamentos.filter((value) => {
       return value._id !== payload._id;
@@ -53,6 +60,12 @@ export const actions = {
     return await this.$axios.get('/api/pagamentos')
     .then((response) => {
       context.commit('setPagamentos', response.data);
+    });
+  },
+  async consultaPagamento(context, payload) {
+    return await this.$axios.put('/api/pagamentos/update', {idPagamento: payload})
+    .then((response) => {
+      context.commit('updatePagamento', response.data);
     });
   },
 };
