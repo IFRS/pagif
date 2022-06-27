@@ -4,6 +4,10 @@ export const state = () => ({
   pagamentos: [],
 });
 
+export const getters = {
+  getPagamentos: state => state.pagamentos,
+};
+
 export const mutations = {
   setUnidades: (state, payload) => {
     state.unidades = payload;

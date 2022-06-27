@@ -10,7 +10,7 @@
         <v-data-table
           :loading="$fetchState.pending"
           :headers="tableHeaders"
-          :items="$store.state.admin.pagamentos"
+          :items="pagamentos"
           :items-per-page="10"
           :search="busca"
         >
@@ -92,6 +92,8 @@
 </template>
 
 <script>
+  import { mapGetters, mapMutations } from 'vuex';
+
   export default {
     name: 'Pagamentos',
     layout: 'admin',
@@ -108,6 +110,12 @@
           { text: 'Ações', value: 'actions', sortable: false, align: 'center', width: 100 },
         ],
       }
+    },
+    computed: {
+      pagamentos: {
+        ...mapGetters({ get: 'admin/getPagamentos' }),
+        ...mapMutations({ set: 'admin/setPagamentos' }),
+      },
     },
     async fetch() {
       await this.$store.dispatch('admin/fetchPagamentos')
