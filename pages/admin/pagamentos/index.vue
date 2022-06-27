@@ -39,7 +39,20 @@
                 <v-icon
                   v-bind="attrs"
                   v-on="on"
-                  small
+                  :disabled="(item.tipoPagamentoEscolhido === 'BOLETO') || ['CONCLUIDO', 'REJEITADO', 'CANCELADO'].includes(item.situacao.codigo)"
+                  @click="consultaPagamento(item)"
+                >
+                  mdi-cloud-refresh
+                </v-icon>
+              </template>
+              <span> Consultar Pagamento {{ item.idPagamento }} </span>
+            </v-tooltip>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon
+                  v-bind="attrs"
+                  v-on="on"
+                  :disabled="item.situacao.codigo !== 'CRIADO'"
                   @click="confirmDelete(item)"
                 >
                   mdi-delete
@@ -132,6 +145,16 @@
       closeDelete() {
         this.$store.commit('admin/pagamento/clear');
         this.confirmDialog = false;
+      },
+      async consultaPagamento(item) {
+        await this.$store.dispatch('admin/consultaPagamento', item.idPagamento)
+        .then(() => {
+          this.$toast.success(`Pagamento ${item.idPagamento} atualizado!`);
+        })
+        .catch((error) => {
+          console.error(error);
+          this.$toast.error('Erro ao tentar consultar o Pagamento. ' + error.message);
+        });
       },
       async deletePagamento() {
         this.confirmDialog = false;
