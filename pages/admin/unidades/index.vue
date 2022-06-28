@@ -25,6 +25,14 @@
               ></v-text-field>
               <v-spacer></v-spacer>
               <v-btn
+                class="mr-2"
+                color="secondary"
+                :loading="$fetchState.pending"
+                @click="$fetch()"
+              >
+                <v-icon>mdi-refresh</v-icon>
+              </v-btn>
+              <v-btn
                 color="primary"
                 to="/admin/unidades/nova"
               >
@@ -36,42 +44,40 @@
           <template v-slot:item.actions="{ item }">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon
+                <v-btn
+                  icon
                   v-bind="attrs"
                   v-on="on"
-                  small
-                  class="mr-2"
                   @click="showTokenDialog(item)"
                 >
-                  mdi-key
-                </v-icon>
+                  <v-icon>mdi-key</v-icon>
+                </v-btn>
               </template>
               <span> Ver Token de {{ item.nome }} </span>
             </v-tooltip>
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon
+                <v-btn
+                  icon
                   v-bind="attrs"
                   v-on="on"
-                  small
-                  class="mr-2"
                   @click="editUnidade(item)"
                 >
-                  mdi-pencil
-                </v-icon>
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
               </template>
               <span> Editar {{ item.nome }} </span>
             </v-tooltip>
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon
+                <v-btn
+                  icon
                   v-bind="attrs"
                   v-on="on"
-                  small
                   @click="confirmDelete(item)"
                 >
-                  mdi-delete
-                </v-icon>
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
               </template>
               <span> Deletar {{ item.nome }} </span>
             </v-tooltip>
