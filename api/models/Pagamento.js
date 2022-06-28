@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Pagamento = new Schema({
+  _id: { type: String, alias: 'idPagamento' },
   codigoServico: { type: Number, immutable: true, required: true },
   referencia: { type: Number, immutable: true },
   competencia: { type: String, immutable: true },
@@ -14,7 +15,6 @@ const Pagamento = new Schema({
   valorMulta: { type: Number, immutable: true, min: [0, 'valorMulta não pode ser um número negativo.'] },
   valorJuros: { type: Number, immutable: true, min: [0, 'valorJuros não pode ser um número negativo.'] },
   valorOutrosAcrescimos: { type: Number, immutable: true, min: [0, 'valorOutrosAcrescimos não pode ser um número negativo.'] },
-  idPagamento: { type: String, immutable: true, unique: true }, // TODO: transformar esse campo no _id do Model.
   dataCriacao: { type: Date, immutable: true },
   proximaUrl: { type: String, immutable: true },
   situacao: {
@@ -25,6 +25,12 @@ const Pagamento = new Schema({
   valor: { type: Number },
   nomePSP: { type: String },
   transacaoPSP: { type: String },
+}, {
+  id: false,
+  toJSON: {
+    virtuals: true,
+    versionKey: false,
+  },
 });
 
 module.exports = mongoose.model('Pagamento', Pagamento);
