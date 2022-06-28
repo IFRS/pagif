@@ -31,9 +31,11 @@ export const mutations = {
     state.pagamentos = payload;
   },
   updatePagamento: (state, payload) => {
-    state.pagamentos.find((pagamento, i, pagamentos) => {
+    state.pagamentos = state.pagamentos.map((pagamento) => {
       if (pagamento.idPagamento === payload.idPagamento) {
-        pagamentos[i] = payload;
+        return payload;
+      } else {
+        return pagamento;
       }
     });
   },
