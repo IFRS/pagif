@@ -146,7 +146,7 @@ module.exports.update = [
   function(req, res) {
     if (req.body.idPagamento) {
       Pagamento.aggregate() // TODO: ao invés de usar esse aggregate, incorporar os dados do Serviço e da Unidade ao documento de Pagamento.
-      .match({idPagamento: req.body.idPagamento})
+      .match({_id: req.body.idPagamento})
       .limit(1)
       .lookup({
         from: Servico.collection.name,
@@ -163,7 +163,7 @@ module.exports.update = [
       })
       .unwind('unidade')
       .exec((err, agregado) => {
-        if (err || !agregado) {
+        if (err || !agregado || (Array.isArray(agregado) && agregado.length === 0)) {
           return res.status(500).json([{
             codigo: 'C0027',
             descricao: 'Falha ao verificar a situação do pagamento.',
@@ -174,7 +174,7 @@ module.exports.update = [
 
         pagtesouro.get(`/api/gru/pagamentos/${req.body.idPagamento}`, { headers: {'Authorization': `Bearer ${token}`} })
         .then((response) => {
-          Pagamento.findOneAndUpdate({ idPagamento: req.body.idPagamento }, response.data, (err, pagamento) => {
+          Pagamento.findByIdAndUpdate(req.body.idPagamento, response.data, { returnDocument: 'after' }, (err, pagamento) => {
             if (err) {
               console.error('Erro atualizando o Pagamento: ' + err);
               return res.status(500).json([{
