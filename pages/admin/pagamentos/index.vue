@@ -25,6 +25,15 @@
               ></v-text-field>
               <v-spacer></v-spacer>
               <v-btn
+                class="mr-1"
+                color="secondary"
+                :loading="$fetchState.pending"
+                :disabled="$fetchState.pending"
+                @click="$fetch()"
+              >
+                <v-icon>mdi-refresh</v-icon>
+              </v-btn>
+              <v-btn
                 color="primary"
                 to="/admin/pagamentos/novo"
               >
@@ -36,29 +45,32 @@
           <template v-slot:item.actions="{ item }">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon
+                <v-btn
+                  icon
                   v-bind="attrs"
                   v-on="on"
                   :disabled="(item.tipoPagamentoEscolhido === 'BOLETO') || ['CONCLUIDO', 'REJEITADO', 'CANCELADO'].includes(item.situacao.codigo)"
+                  :loading="item.idPagamento === loadingPagamento"
                   @click="consultaPagamento(item)"
                 >
-                  mdi-cloud-refresh
-                </v-icon>
+                  <v-icon>mdi-cloud-refresh</v-icon>
+                </v-btn>
               </template>
-              <span> Consultar Pagamento {{ item.idPagamento }} </span>
+              <span>Consultar Pagamento {{ item.idPagamento }}</span>
             </v-tooltip>
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon
+                <v-btn
+                  icon
                   v-bind="attrs"
                   v-on="on"
                   :disabled="item.situacao.codigo !== 'CRIADO'"
                   @click="confirmDelete(item)"
                 >
-                  mdi-delete
-                </v-icon>
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
               </template>
-              <span> Deletar Pagamento {{ item.idPagamento }} </span>
+              <span>Deletar Pagamento {{ item.idPagamento }}</span>
             </v-tooltip>
           </template>
           <template slot="no-data">
@@ -113,6 +125,7 @@
     data() {
       return {
         confirmDialog: false,
+        loadingPagamento: false,
         busca: '',
         tableHeaders: [
           { text: 'ID', value: 'idPagamento' },
@@ -120,7 +133,7 @@
           { text: 'Contribuinte', value: 'nomeContribuinte' },
           { text: 'Valor Principal', value: 'valorPrincipal' },
           { text: 'Situação', value: 'situacao.codigo' },
-          { text: 'Ações', value: 'actions', sortable: false, align: 'center', width: 100 },
+          { text: 'Ações', value: 'actions', sortable: false, align: 'center', width: 120 },
         ],
       }
     },
@@ -147,6 +160,7 @@
         this.confirmDialog = false;
       },
       async consultaPagamento(item) {
+        this.loadingPagamento = item.idPagamento;
         await this.$store.dispatch('admin/consultaPagamento', item.idPagamento)
         .then(() => {
           this.$toast.success(`Pagamento ${item.idPagamento} atualizado!`);
@@ -154,6 +168,9 @@
         .catch((error) => {
           console.error(error);
           this.$toast.error('Erro ao tentar consultar o Pagamento. ' + error.message);
+        })
+        .finally(() => {
+          this.loadingPagamento = false;
         });
       },
       async deletePagamento() {
