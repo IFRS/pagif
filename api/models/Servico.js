@@ -8,6 +8,11 @@ const Servico = new Schema({
   desc: { type: String },
   vencimentoDias: { type: Number },
   valorPadrao: { type: Number },
-}, { timestamps: true });
+}, {
+  timestamps: true,
+  toJSON: {
+    versionKey: false,
+  },
+});
 
 module.exports = mongoose.model('Servico', Servico);
