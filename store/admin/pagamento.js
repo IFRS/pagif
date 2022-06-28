@@ -1,10 +1,11 @@
 const defaultState = {
   _id: null,
+  idPagamento: null,
   codigoServico: null,
   referencia: null,
   competencia: null,
   vencimento: null,
-  nomeContribuinte: '',
+  nomeContribuinte: null,
   cnpjCpf: null,
   valorPrincipal: null,
   valorDescontos: null,
@@ -12,14 +13,20 @@ const defaultState = {
   valorMulta: null,
   valorJuros: null,
   valorOutrosAcrescimos: null,
-  createdAt: null,
-  updatedAt: null,
+  dataCriacao: null,
+  proximaUrl: null,
+  situacao: {},
+  tipoPagamentoEscolhido: null,
+  valor: null,
+  nomePSP: null,
+  transacaoPSP: null,
 };
 
 export const state = () => defaultState;
 
 export const getters = {
   id: state => state._id,
+  idPagamento: state => state.idPagamento,
   codigoServico: state => state.codigoServico,
   referencia: state => state.referencia,
   competencia: state => state.competencia,
@@ -32,13 +39,21 @@ export const getters = {
   valorMulta: state => state.valorMulta,
   valorJuros: state => state.valorJuros,
   valorOutrosAcrescimos: state => state.valorOutrosAcrescimos,
-  createdAt: state => state.createdAt,
-  updatedAt: state => state.updatedAt,
+  dataCriacao: state => state.dataCriacao,
+  proximaUrl: state => state.proximaUrl,
+  situacao: state => state.situacao,
+  tipoPagamentoEscolhido: state => state.tipoPagamentoEscolhido,
+  valor: state => state.valor,
+  nomePSP: state => state.nomePSP,
+  transacaoPSP: state => state.transacaoPSP,
 };
 
 export const mutations = {
   id: (state, payload) => {
     state._id = payload;
+  },
+  idPagamento: (state, payload) => {
+    state.idPagamento = payload;
   },
   codigoServico: (state, payload) => {
     state.codigoServico = payload;
@@ -76,11 +91,26 @@ export const mutations = {
   valorOutrosAcrescimos: (state, payload) => {
     state.valorOutrosAcrescimos = payload;
   },
-  createdAt: (state, payload) => {
-    state.createdAt = payload;
+  dataCriacao: (state, payload) => {
+    state.dataCriacao = payload;
   },
-  updatedAt: (state, payload) => {
-    state.updatedAt = payload;
+  proximaUrl: (state, payload) => {
+    state.proximaUrl = payload;
+  },
+  situacao: (state, payload) => {
+    state.situacao = payload;
+  },
+  tipoPagamentoEscolhido: (state, payload) => {
+    state.tipoPagamentoEscolhido = payload;
+  },
+  valor: (state, payload) => {
+    state.valor = payload;
+  },
+  nomePSP: (state, payload) => {
+    state.nomePSP = payload;
+  },
+  transacaoPSP: (state, payload) => {
+    state.transacaoPSP = payload;
   },
   clear: (state) => {
     Object.assign(state, defaultState);
