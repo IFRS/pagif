@@ -25,10 +25,9 @@
               ></v-text-field>
               <v-spacer></v-spacer>
               <v-btn
-                class="mr-1"
+                class="mr-2"
                 color="secondary"
                 :loading="$fetchState.pending"
-                :disabled="$fetchState.pending"
                 @click="$fetch()"
               >
                 <v-icon>mdi-refresh</v-icon>
@@ -131,7 +130,7 @@
           { text: 'ID', value: 'idPagamento' },
           { text: 'Código do Serviço', value: 'codigoServico' },
           { text: 'Contribuinte', value: 'nomeContribuinte' },
-          { text: 'Valor Principal', value: 'valorPrincipal' },
+          { text: 'Valor', value: 'valor' },
           { text: 'Situação', value: 'situacao.codigo' },
           { text: 'Ações', value: 'actions', sortable: false, align: 'center', width: 120 },
         ],
