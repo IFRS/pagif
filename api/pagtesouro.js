@@ -9,7 +9,7 @@ function valor_formatter(valor) {
   return valor_formatted;
 }
 
-module.exports = axios.create({
+const pagtesouro = axios.create({
   baseURL: process.env.PAGTESOURO_URL,
   transformRequest: [
     (rawData, headers) => {
@@ -123,3 +123,14 @@ module.exports = axios.create({
     }
   ].concat(axios.defaults.transformRequest),
 });
+
+// TODO: implementar um sistema de log para registrar os requests feitos para a API do Pagtesouro
+/* pagtesouro.interceptors.request.use(function (config) {
+  console.log('PagTesouro Request:');
+  console.log(config);
+  return config;
+}, function (error) {
+  return Promise.reject(error);
+}); */
+
+module.exports = pagtesouro;
