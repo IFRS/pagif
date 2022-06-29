@@ -41,6 +41,12 @@
               </v-btn>
             </v-toolbar>
           </template>
+          <template v-slot:item.valor="{ item }">
+            <v-icon small>mdi-currency-brl</v-icon> {{ moeda_formatter(item.valor) }}
+          </template>
+          <template v-slot:item.situacao.codigo="{ item }">
+            <span :class="situacaoColor(item.situacao.codigo)">{{ item.situacao.codigo }}</span>
+          </template>
           <template v-slot:item.actions="{ item }">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -150,6 +156,42 @@
       });
     },
     methods: {
+      moeda_formatter(valor) {
+        if (!valor) return '-';
+
+        valor = String(valor).replace('.', '');
+        valor = valor.padStart(3, '0');
+        valor = valor.split('');
+        valor.splice(-2, 0, ',');
+        valor = valor.join('');
+
+        return valor;
+      },
+      situacaoColor(situacao) {
+        switch (situacao) {
+          case 'CRIADO':
+            return 'indigo--text text--lighten-3';
+          break;
+          case 'INICIADO':
+            return 'cyan--text text--lighten-3';
+          break;
+          case 'SUBMETIDO':
+            return 'brown--text text-lighten-3';
+          break;
+          case 'CONCLUIDO':
+            return 'success--text';
+          break;
+          case 'REJEITADO':
+            return 'warning--text';
+          break;
+          case 'CANCELADO':
+            return 'error--text';
+          break;
+          default:
+            return '';
+          break;
+        }
+      },
       confirmDelete(pagamento) {
         this.$store.commit('admin/pagamento/replace', pagamento);
         this.confirmDialog = true;
