@@ -41,11 +41,11 @@
               </v-btn>
             </v-toolbar>
           </template>
-          <template v-slot:item.valorPadrao="{ item }">
-            {{ item.valorPadrao || '-' }}
+          <template v-slot:item.valorPadrao="{ value }">
+            {{ value || '-' }}
           </template>
-          <template v-slot:item.vencimentoDias="{ item }">
-            {{ item.vencimentoDias || '-' }}
+          <template v-slot:item.vencimentoDias="{ value }">
+            {{ value || '-' }}
           </template>
           <template v-slot:item.actions="{ item }">
             <v-tooltip top>

@@ -44,8 +44,8 @@
           <template v-slot:item.valor="{ item }">
             <v-icon small>mdi-currency-brl</v-icon> {{ handleValor(item) }}
           </template>
-          <template v-slot:item.situacao.codigo="{ item }">
-            <span :class="situacaoColor(item.situacao.codigo)">{{ item.situacao.codigo }}</span>
+          <template v-slot:item.situacao.codigo="{ value }">
+            <span :class="situacaoColor(value)">{{ value }}</span>
           </template>
           <template v-slot:item.actions="{ item }">
             <v-tooltip top>
