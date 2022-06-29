@@ -42,7 +42,7 @@
             </v-toolbar>
           </template>
           <template v-slot:item.valor="{ item }">
-            <v-icon small>mdi-currency-brl</v-icon> {{ moeda_formatter(item.valor) }}
+            <v-icon small>mdi-currency-brl</v-icon> {{ handleValor(item) }}
           </template>
           <template v-slot:item.situacao.codigo="{ item }">
             <span :class="situacaoColor(item.situacao.codigo)">{{ item.situacao.codigo }}</span>
@@ -156,7 +156,20 @@
       });
     },
     methods: {
-      moeda_formatter(valor) {
+      handleValor(item) {
+        if (!item.valor) {
+          let valor = item.valorPrincipal
+            - (item.valorDescontos || 0)
+            - (item.valorOutrasDeducoes || 0)
+            + (item.valorMulta || 0)
+            + (item.valorJuros || 0)
+            + (item.valorOutrosAcrescimos || 0);
+          return this.moeda_format(valor);
+        }
+
+        return this.moeda_format(item.valor);
+      },
+      moeda_format(valor) {
         if (!valor) return '-';
 
         valor = String(valor).replace('.', '');
