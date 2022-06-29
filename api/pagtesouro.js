@@ -122,6 +122,20 @@ const pagtesouro = axios.create({
       return data;
     }
   ].concat(axios.defaults.transformRequest),
+  transformResponse: axios.defaults.transformResponse.concat(
+    (rawData) => {
+      if (rawData.hasOwnProperty('valor') && rawData.valor) {
+        let valor = parseInt(String(rawData.valor).replace('.', ''));
+        if (valor) {
+          rawData.valor = valor;
+        } else {
+          rawData.valor = null;
+        }
+      }
+
+      return rawData;
+    },
+  ),
 });
 
 // TODO: implementar um sistema de log para registrar os requests feitos para a API do Pagtesouro
