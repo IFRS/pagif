@@ -122,6 +122,9 @@
   export default {
     name: 'Servicos',
     layout: 'admin',
+    head: {
+      title: 'Lista de Serviços',
+    },
     data() {
       return {
         confirmDialog: false,

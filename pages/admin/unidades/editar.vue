@@ -17,6 +17,9 @@
   export default {
     name: 'EditarUnidade',
     layout: 'admin',
+    head: {
+      title: 'Edição de Unidade',
+    },
     data() {
       return {
         submitting: false,

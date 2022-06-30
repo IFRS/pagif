@@ -29,6 +29,9 @@ import iframeResize from 'iframe-resizer/js/iframeResizer';
 
 export default {
   name: 'Pagar',
+  head: {
+    title: 'Pagando',
+  },
   directives:  {
     resize: {
       bind (el, { value = {} }) {

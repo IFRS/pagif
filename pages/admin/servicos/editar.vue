@@ -17,6 +17,9 @@
   export default {
     name: 'EditarServico',
     layout: 'admin',
+    head: {
+      title: 'Edição de Serviço',
+    },
     data() {
       return {
         submitting: false,

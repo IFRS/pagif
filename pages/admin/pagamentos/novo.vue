@@ -17,6 +17,9 @@
   export default {
     name: 'NovoPagamento',
     layout: 'admin',
+    head: {
+      title: 'Cadastro de Cobrança',
+    },
     data() {
       return {
         submitting: false,

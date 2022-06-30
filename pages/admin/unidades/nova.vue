@@ -17,6 +17,9 @@
   export default {
     name: 'NovaUnidade',
     layout: 'admin',
+    head: {
+      title: 'Cadastro de Nova Unidade',
+    },
     data() {
       return {
         submitting: false,

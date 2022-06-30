@@ -146,6 +146,9 @@
   export default {
     name: 'Unidades',
     layout: 'admin',
+    head: {
+      title: 'Lista de Unidades',
+    },
     data() {
       return {
         tokenDialog: false,

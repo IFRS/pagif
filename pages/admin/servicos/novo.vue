@@ -17,6 +17,9 @@
   export default {
     name: 'NovoServico',
     layout: 'admin',
+    head: {
+      title: 'Cadastro de Novo Serviço',
+    },
     data() {
       return {
         submitting: false,
