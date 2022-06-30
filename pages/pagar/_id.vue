@@ -17,7 +17,7 @@
           v-resize="{ heightCalculationMethod: 'documentElementOffset' }"
           class="iframe-epag"
           scrolling="no"
-          :src="$store.state.pagamento.proximaUrl"
+          :src="$store.state.pagamento.proximaUrl + '&btnConcluir=true'"
         ></iframe>
       </v-col>
     </v-row>
@@ -42,6 +42,23 @@ export default {
       this.$toast.error('Ocorreu um erro ao carregar o Pagamento: ' + error.message);
       console.log(error);
     });
+  },
+  mounted () {
+    window.addEventListener('message', this.retornoPagtesouro, false);
+  },
+  methods: {
+    retornoPagtesouro(event) {
+      // Só confiar em eventos oriundos do PagTesouro.
+      if (event.origin !== process.env.PAGTESOURO_URL) return;
+
+      // Evento disparado pelos botões Fechar/Concluir.
+      if (event.data === 'EPAG_FIM') {
+        // TODO: redirecionar para uma página de conclusão de pagamento
+      }
+    },
+  },
+  destroyed () {
+    this.$store.commit('admin/pagamento/clear');
   },
 }
 </script>
