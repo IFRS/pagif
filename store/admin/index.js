@@ -12,6 +12,9 @@ export const mutations = {
   setUnidades: (state, payload) => {
     state.unidades = payload;
   },
+  clearUnidades: (state) => {
+    state.unidades = [];
+  },
   removeUnidade: (state, payload) => {
     state.unidades = state.unidades.filter((value) => {
       return value._id !== payload._id;
@@ -21,6 +24,9 @@ export const mutations = {
   setServicos: (state, payload) => {
     state.servicos = payload;
   },
+  clearServicos: (state) => {
+    state.servicos = [];
+  },
   removeServico: (state, payload) => {
     state.servicos = state.servicos.filter((value) => {
       return value._id !== payload._id;
@@ -29,6 +35,9 @@ export const mutations = {
 
   setPagamentos: (state, payload) => {
     state.pagamentos = payload;
+  },
+  clearPagamentos: (state) => {
+    state.pagamentos = [];
   },
   updatePagamento: (state, payload) => {
     state.pagamentos = state.pagamentos.map((pagamento) => {
