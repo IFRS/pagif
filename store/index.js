@@ -21,6 +21,12 @@ export const mutations = {
 };
 
 export const actions = {
+  initializeStore(context) {
+    if (process.client && localStorage.getItem('unidade')) {
+      context.commit('setUnidade', JSON.parse(localStorage.getItem('unidade')));
+    }
+  },
+
   async fetchUnidades(context) {
     return await this.$axios.get('/api/unidades?fields=-token')
     .then((response) => {
