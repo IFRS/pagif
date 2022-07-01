@@ -6,17 +6,13 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col>
+      <v-col
+        v-for="(unidade, i) in $store.state.unidades"
+        :key="i"
+      >
         <v-btn
-          v-for="(unidade, i) in $store.state.unidades"
-          :key="i"
           x-large
-          :to="{
-            path: '/unidade',
-            params: {
-              unidade: unidade.slug,
-            },
-          }"
+          @click="escolha(unidade)"
         >
           {{ unidade.nome }}
         </v-btn>
@@ -27,13 +23,21 @@
 
 <script>
 export default {
-  name: 'IndexPage',
+  name: 'Index',
   async fetch () {
     await this.$store.dispatch('fetchUnidades')
     .catch((error) => {
       this.$toast.error('Ocorreu um erro ao carregar as Unidades: ' + error.message);
       console.log(error);
     });
+  },
+  methods: {
+    escolha(unidade) {
+      this.$store.commit('setUnidade', unidade);
+      this.$router.push({
+        name: 'pagamento',
+      });
+    },
   },
 }
 </script>
