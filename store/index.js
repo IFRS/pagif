@@ -1,15 +1,23 @@
 export const state = () => ({
   unidades: [],
+  unidade: {},
   pagamento: {},
 });
+
+export const getters = {
+  unidade: state => state.unidade,
+};
 
 export const mutations = {
   setUnidades: (state, payload) => {
     state.unidades = payload;
   },
+  setUnidade: (state, payload) => {
+    state.unidade = payload;
+  },
   setPagamento: (state, payload) => {
     state.pagamento = payload;
-  }
+  },
 };
 
 export const actions = {
