@@ -13,9 +13,9 @@
                 color="secondary"
                 v-bind="attrs"
                 v-on="{ ...tooltip, ...menu }"
-                :loading="$fetchState.pending"
+                :loading="$fetchState.pending || !$store.state.unidade"
               >
-                {{ $store.state.unidade.nome || '...' }}
+                {{ $store.state.unidade.nome }}
               </v-btn>
             </template>
             <span>Mudar Unidade</span>
@@ -50,17 +50,21 @@
 <script>
 export default {
   name: 'DefaultLayout',
-  beforeCreate () {
-    this.$store.dispatch('initializeStore');
+  async beforeCreate() {
+    await this.$store.dispatch('initializeStore')
+    .catch((error) => {
+      this.$toast.error('Ocorreu um erro ao carregar dados locais: ' + error.message);
+      console.log(error);
+    });
   },
-  created () {
+  created() {
     this.$store.subscribe((mutation, state) => {
-      if (process.client) {
-        localStorage.setItem('unidade', JSON.stringify(state.unidade));
+      if (process.client && mutation.type === 'setUnidade') {
+        localStorage.setItem('unidade', state.unidade._id);
       }
     });
   },
-  async fetch () {
+  async fetch() {
     await this.$store.dispatch('fetchUnidades')
     .catch((error) => {
       this.$toast.error('Ocorreu um erro ao carregar as Unidades: ' + error.message);
