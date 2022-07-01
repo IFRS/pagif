@@ -24,7 +24,15 @@ module.exports.list = function(req, res) {
 };
 
 module.exports.show = function(req, res) {
-  Unidade.findById(req.params.id, function(err, unidade) {
+  let fields = req.query.fields?.split(',');
+
+  const query = Unidade.findById(req.params.id);
+
+  if (Array.isArray(fields)) {
+    query.select(fields);
+  }
+
+  query.exec(function(err, unidade) {
     if (err) {
       return res.status(500).json({
         message: 'Erro obtendo a Unidade.',
