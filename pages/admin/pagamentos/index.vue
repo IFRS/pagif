@@ -47,7 +47,7 @@
             <v-icon small>mdi-currency-brl</v-icon> {{ handleValor(item) || '-' }}
           </template>
           <template v-slot:item.situacao.codigo="{ value }">
-            <span :class="situacaoColor(value)">{{ value }}</span>
+            <pagamento-situacao :situacao="value" />
           </template>
           <template v-slot:item.actions="{ item }">
             <v-tooltip top>
@@ -120,174 +120,13 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog
+    <pagamento-dialog
       v-model="pagamentoDialog"
       scrollable
       :fullscreen="$vuetify.breakpoint.xsOnly"
       max-width="800"
-      @click:outside="hidePagamento()"
-    >
-      <v-card>
-        <v-card-title class="text-h5">
-          Pagamento {{ $store.getters['admin/pagamento/idPagamento'] }}
-        </v-card-title>
-        <v-card-subtitle>
-          Serviço {{ $store.getters['admin/pagamento/codigoServico'] }}
-        </v-card-subtitle>
-        <v-card-text>
-          <v-row>
-            <v-col md="6">
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title>Nome do Contribuinte</v-list-item-title>
-                  <v-list-item-subtitle>{{ $store.getters['admin/pagamento/nomeContribuinte'] }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title>CPF / CNPJ</v-list-item-title>
-                  <v-list-item-subtitle>{{ $format.cnpjCpf($store.getters['admin/pagamento/cnpjCpf']) || '-' }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title>Refer&ecirc;ncia</v-list-item-title>
-                  <v-list-item-subtitle>{{ $store.getters['admin/pagamento/referencia'] || '-' }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-            <v-col md="6">
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title>Compet&ecirc;ncia</v-list-item-title>
-                  <v-list-item-subtitle>{{ $dayjs($store.getters['admin/pagamento/competencia']).isValid() ? $dayjs($store.getters['admin/pagamento/competencia']).format('MM/YYYY') : '-' }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title>Vencimento</v-list-item-title>
-                  <v-list-item-subtitle>{{ $dayjs($store.getters['admin/pagamento/vencimento']).isValid() ? $dayjs($store.getters['admin/pagamento/vencimento']).format('DD/MM/YYYY') : '-' }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title>Data de Cria&ccedil;&atilde;o</v-list-item-title>
-                  <v-list-item-subtitle>{{ $dayjs($store.getters['admin/pagamento/dataCriacao']).isValid() ? $dayjs($store.getters['admin/pagamento/dataCriacao']).format('DD/MM/YYYY [às] HH:mm:ss') : '-' }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-          </v-row>
-          <v-divider></v-divider>
-          <v-row>
-            <v-col md="6">
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title>Valor Principal</v-list-item-title>
-                  <v-list-item-subtitle>{{ $format.intToMoeda($store.getters['admin/pagamento/valorPrincipal'], true) }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title>Descontos</v-list-item-title>
-                  <v-list-item-subtitle>{{ $format.intToMoeda($store.getters['admin/pagamento/valorDescontos'], true) || '-' }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title>Outras Dedu&ccedil;&otilde;es</v-list-item-title>
-                  <v-list-item-subtitle>{{ $format.intToMoeda($store.getters['admin/pagamento/valorOutrasDeducoes'], true) || '-' }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title>Multa</v-list-item-title>
-                  <v-list-item-subtitle>{{ $format.intToMoeda($store.getters['admin/pagamento/valorMulta'], true) || '-' }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title>Juros</v-list-item-title>
-                  <v-list-item-subtitle>{{ $format.intToMoeda($store.getters['admin/pagamento/valorJuros'], true) || '-' }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title>Outros Acr&eacute;scimos</v-list-item-title>
-                  <v-list-item-subtitle>{{ $format.intToMoeda($store.getters['admin/pagamento/valorOutrosAcrescimos'], true) || '-' }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-            <v-col md="6">
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title>Valor Total</v-list-item-title>
-                  <v-list-item-subtitle>{{ $format.intToMoeda($store.getters['admin/pagamento/valor'], true) || '-' }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title>Endere&ccedil;o para Pagamento</v-list-item-title>
-                  <nuxt-link
-                    :to="{ name: 'pagar-id', params: { id: $store.getters['admin/pagamento/id'] } }"
-                    v-slot="{ href, route, navigate, isActive, isExactActive }"
-                  >
-                    <a :href="href" @click="navigate">{{ route.fullPath }}</a>
-                  </nuxt-link>
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title>Tipo de Pagamento Escolhido</v-list-item-title>
-                  <v-list-item-subtitle>{{ $store.getters['admin/pagamento/tipoPagamentoEscolhido'] || '-' }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title>Prestador de Servi&ccedil;o de Pagamento</v-list-item-title>
-                  <v-list-item-subtitle>{{ $store.getters['admin/pagamento/nomePSP'] || '-' }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title>Transa&ccedil;&atilde;o</v-list-item-title>
-                  <v-list-item-subtitle>{{ $store.getters['admin/pagamento/transacaoPSP'] || '-' }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title>Situa&ccedil;&atilde;o</v-list-item-title>
-                  <v-list-item-subtitle><span :class="situacaoColor($store.getters['admin/pagamento/situacao'].codigo)">{{ $store.getters['admin/pagamento/situacao'].codigo || '' }}</span>{{ $dayjs($store.getters['admin/pagamento/situacao'].data).isValid() ? ' em ' + $dayjs($store.getters['admin/pagamento/situacao'].data).format('DD/MM/YYYY [às] HH:mm:ss') : '' }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-          </v-row>
-        </v-card-text>
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-btn
-            text
-            color="primary"
-            @click="hidePagamento()"
-          >
-            Fechar
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+      @close="hidePagamento"
+    />
   </v-container>
 </template>
 
@@ -322,6 +161,13 @@
         ...mapMutations({ set: 'admin/setPagamentos' }),
       },
     },
+    watch: {
+      pagamentoDialog(newValue, oldValue) {
+        if (newValue === false) {
+          this.$store.commit('admin/pagamento/clear');
+        }
+      }
+    },
     async fetch() {
       await this.$store.dispatch('admin/fetchPagamentos')
       .catch((error) => {
@@ -343,31 +189,6 @@
 
         return this.$format.intToMoeda(item.valor);
       },
-      situacaoColor(situacao) {
-        switch (situacao) {
-          case 'CRIADO':
-            return 'indigo--text text--lighten-3';
-          break;
-          case 'INICIADO':
-            return 'cyan--text text--lighten-3';
-          break;
-          case 'SUBMETIDO':
-            return 'brown--text text-lighten-3';
-          break;
-          case 'CONCLUIDO':
-            return 'success--text';
-          break;
-          case 'REJEITADO':
-            return 'warning--text';
-          break;
-          case 'CANCELADO':
-            return 'error--text';
-          break;
-          default:
-            return '';
-          break;
-        }
-      },
       showPagamento(item) {
         if (item) {
           this.$store.commit('admin/pagamento/replace', item);
@@ -376,7 +197,6 @@
       },
       hidePagamento() {
         this.pagamentoDialog = false;
-        this.$store.commit('admin/pagamento/clear');
       },
       confirmDelete(pagamento) {
         this.$store.commit('admin/pagamento/replace', pagamento);
