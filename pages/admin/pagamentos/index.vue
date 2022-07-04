@@ -236,7 +236,7 @@
 </script>
 
 <style lang="scss" scoped>
-  ::v-deep .v-data-table__wrapper > table > tbody > tr:hover {
+  :deep(.v-data-table__wrapper > table > tbody > tr:hover) {
     cursor: pointer;
   }
 </style>
