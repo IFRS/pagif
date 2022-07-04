@@ -1,5 +1,6 @@
-const express = require('express');
 const db = require('./db');
+const express = require('express');
+const helmet = require('helmet');
 
 // Create express instance
 const app = express();
@@ -7,6 +8,7 @@ const app = express();
 // Init body-parser options (inbuilt with express)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(helmet());
 
 // Require & Import API routes
 const unidades = require('./routes/unidades');
