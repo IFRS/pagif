@@ -29,6 +29,7 @@ export default {
     '~/plugins/toast.js',
     '~/plugins/dayjs.js',
     '~/plugins/format.js',
+    '~/plugins/validation.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

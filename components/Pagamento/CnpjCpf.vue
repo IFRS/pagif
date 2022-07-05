@@ -18,7 +18,7 @@ export default {
   data() {
     return {
       validation: [
-        v => !v || (this.validaCPF(v) || this.validaCNPJ(v)) || 'CPF / CNPJ deve ser válido.',
+        v => !v || (this.$validation.CPF(v) || this.$validation.CNPJ(v)) || 'CPF / CNPJ deve ser válido.',
       ],
     }
   },
