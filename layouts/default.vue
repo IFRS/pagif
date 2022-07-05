@@ -18,10 +18,11 @@
                 {{ $store.state.unidade.nome }}
               </v-btn>
             </template>
-            <span>Mudar Unidade</span>
+            <span>Trocar Unidade</span>
           </v-tooltip>
         </template>
         <v-list>
+          <v-subheader>Unidade Gestora</v-subheader>
           <v-list-item-group
             v-model="selectedUnidade"
             mandatory
@@ -80,6 +81,9 @@ export default {
       },
       set(index) {
         this.$store.commit('setUnidade', this.$store.state.unidades[index]);
+        this.$router.push({
+          name: 'pagamento',
+        });
       }
     }
   },
