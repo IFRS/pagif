@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>Novo Pagamento</h2>
+        <h2>Novo Pagamento para {{ $store.state.unidade.nome }}</h2>
       </v-col>
     </v-row>
     <v-row>
@@ -24,12 +24,16 @@
 
           <v-stepper-items>
             <v-stepper-content v-for="(step, index) in steps" :key="index" :step="index">
-              <component :is="step.component"></component>
+              <component
+                class="mb-6"
+                :is="step.component"
+                ref="step"
+              ></component>
 
               <v-btn
                 text
-                v-if="currentStep >= numberOfSteps"
-                @click="currentStep = currentStep - 1"
+                :disabled="currentStep <= 1"
+                @click="previousStep()"
               >
                 Anterior
               </v-btn>
@@ -37,7 +41,7 @@
               <v-btn
                 color="primary"
                 v-if="currentStep < numberOfSteps"
-                @click="currentStep = currentStep + 1"
+                @click="nextStep()"
               >
                 Pr&oacute;ximo
               </v-btn>
@@ -71,6 +75,24 @@ export default {
     numberOfSteps() {
       return Object.keys(this.steps).length;
     }
+  },
+  methods: {
+    previousStep() {
+      this.currentStep = this.currentStep - 1
+    },
+    nextStep() {
+      const refIndex = this.currentStep - 1;
+
+      if (!this.$refs.step[refIndex]) return;
+      if (!this.$refs.step[refIndex].$refs.form) return;
+
+      if (this.$refs.step[refIndex].$refs.form.validate()) {
+        this.currentStep = this.currentStep + 1;
+      }
+    },
+  },
+  destroyed () {
+    this.$store.commit('admin/pagamento/clear');
   },
 }
 </script>

@@ -1,12 +1,14 @@
 <template>
   <v-container>
-    <v-text-field
-      label="Nome"
-      v-model="nomeContribuinte"
-      :rules="validation"
-      :counter="45"
-      required
-    ></v-text-field>
+    <v-form ref="form">
+      <v-text-field
+        label="Nome"
+        v-model="nomeContribuinte"
+        :rules="validation"
+        :counter="45"
+        required
+      ></v-text-field>
+    </v-form>
   </v-container>
 </template>
 

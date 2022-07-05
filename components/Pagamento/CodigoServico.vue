@@ -1,9 +1,9 @@
 <template>
-  <v-container>
+  <v-form :bind="$attrs" ref="form">
     <v-autocomplete
       label="Serviço"
       v-model="codigoServico"
-      :rules="validation"
+      :rules="rules"
       :loading="$fetchState.pending"
       :disabled="$fetchState.pending"
       :items="$store.state.admin.servicos"
@@ -17,7 +17,7 @@
         </v-list-item-content>
       </template>
     </v-autocomplete>
-  </v-container>
+  </v-form>
 </template>
 
 <script>
@@ -27,7 +27,7 @@ export default {
   name: 'PagamentoCodigoServico',
   data() {
     return {
-      validation: [
+      rules: [
         v => !!v || 'Selecione um Serviço.',
       ],
     }
@@ -39,7 +39,7 @@ export default {
     },
   },
   async fetch() {
-    await this.$store.dispatch('admin/fetchServicos')
+    await this.$store.dispatch('admin/fetchServicos', { unidade: this.$store.state.unidade._id })
     .catch((error) => {
       this.$toast.error('Ocorreu um erro ao carregar os Serviços: ' + error.message);
       console.log(error);
