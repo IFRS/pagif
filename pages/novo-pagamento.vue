@@ -71,6 +71,10 @@ export default {
           component: 'PagamentoCnpjCpf',
           name: 'CPF / CNPJ',
         },
+        4: {
+          component: 'PagamentoValorPrincipal',
+          name: 'Valor',
+        },
       },
       currentStep: 1,
     }
@@ -82,7 +86,7 @@ export default {
   },
   methods: {
     previousStep() {
-      this.currentStep = this.currentStep - 1
+      this.currentStep = this.currentStep - 1;
     },
     nextStep() {
       const refIndex = this.currentStep - 1;
