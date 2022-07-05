@@ -10,7 +10,7 @@
         <v-data-table
           :loading="$fetchState.pending"
           :headers="tableHeaders"
-          :items="$store.state.admin.unidades"
+          :items="$store.getters['unidades']"
           :items-per-page="10"
           :search="busca"
         >
