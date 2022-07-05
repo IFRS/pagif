@@ -67,6 +67,10 @@ export default {
           component: 'PagamentoNomeContribuinte',
           name: 'Nome do Contribuinte',
         },
+        3: {
+          component: 'PagamentoCnpjCpf',
+          name: 'CPF / CNPJ',
+        },
       },
       currentStep: 1,
     }
