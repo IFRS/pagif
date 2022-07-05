@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-form ref="form">
+    <v-form ref="form" @submit.prevent>
       <v-text-field
         label="CPF / CNPJ"
         v-model="cnpjCpf"

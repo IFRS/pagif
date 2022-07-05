@@ -1,7 +1,7 @@
 <template>
-  <v-form :bind="$attrs" ref="form">
+  <v-form ref="form" @submit.prevent>
     <v-autocomplete
-      label="Serviço"
+      label="Código do Serviço"
       v-model="codigoServico"
       :rules="rules"
       :loading="$fetchState.pending"

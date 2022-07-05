@@ -61,11 +61,11 @@ export default {
       steps: {
         1: {
           component: 'PagamentoCodigoServico',
-          name: 'Código do Serviço',
+          name: 'Produto ou Serviço',
         },
         2: {
           component: 'PagamentoNomeContribuinte',
-          name: 'Nome do Contribuinte',
+          name: 'Nome',
         },
         3: {
           component: 'PagamentoCnpjCpf',
