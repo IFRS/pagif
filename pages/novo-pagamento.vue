@@ -45,6 +45,14 @@
               >
                 Pr&oacute;ximo
               </v-btn>
+
+              <v-btn
+                color="success"
+                v-if="currentStep == numberOfSteps"
+                @click="criarPagamento()"
+              >
+                Concluir
+              </v-btn>
             </v-stepper-content>
           </v-stepper-items>
         </v-stepper>
