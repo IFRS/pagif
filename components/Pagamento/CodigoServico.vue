@@ -6,7 +6,7 @@
       :rules="rules"
       :loading="$fetchState.pending"
       :disabled="$fetchState.pending"
-      :items="$store.state.admin.servicos"
+      :items="$store.getters['servicos']"
       item-text="nome"
       item-value="codigo"
       required
@@ -34,12 +34,12 @@ export default {
   },
   computed: {
     codigoServico: {
-      ...mapGetters({ get: 'admin/pagamento/codigoServico' }),
-      ...mapMutations({ set: 'admin/pagamento/codigoServico' }),
+      ...mapGetters({ get: 'pagamento/codigoServico' }),
+      ...mapMutations({ set: 'pagamento/codigoServico' }),
     },
   },
   async fetch() {
-    await this.$store.dispatch('admin/fetchServicos', { unidade: this.$store.state.unidade._id })
+    await this.$store.dispatch('fetchServicos', { unidade: this.$store.getters['unidade/id'] })
     .catch((error) => {
       this.$toast.error('Ocorreu um erro ao carregar os Serviços: ' + error.message);
       console.log(error);

@@ -10,7 +10,7 @@
             :rules="validation.unidade"
             :loading="$fetchState.pending"
             :disabled="$fetchState.pending"
-            :items="$store.state.admin.unidades"
+            :items="$store.getters['unidades']"
             item-text="nome"
             item-value="_id"
             required
@@ -118,7 +118,7 @@
   export default {
     name: 'FormServico',
     async fetch() {
-      await this.$store.dispatch('admin/fetchUnidades')
+      await this.$store.dispatch('fetchUnidades')
       .catch((error) => {
         this.$toast.error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.message);
         console.log(error);
@@ -152,38 +152,38 @@
             v => (!v || (/^\d+$/).test(v)) || 'Número de Dias precisa ser um número.',
           ],
         },
-        enableVencimentoPadrao: (this.$store.getters['admin/servico/vencimentoDias']) ? true : false,
-        enableValorFixo: (this.$store.getters['admin/servico/valorPadrao']) ? true : false,
+        enableVencimentoPadrao: (this.$store.getters['servico/vencimentoDias']) ? true : false,
+        enableValorFixo: (this.$store.getters['servico/valorPadrao']) ? true : false,
       }
     },
     computed: {
       id: {
-        ...mapGetters({ get: 'admin/servico/id' }),
-        ...mapMutations({ set: 'admin/servico/id' }),
+        ...mapGetters({ get: 'servico/id' }),
+        ...mapMutations({ set: 'servico/id' }),
       },
       unidade: {
-        ...mapGetters({ get: 'admin/servico/unidade' }),
-        ...mapMutations({ set: 'admin/servico/unidade' }),
+        ...mapGetters({ get: 'servico/unidade' }),
+        ...mapMutations({ set: 'servico/unidade' }),
       },
       codigo: {
-        ...mapGetters({ get: 'admin/servico/codigo' }),
-        ...mapMutations({ set: 'admin/servico/codigo' }),
+        ...mapGetters({ get: 'servico/codigo' }),
+        ...mapMutations({ set: 'servico/codigo' }),
       },
       nome: {
-        ...mapGetters({ get: 'admin/servico/nome' }),
-        ...mapMutations({ set: 'admin/servico/nome' }),
+        ...mapGetters({ get: 'servico/nome' }),
+        ...mapMutations({ set: 'servico/nome' }),
       },
       desc: {
-        ...mapGetters({ get: 'admin/servico/desc' }),
-        ...mapMutations({ set: 'admin/servico/desc' }),
+        ...mapGetters({ get: 'servico/desc' }),
+        ...mapMutations({ set: 'servico/desc' }),
       },
       vencimentoDias: {
-        ...mapGetters({ get: 'admin/servico/vencimentoDias' }),
-        ...mapMutations({ set: 'admin/servico/vencimentoDias' }),
+        ...mapGetters({ get: 'servico/vencimentoDias' }),
+        ...mapMutations({ set: 'servico/vencimentoDias' }),
       },
       valorPadrao: {
-        ...mapGetters({ get: 'admin/servico/valorPadrao' }),
-        ...mapMutations({ set: 'admin/servico/valorPadrao' }),
+        ...mapGetters({ get: 'servico/valorPadrao' }),
+        ...mapMutations({ set: 'servico/valorPadrao' }),
       },
     },
     watch: {

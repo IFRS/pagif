@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>Novo Serviço</h2>
+        <h2>Novo Servi&ccedil;o</h2>
       </v-col>
     </v-row>
     <v-row>
@@ -28,7 +28,7 @@
     methods: {
       async handleSubmit() {
         this.submitting = true;
-        await this.$store.dispatch('admin/servico/save')
+        await this.$store.dispatch('servico/save')
         .then(() => {
           this.$toast.success('Serviço cadastrado com sucesso!');
           this.$router.push({
@@ -51,7 +51,7 @@
       },
     },
     destroyed () {
-      this.$store.commit('admin/servico/clear');
+      this.$store.commit('servico/clear');
     },
   }
 </script>

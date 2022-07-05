@@ -10,7 +10,7 @@
             :rules="validation.unidade"
             :loading="$fetchState.pending"
             :disabled="$fetchState.pending"
-            :items="$store.state.admin.unidades"
+            :items="$store.getters['unidades']"
             item-text="nome"
             item-value="_id"
             required
@@ -25,8 +25,8 @@
             v-model="codigoServico"
             :rules="validation.codigoServico"
             :loading="loadingServicos"
-            :disabled="loadingServicos || $store.state.admin.servicos.length === 0"
-            :items="$store.state.admin.servicos"
+            :disabled="loadingServicos || $store.getters['servicos'].length === 0"
+            :items="$store.getters['servicos']"
             item-text="nome"
             item-value="codigo"
             required
@@ -226,7 +226,7 @@
   export default {
     name: 'FormPagamento',
     async fetch() {
-      await this.$store.dispatch('admin/fetchUnidades')
+      await this.$store.dispatch('fetchUnidades')
       .catch((error) => {
         this.$toast.error('Ocorreu um erro ao carregar as Unidades: ' + error.message);
         console.log(error);
@@ -281,16 +281,16 @@
     },
     computed: {
       codigoServico: {
-        ...mapGetters({ get: 'admin/pagamento/codigoServico' }),
-        ...mapMutations({ set: 'admin/pagamento/codigoServico' }),
+        ...mapGetters({ get: 'pagamento/codigoServico' }),
+        ...mapMutations({ set: 'pagamento/codigoServico' }),
       },
       referencia: {
-        ...mapGetters({ get: 'admin/pagamento/referencia' }),
-        ...mapMutations({ set: 'admin/pagamento/referencia' }),
+        ...mapGetters({ get: 'pagamento/referencia' }),
+        ...mapMutations({ set: 'pagamento/referencia' }),
       },
       competencia: {
-        ...mapGetters({ get: 'admin/pagamento/competencia' }),
-        ...mapMutations({ set: 'admin/pagamento/competencia' }),
+        ...mapGetters({ get: 'pagamento/competencia' }),
+        ...mapMutations({ set: 'pagamento/competencia' }),
       },
       competenciaFormatted() {
         if (!this.competencia) return null;
@@ -298,8 +298,8 @@
         return dayjs(this.competencia).format('MM/YYYY');
       },
       vencimento: {
-        ...mapGetters({ get: 'admin/pagamento/vencimento' }),
-        ...mapMutations({ set: 'admin/pagamento/vencimento' }),
+        ...mapGetters({ get: 'pagamento/vencimento' }),
+        ...mapMutations({ set: 'pagamento/vencimento' }),
       },
       vencimentoFormatted() {
         if (!this.vencimento) return null;
@@ -307,42 +307,42 @@
         return dayjs(this.vencimento).format('DD/MM/YYYY');
       },
       nomeContribuinte: {
-        ...mapGetters({ get: 'admin/pagamento/nomeContribuinte' }),
-        ...mapMutations({ set: 'admin/pagamento/nomeContribuinte' }),
+        ...mapGetters({ get: 'pagamento/nomeContribuinte' }),
+        ...mapMutations({ set: 'pagamento/nomeContribuinte' }),
       },
       cnpjCpf: {
-        ...mapGetters({ get: 'admin/pagamento/cnpjCpf' }),
-        ...mapMutations({ set: 'admin/pagamento/cnpjCpf' }),
+        ...mapGetters({ get: 'pagamento/cnpjCpf' }),
+        ...mapMutations({ set: 'pagamento/cnpjCpf' }),
       },
       valorPrincipal: {
-        ...mapGetters({ get: 'admin/pagamento/valorPrincipal' }),
-        ...mapMutations({ set: 'admin/pagamento/valorPrincipal' }),
+        ...mapGetters({ get: 'pagamento/valorPrincipal' }),
+        ...mapMutations({ set: 'pagamento/valorPrincipal' }),
       },
       valorDescontos: {
-        ...mapGetters({ get: 'admin/pagamento/valorDescontos' }),
-        ...mapMutations({ set: 'admin/pagamento/valorDescontos' }),
+        ...mapGetters({ get: 'pagamento/valorDescontos' }),
+        ...mapMutations({ set: 'pagamento/valorDescontos' }),
       },
       valorOutrasDeducoes: {
-        ...mapGetters({ get: 'admin/pagamento/valorOutrasDeducoes' }),
-        ...mapMutations({ set: 'admin/pagamento/valorOutrasDeducoes' }),
+        ...mapGetters({ get: 'pagamento/valorOutrasDeducoes' }),
+        ...mapMutations({ set: 'pagamento/valorOutrasDeducoes' }),
       },
       valorMulta: {
-        ...mapGetters({ get: 'admin/pagamento/valorMulta' }),
-        ...mapMutations({ set: 'admin/pagamento/valorMulta' }),
+        ...mapGetters({ get: 'pagamento/valorMulta' }),
+        ...mapMutations({ set: 'pagamento/valorMulta' }),
       },
       valorJuros: {
-        ...mapGetters({ get: 'admin/pagamento/valorJuros' }),
-        ...mapMutations({ set: 'admin/pagamento/valorJuros' }),
+        ...mapGetters({ get: 'pagamento/valorJuros' }),
+        ...mapMutations({ set: 'pagamento/valorJuros' }),
       },
       valorOutrosAcrescimos: {
-        ...mapGetters({ get: 'admin/pagamento/valorOutrosAcrescimos' }),
-        ...mapMutations({ set: 'admin/pagamento/valorOutrosAcrescimos' }),
+        ...mapGetters({ get: 'pagamento/valorOutrosAcrescimos' }),
+        ...mapMutations({ set: 'pagamento/valorOutrosAcrescimos' }),
       },
     },
     methods: {
       async fetchServicos(unidade_id) {
         this.loadingServicos = true;
-        await this.$store.dispatch('admin/fetchServicos', {unidade: unidade_id})
+        await this.$store.dispatch('fetchServicos', {unidade: unidade_id})
         .catch((error) => {
           this.$toast.error('Ocorreu um erro ao carregar os Serviços: ' + error.message);
           console.log(error);

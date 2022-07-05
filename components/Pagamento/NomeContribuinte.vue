@@ -27,8 +27,8 @@ export default {
   },
   computed: {
     nomeContribuinte: {
-      ...mapGetters({ get: 'admin/pagamento/nomeContribuinte' }),
-      ...mapMutations({ set: 'admin/pagamento/nomeContribuinte' }),
+      ...mapGetters({ get: 'pagamento/nomeContribuinte' }),
+      ...mapMutations({ set: 'pagamento/nomeContribuinte' }),
     },
   },
 }

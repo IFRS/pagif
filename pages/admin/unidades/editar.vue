@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>Editar Unidade Gestora "{{ this.$store.state.admin.unidade.nome }}"</h2>
+        <h2>Editar Unidade Gestora "{{ this.$store.getters['unidade/nome'] }}"</h2>
       </v-col>
     </v-row>
     <v-row>
@@ -28,7 +28,7 @@
     methods: {
       async handleSubmit() {
         this.submitting = true;
-        await this.$store.dispatch('admin/unidade/update')
+        await this.$store.dispatch('unidade/update')
         .then(() => {
           this.$toast.success('Unidade Gestora atualizada com sucesso!');
           this.$router.push({
@@ -51,7 +51,7 @@
       },
     },
     destroyed () {
-      this.$store.commit('admin/unidade/clear');
+      this.$store.commit('unidade/clear');
     },
   }
 </script>

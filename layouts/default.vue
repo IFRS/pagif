@@ -15,7 +15,7 @@
                 v-on="{ ...tooltip, ...menu }"
                 :loading="$fetchState.pending || !$store.state.unidade"
               >
-                {{ $store.state.unidade.nome }}
+                {{ $store.getters['unidade/nome'] }}
               </v-btn>
             </template>
             <span>Trocar Unidade</span>
@@ -29,7 +29,7 @@
             color="primary"
           >
             <v-list-item
-              v-for="(unidade, index) in $store.state.unidades"
+              v-for="(unidade, index) in $store.getters['unidades']"
               :key="index"
             >
               <v-list-item-content>
@@ -60,7 +60,7 @@ export default {
   },
   created() {
     this.$store.subscribe((mutation, state) => {
-      if (process.client && mutation.type === 'setUnidade') {
+      if (process.client && mutation.type === 'unidade/replace') {
         localStorage.setItem('unidade', state.unidade._id);
       }
     });
@@ -80,7 +80,7 @@ export default {
         });
       },
       set(index) {
-        this.$store.commit('setUnidade', this.$store.state.unidades[index]);
+        this.$store.commit('unidade/replace', this.$store.state.unidades[index]);
         this.$router.push({
           name: 'pagamento',
         });

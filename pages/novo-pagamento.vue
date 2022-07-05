@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>Novo Pagamento para {{ $store.state.unidade.nome }}</h2>
+        <h2>Novo Pagamento para {{ $store.getters['unidade/nome'] }}</h2>
       </v-col>
     </v-row>
     <v-row>
@@ -96,7 +96,7 @@ export default {
     },
   },
   destroyed () {
-    this.$store.commit('admin/pagamento/clear');
+    this.$store.commit('pagamento/clear');
   },
 }
 </script>

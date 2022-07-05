@@ -118,7 +118,7 @@ export default {
       set(value) {
         this.$store.commit('snackbar/updateShow', value);
       }
-    }
+    },
   },
 };
 </script>

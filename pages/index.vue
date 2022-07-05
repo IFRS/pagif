@@ -7,7 +7,7 @@
     </v-row>
     <v-row>
       <v-col
-        v-for="(unidade, i) in $store.state.unidades"
+        v-for="(unidade, i) in $store.getters['unidades']"
         :key="i"
       >
         <v-btn
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     escolha(unidade) {
-      this.$store.commit('setUnidade', unidade);
+      this.$store.commit('unidade/replace', unidade);
       this.$router.push({
         name: 'pagamento',
       });

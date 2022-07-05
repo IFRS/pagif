@@ -24,8 +24,8 @@ export default {
   },
   computed: {
     cnpjCpf: {
-      ...mapGetters({ get: 'admin/pagamento/cnpjCpf' }),
-      ...mapMutations({ set: 'admin/pagamento/cnpjCpf' }),
+      ...mapGetters({ get: 'pagamento/cnpjCpf' }),
+      ...mapMutations({ set: 'pagamento/cnpjCpf' }),
     },
   },
 }

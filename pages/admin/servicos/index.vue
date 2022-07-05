@@ -10,7 +10,7 @@
         <v-data-table
           :loading="$fetchState.pending"
           :headers="tableHeaders"
-          :items="$store.state.admin.servicos"
+          :items="$store.getters['servicos']"
           :items-per-page="10"
           :search="busca"
         >
@@ -94,7 +94,7 @@
     >
       <v-card>
         <v-card-title class="text-h5">
-          Deletar o Servi&ccedil;o "{{ $store.getters['admin/servico/nome'] }}"?
+          Deletar o Servi&ccedil;o "{{ $store.getters['servico/nome'] }}"?
         </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -140,7 +140,7 @@
       }
     },
     async fetch() {
-      await this.$store.dispatch('admin/fetchServicos')
+      await this.$store.dispatch('fetchServicos')
       .catch((error) => {
         this.$toast.error('Ocorreu um erro ao carregar os Serviços: ' + error.message);
         console.log(error);
@@ -148,22 +148,22 @@
     },
     methods: {
       editServico(servico) {
-        this.$store.commit('admin/servico/replace', servico);
+        this.$store.commit('servico/replace', servico);
         this.$router.push({
           path: '/admin/servicos/editar'
         });
       },
       confirmDelete(servico) {
-        this.$store.commit('admin/servico/replace', servico);
+        this.$store.commit('servico/replace', servico);
         this.confirmDialog = true;
       },
       closeDelete() {
-        this.$store.commit('admin/servico/clear');
+        this.$store.commit('servico/clear');
         this.confirmDialog = false;
       },
       async deleteServico() {
         this.confirmDialog = false;
-        await this.$store.dispatch('admin/servico/delete')
+        await this.$store.dispatch('servico/delete')
         .then(() => {
           this.$toast.success('Serviço removido com sucesso!');
         })

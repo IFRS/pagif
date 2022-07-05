@@ -137,7 +137,19 @@ export const actions = {
     return await this.$axios.delete('/api/pagamentos/' + context.state._id)
     .then((response) => {
       context.commit('clear');
-      context.commit('admin/removePagamento', response.data, { root: true });
+      context.commit('removePagamento', response.data, { root: true });
+    });
+  },
+  async show(context, payload) {
+    return await this.$axios.get('/api/pagamentos/' + payload)
+    .then((response) => {
+      context.commit('replace', response.data);
+    });
+  },
+  async consulta(context, payload) {
+    return await this.$axios.put('/api/pagamentos/update', {idPagamento: payload})
+    .then((response) => {
+      context.commit('replace', response.data);
     });
   },
 };

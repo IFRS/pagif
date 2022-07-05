@@ -104,10 +104,10 @@
           Token PagTesouro
         </v-card-title>
         <v-card-subtitle>
-          {{ $store.getters['admin/unidade/nome'] }}
+          {{ $store.getters['unidade/nome'] }}
         </v-card-subtitle>
         <v-card-text>
-          {{ $store.getters['admin/unidade/token'] }}
+          {{ $store.getters['unidade/token'] }}
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -118,7 +118,7 @@
     >
       <v-card>
         <v-card-title class="text-h5">
-          Deletar a Unidade "{{ $store.getters['admin/unidade/nome'] }}"?
+          Deletar a Unidade "{{ $store.getters['unidade/nome'] }}"?
         </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -162,7 +162,7 @@
       }
     },
     async fetch() {
-      await this.$store.dispatch('admin/fetchUnidades')
+      await this.$store.dispatch('fetchUnidades')
       .catch((error) => {
         this.$toast.error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.message);
         console.log(error);
@@ -170,30 +170,30 @@
     },
     methods: {
       showTokenDialog(item) {
-        this.$store.commit('admin/unidade/replace', item);
+        this.$store.commit('unidade/replace', item);
         this.tokenDialog = true;
       },
       hideTokenDialog() {
-        this.$store.commit('admin/unidade/clear');
+        this.$store.commit('unidade/clear');
         this.tokenDialog = false;
       },
       editUnidade(unidade) {
-        this.$store.commit('admin/unidade/replace', unidade);
+        this.$store.commit('unidade/replace', unidade);
         this.$router.push({
           path: '/admin/unidades/editar'
         });
       },
       confirmDelete(unidade) {
-        this.$store.commit('admin/unidade/replace', unidade);
+        this.$store.commit('unidade/replace', unidade);
         this.confirmDialog = true;
       },
       closeDelete() {
-        this.$store.commit('admin/unidade/clear');
+        this.$store.commit('unidade/clear');
         this.confirmDialog = false;
       },
       async deleteUnidade() {
         this.confirmDialog = false;
-        await this.$store.dispatch('admin/unidade/delete')
+        await this.$store.dispatch('unidade/delete')
         .then(() => {
           this.$toast.success('Unidade Gestora removida com sucesso!');
         })

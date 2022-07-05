@@ -108,20 +108,20 @@
     },
     computed: {
       id: {
-        ...mapGetters({ get: 'admin/unidade/id' }),
-        ...mapMutations({ set: 'admin/unidade/id' }),
+        ...mapGetters({ get: 'unidade/id' }),
+        ...mapMutations({ set: 'unidade/id' }),
       },
       nome: {
-        ...mapGetters({ get: 'admin/unidade/nome' }),
-        ...mapMutations({ set: 'admin/unidade/nome' }),
+        ...mapGetters({ get: 'unidade/nome' }),
+        ...mapMutations({ set: 'unidade/nome' }),
       },
       slug: {
-        ...mapGetters({ get: 'admin/unidade/slug' }),
-        ...mapMutations({ set: 'admin/unidade/slug' }),
+        ...mapGetters({ get: 'unidade/slug' }),
+        ...mapMutations({ set: 'unidade/slug' }),
       },
       token: {
-        ...mapGetters({ get: 'admin/unidade/token' }),
-        ...mapMutations({ set: 'admin/unidade/token' }),
+        ...mapGetters({ get: 'unidade/token' }),
+        ...mapMutations({ set: 'unidade/token' }),
       },
     },
     methods: {

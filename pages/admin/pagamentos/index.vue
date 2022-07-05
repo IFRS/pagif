@@ -99,7 +99,7 @@
     >
       <v-card>
         <v-card-title class="text-h5">
-          Deletar o Pagamento "{{ $store.getters['admin/pagamento/id'] }}"?
+          Deletar o Pagamento "{{ $store.getters['pagamento/id'] }}"?
         </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -157,19 +157,19 @@
     },
     computed: {
       pagamentos: {
-        ...mapGetters({ get: 'admin/getPagamentos' }),
-        ...mapMutations({ set: 'admin/setPagamentos' }),
+        ...mapGetters({ get: 'pagamentos' }),
+        ...mapMutations({ set: 'setPagamentos' }),
       },
     },
     watch: {
       pagamentoDialog(newValue, oldValue) {
         if (newValue === false) {
-          this.$store.commit('admin/pagamento/clear');
+          this.$store.commit('pagamento/clear');
         }
       }
     },
     async fetch() {
-      await this.$store.dispatch('admin/fetchPagamentos')
+      await this.$store.dispatch('fetchPagamentos')
       .catch((error) => {
         this.$toast.error('Ocorreu um erro ao carregar os Pagamentos: ' + error.message);
         console.log(error);
@@ -191,7 +191,7 @@
       },
       showPagamento(item) {
         if (item) {
-          this.$store.commit('admin/pagamento/replace', item);
+          this.$store.commit('pagamento/replace', item);
           this.pagamentoDialog = true;
         }
       },
@@ -199,16 +199,16 @@
         this.pagamentoDialog = false;
       },
       confirmDelete(pagamento) {
-        this.$store.commit('admin/pagamento/replace', pagamento);
+        this.$store.commit('pagamento/replace', pagamento);
         this.confirmDialog = true;
       },
       closeDelete() {
-        this.$store.commit('admin/pagamento/clear');
+        this.$store.commit('pagamento/clear');
         this.confirmDialog = false;
       },
       async consultaPagamento(item) {
         this.loadingPagamento = item.idPagamento;
-        await this.$store.dispatch('admin/consultaPagamento', item.idPagamento)
+        await this.$store.dispatch('pagamento/consulta', item.idPagamento)
         .then(() => {
           this.$toast.success(`Pagamento ${item.idPagamento} atualizado!`);
         })
@@ -222,7 +222,7 @@
       },
       async deletePagamento() {
         this.confirmDialog = false;
-        await this.$store.dispatch('admin/pagamento/delete')
+        await this.$store.dispatch('pagamento/delete')
         .then(() => {
           this.$toast.success('Pagamento removido com sucesso!');
         })

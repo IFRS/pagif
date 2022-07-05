@@ -28,7 +28,7 @@
     methods: {
       async handleSubmit() {
         this.submitting = true;
-        await this.$store.dispatch('admin/pagamento/save')
+        await this.$store.dispatch('pagamento/save')
         .then(() => {
           this.$toast.success('Cobrança cadastrada com sucesso!');
           this.$router.push({
@@ -51,7 +51,7 @@
       },
     },
     destroyed () {
-      this.$store.commit('admin/pagamento/clear');
+      this.$store.commit('pagamento/clear');
     },
   }
 </script>

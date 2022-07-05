@@ -28,7 +28,7 @@
     methods: {
       async handleSubmit() {
         this.submitting = true;
-        await this.$store.dispatch('admin/unidade/save')
+        await this.$store.dispatch('unidade/save')
         .then(() => {
           this.$toast.success('Unidade Gestora cadastrada com sucesso!');
           this.$router.push({
@@ -51,7 +51,7 @@
       },
     },
     destroyed () {
-      this.$store.commit('admin/unidade/clear');
+      this.$store.commit('unidade/clear');
     },
   }
 </script>
