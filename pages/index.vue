@@ -24,6 +24,9 @@
 <script>
 export default {
   name: 'Index',
+  head: {
+    title: 'Página Inicial',
+  },
   async fetch () {
     await this.$store.dispatch('fetchUnidades')
     .catch((error) => {

@@ -64,6 +64,9 @@
 <script>
 export default {
   name: 'NovoPagamento',
+  head: {
+    title: 'Novo Pagamento',
+  },
   data() {
     return {
       steps: {

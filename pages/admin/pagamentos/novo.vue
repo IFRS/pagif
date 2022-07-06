@@ -18,7 +18,7 @@
     name: 'NovoPagamento',
     layout: 'admin',
     head: {
-      title: 'Cadastro de Cobrança',
+      title: 'Nova Cobrança',
     },
     data() {
       return {

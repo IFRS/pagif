@@ -44,10 +44,11 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
-
 export default {
   name: 'Pagamento',
+  head: {
+    title: 'Pagamento',
+  },
   data() {
     return {
       idPagamento: null,
