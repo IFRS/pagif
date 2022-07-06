@@ -83,6 +83,10 @@ export default {
           component: 'PagamentoValorPrincipal',
           name: 'Valor',
         },
+        5: {
+          component: 'PagamentoResumo',
+          name: 'Resumo',
+        },
       },
       currentStep: 1,
     }
