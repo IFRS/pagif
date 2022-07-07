@@ -35,7 +35,7 @@
       <v-btn
         class="mx-auto"
         x-large
-        :to="{ name: 'novo-pagamento' }"
+        :to="{ name: 'pagamento-novo' }"
       >
         Novo Pagamento
       </v-btn>

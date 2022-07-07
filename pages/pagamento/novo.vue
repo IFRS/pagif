@@ -64,7 +64,7 @@
 
 <script>
 export default {
-  name: 'NovoPagamento',
+  name: 'PagamentoNovo',
   head: {
     title: 'Novo Pagamento',
   },
