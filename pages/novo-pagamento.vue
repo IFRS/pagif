@@ -28,6 +28,7 @@
                 class="mb-6"
                 :is="step.component"
                 ref="step"
+                @submit.prevent="nextStep()"
               ></component>
 
               <v-btn

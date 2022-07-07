@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" @submit.prevent>
+  <v-form ref="form" v-on="$listeners">
     <v-currency-field
       prepend-icon="mdi-currency-brl"
       label="Valor"
