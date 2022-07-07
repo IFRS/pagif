@@ -8,6 +8,8 @@ router.get('/unidades', unidadesController.list);
 
 router.get('/unidades/:id', unidadesController.show);
 
+router.get('/unidades/token/:id', unidadesController.token);
+
 router.post('/unidades', unidadesController.save);
 
 router.put('/unidades/:id', unidadesController.save);

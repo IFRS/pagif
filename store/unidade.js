@@ -65,4 +65,10 @@ export const actions = {
       context.commit('admin/removeUnidade', response.data, { root: true });
     });
   },
+  async fetchToken(context, payload) {
+    const id = payload || context.state._id;
+    return await this.$axios.get(`/api/unidades/token/${id}`).then((response) => {
+      context.commit('token', response.data);
+    });
+  },
 };

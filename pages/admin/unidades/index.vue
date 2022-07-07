@@ -48,6 +48,7 @@
                   icon
                   v-bind="attrs"
                   v-on="on"
+                  :loading="tokenLoading === item._id"
                   @click="showTokenDialog(item)"
                 >
                   <v-icon>mdi-key</v-icon>
@@ -152,6 +153,7 @@
     data() {
       return {
         tokenDialog: false,
+        tokenLoading: false,
         confirmDialog: false,
         busca: '',
         tableHeaders: [
@@ -169,9 +171,20 @@
       });
     },
     methods: {
-      showTokenDialog(item) {
+      async showTokenDialog(item) {
+        this.tokenLoading = item._id;
+
         this.$store.commit('unidade/replace', item);
+
+        await this.$store.dispatch('unidade/fetchToken', item._id)
+        .catch((error) => {
+          this.$toast.error('Ocorreu um erro ao buscar o Token da Unidade Gestora: ' + error.message);
+          console.log(error);
+        });
+
         this.tokenDialog = true;
+
+        this.tokenLoading = false;
       },
       hideTokenDialog() {
         this.$store.commit('unidade/clear');

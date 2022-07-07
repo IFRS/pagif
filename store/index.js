@@ -65,7 +65,7 @@ export const actions = {
     if (process.client && localStorage.getItem('unidade')) {
       let unidade_id = localStorage.getItem('unidade');
 
-      return await this.$axios.get(`/api/unidades/${unidade_id}/?fields=-token`)
+      return await this.$axios.get(`/api/unidades/${unidade_id}`)
       .then((response) => {
         context.commit('unidade/replace', response.data);
       });

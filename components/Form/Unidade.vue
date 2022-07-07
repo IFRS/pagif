@@ -50,6 +50,7 @@
             hint="Token de acesso gerado no SISGRU."
             v-model="token"
             :rules="validation.token"
+            :loading="tokenLoading"
             auto-grow
             required
           ></v-textarea>
@@ -85,6 +86,10 @@
   export default {
     name: 'FormUnidade',
     props: {
+      tokenLoading: {
+        type: Boolean,
+        default: false,
+      },
       submitting: {
         type: Boolean,
         default: false,
