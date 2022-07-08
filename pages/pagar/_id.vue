@@ -39,8 +39,13 @@ export default {
       }
     },
   },
+  data() {
+    return {
+      pagamentoConcluido: false,
+    }
+  },
   async fetch() {
-    await this.$store.dispatch('fetchPagamento', this.$route.params.id)
+    await this.$store.dispatch('pagamento/show', this.$route.params.id)
     .catch((error) => {
       this.$toast.error('Ocorreu um erro ao carregar o Pagamento: ' + error.message);
       console.log(error);
