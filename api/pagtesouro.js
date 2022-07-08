@@ -125,7 +125,9 @@ const pagtesouro = axios.create({
   transformResponse: axios.defaults.transformResponse.concat(
     (rawData) => {
       if (rawData.hasOwnProperty('valor') && rawData.valor) {
-        let valor = parseInt(String(rawData.valor).replace('.', ''));
+        let valor = parseFloat(rawData.valor) * 100; // Converte o valor que chega em FLOAT em centavos.
+        valor = String((valor)).replace('.', ''); // Retira o ponto, caso ainda tenha.
+        valor = parseInt(valor); // Por fim, transforma em INT.
         if (valor) {
           rawData.valor = valor;
         } else {
