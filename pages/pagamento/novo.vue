@@ -120,6 +120,7 @@ export default {
       this.criandoPagamento = true;
       await this.$store.dispatch('pagamento/save')
       .then((response) => {
+        this.$store.commit('pagamento/clear');
         this.$router.push({
           name: 'pagamento-id',
           params: {

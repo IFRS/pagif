@@ -31,6 +31,7 @@
         await this.$store.dispatch('pagamento/save')
         .then(() => {
           this.$toast.success('Cobrança cadastrada com sucesso!');
+          this.$store.commit('pagamento/clear');
           this.$router.push({
             path: '/admin/pagamentos',
           });
