@@ -33,7 +33,7 @@
 
               <v-btn
                 text
-                :disabled="currentStep <= 1"
+                :disabled="(currentStep <= 1) || criandoPagamento"
                 @click="previousStep()"
               >
                 Anterior
@@ -50,6 +50,7 @@
               <v-btn
                 color="success"
                 v-if="currentStep == numberOfSteps"
+                :loading="criandoPagamento"
                 @click="criarPagamento()"
               >
                 Concluir
@@ -70,6 +71,7 @@ export default {
   },
   data() {
     return {
+      criandoPagamento: false,
       steps: {
         1: {
           component: 'PagamentoCodigoServico',
@@ -113,6 +115,25 @@ export default {
       if (this.$refs.step[refIndex].$refs.form.validate()) {
         this.currentStep = this.currentStep + 1;
       }
+    },
+    async criarPagamento() {
+      this.criandoPagamento = true;
+      await this.$store.dispatch('pagamento/save')
+      .then((response) => {
+        this.$router.push({
+          name: 'pagamento-id',
+          params: {
+            id: response.data.idPagamento,
+          },
+        });
+      })
+      .catch((error) => {
+        this.$toast.error('Ocorreu um erro ao criar o Pagamento. ' + error.message);
+        console.error(error);
+      })
+      .finally(() => {
+        this.criandoPagamento = false;
+      });
     },
   },
   destroyed () {
