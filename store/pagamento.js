@@ -122,10 +122,7 @@ export const mutations = {
 
 export const actions = {
   async save(context) {
-    return await this.$axios.post('/api/pagamentos', context.state)
-    .then(() => {
-      context.commit('clear');
-    });
+    return await this.$axios.post('/api/pagamentos', context.state);
   },
   async update(context) {
     return await this.$axios.put('/api/pagamentos/' + context.state._id, context.state)
@@ -149,7 +146,8 @@ export const actions = {
   async consulta(context, payload) {
     return await this.$axios.put('/api/pagamentos/update', {idPagamento: payload})
     .then((response) => {
-      context.commit('replace', response.data);
+      // context.commit('replace', response.data);
+      context.commit('updatePagamento', response.data, { root: true });
     });
   },
 };
