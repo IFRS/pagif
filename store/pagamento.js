@@ -146,7 +146,6 @@ export const actions = {
   async consulta(context, payload) {
     return await this.$axios.put('/api/pagamentos/update', {idPagamento: payload})
     .then((response) => {
-      // context.commit('replace', response.data);
       context.commit('updatePagamento', response.data, { root: true });
     });
   },
