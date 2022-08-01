@@ -31,30 +31,37 @@
                 @submit.prevent="nextStep()"
               ></component>
 
-              <v-btn
-                text
-                :disabled="(currentStep <= 1) || criandoPagamento"
-                @click="previousStep()"
+              <v-toolbar
+                color="transparent"
+                flat
               >
-                Anterior
-              </v-btn>
+                <v-btn
+                  text
+                  :disabled="(currentStep <= 1) || criandoPagamento"
+                  @click="previousStep()"
+                >
+                  Anterior
+                </v-btn>
 
-              <v-btn
-                color="primary"
-                v-if="currentStep < numberOfSteps"
-                @click="nextStep()"
-              >
-                Pr&oacute;ximo
-              </v-btn>
+                <v-spacer></v-spacer>
 
-              <v-btn
-                color="success"
-                v-if="currentStep == numberOfSteps"
-                :loading="criandoPagamento"
-                @click="criarPagamento()"
-              >
-                Concluir
-              </v-btn>
+                <v-btn
+                  color="primary"
+                  v-if="currentStep < numberOfSteps"
+                  @click="nextStep()"
+                >
+                  Pr&oacute;ximo
+                </v-btn>
+
+                <v-btn
+                  color="success"
+                  v-if="currentStep == numberOfSteps"
+                  :loading="criandoPagamento"
+                  @click="criarPagamento()"
+                >
+                  Concluir
+                </v-btn>
+              </v-toolbar>
             </v-stepper-content>
           </v-stepper-items>
         </v-stepper>
