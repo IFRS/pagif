@@ -51,20 +51,6 @@
 <script>
 export default {
   name: 'DefaultLayout',
-  async beforeCreate() {
-    await this.$store.dispatch('initializeStore')
-    .catch((error) => {
-      this.$toast.error('Ocorreu um erro ao carregar dados locais: ' + error.message);
-      console.log(error);
-    });
-  },
-  created() {
-    this.$store.subscribe((mutation, state) => {
-      if (process.client && mutation.type === 'unidade/replace') {
-        localStorage.setItem('unidade', state.unidade._id);
-      }
-    });
-  },
   async fetch() {
     await this.$store.dispatch('fetchUnidades')
     .catch((error) => {
@@ -85,7 +71,7 @@ export default {
           name: 'pagamento',
         });
       }
-    }
+    },
   },
 }
 </script>

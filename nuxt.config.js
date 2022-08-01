@@ -30,6 +30,7 @@ export default {
     '~/plugins/dayjs.js',
     '~/plugins/format.js',
     '~/plugins/validation.js',
+    '~/plugins/populate-store.client.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
