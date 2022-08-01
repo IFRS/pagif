@@ -31,6 +31,7 @@ export default {
     '~/plugins/format.js',
     '~/plugins/validation.js',
     '~/plugins/populate-store.client.js',
+    '~/plugins/check-unidade.client.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
