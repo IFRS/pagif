@@ -1,16 +1,22 @@
 export const state = () => ({
+  darkMode: false,
   unidades: [],
   servicos: [],
   pagamentos: [],
 });
 
 export const getters = {
+  darkMode: state => state.darkMode,
   unidades: state => state.unidades,
   servicos: state => state.servicos,
   pagamentos: state => state.pagamentos,
 };
 
 export const mutations = {
+  /* Dark Mode */
+  setDarkMode: (state, payload) => {
+    state.darkMode = payload;
+  },
   /* Unidades */
   setUnidades: (state, payload) => {
     state.unidades = payload;
@@ -62,13 +68,15 @@ export const mutations = {
 
 export const actions = {
   async initializeStore(context) {
-    if (process.client && localStorage.getItem('unidade')) {
-      let unidade_id = localStorage.getItem('unidade');
+    if (process.client) {
+      if (localStorage.getItem('unidade')) {
+        let unidade_id = localStorage.getItem('unidade');
 
-      return await this.$axios.get(`/api/unidades/${unidade_id}`)
-      .then((response) => {
-        context.commit('unidade/replace', response.data);
-      });
+        return await this.$axios.get(`/api/unidades/${unidade_id}`)
+        .then((response) => {
+          context.commit('unidade/replace', response.data);
+        });
+      }
     }
   },
 

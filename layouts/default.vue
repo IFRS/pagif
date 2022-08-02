@@ -5,7 +5,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-menu>
+      <v-menu offset-y>
         <template v-slot:activator="{ on: menu, attrs }">
           <v-tooltip bottom>
             <template v-slot:activator="{ on: tooltip }">
@@ -16,6 +16,9 @@
                 :loading="$fetchState.pending || !$store.state.unidade"
               >
                 {{ $store.getters['unidade/nome'] }}
+                <v-icon right>
+                  mdi-menu-down
+                </v-icon>
               </v-btn>
             </template>
             <span>Trocar Unidade</span>
@@ -39,6 +42,36 @@
           </v-list-item-group>
         </v-list>
       </v-menu>
+
+      <v-spacer></v-spacer>
+
+      <v-switch
+        class="me-5"
+        v-model="darkMode"
+        inset
+        hide-details
+      >
+        <template v-slot:label>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                v-bind="attrs"
+                v-on="on"
+              >
+                mdi-theme-light-dark
+              </v-icon>
+            </template>
+            <span>Modo Escuro</span>
+          </v-tooltip>
+        </template>
+      </v-switch>
+
+      <v-avatar
+        color="primary"
+        size="42"
+      >
+        <v-icon dark>mdi-account-circle</v-icon>
+      </v-avatar>
     </v-app-bar>
     <v-main>
       <Nuxt />
@@ -49,8 +82,11 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex';
+
 export default {
   name: 'DefaultLayout',
+  middleware: 'set-theme',
   async fetch() {
     await this.$store.dispatch('fetchUnidades')
     .catch((error) => {
@@ -72,6 +108,15 @@ export default {
         });
       }
     },
+    darkMode: {
+      ...mapGetters({ get: 'darkMode' }),
+      ...mapMutations({ set: 'setDarkMode' }),
+    }
+  },
+  watch: {
+    darkMode(newValue) {
+      this.$vuetify.theme.dark = newValue;
+    }
   },
 }
 </script>

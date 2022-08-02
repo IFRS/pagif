@@ -55,6 +55,7 @@ export default {
       allowNegative: false,
       valueAsInteger: true,
     }],
+    ['cookie-universal-nuxt', { alias: 'cookies' }],
   ],
 
   serverMiddleware: [
