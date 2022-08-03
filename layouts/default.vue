@@ -86,7 +86,7 @@ import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'DefaultLayout',
-  middleware: 'set-theme',
+  middleware: 'dark-mode',
   async fetch() {
     await this.$store.dispatch('fetchUnidades')
     .catch((error) => {
@@ -117,6 +117,9 @@ export default {
     darkMode(newValue) {
       this.$vuetify.theme.dark = newValue;
     }
+  },
+  mounted() {
+    this.$vuetify.theme.dark = this.$store.getters['darkMode'];
   },
 }
 </script>
