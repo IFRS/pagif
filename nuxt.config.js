@@ -79,6 +79,18 @@ export default {
     },
   },
 
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'unidades-slug',
+        path: '/unidades/:slug',
+        redirect: (to) => {
+          return { name: 'pagamento', query: { unidade: to.params.slug } };
+        },
+      });
+    },
+  },
+
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
