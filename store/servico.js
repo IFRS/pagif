@@ -85,7 +85,7 @@ export const actions = {
     return await this.$axios.delete('/api/servicos/' + context.state._id)
     .then((response) => {
       context.commit('clear');
-      context.commit('admin/removeServico', response.data, { root: true });
+      context.commit('removeServico', response.data, { root: true });
     });
   },
 };

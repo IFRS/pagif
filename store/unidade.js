@@ -62,7 +62,7 @@ export const actions = {
     return await this.$axios.delete('/api/unidades/' + context.state._id)
     .then((response) => {
       context.commit('clear');
-      context.commit('admin/removeUnidade', response.data, { root: true });
+      context.commit('removeUnidade', response.data, { root: true });
     });
   },
   async fetchToken(context, payload) {

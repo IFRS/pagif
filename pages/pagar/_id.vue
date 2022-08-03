@@ -66,7 +66,7 @@ export default {
     },
   },
   destroyed () {
-    this.$store.commit('admin/pagamento/clear');
+    this.$store.commit('pagamento/clear');
   },
 }
 </script>
