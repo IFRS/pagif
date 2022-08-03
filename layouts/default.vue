@@ -1,7 +1,15 @@
 <template>
   <v-app>
     <v-app-bar app fixed>
-      <v-app-bar-title>IFpag</v-app-bar-title>
+      <v-app-bar-title>
+        <nuxt-link
+          :to="{name: 'index'}"
+          class="text-decoration-none"
+          color="primary"
+        >
+          IFpag
+        </nuxt-link>
+      </v-app-bar-title>
 
       <v-spacer></v-spacer>
 
@@ -112,7 +120,7 @@ export default {
     darkMode: {
       ...mapGetters({ get: 'darkMode' }),
       ...mapMutations({ set: 'setDarkMode' }),
-    }
+    },
   },
   watch: {
     darkMode(newValue) {
