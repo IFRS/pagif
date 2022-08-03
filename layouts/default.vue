@@ -11,6 +11,7 @@
             <template v-slot:activator="{ on: tooltip }">
               <v-btn
                 color="secondary"
+                text
                 v-bind="attrs"
                 v-on="{ ...tooltip, ...menu }"
                 :loading="$fetchState.pending || !$store.state.unidade"
