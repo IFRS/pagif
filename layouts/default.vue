@@ -13,7 +13,10 @@
 
       <v-spacer></v-spacer>
 
-      <v-menu offset-y>
+      <v-menu
+        v-if="selectedUnidade >= 0"
+        offset-y
+      >
         <template v-slot:activator="{ on: menu, attrs }">
           <v-tooltip bottom>
             <template v-slot:activator="{ on: tooltip }">
@@ -99,7 +102,7 @@ export default {
   async fetch() {
     await this.$store.dispatch('fetchUnidades')
     .catch((error) => {
-      this.$toast.error('Ocorreu um erro ao carregar as Unidades: ' + error.message);
+      this.$toast.error('Ocorreu um erro ao carregar a lista de Unidades: ' + error.message);
       console.log(error);
     });
   },
@@ -112,9 +115,7 @@ export default {
       },
       set(index) {
         this.$store.commit('unidade/replace', this.$store.state.unidades[index]);
-        this.$router.push({
-          name: 'pagamento',
-        });
+        this.$router.push({ name: 'index' });
       }
     },
     darkMode: {

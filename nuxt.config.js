@@ -85,7 +85,7 @@ export default {
         name: 'unidades-slug',
         path: '/unidades/:slug',
         redirect: (to) => {
-          return { name: 'pagamento', query: { unidade: to.params.slug } };
+          return { name: 'index', query: { unidade: to.params.slug } };
         },
       });
     },
