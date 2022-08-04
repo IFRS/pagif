@@ -14,7 +14,6 @@
       <v-spacer></v-spacer>
 
       <v-menu
-        v-if="selectedUnidade >= 0"
         offset-y
       >
         <template v-slot:activator="{ on: menu, attrs }">
@@ -25,9 +24,9 @@
                 text
                 v-bind="attrs"
                 v-on="{ ...tooltip, ...menu }"
-                :loading="$fetchState.pending || !$store.state.unidade"
+                :loading="$fetchState.pending"
               >
-                {{ $store.getters['unidade/nome'] }}
+                {{ $store.getters['unidade/nome'] || 'Selecione uma Unidade' }}
                 <v-icon right>
                   mdi-menu-down
                 </v-icon>
