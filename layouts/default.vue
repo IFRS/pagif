@@ -113,8 +113,14 @@ export default {
         });
       },
       set(index) {
+        this.$nuxt.$loading.start();
+
         this.$store.commit('unidade/replace', this.$store.state.unidades[index]);
-        this.$router.push({ name: 'index' });
+
+        setTimeout(() => {
+          this.$nuxt.$loading.finish();
+          this.$router.push({ name: 'index' });
+        }, 250);
       }
     },
     darkMode: {
