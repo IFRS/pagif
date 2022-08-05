@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     escolha(unidade) {
-      this.$store.commit('unidade/replace', unidade);
+      this.$store.commit('config/unidade', unidade);
       this.$router.push({ name: 'index' });
     },
   },
