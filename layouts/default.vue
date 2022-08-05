@@ -13,24 +13,31 @@
 
       <v-spacer></v-spacer>
 
-      <v-menu
-        offset-y
-      >
+      <v-menu offset-y>
         <template v-slot:activator="{ on: menu, attrs }">
           <v-tooltip bottom>
             <template v-slot:activator="{ on: tooltip }">
-              <v-btn
-                color="secondary"
-                text
-                v-bind="attrs"
-                v-on="{ ...tooltip, ...menu }"
-                :loading="$fetchState.pending"
+              <v-badge
+                :value="!$store.getters['unidade/id']"
+                color="red"
+                dot
+                left
+                overlap
               >
-                {{ $store.getters['unidade/nome'] || 'Selecione uma Unidade' }}
-                <v-icon right>
-                  mdi-menu-down
-                </v-icon>
-              </v-btn>
+                <v-btn
+                  class="mr-3"
+                  color="secondary"
+                  text
+                  v-bind="attrs"
+                  v-on="{ ...tooltip, ...menu }"
+                  :loading="$fetchState.pending"
+                >
+                  {{ $store.getters['unidade/nome'] || 'Selecione uma Unidade' }}
+                  <v-icon right>
+                    mdi-menu-down
+                  </v-icon>
+                </v-btn>
+              </v-badge>
             </template>
             <span>Trocar Unidade</span>
           </v-tooltip>
@@ -54,35 +61,51 @@
         </v-list>
       </v-menu>
 
-      <v-spacer></v-spacer>
-
-      <v-switch
-        class="me-5"
-        v-model="darkMode"
-        inset
-        hide-details
+      <v-menu
+        offset-y
+        :close-on-content-click="false"
       >
-        <template v-slot:label>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <v-icon
-                v-bind="attrs"
-                v-on="on"
-              >
-                mdi-theme-light-dark
-              </v-icon>
-            </template>
-            <span>Modo Escuro</span>
-          </v-tooltip>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            class="mr-3"
+            dark
+            icon
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-avatar
+              dark
+              color="primary"
+              size="38"
+            >
+              <v-icon dark>mdi-account-circle</v-icon>
+            </v-avatar>
+          </v-btn>
         </template>
-      </v-switch>
+        <v-card>
+          <v-list>
+            <v-list-item>
+              <v-list-item-action>
+                <v-switch
+                  v-model="darkMode"
+                  inset
+                  hide-details
+                  label="Modo Escuro"
+                >
+                </v-switch>
+              </v-list-item-action>
+            </v-list-item>
 
-      <v-avatar
-        color="primary"
-        size="42"
-      >
-        <v-icon dark>mdi-account-circle</v-icon>
-      </v-avatar>
+            <v-divider class="mb-2"></v-divider>
+
+            <v-list-item nuxt :to="{ name: 'login' }">
+              <v-list-item-content>
+                <v-list-item-title>Login</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-card>
+      </v-menu>
     </v-app-bar>
     <v-main>
       <Nuxt />
