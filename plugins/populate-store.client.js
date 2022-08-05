@@ -1,22 +1,25 @@
 export default async (context) => {
   if (process.client && context.nuxtState.layout === 'default') {
-    let darkMode = context.$cookies.get('darkMode');
+    const darkMode = context.$cookies.get('darkMode');
     if (darkMode) {
-      context.store.commit('setDarkMode', darkMode);
+      context.store.commit('config/darkMode', darkMode);
     }
 
-    await context.store.dispatch('initializeStore')
-    .catch((error) => {
-      context.$toast.error('Ocorreu um erro ao carregar dados locais: ' + error.message);
-      console.log(error);
-    });
+    const unidade_id = localStorage.getItem('unidade');
+    if (unidade_id) {
+      await context.store.dispatch('config/populateUnidade', unidade_id)
+      .catch((error) => {
+        context.$toast.error('Ocorreu um erro ao carregar dados locais: ' + error.message);
+        console.log(error);
+      });
+    }
 
     context.store.subscribe((mutation, state) => {
-      if (mutation.type === 'setDarkMode') {
-        context.$cookies.set('darkMode', state.darkMode);
+      if (mutation.type === 'config/darkMode') {
+        context.$cookies.set('darkMode', state.config.darkMode);
       }
-      if (mutation.type === 'unidade/replace') {
-        localStorage.setItem('unidade', state.unidade._id);
+      if (mutation.type === 'config/unidade') {
+        localStorage.setItem('unidade', state.config.unidade._id);
       }
     });
   }

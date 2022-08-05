@@ -18,7 +18,7 @@
           <v-tooltip bottom>
             <template v-slot:activator="{ on: tooltip }">
               <v-badge
-                :value="!$store.getters['unidade/id']"
+                :value="!$store.getters['config/unidade']"
                 color="red"
                 dot
                 left
@@ -32,7 +32,7 @@
                   v-on="{ ...tooltip, ...menu }"
                   :loading="$fetchState.pending"
                 >
-                  {{ $store.getters['unidade/nome'] || 'Selecione uma Unidade' }}
+                  {{ $store.getters['config/unidade']?.nome || 'Selecione uma Unidade' }}
                   <v-icon right>
                     mdi-menu-down
                   </v-icon>
@@ -132,13 +132,13 @@ export default {
     selectedUnidade: {
       get() {
         return this.$store.state.unidades.findIndex((item) => {
-          return item._id === this.$store.state.unidade._id;
+          return item._id === this.$store.getters['config/unidade']?._id;
         });
       },
       set(index) {
         this.$nuxt.$loading.start();
 
-        this.$store.commit('unidade/replace', this.$store.state.unidades[index]);
+        this.$store.commit('config/unidade', this.$store.state.unidades[index]);
 
         setTimeout(() => {
           this.$nuxt.$loading.finish();
@@ -147,8 +147,8 @@ export default {
       }
     },
     darkMode: {
-      ...mapGetters({ get: 'darkMode' }),
-      ...mapMutations({ set: 'setDarkMode' }),
+      ...mapGetters({ get: 'config/darkMode' }),
+      ...mapMutations({ set: 'config/darkMode' }),
     },
   },
   watch: {
@@ -157,7 +157,7 @@ export default {
     }
   },
   mounted() {
-    this.$vuetify.theme.dark = this.$store.getters['darkMode'];
+    this.$vuetify.theme.dark = this.$store.getters['config/darkMode'];
   },
 }
 </script>

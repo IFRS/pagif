@@ -3,7 +3,7 @@ export default (context) => {
     process.client
     && context.nuxtState.layout === 'default'
     && context.route.name !== 'unidades'
-    && !context.store.getters['unidade/id']
+    && !context.store.getters['config/unidade']
   ) {
     window.onNuxtReady(() => { window.$nuxt.$router.push({ name: 'unidades' }) });
   }
