@@ -17,27 +17,20 @@
         <template v-slot:activator="{ on: menu, attrs }">
           <v-tooltip bottom>
             <template v-slot:activator="{ on: tooltip }">
-              <v-badge
-                :value="!$store.getters['config/unidade']"
-                color="red"
-                dot
-                left
-                overlap
+              <v-btn
+                class="mr-3"
+                color="secondary"
+                text
+                v-bind="attrs"
+                v-on="{ ...tooltip, ...menu }"
+                :loading="$fetchState.pending"
+                :disabled="!$store.getters['config/unidade']"
               >
-                <v-btn
-                  class="mr-3"
-                  color="secondary"
-                  text
-                  v-bind="attrs"
-                  v-on="{ ...tooltip, ...menu }"
-                  :loading="$fetchState.pending"
-                >
-                  {{ $store.getters['config/unidade']?.nome || 'Selecione uma Unidade' }}
-                  <v-icon right>
-                    mdi-menu-down
-                  </v-icon>
-                </v-btn>
-              </v-badge>
+                {{ $store.getters['config/unidade']?.nome || 'Selecione uma Unidade' }}
+                <v-icon right>
+                  mdi-menu-down
+                </v-icon>
+              </v-btn>
             </template>
             <span>Trocar Unidade</span>
           </v-tooltip>
