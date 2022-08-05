@@ -2,6 +2,7 @@
   <v-form ref="form" v-on="$listeners">
     <v-autocomplete
       label="Código do Serviço"
+      no-data-text="Nenhum Serviço encontrado na Unidade atual."
       v-model="codigoServico"
       :rules="rules"
       :loading="$fetchState.pending"
@@ -39,7 +40,7 @@ export default {
     },
   },
   async fetch() {
-    await this.$store.dispatch('fetchServicos', { unidade: this.$store.getters['unidade/id'] })
+    await this.$store.dispatch('fetchServicos', { unidade: this.$store.getters['config/unidade']?._id })
     .catch((error) => {
       this.$toast.error('Ocorreu um erro ao carregar os Serviços: ' + error.message);
       console.log(error);
