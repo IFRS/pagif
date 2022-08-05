@@ -1,3 +1,3 @@
 export default (context) => {
-  context.$vuetify.theme.dark = context.$cookies.get('darkMode');
+  context.$vuetify.theme.dark = process.server ? context.$cookies.get('darkMode') : context.store.getters['config/darkMode'];
 }
