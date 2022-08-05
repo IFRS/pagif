@@ -150,7 +150,9 @@ export default {
     }
   },
   mounted() {
-    this.$vuetify.theme.dark = this.$store.getters['config/darkMode'];
+    setTimeout(() => {
+      this.$vuetify.theme.dark = this.$store.getters['config/darkMode'];
+    }, 0);
   },
 }
 </script>
