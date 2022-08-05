@@ -1,11 +1,11 @@
 <template>
   <v-container>
-    <v-row justify="center" align="center">
+    <v-row class="text-center">
       <v-col>
-        <h2>Escolha uma Unidade para pagamento</h2>
+        <h2>Escolha uma Unidade para Pagamento</h2>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="text-center">
       <v-col
         v-for="(unidade, i) in $store.getters['unidades']"
         :key="i"
