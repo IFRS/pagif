@@ -27,7 +27,7 @@
             icon
             x-large
           >
-            <v-icon>mdi-transfer-right</v-icon>
+            <v-icon>mdi-arrow-right</v-icon>
           </v-btn>
         </v-col>
       </v-row>
