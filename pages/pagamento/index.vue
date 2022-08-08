@@ -67,7 +67,7 @@ export default {
 
       this.$nextTick(() => {
         if (this.$refs.form.validate()) {
-          this.$router.push({ name: 'pagar-id', params: { id: this.idPagamento } })
+          this.$router.push({ name: 'pagar-id', params: { id: this.idPagamento } });
         }
       });
     },
