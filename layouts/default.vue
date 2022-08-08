@@ -102,6 +102,7 @@
     </v-app-bar>
     <v-main>
       <Nuxt />
+      <Toast />
     </v-main>
     <v-footer app fixed>
     </v-footer>
