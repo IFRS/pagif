@@ -2,7 +2,14 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>Pagar</h2>
+        <h2>Pagando</h2>
+        <p class="subtitle-1">Pagamento {{ $store.getters['pagamento/idPagamento'] }}</p>
+
+        <v-alert type="info" text>
+          Atenção! Não é possível voltar para realizar o pagamento posteriormente.
+        </v-alert>
+
+        <p>Confira os dados que aparecerão na tela abaixo antes de efetuar o pagamento.</p>
       </v-col>
     </v-row>
     <v-row>
@@ -12,13 +19,14 @@
           type="image"
           min-height="600"
         />
-        <iframe
-          v-else
-          v-resize="{ heightCalculationMethod: 'documentElementOffset' }"
-          class="iframe-epag"
-          scrolling="no"
-          :src="$store.state.pagamento.proximaUrl + '&btnConcluir=true'"
-        ></iframe>
+        <v-card v-else>
+          <iframe
+            v-resize="{ heightCalculationMethod: 'documentElementOffset' }"
+            class="iframe-epag"
+            scrolling="no"
+            :src="$store.state.pagamento.proximaUrl + '&btnConcluir=true' + (!$store.getters['config/darkMode'] ? '&tema=tema-light' : '')"
+          ></iframe>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -61,7 +69,8 @@ export default {
 
       // Evento disparado pelos botões Fechar/Concluir.
       if (event.data === 'EPAG_FIM') {
-        // TODO: redirecionar para uma página de conclusão de pagamento
+        this.$toast.success('Pagamento finalizado!');
+        this.$router.push({ name: 'index' });
       }
     },
   },
