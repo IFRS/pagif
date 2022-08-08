@@ -14,7 +14,12 @@
           O pagamento ser&aacute; em nome de <strong>{{ $store.getters['pagamento/nomeContribuinte'] }}<template v-if="$store.getters['pagamento/cnpjCpf']">&nbsp;({{ $format.cnpjCpf($store.getters['pagamento/cnpjCpf']) }})</template></strong>.
         </p>
         <br>
-        <p class="text-body-2 info--text">Ao clicar em "Concluir" o pagamento ser&aacute; gerado e voc&ecirc; ter&aacute; <strong>24h</strong> para realiz&aacute;-lo.</p>
+        <v-alert
+          text
+          type="info"
+        >
+          Ao clicar em "Concluir" o pagamento ser&aacute; gerado e voc&ecirc; ter&aacute; <strong>24h</strong> para realiz&aacute;-lo.
+        </v-alert>
       </v-col>
       <v-col>
 
