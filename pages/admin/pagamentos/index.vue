@@ -120,13 +120,23 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <pagamento-dialog
+    <v-dialog
       v-model="pagamentoDialog"
       scrollable
       :fullscreen="$vuetify.breakpoint.xsOnly"
       max-width="800"
-      @close="hidePagamento"
-    />
+      @click:outside="hidePagamento"
+    >
+      <pagamento-detalhes>
+        <v-btn
+          text
+          color="primary"
+          @click="hidePagamento"
+        >
+          Fechar
+        </v-btn>
+      </pagamento-detalhes>
+    </v-dialog>
   </v-container>
 </template>
 
