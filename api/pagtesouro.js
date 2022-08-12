@@ -1,5 +1,9 @@
 const axios = require('axios');
 const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+const timezone = require('dayjs/plugin/timezone');
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 function valor_formatter(valor) {
   valor_formatted = String(valor).padStart(3, '0');
@@ -124,6 +128,26 @@ const pagtesouro = axios.create({
   ].concat(axios.defaults.transformRequest),
   transformResponse: axios.defaults.transformResponse.concat(
     (rawData) => {
+      if (rawData.hasOwnProperty('dataCriacao') && rawData.dataCriacao) {
+        let dataUTC = dayjs.tz(rawData.dataCriacao, 'America/Sao_Paulo').toISOString();
+
+        if (dataUTC) {
+          rawData.dataCriacao = dataUTC;
+        } else {
+          rawData.dataCriacao = null;
+        }
+      }
+
+      if (rawData.hasOwnProperty('situacao') && rawData.situacao.hasOwnProperty('data') && rawData.situacao.data) {
+        let dataUTC = dayjs.tz(rawData.situacao.data, 'America/Sao_Paulo').toISOString();
+
+        if (dataUTC) {
+          rawData.situacao.data = dataUTC;
+        } else {
+          rawData.situacao.data = null;
+        }
+      }
+
       if (rawData.hasOwnProperty('valor') && rawData.valor) {
         let valor = parseFloat(rawData.valor) * 100; // Converte o valor que chega em FLOAT em centavos.
         valor = String((valor)).replace('.', ''); // Retira o ponto, caso ainda tenha.
