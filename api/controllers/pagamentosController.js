@@ -3,10 +3,9 @@ const Servico = require('../models/Servico');
 const Unidade = require('../models/Unidade');
 const validator = require('express-validator');
 const pagtesouro = require('../pagtesouro');
-const { Model } = require('mongoose');
 
 module.exports.list = function(req, res) {
-  const query = Pagamento.find({});
+  const query = Pagamento.find({}).sort('-dataCriacao');
   query.exec(function(err, pagamentos) {
     if (err) {
       console.error(err);
