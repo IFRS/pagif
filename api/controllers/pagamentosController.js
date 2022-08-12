@@ -5,8 +5,7 @@ const validator = require('express-validator');
 const pagtesouro = require('../pagtesouro');
 
 module.exports.list = function(req, res) {
-  const query = Pagamento.find({}).sort('-dataCriacao');
-  query.exec(function(err, pagamentos) {
+  Pagamento.find({}).sort('-dataCriacao').exec(function(err, pagamentos) {
     if (err) {
       console.error(err);
       return res.status(500).json({
