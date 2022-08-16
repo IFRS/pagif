@@ -5,7 +5,7 @@ const validator = require('express-validator');
 const pagtesouro = require('../pagtesouro');
 
 module.exports.list = function(req, res) {
-  Pagamento.find({}).sort('-dataCriacao').exec(function(err, pagamentos) {
+  Pagamento.find({}).select('-token').sort('-dataCriacao').exec(function(err, pagamentos) {
     if (err) {
       console.error(err);
       return res.status(500).json({
@@ -18,7 +18,7 @@ module.exports.list = function(req, res) {
 };
 
 module.exports.show = function(req, res) {
-  Pagamento.findById(req.params.id, function(err, pagamento) {
+  Pagamento.findById(req.params.id).select('-token').exec(function(err, pagamento) {
     if (err) {
       return res.status(500).json({
         message: 'Erro obtendo o Pagamento.',
@@ -96,7 +96,7 @@ module.exports.save = [
       valorOutrosAcrescimos: req.body.valorOutrosAcrescimos,
     };
 
-    Servico.findOne({ codigo: req.body.codigoServico }, 'unidade').populate('unidade').exec((err, servico) => {
+    Servico.findOne({ codigo: req.body.codigoServico }).populate('unidade').exec((err, servico) => {
       if (err) {
         return res.status(500).json({
           message: 'Erro ao buscar Serviço.',
@@ -111,7 +111,11 @@ module.exports.save = [
         });
       }
 
-      pagtesouro.post('/api/gru/solicitacao-pagamento', data, { headers: {'Authorization': `Bearer ${servico.unidade.token}`} })
+      data.nomeServico = servico.nome;
+      data.nomeUnidade = servico.unidade.nome;
+      data.token = servico.unidade.token;
+
+      pagtesouro.post('/api/gru/solicitacao-pagamento', data, { headers: {'Authorization': `Bearer ${data.token}`} })
       .then((response) => {
         Object.assign(data, response.data);
 
@@ -143,45 +147,28 @@ module.exports.update = [
     .isLength({ max: 50 }),
   function(req, res) {
     if (req.body.idPagamento) {
-      Pagamento.aggregate() // TODO: ao invés de usar esse aggregate, incorporar os dados do Serviço e da Unidade ao documento de Pagamento.
-      .match({_id: req.body.idPagamento})
-      .limit(1)
-      .lookup({
-        from: Servico.collection.name,
-        localField: 'codigoServico',
-        foreignField: 'codigo',
-        as: 'servico',
-      })
-      .unwind('servico')
-      .lookup({
-        from: Unidade.collection.name,
-        localField: 'servico.unidade',
-        foreignField: '_id',
-        as: 'unidade',
-      })
-      .unwind('unidade')
-      .exec((err, agregado) => {
-        if (err || !agregado || (Array.isArray(agregado) && agregado.length === 0)) {
+      Pagamento.findById(req.body.idPagamento).exec((err, pagamento) => {
+        if (err || !pagamento) {
           return res.status(500).json([{
             codigo: 'C0027',
             descricao: 'Falha ao verificar a situação do pagamento.',
           }]);
         }
 
-        const token = agregado[0].unidade.token;
-
-        pagtesouro.get(`/api/gru/pagamentos/${req.body.idPagamento}`, { headers: {'Authorization': `Bearer ${token}`} })
+        pagtesouro.get(`/api/gru/pagamentos/${pagamento.idPagamento}`, { headers: {'Authorization': `Bearer ${pagamento.token}`} })
         .then((response) => {
-          Pagamento.findByIdAndUpdate(req.body.idPagamento, response.data, { returnDocument: 'after' }, (err, pagamento) => {
-            if (err) {
-              console.error('Erro atualizando o Pagamento: ' + err);
-              return res.status(500).json([{
-                codigo: 'C0027',
-                descricao: 'Falha ao verificar a situação do pagamento.',
-              }]);
-            }
-
-            return res.json(pagamento);
+          Object.assign(pagamento, response.data);
+          pagamento.save()
+          .then((pagamentoAfterSave) => {
+            delete pagamentoAfterSave.token;
+            return res.json(pagamentoAfterSave);
+          })
+          .catch((error) => {
+            console.error('Erro atualizando o Pagamento: ' + error);
+            return res.status(500).json([{
+              codigo: 'C0027',
+              descricao: 'Falha ao verificar a situação do pagamento.',
+            }]);
           });
         })
         .catch((error) => {

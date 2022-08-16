@@ -1,6 +1,8 @@
 const defaultState = {
   _id: null,
   idPagamento: null,
+  nomeUnidade: null,
+  nomeServico: null,
   codigoServico: null,
   referencia: null,
   competencia: null,
@@ -27,6 +29,8 @@ export const state = () => defaultState;
 export const getters = {
   id: state => state._id,
   idPagamento: state => state.idPagamento,
+  nomeUnidade: state => state.nomeUnidade,
+  nomeServico: state => state.nomeServico,
   codigoServico: state => state.codigoServico,
   referencia: state => state.referencia,
   competencia: state => state.competencia,
@@ -43,7 +47,13 @@ export const getters = {
   proximaUrl: state => state.proximaUrl,
   situacao: state => state.situacao,
   tipoPagamentoEscolhido: state => state.tipoPagamentoEscolhido,
-  valor: state => state.valor,
+  valor: state => {
+    if (!state.valor) {
+      return state.valorPrincipal - state.valorDescontos - state.valorOutrasDeducoes + state.valorMulta + state.valorJuros + state.valorOutrosAcrescimos;
+    }
+
+    return state.valor;
+  },
   nomePSP: state => state.nomePSP,
   transacaoPSP: state => state.transacaoPSP,
 };
@@ -54,6 +64,12 @@ export const mutations = {
   },
   idPagamento: (state, payload) => {
     state.idPagamento = payload;
+  },
+  nomeUnidade: (state, payload) => {
+    state.nomeUnidade = payload;
+  },
+  nomeServico: (state, payload) => {
+    state.nomeServico = payload;
   },
   codigoServico: (state, payload) => {
     state.codigoServico = payload;

@@ -4,7 +4,7 @@
       Pagamento {{ $store.getters['pagamento/idPagamento'] }}
     </v-card-title>
     <v-card-subtitle>
-      Serviço {{ $store.getters['pagamento/codigoServico'] }}
+      {{ $store.getters['pagamento/nomeServico'] }} ({{ $store.getters['pagamento/codigoServico'] }})
     </v-card-subtitle>
     <v-card-text>
       <v-row>
@@ -151,15 +151,17 @@
 
       <v-row v-if="$store.getters['pagamento/situacao'].codigo == 'CRIADO'">
         <v-col>
-          <v-list-item two-line>
+          <v-list-item>
             <v-list-item-content>
-              <v-list-item-title>Endere&ccedil;o para Pagamento</v-list-item-title>
-              <nuxt-link
-                :to="{ name: 'pagar-id', params: { id: $store.getters['pagamento/id'] } }"
-                v-slot="{ href, route, navigate, isActive, isExactActive }"
-              >
-                <a :href="href" @click="navigate">{{ route.fullPath }}</a>
-              </nuxt-link>
+              <v-list-item-title>
+                Endere&ccedil;o para Pagamento:
+                <nuxt-link
+                  :to="{ name: 'pagar-id', params: { id: $store.getters['pagamento/id'] } }"
+                  v-slot="{ href, route, navigate, isActive, isExactActive }"
+                >
+                  <a :href="href" @click="navigate">{{ domain + route.fullPath }}</a>
+                </nuxt-link>
+              </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-col>
@@ -179,5 +181,10 @@
 <script>
 export default {
   name: 'PagamentoDetalhes',
+  computed: {
+    domain() {
+      return window.location.host;
+    }
+  },
 }
 </script>
