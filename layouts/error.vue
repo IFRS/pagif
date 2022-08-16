@@ -1,26 +1,26 @@
 <template>
   <v-app dark>
-    <v-alert
-      v-if="error.statusCode === 404"
-      color="red"
-      elevation="5"
-      prominent
-      type="error"
-    >
-      {{ pageNotFound }}
-    </v-alert>
-    <v-alert
-      v-else
-      color="orange"
-      elevation="5"
-      prominent
-      type="warning"
-    >
-      {{ otherError }}
-    </v-alert>
-    <NuxtLink to="/">
-      In&iacute;cio
-    </NuxtLink>
+    <v-container>
+      <v-alert
+        v-if="error.statusCode === 404"
+        elevation="5"
+        prominent
+        type="error"
+      >
+        P&aacute;gina n&atilde;o encontrada!
+      </v-alert>
+      <v-alert
+        v-else
+        elevation="5"
+        prominent
+        type="warning"
+      >
+        Ocorreu um erro inesperado.
+      </v-alert>
+      <NuxtLink to="/">
+        Ir para a P&aacute;gina Inicial
+      </NuxtLink>
+    </v-container>
   </v-app>
 </template>
 
@@ -34,18 +34,9 @@ export default {
       default: null,
     },
   },
-  data () {
-    return {
-      pageNotFound: 'Ops. Página não encontrada!',
-      otherError: 'Ocorreu um erro inesperado.',
-    }
-  },
-  head () {
-    const title =
-      this.error.statusCode === 404 ? this.pageNotFound : this.otherError;
-    return {
-      title
-    }
+  head() {
+    const title = this.error.statusCode === 404 ? 'Página não encontrada!' : 'Erro';
+    return title;
   },
 }
 </script>
