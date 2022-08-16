@@ -23,6 +23,7 @@
             prepend-icon="mdi-basket"
             label="Serviço"
             v-model="codigoServico"
+            validate-on-blur
             :rules="validation.codigoServico"
             :loading="loadingServicos"
             :disabled="loadingServicos || $store.getters['servicos'].length === 0"
@@ -146,6 +147,7 @@
             required
           ></v-currency-field>
         </v-col>
+        <v-icon small>mdi-minus</v-icon>
         <v-col>
           <!-- Valor Descontos -->
           <v-currency-field
@@ -155,6 +157,7 @@
             v-model="valorDescontos"
           ></v-currency-field>
         </v-col>
+        <v-icon small>mdi-minus</v-icon>
         <v-col>
           <!-- Valor Deduções -->
           <v-currency-field
@@ -164,6 +167,7 @@
             v-model="valorOutrasDeducoes"
           ></v-currency-field>
         </v-col>
+        <v-icon small>mdi-plus</v-icon>
         <v-col>
           <!-- Valor Multa -->
           <v-currency-field
@@ -173,6 +177,7 @@
             v-model="valorMulta"
           ></v-currency-field>
         </v-col>
+        <v-icon small>mdi-plus</v-icon>
         <v-col>
           <!-- Valor Juros -->
           <v-currency-field
@@ -182,6 +187,7 @@
             v-model="valorJuros"
           ></v-currency-field>
         </v-col>
+        <v-icon small>mdi-plus</v-icon>
         <v-col>
           <!-- Valor Acréscimos -->
           <v-currency-field
@@ -342,6 +348,7 @@
     methods: {
       async fetchServicos(unidade_id) {
         this.loadingServicos = true;
+        this.$store.commit('pagamento/codigoServico', null);
         await this.$store.dispatch('fetchServicos', {unidade: unidade_id})
         .catch((error) => {
           this.$toast.error('Ocorreu um erro ao carregar os Serviços: ' + error.message);
