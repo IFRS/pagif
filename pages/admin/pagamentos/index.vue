@@ -12,8 +12,9 @@
           :loading="$fetchState.pending"
           :headers="tableHeaders"
           :items="pagamentos"
-          :items-per-page="10"
+          :items-per-page="25"
           :search="busca"
+          :footer-props="tableFooterProps"
           @click:row="showPagamento"
         >
           <template v-slot:top>
@@ -42,6 +43,9 @@
                 Nova Cobran&ccedil;a
               </v-btn>
             </v-toolbar>
+          </template>
+          <template v-slot:item.nomeServico="{ item }">
+            {{ item.nomeServico }} ({{ item.codigoServico }})
           </template>
           <template v-slot:item.valor="{ item }">
             <v-icon small>mdi-currency-brl</v-icon> {{ handleValor(item) || '-' }}
@@ -157,12 +161,18 @@
         busca: '',
         tableHeaders: [
           { text: 'ID', value: 'idPagamento' },
-          { text: 'Código do Serviço', value: 'codigoServico' },
+          { text: 'Unidade', value: 'nomeUnidade' },
+          { text: 'Serviço', value: 'nomeServico' },
           { text: 'Contribuinte', value: 'nomeContribuinte' },
           { text: 'Valor', value: 'valor' },
           { text: 'Situação', value: 'situacao.codigo' },
           { text: 'Ações', value: 'actions', sortable: false, align: 'center', width: 120 },
         ],
+        tableFooterProps: {
+          "items-per-page-options": [
+            10, 25, 50, -1
+          ],
+        },
       }
     },
     computed: {
