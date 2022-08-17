@@ -2,7 +2,7 @@
   <v-container>
     <h2>Pagamento para {{ $store.getters['config/unidade']?.nome }}</h2>
 
-    <h3 class="mb-4 text-center">J&aacute; tenho um c&oacute;digo para Pagamento</h3>
+    <h3 class="mb-4 text-center">J&aacute; tenho o c&oacute;digo para Pagamento</h3>
     <v-form
       class="mb-8"
       ref="form"
@@ -14,7 +14,7 @@
           <v-text-field
             v-model="idPagamento"
             label="Código do Pagamento"
-            hint="Insira o código de pagamento já cadastrado."
+            hint="Insira um código de pagamento já cadastrado."
             clearable
             filled
             :rules="validation"
