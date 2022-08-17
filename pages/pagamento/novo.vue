@@ -37,7 +37,15 @@
               >
                 <v-btn
                   text
-                  :disabled="(currentStep <= 1) || criandoPagamento"
+                  v-if="currentStep === 1"
+                  @click="$router.push({ name: 'pagamento' })"
+                >
+                  Voltar
+                </v-btn>
+                <v-btn
+                  text
+                  v-else
+                  :disabled="criandoPagamento"
                   @click="previousStep()"
                 >
                   Anterior
