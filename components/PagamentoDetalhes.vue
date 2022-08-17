@@ -19,7 +19,7 @@
           <v-list-item two-line>
             <v-list-item-content>
               <v-list-item-title>CPF / CNPJ</v-list-item-title>
-              <v-list-item-subtitle>{{ $format.cnpjCpf($store.getters['pagamento/cnpjCpf']) || '-' }}</v-list-item-subtitle>
+              <v-list-item-subtitle>{{ $format.cnpjCpf($store.getters['pagamento/cnpjCpf'], !showCnpjCpf) || '-' }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
 
@@ -181,6 +181,12 @@
 <script>
 export default {
   name: 'PagamentoDetalhes',
+  props: {
+    showCnpjCpf: {
+      type: Boolean,
+      default: false,
+    },
+  },
   computed: {
     domain() {
       return window.location.host;
