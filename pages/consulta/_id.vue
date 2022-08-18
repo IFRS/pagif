@@ -17,7 +17,7 @@ export default {
     await this.$store.dispatch('pagamento/show', this.$route.params.id)
     .catch((error) => {
       this.$toast.error('Ocorreu um erro ao buscar o Pagamento. ' + error.message);
-      console.error(error);
+      this.$router.push({ name: 'consulta' });
     })
   },
   destroyed() {
