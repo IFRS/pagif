@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <pagamento-detalhes>
+    <pagamento-detalhes :loading="$fetchState.pending">
       <v-btn
         color="primary"
         plain
