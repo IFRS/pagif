@@ -131,7 +131,7 @@
       max-width="800"
       @click:outside="hidePagamento"
     >
-      <pagamento-detalhes showCnpjCpf>
+      <pagamento-detalhes private>
         <v-btn
           text
           color="primary"

@@ -20,7 +20,7 @@
             <v-list-item two-line>
               <v-list-item-content>
                 <v-list-item-title>CPF / CNPJ</v-list-item-title>
-                <v-list-item-subtitle>{{ $format.cnpjCpf($store.getters['pagamento/cnpjCpf'], !showCnpjCpf) || '-' }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ $format.cnpjCpf($store.getters['pagamento/cnpjCpf'], !private) || '-' }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
 
@@ -116,14 +116,14 @@
 
         <v-row>
           <v-col md="6">
-            <v-list-item two-line>
+            <v-list-item two-line v-if="private">
               <v-list-item-content>
                 <v-list-item-title>Tipo de Pagamento Escolhido</v-list-item-title>
                 <v-list-item-subtitle>{{ $store.getters['pagamento/tipoPagamentoEscolhido'] || '-' }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
 
-            <v-list-item two-line>
+            <v-list-item two-line v-if="private">
               <v-list-item-content>
                 <v-list-item-title>Transa&ccedil;&atilde;o</v-list-item-title>
                 <v-list-item-subtitle>{{ $store.getters['pagamento/transacaoPSP'] || '-' }}</v-list-item-subtitle>
@@ -131,7 +131,7 @@
             </v-list-item>
           </v-col>
           <v-col md="6">
-            <v-list-item two-line>
+            <v-list-item two-line v-if="private">
               <v-list-item-content>
                 <v-list-item-title>Prestador de Servi&ccedil;o de Pagamento</v-list-item-title>
                 <v-list-item-subtitle>{{ $store.getters['pagamento/nomePSP'] || '-' }}</v-list-item-subtitle>
@@ -177,7 +177,7 @@
         </v-card-actions>
       </template>
     </template>
-    <v-skeleton-loader v-else type="card-heading, list-item-two-line@3, list-item, list-item-two-line@2, actions"></v-skeleton-loader>
+    <v-skeleton-loader v-else type="card-heading, list-item-two-line@3, list-item, list-item-two-line, actions"></v-skeleton-loader>
   </v-card>
 </template>
 
@@ -185,7 +185,7 @@
 export default {
   name: 'PagamentoDetalhes',
   props: {
-    showCnpjCpf: {
+    private: {
       type: Boolean,
       default: false,
     },
