@@ -5,7 +5,18 @@ const validator = require('express-validator');
 const pagtesouro = require('../pagtesouro');
 
 module.exports.list = function(req, res) {
-  Pagamento.find({}).select('-token').sort('-dataCriacao').exec(function(err, pagamentos) {
+  const query = Pagamento.find({}).select('-token').sort('-dataCriacao')
+
+  if (req.query) {
+    if (req.query.unidades) {
+      query.where('nomeUnidade').in(req.query.unidades);
+    }
+    if (req.query.situacoes) {
+      query.where('situacao.codigo').in(req.query.situacoes);
+    }
+  }
+
+  query.exec(function(err, pagamentos) {
     if (err) {
       console.error(err);
       return res.status(500).json({

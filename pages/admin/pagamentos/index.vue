@@ -7,6 +7,14 @@
     </v-row>
     <v-row>
       <v-col>
+        <FilterPainel @filtrar="handleFiltrar">
+          <FilterUnidades></FilterUnidades>
+          <FilterSituacoes></FilterSituacoes>
+        </FilterPainel>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
         <v-data-table
           class="pagamentos"
           :loading="$fetchState.pending"
@@ -173,6 +181,7 @@
             10, 25, 50, -1
           ],
         },
+        filtros: {},
       }
     },
     computed: {
@@ -182,14 +191,14 @@
       },
     },
     watch: {
-      pagamentoDialog(newValue, oldValue) {
+      pagamentoDialog(newValue) {
         if (newValue === false) {
           this.$store.commit('pagamento/clear');
         }
       }
     },
     async fetch() {
-      await this.$store.dispatch('fetchPagamentos')
+      await this.$store.dispatch('fetchPagamentos', this.filtros)
       .catch((error) => {
         this.$toast.error('Ocorreu um erro ao carregar os Pagamentos: ' + error.message);
         console.log(error);
@@ -225,6 +234,10 @@
       closeDelete() {
         this.$store.commit('pagamento/clear');
         this.confirmDialog = false;
+      },
+      async handleFiltrar(filtros) {
+        this.filtros = filtros;
+        this.$fetch();
       },
       async consultaPagamento(item) {
         this.loadingPagamento = item.idPagamento;

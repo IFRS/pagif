@@ -79,8 +79,8 @@ export const actions = {
   },
 
   /* Pagamentos */
-  async fetchPagamentos(context) {
-    return await this.$axios.get('/api/pagamentos')
+  async fetchPagamentos(context, payload) {
+    return await this.$axios.get('/api/pagamentos', { params: payload })
     .then((response) => {
       context.commit('setPagamentos', response.data);
     });
