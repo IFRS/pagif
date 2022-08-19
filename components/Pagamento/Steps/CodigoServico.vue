@@ -25,7 +25,7 @@
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-  name: 'PagamentoCodigoServico',
+  name: 'CodigoServico',
   data() {
     return {
       rules: [

@@ -30,6 +30,6 @@
 
 <script>
 export default {
-  name: 'PagamentoResumo',
+  name: 'Resumo',
 }
 </script>

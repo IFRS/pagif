@@ -16,7 +16,7 @@
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-  name: 'PagamentoNomeContribuinte',
+  name: 'NomeContribuinte',
   data() {
     return {
       validation: [

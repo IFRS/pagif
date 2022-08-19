@@ -14,7 +14,7 @@
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-  name: 'PagamentoCnpjCpf',
+  name: 'CnpjCpf',
   data() {
     return {
       validation: [

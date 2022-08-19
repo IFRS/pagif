@@ -89,23 +89,23 @@ export default {
       criandoPagamento: false,
       steps: {
         1: {
-          component: 'PagamentoCodigoServico',
+          component: 'PagamentoStepsCodigoServico',
           name: 'Produto ou Serviço',
         },
         2: {
-          component: 'PagamentoNomeContribuinte',
+          component: 'PagamentoStepsNomeContribuinte',
           name: 'Nome',
         },
         3: {
-          component: 'PagamentoCnpjCpf',
+          component: 'PagamentoStepsCnpjCpf',
           name: 'CPF / CNPJ',
         },
         4: {
-          component: 'PagamentoValorPrincipal',
+          component: 'PagamentoStepsValorPrincipal',
           name: 'Valor',
         },
         5: {
-          component: 'PagamentoResumo',
+          component: 'PagamentoStepsResumo',
           name: 'Resumo',
         },
       },
