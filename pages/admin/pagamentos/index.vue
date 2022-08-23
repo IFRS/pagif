@@ -7,14 +7,10 @@
     </v-row>
     <v-row>
       <v-col>
-        <FilterPainel @filtrar="handleFiltrar">
+        <FilterPainel v-model="showFiltros" @filtrar="handleFiltrar">
           <FilterUnidades></FilterUnidades>
           <FilterSituacoes></FilterSituacoes>
         </FilterPainel>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
         <v-data-table
           class="pagamentos"
           :loading="$fetchState.pending"
@@ -30,10 +26,15 @@
               <v-text-field
                 v-model="busca"
                 append-icon="mdi-magnify"
-                label="Buscar"
+                label="Buscar Pagamentos"
                 single-line
                 hide-details
+                class="mr-5"
               ></v-text-field>
+              <v-btn text @click="showFiltros = !showFiltros">
+                <v-icon>mdi-filter-variant</v-icon>
+                Filtros
+              </v-btn>
               <v-spacer></v-spacer>
               <v-btn
                 class="mr-2"
@@ -181,6 +182,7 @@
             10, 25, 50, -1
           ],
         },
+        showFiltros: false,
         filtros: {},
       }
     },

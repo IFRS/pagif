@@ -1,17 +1,33 @@
 <template>
-  <v-expansion-panels>
-    <v-expansion-panel>
-      <v-expansion-panel-header>
-        Filtros
-      </v-expansion-panel-header>
-      <v-expansion-panel-content>
-        <v-form @submit.prevent="filtrar()" @filtro="addFiltro">
-          <slot></slot>
-          <v-btn color="primary" type="submit">Filtrar</v-btn>
-        </v-form>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-  </v-expansion-panels>
+  <v-sheet>
+    <slot name="activator" :on="{ click: handleActivator }"></slot>
+    <v-navigation-drawer
+      v-bind="$attrs"
+      v-on="$listeners"
+      right
+      absolute
+      temporary
+      class="pa-3"
+      :width="drawerWidth"
+    >
+      <template v-slot:prepend>
+        <v-toolbar dense flat>
+          <v-toolbar-title>Filtros</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn
+            icon
+            @click="$emit('input', false)"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-toolbar>
+      </template>
+      <v-form @submit.prevent="filtrar()" @filtro="addFiltro">
+        <slot></slot>
+        <v-btn color="primary" type="submit">Filtrar</v-btn>
+      </v-form>
+    </v-navigation-drawer>
+  </v-sheet>
 </template>
 
 <script>
@@ -22,12 +38,27 @@ export default {
       filtros: {},
     }
   },
+  computed: {
+    drawerWidth() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return 'auto';
+        case 'sm': return 'auto';
+        case 'md': return '50%';
+        case 'lg': return '30%';
+        case 'xl': return '30%';
+      }
+    }
+  },
   methods: {
+    handleActivator() {
+      this.$emit('input', !this.$attrs.value);
+    },
     addFiltro(filtro) {
       Object.assign(this.filtros, filtro);
     },
     filtrar() {
       this.$emit('filtrar', this.filtros);
+      this.$emit('input', false);
     },
   },
 }
