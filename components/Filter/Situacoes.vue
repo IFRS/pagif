@@ -3,15 +3,16 @@
     <v-card-subtitle tag="legend">
       Situa&ccedil;&otilde;es
     </v-card-subtitle>
-    <v-card-text class="d-flex flex-wrap justify-lg-space-between">
-      <v-switch
+    <v-card-text class="d-flex flex-wrap">
+      <v-checkbox
         v-for="situacao, index in situacoes"
         :key="index"
         v-model="situacoesSelected"
         :label="situacao"
         :value="situacao"
         dense
-      ></v-switch>
+        class="mr-5"
+      ></v-checkbox>
     </v-card-text>
   </v-card>
 </template>
