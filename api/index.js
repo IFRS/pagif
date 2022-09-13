@@ -18,6 +18,7 @@ const unidades = require('./routes/unidades');
 const servicos = require('./routes/servicos');
 const pagamentos = require('./routes/pagamentos');
 const notifica = require('./routes/notifica');
+const info = require('./routes/info');
 
 // Add development latency
 if (process.env.NODE_ENV === 'development') {
@@ -28,6 +29,7 @@ app.use(unidades);
 app.use(servicos);
 app.use(pagamentos);
 app.use(notifica);
+app.use(info);
 
 module.exports = {
   path: '/api',
