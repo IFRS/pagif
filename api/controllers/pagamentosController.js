@@ -1,6 +1,5 @@
 const Pagamento = require('../models/Pagamento');
 const Servico = require('../models/Servico');
-const Unidade = require('../models/Unidade');
 const validator = require('express-validator');
 const pagtesouro = require('../pagtesouro');
 
