@@ -6,8 +6,6 @@ const Servico = new Schema({
   codigo: { type: Number, required: true },
   nome: { type: String, required: true },
   desc: { type: String },
-  vencimentoDias: { type: Number },
-  valorPadrao: { type: Number },
 }, {
   timestamps: true,
   toJSON: {

@@ -41,12 +41,6 @@
               </v-btn>
             </v-toolbar>
           </template>
-          <template v-slot:item.valorPadrao="{ value }">
-            {{ value || '-' }}
-          </template>
-          <template v-slot:item.vencimentoDias="{ value }">
-            {{ value || '-' }}
-          </template>
           <template v-slot:item.actions="{ item }">
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
@@ -133,8 +127,6 @@
           { text: 'Unidade', value: 'unidade.nome' },
           { text: 'Código', value: 'codigo' },
           { text: 'Nome', value: 'nome' },
-          { text: 'Valor Padrão', value: 'valorPadrao' },
-          { text: 'Dias para o vencimento', value: 'vencimentoDias' },
           { text: 'Ações', value: 'actions', sortable: false, align: 'center', width: 120 },
         ],
       }

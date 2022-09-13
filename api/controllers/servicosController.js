@@ -63,15 +63,6 @@ module.exports.save = [
     .trim()
     .optional({ checkFalsy: true })
     .isLength({ min: 1, max: 999 }),
-  validator.body('vencimentoDias', '')
-    .trim()
-    .optional({ checkFalsy: true })
-    .isNumeric({ no_symbols: true }),
-  validator.body('valorPadrao', '')
-    .trim()
-    .optional({ checkFalsy: true })
-    .isNumeric({ no_symbols: true })
-    .isLength({ min: 1, max: 17 }),
   function(req, res) {
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {
@@ -83,8 +74,6 @@ module.exports.save = [
       codigo: req.body.codigo,
       nome: req.body.nome,
       desc: req.body.desc,
-      vencimentoDias: req.body.vencimentoDias,
-      valorPadrao: req.body.valorPadrao,
     };
 
     if (req.params.id) {

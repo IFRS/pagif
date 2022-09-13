@@ -4,8 +4,6 @@ const defaultState = {
   codigo: null,
   nome: '',
   desc: '',
-  vencimentoDias: null,
-  valorPadrao: null,
   createdAt: null,
   updatedAt: null,
 };
@@ -18,8 +16,6 @@ export const getters = {
   codigo: state => state.codigo,
   nome: state => state.nome,
   desc: state => state.desc,
-  vencimentoDias: state => state.vencimentoDias,
-  valorPadrao: state => state.valorPadrao,
   createdAt: state => state.createdAt,
   updatedAt: state => state.updatedAt,
 };
@@ -39,12 +35,6 @@ export const mutations = {
   },
   desc: (state, payload) => {
     state.desc = payload;
-  },
-  vencimentoDias: (state, payload) => {
-    state.vencimentoDias = payload;
-  },
-  valorPadrao: (state, payload) => {
-    state.valorPadrao = payload;
   },
   createdAt: (state, payload) => {
     state.createdAt = payload;

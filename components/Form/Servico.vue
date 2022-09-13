@@ -41,43 +41,6 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" md="4" lg="3" xl="2">
-          <v-row>
-            <v-col>
-              <v-switch
-                v-model="enableVencimentoPadrao"
-                label="Vencimento Padrão?"
-              ></v-switch>
-              <v-text-field
-                prepend-icon="mdi-calendar-today"
-                label="Número de Dias"
-                hint="Número de dias para o vencimento. Esses dias serão adicionados a data do pagamento."
-                v-model="vencimentoDias"
-                :rules="validation.vencimentoDias"
-                :disabled="!enableVencimentoPadrao"
-                :required="enableVencimentoPadrao"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-
-          <v-row>
-            <v-col>
-              <v-switch
-                v-model="enableValorFixo"
-                label="Valor Fixo?"
-              ></v-switch>
-              <v-currency-field
-                prepend-icon="mdi-currency-brl"
-                label="Valor"
-                hint="Valor padrão do Serviço. Esse valor não poderá ser alterado pelo usuário."
-                v-model="valorPadrao"
-                :rules="validation.valorPadrao"
-                :disabled="!enableValorFixo"
-                :required="enableValorFixo"
-              ></v-currency-field>
-            </v-col>
-          </v-row>
-        </v-col>
         <v-col>
           <v-textarea
             label="Descrição"
@@ -148,12 +111,7 @@
           desc: [
             v => (!v || v?.length <= 999) || 'Descrição deve ter até 999 caracteres.',
           ],
-          vencimentoDias: [
-            v => (!v || (/^\d+$/).test(v)) || 'Número de Dias precisa ser um número.',
-          ],
         },
-        enableVencimentoPadrao: (this.$store.getters['servico/vencimentoDias']) ? true : false,
-        enableValorFixo: (this.$store.getters['servico/valorPadrao']) ? true : false,
       }
     },
     computed: {
@@ -176,26 +134,6 @@
       desc: {
         ...mapGetters({ get: 'servico/desc' }),
         ...mapMutations({ set: 'servico/desc' }),
-      },
-      vencimentoDias: {
-        ...mapGetters({ get: 'servico/vencimentoDias' }),
-        ...mapMutations({ set: 'servico/vencimentoDias' }),
-      },
-      valorPadrao: {
-        ...mapGetters({ get: 'servico/valorPadrao' }),
-        ...mapMutations({ set: 'servico/valorPadrao' }),
-      },
-    },
-    watch: {
-      enableVencimentoPadrao(newValue) {
-        if (newValue === false) {
-          this.vencimentoDias = null;
-        }
-      },
-      enableValorFixo(newValue) {
-        if (newValue === false) {
-          this.valorPadrao = null;
-        }
       },
     },
     methods: {
