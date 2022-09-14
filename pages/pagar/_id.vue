@@ -69,11 +69,11 @@ export default {
   methods: {
     retornoPagtesouro(event) {
       // Só confiar em eventos oriundos do PagTesouro.
-      if (event.origin !== process.env.PAGTESOURO_URL) return;
+      if (event.origin !== this.$config.pagtesouroURL) return;
 
       // Evento disparado pelos botões Fechar/Concluir.
-      if (event.data === 'EPAG_FIM') {
-        this.$toast.success('Pagamento finalizado!');
+      if (event.data === "EPAG_FIM") {
+        this.$toast.success('Pagamento encerrado!');
         this.$router.push({ name: 'index' });
       }
     },
