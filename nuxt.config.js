@@ -71,6 +71,7 @@ export default {
     axios: {
       baseURL: process.env.BROWSER_BASE_URL,
     },
+    pagtesouroURL: process.env.PAGTESOURO_URL,
   },
 
   privateRuntimeConfig: {

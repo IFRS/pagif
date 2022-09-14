@@ -1,34 +1,37 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col>
-        <h2>Pagando</h2>
-        <p class="subtitle-1">Pagamento {{ $store.getters['pagamento/idPagamento'] }}</p>
+    <v-skeleton-loader
+      v-if="$fetchState.pending"
+      type="heading, paragraph, image"
+      min-height="600"
+    />
+    <template v-else>
+      <v-row>
+        <v-col>
+          <h2>Pagando</h2>
+          <p class="subtitle-1">Pagamento {{ $store.getters['pagamento/idPagamento'] }}</p>
 
-        <v-alert type="info" text>
-          Atenção! Não é possível voltar para realizar o pagamento posteriormente.
-        </v-alert>
+          <v-alert type="info" text>
+            Atenção! Não é possível voltar para realizar o pagamento posteriormente.
+          </v-alert>
 
-        <p>Confira os dados que aparecerão na tela abaixo antes de efetuar o pagamento.</p>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-skeleton-loader
-          v-if="$fetchState.pending"
-          type="image"
-          min-height="600"
-        />
-        <v-card v-else>
-          <iframe
-            v-resize="{ heightCalculationMethod: 'documentElementOffset' }"
-            class="iframe-epag"
-            scrolling="no"
-            :src="$store.state.pagamento.proximaUrl + '&btnConcluir=true' + (!$store.getters['config/darkMode'] ? '&tema=tema-light' : '')"
-          ></iframe>
-        </v-card>
-      </v-col>
-    </v-row>
+          <p>Confira os dados que aparecerão na tela abaixo antes de efetuar o pagamento.</p>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-btn color="primary" v-if="!mostrarPagamento" @click="mostrarPagamento = true">Carregar Tela de Pagamento</v-btn>
+          <v-card v-else>
+            <iframe
+              v-resize="{ heightCalculationMethod: 'documentElementOffset' }"
+              class="iframe-epag"
+              scrolling="no"
+              :src="$store.state.pagamento.proximaUrl + '&btnConcluir=true' + (!$store.getters['config/darkMode'] ? '&tema=tema-light' : '')"
+            ></iframe>
+          </v-card>
+        </v-col>
+      </v-row>
+    </template>
   </v-container>
 </template>
 
@@ -50,6 +53,7 @@ export default {
   data() {
     return {
       pagamentoConcluido: false,
+      mostrarPagamento: false,
     }
   },
   async fetch() {
