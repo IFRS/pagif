@@ -1,35 +1,15 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col v-if="numUnidades" cols="auto">
-        <v-card>
-          <v-card-title primary-title>
-            {{ numUnidades }}
-          </v-card-title>
-          <v-card-subtitle primary-title>
-            Unidades
-          </v-card-subtitle>
-        </v-card>
+    <h2>Administração</h2>
+    <v-row justify="center">
+      <v-col v-if="numUnidades" cols="12" md="3">
+        <AdminCount :num="numUnidades" icon="mdi-office-building-marker">Unidades</AdminCount>
       </v-col>
-      <v-col v-if="numServicos" cols="auto">
-        <v-card>
-          <v-card-title primary-title>
-            {{ numServicos }}
-          </v-card-title>
-          <v-card-subtitle primary-title>
-            Serviços
-          </v-card-subtitle>
-        </v-card>
+      <v-col v-if="numServicos" cols="12" md="3">
+        <AdminCount :num="numServicos" icon="mdi-basket">Serviços</AdminCount>
       </v-col>
-      <v-col v-if="numPagamentos" cols="auto">
-        <v-card>
-          <v-card-title primary-title>
-            {{ numPagamentos }}
-          </v-card-title>
-          <v-card-subtitle primary-title>
-            Pagamentos
-          </v-card-subtitle>
-        </v-card>
+      <v-col v-if="numPagamentos" cols="12" md="3">
+        <AdminCount :num="numPagamentos" icon="mdi-credit-card-outline">Pagamentos</AdminCount>
       </v-col>
     </v-row>
   </v-container>
