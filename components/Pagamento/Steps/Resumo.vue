@@ -8,10 +8,10 @@
     <v-row>
       <v-col>
         <p>
-          Voc&ecirc; pagar&aacute; a quantia de <strong>R$ {{ $format.intToMoeda($store.getters['pagamento/valorPrincipal']) }}</strong> para <strong>{{ $store.getters['unidade/nome'] }}</strong> pelo produto/servi&ccedil;o <strong>"{{ $store.getters['pagamento/codigoServico'] }}"</strong>.
+          Voc&ecirc; pagar&aacute; a quantia de <strong>R$ {{ $format.intToMoeda(valorPrincipal) }}</strong> para <strong>{{ unidade?.nome }}</strong> pelo produto/servi&ccedil;o <strong>{{ nomeServico }} ({{ codigoServico }})</strong>.
         </p>
         <p>
-          O pagamento ser&aacute; em nome de <strong>{{ $store.getters['pagamento/nomeContribuinte'] }}<template v-if="$store.getters['pagamento/cnpjCpf']">&nbsp;({{ $format.cnpjCpf($store.getters['pagamento/cnpjCpf']) }})</template></strong>.
+          O pagamento ser&aacute; em nome de <strong>{{ nomeContribuinte }}<template v-if="cnpjCpf">&nbsp;({{ $format.cnpjCpf(cnpjCpf) }})</template></strong>.
         </p>
         <br>
         <v-alert
@@ -29,7 +29,28 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   name: 'Resumo',
+  computed: {
+    unidade: {
+      ...mapGetters({ get: 'config/unidade' }),
+    },
+    valorPrincipal: {
+      ...mapGetters({ get: 'pagamento/valorPrincipal' }),
+    },
+    nomeServico: {
+      ...mapGetters({ get: 'pagamento/nomeServico' }),
+    },
+    codigoServico: {
+      ...mapGetters({ get: 'pagamento/codigoServico' }),
+    },
+    nomeContribuinte: {
+      ...mapGetters({ get: 'pagamento/nomeContribuinte' }),
+    },
+    cnpjCpf: {
+      ...mapGetters({ get: 'pagamento/cnpjCpf' }),
+    },
+  },
 }
 </script>
