@@ -73,7 +73,7 @@ export default {
 
       // Evento disparado pelos botões Fechar/Concluir.
       if (event.data === "EPAG_FIM") {
-        this.$toast.success('Pagamento encerrado!');
+        this.$toast.info('Pagamento finalizado.');
         this.$router.push({ name: 'index' });
       }
     },
