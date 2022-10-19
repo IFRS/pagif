@@ -1,12 +1,12 @@
 <template>
   <v-container>
-    <pagamento-detalhes :loading="$fetchState.pending">
+    <PagamentoDetalhes :loading="$fetchState.pending">
       <v-btn
         color="primary"
         plain
         :to="{ name: 'consulta' }"
       >Voltar</v-btn>
-    </pagamento-detalhes>
+    </PagamentoDetalhes>
   </v-container>
 </template>
 
