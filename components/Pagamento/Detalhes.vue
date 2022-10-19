@@ -157,7 +157,7 @@
                 <v-list-item-title>
                   Endere&ccedil;o para Pagamento:
                   <nuxt-link
-                    :to="{ name: 'pagar-id', params: { id: $store.getters['pagamento/id'] } }"
+                    :to="{ name: 'pagamento-id', params: { id: $store.getters['pagamento/id'] } }"
                     v-slot="{ href, route, navigate, isActive, isExactActive }"
                   >
                     <a :href="href" @click="navigate">{{ domain + route.fullPath }}</a>

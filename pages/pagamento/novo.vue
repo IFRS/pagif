@@ -18,7 +18,7 @@
                 {{ step.name }}
               </v-stepper-step>
 
-              <v-divider v-if="index != numberOfSteps"></v-divider>
+              <v-divider v-if="index != numberOfSteps" :key="index"></v-divider>
             </template>
           </v-stepper-header>
 
@@ -126,7 +126,7 @@
           <v-btn
             text
             color="primary"
-            :to="{ name: 'pagar-id', params: { id: $store.getters['pagamento/id'] } }"
+            :to="{ name: 'pagamento-id', params: { id: $store.getters['pagamento/id'] } }"
           >
             Pagar Agora
           </v-btn>
