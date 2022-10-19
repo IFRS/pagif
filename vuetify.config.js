@@ -9,14 +9,23 @@ export default {
   theme: {
     dark: false,
     themes: {
+      light: {
+        primary: '#1351B4',
+        secondary: '#636363', // não faz parte do DS
+        accent: '#CD425B', // não faz parte do DS
+        error: '#E52207',
+        info: '#155BCB',
+        success: '#168821',
+        warning: '#FFCD07',
+      },
       dark: {
-        primary: colors.blue.darken2,
-        secondary: colors.amber.darken3,
-        accent: colors.grey.darken3,
-        error: colors.deepOrange.accent4,
-        info: colors.teal.lighten1,
-        success: colors.green.accent3,
-        warning: colors.amber.base,
+        primary: '#C5D4EB',
+        secondary: '#C6CACE', // não faz parte do DS
+        accent: '#F8B9C5', // não faz parte do DS
+        error: '#FDE0DB',
+        info: '#D4E5FF',
+        success: '#E3F5E1',
+        warning: '#FFF5C2',
       },
     },
   },
