@@ -58,7 +58,7 @@
         <v-divider></v-divider>
 
         <v-list-group no-action>
-          <template v-slot:activator>
+          <template #activator>
             <v-list-item-content>
               <v-list-item-title>Valor Total</v-list-item-title>
               <v-list-item-subtitle>{{ $format.intToMoeda($store.getters['pagamento/valor'], true) || '-' }}</v-list-item-subtitle>

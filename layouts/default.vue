@@ -14,9 +14,9 @@
       <v-spacer></v-spacer>
 
       <v-menu offset-y>
-        <template v-slot:activator="{ on: menu, attrs }">
+        <template #activator="{ on: menu, attrs }">
           <v-tooltip bottom>
-            <template v-slot:activator="{ on: tooltip }">
+            <template #activator="{ on: tooltip }">
               <v-btn
                 class="mr-3"
                 color="secondary"
@@ -58,7 +58,7 @@
         offset-y
         :close-on-content-click="false"
       >
-        <template v-slot:activator="{ on, attrs }">
+        <template #activator="{ on, attrs }">
           <v-btn
             class="mr-3"
             dark

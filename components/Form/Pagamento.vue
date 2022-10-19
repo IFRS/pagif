@@ -32,7 +32,7 @@
             item-value="codigo"
             required
           >
-            <template v-slot:item="{ item }">
+            <template #item="{ item }">
               <v-list-item-content>
                 <v-list-item-title>{{ item.codigo }} - {{ item.nome }}</v-list-item-title>
               </v-list-item-content>
@@ -62,7 +62,7 @@
             max-width="auto"
             min-width="auto"
           >
-            <template v-slot:activator="{ on, attrs }">
+            <template #activator="{ on, attrs }">
               <v-text-field
                 v-model="competenciaFormatted"
                 label="Competência"
@@ -92,7 +92,7 @@
             max-width="auto"
             min-width="auto"
           >
-            <template v-slot:activator="{ on, attrs }">
+            <template #activator="{ on, attrs }">
               <v-text-field
                 v-model="vencimentoFormatted"
                 label="Vencimento"

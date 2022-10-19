@@ -8,7 +8,7 @@
   >
     <v-icon left>{{ $store.state.snackbar.icon }}</v-icon>
     {{ $store.state.snackbar.text }}
-    <template v-slot:action="{ attrs }">
+    <template #action="{ attrs }">
       <v-btn
         color="white"
         text

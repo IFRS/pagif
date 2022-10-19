@@ -14,7 +14,7 @@
           :items-per-page="10"
           :search="busca"
         >
-          <template v-slot:top>
+          <template #top>
             <v-toolbar flat>
               <v-text-field
                 v-model="busca"
@@ -41,9 +41,9 @@
               </v-btn>
             </v-toolbar>
           </template>
-          <template v-slot:item.actions="{ item }">
+          <template #item.actions="{ item }">
             <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
+              <template #activator="{ on, attrs }">
                 <v-btn
                   icon
                   v-bind="attrs"
@@ -57,7 +57,7 @@
               <span> Ver Token de {{ item.nome }} </span>
             </v-tooltip>
             <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
+              <template #activator="{ on, attrs }">
                 <v-btn
                   icon
                   v-bind="attrs"
@@ -70,7 +70,7 @@
               <span> Editar {{ item.nome }} </span>
             </v-tooltip>
             <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
+              <template #activator="{ on, attrs }">
                 <v-btn
                   icon
                   v-bind="attrs"

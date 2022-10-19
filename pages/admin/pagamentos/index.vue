@@ -21,7 +21,7 @@
           :footer-props="tableFooterProps"
           @click:row="showPagamento"
         >
-          <template v-slot:top>
+          <template #top>
             <v-toolbar flat>
               <v-text-field
                 v-model="busca"
@@ -53,22 +53,22 @@
               </v-btn>
             </v-toolbar>
           </template>
-          <template v-slot:item.nomeServico="{ item }">
+          <template #item.nomeServico="{ item }">
             {{ item.nomeServico }} ({{ item.codigoServico }})
           </template>
-          <template v-slot:item.valor="{ item }">
+          <template #item.valor="{ item }">
             <v-icon small>mdi-currency-brl</v-icon> {{ handleValor(item) || '-' }}
           </template>
-          <template v-slot:item.situacao.codigo="{ value }">
+          <template #item.situacao.codigo="{ value }">
             <pagamento-situacao :situacao="value" />
           </template>
-          <template v-slot:item.actions="{ item }">
+          <template #item.actions="{ item }">
             <v-menu
               bottom
               left
               :offset-x="true"
             >
-              <template v-slot:activator="{ on, attrs }">
+              <template #activator="{ on, attrs }">
                 <v-btn
                   v-bind="attrs"
                   v-on="on"

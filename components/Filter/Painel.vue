@@ -10,7 +10,7 @@
       class="pa-3"
       :width="drawerWidth"
     >
-      <template v-slot:prepend>
+      <template #prepend>
         <v-toolbar dense flat>
           <v-toolbar-title>Filtros</v-toolbar-title>
           <v-spacer></v-spacer>
