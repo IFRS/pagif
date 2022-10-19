@@ -63,35 +63,44 @@
             <pagamento-situacao :situacao="value" />
           </template>
           <template v-slot:item.actions="{ item }">
-            <v-tooltip top>
+            <v-menu
+              bottom
+              left
+              :offset-x="true"
+            >
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
-                  icon
                   v-bind="attrs"
                   v-on="on"
-                  :disabled="(item.tipoPagamentoEscolhido === 'BOLETO') || ['CONCLUIDO', 'REJEITADO', 'CANCELADO'].includes(item.situacao.codigo)"
-                  :loading="item.idPagamento === loadingPagamento"
-                  @click.stop="consultaPagamento(item)"
+                  icon
                 >
-                  <v-icon>mdi-cloud-refresh</v-icon>
+                  <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
               </template>
-              <span>Consultar Pagamento {{ item.idPagamento }}</span>
-            </v-tooltip>
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  icon
-                  v-bind="attrs"
-                  v-on="on"
+
+              <v-list>
+                <v-list-item
+                  :disabled="(item.tipoPagamentoEscolhido === 'BOLETO') || ['CONCLUIDO', 'REJEITADO', 'CANCELADO'].includes(item.situacao.codigo)"
+                  @click.stop="consultaPagamento(item)"
+                >
+                  <v-progress-circular indeterminate :size="20" :width="2" v-if="item.idPagamento === loadingPagamento"></v-progress-circular>
+                  <v-icon v-else>mdi-cloud-refresh</v-icon>
+                  <v-list-item-action>
+                    <v-list-item-action-text>Consulta Pagtesouro</v-list-item-action-text>
+                  </v-list-item-action>
+                </v-list-item>
+
+                <v-list-item
                   :disabled="item.situacao.codigo !== 'CRIADO'"
                   @click.stop="confirmDelete(item)"
                 >
                   <v-icon>mdi-delete</v-icon>
-                </v-btn>
-              </template>
-              <span>Deletar Pagamento {{ item.idPagamento }}</span>
-            </v-tooltip>
+                  <v-list-item-action>
+                    <v-list-item-action-text>Deletar Pagamento</v-list-item-action-text>
+                  </v-list-item-action>
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </template>
           <template slot="no-data">
             <v-alert
