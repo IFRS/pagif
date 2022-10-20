@@ -1,15 +1,26 @@
 <template>
   <v-app>
-    <v-app-bar app fixed>
-      <v-app-bar-title>
-        <nuxt-link
-          :to="{name: 'index'}"
-          class="text-decoration-none"
-          color="primary"
-        >
-          IFpag
-        </nuxt-link>
-      </v-app-bar-title>
+    <v-app-bar app fixed elevation="1">
+      <v-img
+        :src="$store.getters['config/darkMode'] ? '/img/govbr-white.svg' : '/img/govbr.svg'"
+        :max-width="120"
+        aspect-ratio="4/1"
+        contain
+        class="govbr"
+      ></v-img>
+
+      <v-divider
+        vertical
+        class="separador"
+      ></v-divider>
+
+      <nuxt-link
+        :to="{ name: 'index' }"
+        class="text-decoration-none text-h5"
+        color="primary"
+      >
+        Sistema de Pagamentos
+      </nuxt-link>
 
       <v-spacer></v-spacer>
 
@@ -19,7 +30,7 @@
             <template #activator="{ on: tooltip }">
               <v-btn
                 class="mr-3"
-                color="secondary"
+                color="primary"
                 text
                 v-bind="attrs"
                 v-on="{ ...tooltip, ...menu }"
@@ -54,7 +65,32 @@
         </v-list>
       </v-menu>
 
-      <v-menu
+      <v-tooltip bottom>
+        <template #activator="{ on, attrs }">
+          <div v-bind="attrs" v-on="on" style="width: min-content;">
+            <v-switch
+              v-model="darkMode"
+              inset
+              dense
+              hide-details
+              color="primary"
+              prepend-icon="mdi-theme-light-dark"
+            ></v-switch>
+          </div>
+        </template>
+        <span>Modo Escuro</span>
+      </v-tooltip>
+
+      <!-- Login -->
+      <v-btn
+        color="primary"
+        small
+      >
+        Entrar com&nbsp;<strong>gov.br</strong>
+      </v-btn>
+
+      <!-- Menu para usuários logados -->
+      <!-- <v-menu
         offset-y
         :close-on-content-click="false"
       >
@@ -77,28 +113,22 @@
         </template>
         <v-card>
           <v-list>
-            <v-list-item>
-              <v-list-item-action>
-                <v-switch
-                  v-model="darkMode"
-                  inset
-                  hide-details
-                  label="Modo Escuro"
-                >
-                </v-switch>
-              </v-list-item-action>
+            <v-list-item nuxt :to="{ name: 'admin' }">
+              <v-list-item-content>
+                <v-list-item-title>Administração</v-list-item-title>
+              </v-list-item-content>
             </v-list-item>
 
             <v-divider class="mb-2"></v-divider>
 
-            <v-list-item nuxt :to="{ name: 'login' }">
+            <v-list-item nuxt :to="{ name: 'logout' }">
               <v-list-item-content>
-                <v-list-item-title>Login</v-list-item-title>
+                <v-list-item-title>Logout</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>
         </v-card>
-      </v-menu>
+      </v-menu> -->
     </v-app-bar>
     <v-main>
       <Nuxt />
@@ -157,3 +187,12 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.govbr {
+  flex: 0 0 200px;
+}
+.separador {
+  margin: 0 1rem;
+}
+</style>
