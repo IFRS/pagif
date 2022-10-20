@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar app fixed elevation="1">
       <v-img
-        :src="$store.getters['config/darkMode'] ? '/img/govbr-white.svg' : '/img/govbr.svg'"
+        :src="darkMode ? '/img/govbr-white.svg' : '/img/govbr.svg'"
         :max-width="120"
         aspect-ratio="4/1"
         contain
@@ -26,7 +26,7 @@
 
       <v-menu offset-y>
         <template #activator="{ on: menu, attrs }">
-          <v-tooltip bottom>
+          <v-tooltip left>
             <template #activator="{ on: tooltip }">
               <v-btn
                 class="mr-3"
@@ -134,7 +134,39 @@
       <Nuxt />
       <Toast />
     </v-main>
-    <v-footer app fixed>
+    <v-footer app fixed color="footer" padless>
+      <v-card
+        flat
+        tile
+        color="footer"
+        width="100%"
+      >
+        <v-card-text>
+          <v-tooltip top>
+            <template #activator="{ on, attrs }">
+              <a href="https://ifrs.edu.br/" style="display: inline-block;">
+                <v-img
+                  v-bind="attrs"
+                  v-on="on"
+                  src="/img/ifrs.png"
+                  :max-width="300"
+                  contain
+                  class="ifrs"
+                ></v-img>
+              </a>
+            </template>
+            <span>Portal do IFRS</span>
+          </v-tooltip>
+        </v-card-text>
+
+        <v-divider dark></v-divider>
+
+        <v-card-text class="text-center text-body-2 white--text">
+          <a href="https://github.com/IFRS/" class="white--text">Código-fonte deste sistema</a>
+          -
+          <a href="https://ifrs.edu.br/" class="white--text">Desenvolvido pelo Instituto Federal do Rio Grande do Sul</a>
+        </v-card-text>
+      </v-card>
     </v-footer>
   </v-app>
 </template>

@@ -1,4 +1,4 @@
-import colors from 'vuetify/es5/util/colors';
+// import colors from 'vuetify/es5/util/colors';
 import pt from 'vuetify/es5/locale/pt';
 
 export default {
@@ -11,21 +11,23 @@ export default {
     themes: {
       light: {
         primary: '#1351B4',
-        secondary: '#636363', // não faz parte do DS
-        accent: '#CD425B', // não faz parte do DS
+        secondary: '#636363',
+        accent: '#CD425B',
         error: '#E52207',
         info: '#155BCB',
         success: '#168821',
         warning: '#FFCD07',
+        footer: '#071D41',
       },
       dark: {
         primary: '#C5D4EB',
-        secondary: '#C6CACE', // não faz parte do DS
-        accent: '#F8B9C5', // não faz parte do DS
+        secondary: '#C6CACE',
+        accent: '#F8B9C5',
         error: '#FDE0DB',
         info: '#D4E5FF',
         success: '#E3F5E1',
         warning: '#FFF5C2',
+        footer: '#0C326F',
       },
     },
   },
