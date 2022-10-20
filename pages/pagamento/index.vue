@@ -38,6 +38,7 @@
       <v-btn
         class="mx-auto"
         x-large
+        color="primary"
         :to="{ name: 'pagamento-novo' }"
       >
         Novo Pagamento
