@@ -14,13 +14,13 @@
         class="separador"
       ></v-divider>
 
-      <nuxt-link
-        :to="{ name: 'index' }"
-        class="text-decoration-none text-h5"
-        color="primary"
-      >
-        Sistema de Pagamentos
-      </nuxt-link>
+        <nuxt-link
+          :to="{ name: 'index' }"
+          class="text-decoration-none"
+          color="primary"
+        >
+          <h1 class="text-h5">Sistema de Pagamentos</h1>
+        </nuxt-link>
 
       <v-spacer></v-spacer>
 
