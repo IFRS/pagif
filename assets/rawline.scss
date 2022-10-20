@@ -6,7 +6,7 @@
     url("~/static/rawline/rawline-100.ttf") format("truetype"), url("~/static/rawline/rawline-100.svg") format("svg");
   font-weight: 100;
   font-style: normal;
-  font-display: swap;
+  font-display: fallback;
 }
 
 @font-face {
@@ -17,7 +17,7 @@
     url("~/static/rawline/rawline-100i.ttf") format("truetype"), url("~/static/rawline/rawline-100i.svg") format("svg");
   font-weight: 100;
   font-style: italic;
-  font-display: swap;
+  font-display: fallback;
 }
 
 @font-face {
@@ -28,7 +28,7 @@
     url("~/static/rawline/rawline-200.ttf") format("truetype"), url("~/static/rawline/rawline-200.svg") format("svg");
   font-weight: 200;
   font-style: normal;
-  font-display: swap;
+  font-display: fallback;
 }
 
 @font-face {
@@ -39,7 +39,7 @@
     url("~/static/rawline/rawline-200i.ttf") format("truetype"), url("~/static/rawline/rawline-200i.svg") format("svg");
   font-weight: 200;
   font-style: italic;
-  font-display: swap;
+  font-display: fallback;
 }
 
 @font-face {
@@ -50,7 +50,7 @@
     url("~/static/rawline/rawline-300.ttf") format("truetype"), url("~/static/rawline/rawline-300.svg") format("svg");
   font-weight: 300;
   font-style: normal;
-  font-display: swap;
+  font-display: fallback;
 }
 
 @font-face {
@@ -61,7 +61,7 @@
     url("~/static/rawline/rawline-300i.ttf") format("truetype"), url("~/static/rawline/rawline-300i.svg") format("svg");
   font-weight: 300;
   font-style: italic;
-  font-display: swap;
+  font-display: fallback;
 }
 
 @font-face {
@@ -72,7 +72,7 @@
     url("~/static/rawline/rawline-400.ttf") format("truetype"), url("~/static/rawline/rawline-400.svg") format("svg");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: fallback;
 }
 
 @font-face {
@@ -83,7 +83,7 @@
     url("~/static/rawline/rawline-400i.ttf") format("truetype"), url("~/static/rawline/rawline-400i.svg") format("svg");
   font-weight: 400;
   font-style: italic;
-  font-display: swap;
+  font-display: fallback;
 }
 
 @font-face {
@@ -94,7 +94,7 @@
     url("~/static/rawline/rawline-500.ttf") format("truetype"), url("~/static/rawline/rawline-500.svg") format("svg");
   font-weight: 500;
   font-style: normal;
-  font-display: swap;
+  font-display: fallback;
 }
 
 @font-face {
@@ -105,7 +105,7 @@
     url("~/static/rawline/rawline-500i.ttf") format("truetype"), url("~/static/rawline/rawline-500i.svg") format("svg");
   font-weight: 500;
   font-style: italic;
-  font-display: swap;
+  font-display: fallback;
 }
 
 @font-face {
@@ -116,7 +116,7 @@
     url("~/static/rawline/rawline-600.ttf") format("truetype"), url("~/static/rawline/rawline-600.svg") format("svg");
   font-weight: 600;
   font-style: normal;
-  font-display: swap;
+  font-display: fallback;
 }
 
 @font-face {
@@ -127,7 +127,7 @@
     url("~/static/rawline/rawline-600i.ttf") format("truetype"), url("~/static/rawline/rawline-600i.svg") format("svg");
   font-weight: 600;
   font-style: italic;
-  font-display: swap;
+  font-display: fallback;
 }
 
 @font-face {
@@ -138,7 +138,7 @@
     url("~/static/rawline/rawline-700.ttf") format("truetype"), url("~/static/rawline/rawline-700.svg") format("svg");
   font-weight: 700;
   font-style: normal;
-  font-display: swap;
+  font-display: fallback;
 }
 
 @font-face {
@@ -149,7 +149,7 @@
     url("~/static/rawline/rawline-700i.ttf") format("truetype"), url("~/static/rawline/rawline-700i.svg") format("svg");
   font-weight: 700;
   font-style: italic;
-  font-display: swap;
+  font-display: fallback;
 }
 
 @font-face {
@@ -160,7 +160,7 @@
     url("~/static/rawline/rawline-800.ttf") format("truetype"), url("~/static/rawline/rawline-800.svg") format("svg");
   font-weight: 800;
   font-style: normal;
-  font-display: swap;
+  font-display: fallback;
 }
 
 @font-face {
@@ -171,7 +171,7 @@
     url("~/static/rawline/rawline-800i.ttf") format("truetype"), url("~/static/rawline/rawline-800i.svg") format("svg");
   font-weight: 800;
   font-style: italic;
-  font-display: swap;
+  font-display: fallback;
 }
 
 @font-face {
@@ -182,7 +182,7 @@
     url("~/static/rawline/rawline-900.ttf") format("truetype"), url("~/static/rawline/rawline-900.svg") format("svg");
   font-weight: 900;
   font-style: normal;
-  font-display: swap;
+  font-display: fallback;
 }
 
 @font-face {
@@ -193,5 +193,5 @@
     url("~/static/rawline/rawline-900i.ttf") format("truetype"), url("~/static/rawline/rawline-900i.svg") format("svg");
   font-weight: 900;
   font-style: italic;
-  font-display: swap;
+  font-display: fallback;
 }
