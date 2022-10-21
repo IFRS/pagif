@@ -46,7 +46,7 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
-    ['v-currency-field/nuxt', {
+    ['v-currency-field/nuxt-treeshaking', {
       locale: 'pt-BR',
       autoDecimalMode: true,
       decimalLength: 2,
