@@ -77,8 +77,7 @@
               type="month"
               no-title
               scrollable
-            />
-            </v-date-picker>
+            ></v-date-picker>
           </v-menu>
         </v-col>
         <v-col>
@@ -107,8 +106,7 @@
               v-model="vencimento"
               no-title
               scrollable
-            />
-            </v-date-picker>
+            ></v-date-picker>
           </v-menu>
         </v-col>
       </v-row>
