@@ -85,6 +85,7 @@
       <v-btn
         color="primary"
         small
+        style="text-transform: none;"
       >
         Entrar com&nbsp;<strong>gov.br</strong>
       </v-btn>
@@ -134,7 +135,7 @@
       <Nuxt />
       <Toast />
     </v-main>
-    <v-footer app fixed color="footer" padless>
+    <v-footer app absolute padless color="footer">
       <v-card
         flat
         tile
@@ -142,21 +143,38 @@
         width="100%"
       >
         <v-card-text>
-          <v-tooltip top>
-            <template #activator="{ on, attrs }">
-              <a href="https://ifrs.edu.br/" style="display: inline-block;">
-                <v-img
-                  v-bind="attrs"
-                  v-on="on"
-                  src="/img/ifrs.png"
-                  :max-width="300"
-                  contain
-                  class="ifrs"
-                ></v-img>
-              </a>
-            </template>
-            <span>Portal do IFRS</span>
-          </v-tooltip>
+          <v-row dense class="align-center">
+            <v-col>
+              <v-tooltip top>
+                <template #activator="{ on, attrs }">
+                  <a href="https://ifrs.edu.br/" style="display: inline-block;">
+                    <v-img
+                      v-bind="attrs"
+                      v-on="on"
+                      src="/img/ifrs.png"
+                      :max-width="200"
+                      contain
+                      class="ifrs"
+                    ></v-img>
+                  </a>
+                </template>
+                <span>Portal do IFRS</span>
+              </v-tooltip>
+            </v-col>
+
+            <v-col class="white--text text-right">
+              <p><strong>Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Sul</strong></p>
+              <address>
+                <p>
+                  Rua General Osório, 348 - Bairro Centro
+                  <br>
+                  Bento Gonçalves - RS
+                  <br>
+                  CEP 95700-086
+                </p>
+              </address>
+            </v-col>
+          </v-row>
         </v-card-text>
 
         <v-divider dark></v-divider>
