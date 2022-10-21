@@ -18,7 +18,7 @@
                 {{ step.name }}
               </v-stepper-step>
 
-              <v-divider v-if="index != numberOfSteps" :key="index"></v-divider>
+              <v-divider v-if="index != numberOfSteps" :key="index + '_divider'"></v-divider>
             </template>
           </v-stepper-header>
 
