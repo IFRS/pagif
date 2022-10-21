@@ -15,7 +15,7 @@
                 :complete="currentStep > index"
                 :step="index"
               >
-                {{ step.name }}
+                {{ step.title }}
               </v-stepper-step>
 
               <v-divider v-if="index != numberOfSteps" :key="index + '_divider'"></v-divider>
@@ -151,23 +151,23 @@ export default {
       steps: {
         1: {
           component: 'PagamentoStepsCodigoServico',
-          name: 'Produto ou Serviço',
+          title: 'Produto ou Serviço',
         },
         2: {
-          component: 'PagamentoStepsNomeContribuinte',
-          name: 'Nome',
+          component: 'PagamentoStepsIdentificacao',
+          title: 'Identificação',
         },
         3: {
-          component: 'PagamentoStepsCnpjCpf',
-          name: 'CPF / CNPJ',
+          component: 'PagamentoStepsExtra',
+          title: 'Informações Extras',
         },
         4: {
           component: 'PagamentoStepsValorPrincipal',
-          name: 'Valor',
+          title: 'Valor',
         },
         5: {
           component: 'PagamentoStepsResumo',
-          name: 'Resumo',
+          title: 'Resumo',
         },
       },
       pagamentoConcluido: false,

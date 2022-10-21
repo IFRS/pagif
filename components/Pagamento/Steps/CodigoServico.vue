@@ -1,10 +1,18 @@
 <template>
   <v-form ref="form" v-on="$listeners">
+    <v-text-field
+      prepend-icon="mdi-office-building-marker"
+      label="Unidade"
+      disabled
+      :value="$store.getters['config/unidade']?.nome"
+    ></v-text-field>
+
     <v-autocomplete
-      label="Código do Serviço"
-      no-data-text="Nenhum Serviço encontrado na Unidade atual."
+      prepend-icon="mdi-basket"
+      label="Produto ou Serviço"
+      no-data-text="Nenhum Produto ou Serviço encontrado na Unidade atual."
       v-model="servico"
-      :rules="rules"
+      :rules="validation"
       :loading="$fetchState.pending"
       :disabled="$fetchState.pending"
       :items="$store.getters['servicos']"
@@ -22,8 +30,9 @@ export default {
   name: 'CodigoServico',
   data() {
     return {
-      rules: [
+      validation: [
         v => !!v || 'Selecione um Serviço.',
+        v => (v === Object(v) && !!v.codigo && !!v.nome) || 'Selecione um Serviço.',
       ],
     }
   },
@@ -33,8 +42,8 @@ export default {
         return { codigo: this.codigoServico, nome: this.nomeServico };
       },
       set(value) {
-        this.codigoServico = value.codigo;
-        this.nomeServico = value.nome;
+        this.codigoServico = value?.codigo;
+        this.nomeServico = value?.nome;
       }
     },
     codigoServico: {
@@ -52,11 +61,6 @@ export default {
       this.$toast.error('Ocorreu um erro ao carregar os Serviços: ' + error.message);
       console.log(error);
     });
-  },
-  methods: {
-    clip() {
-      copy('TESTE');
-    },
   },
 }
 </script>
