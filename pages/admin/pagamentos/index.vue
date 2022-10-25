@@ -67,6 +67,7 @@
               bottom
               left
               :offset-x="true"
+              :close-on-content-click="false"
             >
               <template #activator="{ on, attrs }">
                 <v-btn
@@ -78,26 +79,24 @@
                 </v-btn>
               </template>
 
-              <v-list>
+              <v-list dense>
                 <v-list-item
                   :disabled="(item.tipoPagamentoEscolhido === 'BOLETO') || ['CONCLUIDO', 'REJEITADO', 'CANCELADO'].includes(item.situacao.codigo)"
                   @click.stop="consultaPagamento(item)"
                 >
-                  <v-progress-circular indeterminate :size="20" :width="2" v-if="item.idPagamento === loadingPagamento"></v-progress-circular>
-                  <v-icon v-else>mdi-cloud-refresh</v-icon>
-                  <v-list-item-action>
-                    <v-list-item-action-text>Consulta Pagtesouro</v-list-item-action-text>
-                  </v-list-item-action>
+                  <v-list-item-icon>
+                    <v-progress-circular indeterminate :size="20" :width="2" v-if="item.idPagamento === loadingPagamento"></v-progress-circular>
+                    <v-icon v-else>mdi-cloud-refresh</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Consulta Pagtesouro</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item
                   :disabled="item.situacao.codigo !== 'CRIADO'"
                   @click.stop="confirmDelete(item)"
                 >
-                  <v-icon>mdi-delete</v-icon>
-                  <v-list-item-action>
-                    <v-list-item-action-text>Deletar Pagamento</v-list-item-action-text>
-                  </v-list-item-action>
+                  <v-list-item-icon><v-icon>mdi-delete</v-icon></v-list-item-icon>
+                  <v-list-item-title>Deletar Pagamento</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -184,7 +183,7 @@
           { text: 'Contribuinte', value: 'nomeContribuinte' },
           { text: 'Valor', value: 'valor' },
           { text: 'Situação', value: 'situacao.codigo' },
-          { text: 'Ações', value: 'actions', sortable: false, align: 'center', width: 120 },
+          { text: 'Ações', value: 'actions', sortable: false, align: 'center', width: 80 },
         ],
         tableFooterProps: {
           "items-per-page-options": [

@@ -42,32 +42,38 @@
             </v-toolbar>
           </template>
           <template #item.actions="{ item }">
-            <v-tooltip top>
+            <v-menu
+              bottom
+              left
+              :offset-x="true"
+              :close-on-content-click="false"
+            >
               <template #activator="{ on, attrs }">
                 <v-btn
-                  icon
                   v-bind="attrs"
                   v-on="on"
+                  icon
+                >
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </template>
+
+              <v-list dense>
+                <v-list-item
                   @click="editServico(item)"
                 >
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-              </template>
-              <span> Editar {{ item.nome }} </span>
-            </v-tooltip>
-            <v-tooltip top>
-              <template #activator="{ on, attrs }">
-                <v-btn
-                  icon
-                  v-bind="attrs"
-                  v-on="on"
-                  @click="confirmDelete(item)"
+                  <v-list-item-icon><v-icon>mdi-pencil</v-icon></v-list-item-icon>
+                  <v-list-item-title>Editar {{ item.nome }}</v-list-item-title>
+                </v-list-item>
+
+                <v-list-item
+                  @click.stop="confirmDelete(item)"
                 >
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
-              </template>
-              <span> Deletar {{ item.nome }} </span>
-            </v-tooltip>
+                  <v-list-item-icon><v-icon>mdi-delete</v-icon></v-list-item-icon>
+                  <v-list-item-title>Deletar {{ item.nome }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </template>
           <template slot="no-data">
             <v-alert
@@ -127,7 +133,7 @@
           { text: 'Unidade', value: 'unidade.nome' },
           { text: 'Código', value: 'codigo' },
           { text: 'Nome', value: 'nome' },
-          { text: 'Ações', value: 'actions', sortable: false, align: 'center', width: 120 },
+          { text: 'Ações', value: 'actions', sortable: false, align: 'center', width: 80 },
         ],
       }
     },
