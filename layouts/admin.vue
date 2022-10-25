@@ -45,7 +45,7 @@
       app
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title v-text="title" />
+      <v-toolbar-title>Administração do Sistema de Pagamentos</v-toolbar-title>
       <v-spacer />
       <UserMenu admin />
     </v-app-bar>
@@ -66,7 +66,8 @@ export default {
   middleware: 'auth',
   data () {
     return {
-      drawer: false,
+      drawer: true,
+      miniVariant: false,
       items: [
         {
           icon: 'mdi-apps',
@@ -90,9 +91,7 @@ export default {
           to: '/admin/pagamentos',
         },
       ],
-      miniVariant: false,
-      title: 'IFpag',
-    };
+    }
   },
 };
 </script>
