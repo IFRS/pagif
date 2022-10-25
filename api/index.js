@@ -2,11 +2,21 @@ require('../db');
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 const cors = require('cors');
 const helmet = require('helmet');
 const passport = require('passport');
 
 const app = express();
+
+let session_store = new MongoDBStore({
+  uri: `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_URL}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
+  databaseName: process.env.DB_NAME,
+  collection: 'sessions',
+});
+session_store.on('error', function(error) {
+  console.error(error);
+});
 
 app.use(cors({
   origin: process.env.BROWSER_BASE_URL,
@@ -16,7 +26,15 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(session({ resave: false, saveUninitialized: false, secret: process.env.SESSION_SECRET }));
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
+  store: session_store,
+  resave: true,
+  saveUninitialized: true,
+}));
 app.use(passport.session());
 
 const unidades = require('./routes/unidades');
