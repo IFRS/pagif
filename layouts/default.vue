@@ -81,55 +81,16 @@
         <span>Modo Escuro</span>
       </v-tooltip>
 
-      <!-- Login -->
+      <UserMenu v-if="$store.getters['usuario']"/>
       <v-btn
+        v-else
         color="primary"
         small
         style="text-transform: none;"
+        href="/api/auth/google"
       >
-        Entrar com&nbsp;<strong>gov.br</strong>
+        Entrar com&nbsp;<strong>Google</strong>
       </v-btn>
-
-      <!-- Menu para usuários logados -->
-      <!-- <v-menu
-        offset-y
-        :close-on-content-click="false"
-      >
-        <template #activator="{ on, attrs }">
-          <v-btn
-            class="mr-3"
-            dark
-            icon
-            v-bind="attrs"
-            v-on="on"
-          >
-            <v-avatar
-              dark
-              color="primary"
-              size="38"
-            >
-              <v-icon dark>mdi-account-circle</v-icon>
-            </v-avatar>
-          </v-btn>
-        </template>
-        <v-card>
-          <v-list>
-            <v-list-item nuxt :to="{ name: 'admin' }">
-              <v-list-item-content>
-                <v-list-item-title>Administração</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-
-            <v-divider class="mb-2"></v-divider>
-
-            <v-list-item nuxt :to="{ name: 'logout' }">
-              <v-list-item-content>
-                <v-list-item-title>Logout</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-        </v-card>
-      </v-menu> -->
     </v-app-bar>
     <v-main>
       <Nuxt />

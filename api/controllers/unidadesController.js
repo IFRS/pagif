@@ -1,4 +1,4 @@
-const Unidade = require('../models/Unidade');
+const Unidade = require('../../db/models/Unidade');
 const validator = require('express-validator');
 
 module.exports.list = function(req, res) {

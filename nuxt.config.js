@@ -82,6 +82,7 @@ export default {
   },
 
   router: {
+    middleware: ['ssr-cookie'],
     extendRoutes(routes, resolve) {
       routes.push({
         name: 'unidades-slug',
@@ -103,6 +104,7 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     watch: [
+      '~/db/',
       '~/api/',
     ],
   },

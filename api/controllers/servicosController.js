@@ -1,4 +1,4 @@
-const Servico = require('../models/Servico');
+const Servico = require('../../db/models/Servico');
 const validator = require('express-validator');
 
 module.exports.list = function(req, res) {

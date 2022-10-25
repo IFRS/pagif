@@ -47,6 +47,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
       <v-spacer />
+      <UserMenu admin />
     </v-app-bar>
     <v-main>
       <Nuxt />
@@ -62,6 +63,7 @@
 <script>
 export default {
   name: 'AdminLayout',
+  middleware: 'auth',
   data () {
     return {
       drawer: false,

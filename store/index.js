@@ -2,12 +2,14 @@ export const state = () => ({
   unidades: [],
   servicos: [],
   pagamentos: [],
+  usuario: null,
 });
 
 export const getters = {
   unidades: state => state.unidades,
   servicos: state => state.servicos,
   pagamentos: state => state.pagamentos,
+  usuario: state => state.usuario,
 };
 
 export const mutations = {
@@ -58,6 +60,11 @@ export const mutations = {
       return value._id !== payload._id;
     });
   },
+
+  /* Usuário */
+  setUsuario: (state, payload) => {
+    state.usuario = payload;
+  }
 };
 
 export const actions = {
@@ -83,6 +90,14 @@ export const actions = {
     return await this.$axios.get('/api/pagamentos', { params: payload })
     .then((response) => {
       context.commit('setPagamentos', response.data);
+    });
+  },
+
+  /* Usuário */
+  async nuxtServerInit({ commit }, { app }) {
+    await app.$axios.get('/api/auth/me')
+    .then(response => {
+      commit('setUsuario', response.data);
     });
   },
 };

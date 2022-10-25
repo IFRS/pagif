@@ -1,5 +1,5 @@
-const Pagamento = require('../models/Pagamento');
-const Servico = require('../models/Servico');
+const Pagamento = require('../../db/models/Pagamento');
+const Servico = require('../../db/models/Servico');
 const validator = require('express-validator');
 const pagtesouro = require('../pagtesouro');
 

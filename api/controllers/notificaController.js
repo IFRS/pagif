@@ -1,6 +1,5 @@
-const Pagamento = require('../models/Pagamento');
+const Pagamento = require('../../db/models/Pagamento');
 const validator = require('express-validator');
-const pagtesouro = require('../pagtesouro');
 
 module.exports.handle = [
   validator.body('idPagamento', 'Identificador do Pagamento está num formato inválido.')

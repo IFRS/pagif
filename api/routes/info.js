@@ -1,12 +1,13 @@
-const Unidade = require('../models/Unidade');
-const Servico = require('../models/Servico');
-const Pagamento = require('../models/Pagamento');
+const isAuthenticated = require('../isAuthenticated');
+const Unidade = require('../../db/models/Unidade');
+const Servico = require('../../db/models/Servico');
+const Pagamento = require('../../db/models/Pagamento');
 
 const { Router } = require('express');
 
 const router = Router();
 
-router.get('/info/count', async (req, res) => {
+router.get('/info/count', isAuthenticated, async (req, res) => {
   const unidades = Unidade.countDocuments().exec();
   const servicos = Servico.countDocuments().exec();
   const pagamentos = Pagamento.countDocuments().exec();
