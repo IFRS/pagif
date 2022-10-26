@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar app fixed elevation="1">
       <v-img
-        :src="darkMode ? '/img/govbr-white.svg' : '/img/govbr.svg'"
+        :src="$store.getters['config/darkMode'] ? '/img/govbr-white.svg' : '/img/govbr.svg'"
         :max-width="120"
         aspect-ratio="4/1"
         contain
