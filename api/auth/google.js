@@ -19,7 +19,7 @@ passport.use(new GoogleStrategy(
       if (!usuario) return cb(null, false);
 
       usuario.nome = profile.displayName;
-      usuario.foto = profile.photos[0].value;
+      if (profile.photos) usuario.foto = profile.photos[0].value;
 
       await usuario.save();
 
