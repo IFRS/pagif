@@ -229,6 +229,7 @@ export default {
     },
   },
   destroyed () {
+    this.$store.commit('clearServicos');
     this.$store.commit('pagamento/clear');
   },
 }

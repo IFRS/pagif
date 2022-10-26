@@ -166,6 +166,9 @@ export default {
       }
     },
   },
+  destroyed () {
+    this.$store.commit('clearUnidades');
+  },
 }
 </script>
 

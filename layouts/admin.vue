@@ -96,5 +96,10 @@ export default {
       ],
     }
   },
+  destroyed () {
+    this.$store.commit('clearUnidades');
+    this.$store.commit('clearServicos');
+    this.$store.commit('clearPagamentos');
+  },
 };
 </script>
