@@ -1,5 +1,5 @@
 export default async (context) => {
-  if (process.client && context.nuxtState.layout === 'default') {
+  if (process.client) {
     const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches || context.$cookies.get('darkMode');
     if (darkMode) {
       context.store.commit('config/darkMode', darkMode);

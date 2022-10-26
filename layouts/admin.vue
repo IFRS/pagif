@@ -46,7 +46,10 @@
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>Administração do Sistema de Pagamentos</v-toolbar-title>
+
       <v-spacer />
+
+      <DarkMode />
       <UserMenu admin />
     </v-app-bar>
     <v-main>
@@ -63,7 +66,7 @@
 <script>
 export default {
   name: 'AdminLayout',
-  middleware: 'auth',
+  middleware: ['auth', 'dark-mode'],
   data () {
     return {
       drawer: true,
