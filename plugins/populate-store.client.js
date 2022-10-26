@@ -9,7 +9,7 @@ export default async (context) => {
     if (unidade_id) {
       await context.store.dispatch('config/populateUnidade', unidade_id)
       .catch((error) => {
-        context.$toast.error('Ocorreu um erro ao carregar dados locais: ' + error.message);
+        context.$toast.error('Ocorreu um erro ao carregar a Unidade previamente selecionada: ' + error.message);
         console.log(error);
       });
     }
