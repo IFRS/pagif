@@ -233,7 +233,7 @@
       await this.$store.dispatch('fetchUnidades')
       .catch((error) => {
         this.$toast.error('Ocorreu um erro ao carregar as Unidades: ' + error.message);
-        console.log(error);
+        console.error(error);
       });
     },
     props: {
@@ -350,7 +350,7 @@
         await this.$store.dispatch('fetchServicos', {unidade: unidade_id})
         .catch((error) => {
           this.$toast.error('Ocorreu um erro ao carregar os Serviços: ' + error.message);
-          console.log(error);
+          console.error(error);
         })
         .finally(() => {
           this.loadingServicos = false;

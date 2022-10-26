@@ -59,7 +59,7 @@ export default {
     await this.$store.dispatch('fetchServicos', { unidade: this.$store.getters['config/unidade']?._id })
     .catch((error) => {
       this.$toast.error('Ocorreu um erro ao carregar os Serviços: ' + error.message);
-      console.log(error);
+      console.error(error);
     });
   },
 }

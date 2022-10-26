@@ -211,7 +211,7 @@
       await this.$store.dispatch('fetchPagamentos', this.filtros)
       .catch((error) => {
         this.$toast.error('Ocorreu um erro ao carregar os Pagamentos: ' + error.message);
-        console.log(error);
+        console.error(error);
       });
     },
     methods: {

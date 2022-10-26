@@ -141,7 +141,7 @@
       await this.$store.dispatch('fetchServicos')
       .catch((error) => {
         this.$toast.error('Ocorreu um erro ao carregar os Serviços: ' + error.message);
-        console.log(error);
+        console.error(error);
       });
     },
     methods: {

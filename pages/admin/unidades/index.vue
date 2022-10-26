@@ -172,7 +172,7 @@
       await this.$store.dispatch('fetchUnidades')
       .catch((error) => {
         this.$toast.error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.message);
-        console.log(error);
+        console.error(error);
       });
     },
     methods: {
@@ -184,7 +184,7 @@
         await this.$store.dispatch('unidade/fetchToken', item._id)
         .catch((error) => {
           this.$toast.error('Ocorreu um erro ao buscar o Token da Unidade Gestora: ' + error.message);
-          console.log(error);
+          console.error(error);
         });
 
         this.tokenDialog = true;

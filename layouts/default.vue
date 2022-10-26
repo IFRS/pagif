@@ -144,7 +144,7 @@ export default {
     await this.$store.dispatch('fetchUnidades')
     .catch((error) => {
       this.$toast.error('Ocorreu um erro ao carregar a lista de Unidades: ' + error.message);
-      console.log(error);
+      console.error(error);
     });
   },
   computed: {

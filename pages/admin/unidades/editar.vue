@@ -24,7 +24,7 @@
       await this.$store.dispatch('unidade/fetchToken')
       .catch((error) => {
         this.$toast.error('Ocorreu um erro ao buscar o Token da Unidade: ' + error.message);
-        console.log(error);
+        console.error(error);
       });
     },
     data() {

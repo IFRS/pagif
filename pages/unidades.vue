@@ -31,7 +31,7 @@ export default {
     await this.$store.dispatch('fetchUnidades')
     .catch((error) => {
       this.$toast.error('Ocorreu um erro ao carregar as Unidades: ' + error.message);
-      console.log(error);
+      console.error(error);
     });
   },
   methods: {
