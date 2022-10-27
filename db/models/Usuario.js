@@ -14,6 +14,7 @@ const Usuario = new Schema({
   email: { type: String, required: true, index: { unique: true } },
   nome: { type: String },
   foto: { type: String },
+  superadmin: { type: Boolean, default: false },
   // roles: { type: [Role] },
   // roles: { type: Schema.Types.Map, of: { type: Schema.Types.ObjectId, ref: 'Unidade' } }
 }, {
