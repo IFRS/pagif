@@ -6,7 +6,7 @@ export default async function(context) {
   }
 
   if (process.client) {
-    usuario = context.store.getters['usuario'];
+    usuario = context.store.getters['auth/usuario'];
   }
 
   if (!usuario) {

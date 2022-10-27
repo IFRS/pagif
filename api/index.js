@@ -7,6 +7,14 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const passport = require('passport');
 
+const info = require('./routes/info');
+const unidades = require('./routes/unidades');
+const servicos = require('./routes/servicos');
+const pagamentos = require('./routes/pagamentos');
+const notifica = require('./routes/notifica');
+
+const google = require('./auth/google');
+
 const app = express();
 
 const expire = (process.env.NODE_ENV === 'development') ? 1000 * 60 * 60 * 24 * 7 : 1000 * 60 * 60 * 1;
@@ -40,14 +48,6 @@ app.use(session({
 }));
 app.use(passport.session());
 
-const unidades = require('./routes/unidades');
-const servicos = require('./routes/servicos');
-const pagamentos = require('./routes/pagamentos');
-const notifica = require('./routes/notifica');
-const info = require('./routes/info');
-
-const google = require('./auth/google');
-
 app.use(google);
 
 // Add development latency
@@ -55,11 +55,12 @@ if (process.env.NODE_ENV === 'development') {
   app.use((req, res, next) => setTimeout(next, 999));
 }
 
+app.use(info);
 app.use(unidades);
 app.use(servicos);
 app.use(pagamentos);
 app.use(notifica);
-app.use(info);
+app.use(usuarios)
 
 module.exports = {
   path: '/api',
