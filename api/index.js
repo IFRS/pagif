@@ -12,6 +12,7 @@ const unidades = require('./routes/unidades');
 const servicos = require('./routes/servicos');
 const pagamentos = require('./routes/pagamentos');
 const notifica = require('./routes/notifica');
+const usuarios = require('./routes/usuarios');
 
 const google = require('./auth/google');
 
