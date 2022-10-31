@@ -69,7 +69,7 @@ export const mutations = {
   clearUsuarios: (state) => {
     state.usuarios = [];
   },
-  removeUsuarios: (state, payload) => {
+  removeUsuario: (state, payload) => {
     state.usuarios = state.usuarios.filter((value) => {
       return value._id !== payload._id;
     });

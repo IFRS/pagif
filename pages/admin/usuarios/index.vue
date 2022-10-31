@@ -34,7 +34,7 @@
               </v-btn>
               <v-btn
                 color="primary"
-                to="/admin/servicos/novo"
+                to="/admin/usuarios/novo"
               >
                 <v-icon>mdi-plus</v-icon>
                 Cadastrar Usu&aacute;rio
@@ -63,14 +63,14 @@
                   @click="editUsuario(item)"
                 >
                   <v-list-item-icon><v-icon>mdi-pencil</v-icon></v-list-item-icon>
-                  <v-list-item-title>Editar {{ item.nome }}</v-list-item-title>
+                  <v-list-item-title>Editar {{ item.nome || item.email}}</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item
                   @click.stop="confirmDelete(item)"
                 >
                   <v-list-item-icon><v-icon>mdi-delete</v-icon></v-list-item-icon>
-                  <v-list-item-title>Deletar {{ item.nome }}</v-list-item-title>
+                  <v-list-item-title>Deletar {{ item.nome || item.email }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -94,7 +94,7 @@
     >
       <v-card>
         <v-card-title class="text-h5">
-          Deletar o Usu&aacute;rio "{{ $store.getters['usuario/nome'] }}"?
+          Deletar o Usu&aacute;rio "{{ $store.getters['usuario/nome'] || $store.getters['usuario/email'] }}"?
         </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -108,7 +108,7 @@
           <v-btn
             color="danger"
             text
-            @click="deleteServico()"
+            @click="deleteUsuario()"
           >
             Confirmar
           </v-btn>
