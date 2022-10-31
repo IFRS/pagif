@@ -98,6 +98,7 @@ module.exports.save = [
       Unidade.findByIdAndUpdate(
         req.params.id,
         data,
+        { returnDocument: 'after' },
         function(err, unidade) {
           if (!unidade) {
             return res.status(404).json({

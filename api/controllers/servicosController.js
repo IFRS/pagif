@@ -80,6 +80,7 @@ module.exports.save = [
       Servico.findByIdAndUpdate(
         req.params.id,
         data,
+        { returnDocument: 'after' },
         function(err, servico) {
           if (!servico) {
             return res.status(404).json({
