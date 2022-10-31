@@ -60,17 +60,19 @@ module.exports.save = [
     // console.log(req.body.roles);
 
     // let roles = [];
+    let roles = new Map();
 
-    // for (const [unidade, role] of Object.entries(req.body.roles)) {
-    //   obj = {};
-    //   obj.tipo = role;
-    //   obj.unidade = unidade;
-    //   roles.push(obj);
-    // }
+    for (const [unidade, role] of Object.entries(req.body.roles)) {
+      // obj = {};
+      // obj.tipo = role;
+      // obj.unidade = unidade;
+      // roles.push(obj);
+      roles.set(role, unidade);
+    }
 
     const data = {
       email: req.body.email,
-      // roles: roles,
+      roles: roles,
     };
 
     if (req.params.id) {

@@ -9,6 +9,7 @@
             hint="E-mail da conta Google para acesso."
             v-model="email"
             :rules="validation.email"
+            :disabled="!!id"
             required
           ></v-text-field>
         </v-col>

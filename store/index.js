@@ -2,12 +2,15 @@ export const state = () => ({
   unidades: [],
   servicos: [],
   pagamentos: [],
+  usuarios: [],
 });
 
 export const getters = {
   unidades: state => state.unidades,
   servicos: state => state.servicos,
   pagamentos: state => state.pagamentos,
+  usuarios: state => state.usuarios,
+
 };
 
 export const mutations = {
@@ -58,6 +61,19 @@ export const mutations = {
       return value._id !== payload._id;
     });
   },
+
+  /* Usuários */
+  setUsuarios: (state, payload) => {
+    state.usuarios = payload;
+  },
+  clearUsuarios: (state) => {
+    state.usuarios = [];
+  },
+  removeUsuarios: (state, payload) => {
+    state.usuarios = state.usuarios.filter((value) => {
+      return value._id !== payload._id;
+    });
+  },
 };
 
 export const actions = {
@@ -83,6 +99,14 @@ export const actions = {
     return await this.$axios.get('/api/pagamentos', { params: payload })
     .then((response) => {
       context.commit('setPagamentos', response.data);
+    });
+  },
+
+  /* Usuários */
+  async fetchUsuarios(context) {
+    return await this.$axios.get('/api/usuarios/')
+    .then((response) => {
+      context.commit('setUsuarios', response.data);
     });
   },
 

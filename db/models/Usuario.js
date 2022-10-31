@@ -16,7 +16,7 @@ const Usuario = new Schema({
   foto: { type: String },
   superadmin: { type: Boolean, default: false },
   // roles: { type: [Role] },
-  // roles: { type: Schema.Types.Map, of: { type: Schema.Types.ObjectId, ref: 'Unidade' } }
+  roles: { type: Schema.Types.Map, of: { type: Schema.Types.ObjectId, ref: 'Unidade' } }
 }, {
   timestamps: true,
   toJSON: {

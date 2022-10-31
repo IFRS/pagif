@@ -93,6 +93,11 @@ export default {
           title: 'Pagamentos',
           to: '/admin/pagamentos',
         },
+        {
+          icon: 'mdi-account-multiple',
+          title: 'Usuários',
+          to: '/admin/usuarios',
+        },
       ],
     }
   },
@@ -100,6 +105,7 @@ export default {
     this.$store.commit('clearUnidades');
     this.$store.commit('clearServicos');
     this.$store.commit('clearPagamentos');
+    this.$store.commit('clearUsuarios');
   },
 };
 </script>
