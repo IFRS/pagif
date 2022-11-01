@@ -223,10 +223,10 @@
             + (item.valorMulta || 0)
             + (item.valorJuros || 0)
             + (item.valorOutrosAcrescimos || 0);
-          return this.$format.intToMoeda(valor);
+          return this.$root.$options.filters.int_to_real(valor);
         }
 
-        return this.$format.intToMoeda(item.valor);
+        return this.$root.$options.filters.int_to_real(item.valor);
       },
       showPagamento(item) {
         if (item) {

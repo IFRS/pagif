@@ -7,8 +7,8 @@
             Pagamento {{ $store.getters['pagamento/idPagamento'] }}
           </v-card-title>
           <v-card-text>
-            <p>Pagamento no valor de <strong>R$ {{ $format.intToMoeda(valorPrincipal) }}</strong> para <strong>{{ nomeUnidade }}</strong> pelo produto/servi&ccedil;o <strong>{{ nomeServico }} ({{ codigoServico }})</strong>.</p>
-            <p>Em nome de <strong>{{ nomeContribuinte }}<template v-if="cnpjCpf">&nbsp;({{ $format.cnpjCpf(cnpjCpf) }})</template></strong>.</p>
+            <p>Pagamento no valor de <strong>R$ {{ valorPrincipal | int_to_real }}</strong> para <strong>{{ nomeUnidade }}</strong> pelo produto/servi&ccedil;o <strong>{{ nomeServico }} ({{ codigoServico }})</strong>.</p>
+            <p>Em nome de <strong>{{ nomeContribuinte }}<template v-if="cnpjCpf">&nbsp;({{ cnpjCpf | cnpj_cpf }})</template></strong>.</p>
 
             <v-alert
               type="warning"

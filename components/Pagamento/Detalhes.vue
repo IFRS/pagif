@@ -20,7 +20,7 @@
             <v-list-item two-line>
               <v-list-item-content>
                 <v-list-item-title>CPF / CNPJ</v-list-item-title>
-                <v-list-item-subtitle>{{ $format.cnpjCpf($store.getters['pagamento/cnpjCpf'], !private) || '-' }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ $store.getters['pagamento/cnpjCpf'] | cnpj_cpf(!private) || '-' }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
 
@@ -61,7 +61,7 @@
           <template #activator>
             <v-list-item-content>
               <v-list-item-title>Valor Total</v-list-item-title>
-              <v-list-item-subtitle>{{ $format.intToMoeda($store.getters['pagamento/valor'], true) || '-' }}</v-list-item-subtitle>
+              <v-list-item-subtitle>{{ $store.getters['pagamento/valor'] | int_to_real(true) || '-' }}</v-list-item-subtitle>
             </v-list-item-content>
           </template>
           <v-row>
@@ -69,21 +69,21 @@
               <v-list-item two-line>
                 <v-list-item-content>
                   <v-list-item-title>Valor Principal</v-list-item-title>
-                  <v-list-item-subtitle>{{ $format.intToMoeda($store.getters['pagamento/valorPrincipal'], true) }}</v-list-item-subtitle>
+                  <v-list-item-subtitle>{{ $store.getters['pagamento/valorPrincipal'] | int_to_real(true) }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
 
               <v-list-item two-line>
                 <v-list-item-content>
                   <v-list-item-title>Descontos</v-list-item-title>
-                  <v-list-item-subtitle>{{ $format.intToMoeda($store.getters['pagamento/valorDescontos'], true) || '-' }}</v-list-item-subtitle>
+                  <v-list-item-subtitle>{{ $store.getters['pagamento/valorDescontos'] | int_to_real(true) || '-' }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
 
               <v-list-item two-line>
                 <v-list-item-content>
                   <v-list-item-title>Outras Dedu&ccedil;&otilde;es</v-list-item-title>
-                  <v-list-item-subtitle>{{ $format.intToMoeda($store.getters['pagamento/valorOutrasDeducoes'], true) || '-' }}</v-list-item-subtitle>
+                  <v-list-item-subtitle>{{ $store.getters['pagamento/valorOutrasDeducoes'] | int_to_real(true) || '-' }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -91,21 +91,21 @@
               <v-list-item two-line>
                 <v-list-item-content>
                   <v-list-item-title>Multa</v-list-item-title>
-                  <v-list-item-subtitle>{{ $format.intToMoeda($store.getters['pagamento/valorMulta'], true) || '-' }}</v-list-item-subtitle>
+                  <v-list-item-subtitle>{{ $store.getters['pagamento/valorMulta'] | int_to_real(true) || '-' }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
 
               <v-list-item two-line>
                 <v-list-item-content>
                   <v-list-item-title>Juros</v-list-item-title>
-                  <v-list-item-subtitle>{{ $format.intToMoeda($store.getters['pagamento/valorJuros'], true) || '-' }}</v-list-item-subtitle>
+                  <v-list-item-subtitle>{{ $store.getters['pagamento/valorJuros'] | int_to_real(true) || '-' }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
 
               <v-list-item two-line>
                 <v-list-item-content>
                   <v-list-item-title>Outros Acr&eacute;scimos</v-list-item-title>
-                  <v-list-item-subtitle>{{ $format.intToMoeda($store.getters['pagamento/valorOutrosAcrescimos'], true) || '-' }}</v-list-item-subtitle>
+                  <v-list-item-subtitle>{{ $store.getters['pagamento/valorOutrosAcrescimos'] | int_to_real(true) || '-' }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
