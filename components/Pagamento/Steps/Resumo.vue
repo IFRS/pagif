@@ -25,6 +25,11 @@
         </v-alert>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <recaptcha @success="$emit('recaptcha', true)" @error="$emit('recaptcha', false)" @expired="$emit('recaptcha', false)"/>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

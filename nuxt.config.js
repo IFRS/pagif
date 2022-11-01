@@ -56,6 +56,13 @@ export default {
       valueAsInteger: true,
     }],
     ['cookie-universal-nuxt', { alias: 'cookies' }],
+    ['@nuxtjs/recaptcha', {
+        hideBadge: false,  // Hide badge element (v3 & v2 via size=invisible)
+        language: 'pt-BR', // Recaptcha language (v2)
+        mode: 'base',      // Mode: 'base', 'enterprise'
+        version: 2,        // Version
+        size: 'normal'     // Size: 'compact', 'normal', 'invisible' (v2)
+    }],
   ],
 
   serverMiddleware: [
@@ -72,6 +79,9 @@ export default {
       baseURL: process.env.BROWSER_BASE_URL,
     },
     pagtesouroURL: process.env.PAGTESOURO_URL,
+    recaptcha: {
+      siteKey: process.env.RECAPTCHA_SITE_KEY,
+    },
   },
 
   privateRuntimeConfig: {

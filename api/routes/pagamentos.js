@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const recaptcha = require('../recaptcha');
 
 const router = Router();
 
@@ -9,6 +10,8 @@ router.get('/pagamentos', pagamentosController.list);
 router.get('/pagamentos/:id', pagamentosController.show);
 
 router.post('/pagamentos', pagamentosController.save);
+
+router.post('/pagamentos/public', recaptcha, pagamentosController.save);
 
 router.put('/pagamentos/:id', pagamentosController.update);
 

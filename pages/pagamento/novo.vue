@@ -29,6 +29,7 @@
                 :is="step.component"
                 ref="step"
                 @submit.prevent="nextStep()"
+                @recaptcha="handleRecaptcha"
               ></component>
 
               <v-toolbar
@@ -64,6 +65,7 @@
                 <v-btn
                   color="success"
                   v-if="currentStep == numberOfSteps"
+                  :disabled="!enablePagamento"
                   :loading="criandoPagamento"
                   @click="criarPagamento()"
                 >
@@ -146,6 +148,7 @@ export default {
   },
   data() {
     return {
+      enablePagamento: false,
       criandoPagamento: false,
       currentStep: 1,
       steps: {
@@ -192,9 +195,15 @@ export default {
         this.currentStep = this.currentStep + 1;
       }
     },
+    handleRecaptcha(status) {
+      this.enablePagamento = status;
+    },
     async criarPagamento() {
       this.criandoPagamento = true;
-      await this.$store.dispatch('pagamento/save')
+
+      const recaptcha = await this.$recaptcha.getResponse();
+
+      await this.$store.dispatch('pagamento/save_public', recaptcha)
       .then(() => {
         this.pagamentoConcluido = true;
       })
@@ -205,6 +214,8 @@ export default {
       .finally(() => {
         this.criandoPagamento = false;
       });
+
+      await this.$recaptcha.reset();
     },
     async toClipboard(text) {
       let copiou = false;
