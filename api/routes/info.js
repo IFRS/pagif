@@ -1,4 +1,4 @@
-const permissions = require('../permissions');
+const permissions = require('../middleware/permissions');
 const Unidade = require('../../db/models/Unidade');
 const Servico = require('../../db/models/Servico');
 const Pagamento = require('../../db/models/Pagamento');

@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const recaptcha = require('../recaptcha');
+const recaptcha = require('../middleware/recaptcha');
 
 const router = Router();
 
