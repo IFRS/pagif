@@ -44,35 +44,16 @@ module.exports.save = [
   .isEmail(),
   validator.body('roles', '')
   .optional()
-  .isObject(),
-  // validator.body('nome', '')
-  // .optional()
-  // .trim(),
-  // validator.body('foto', '')
-  // .optional()
-  // .trim(),
+  .isArray(),
   function(req, res) {
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.mapped() });
     }
 
-    // console.log(req.body.roles);
-
-    // let roles = [];
-    let roles = new Map();
-
-    for (const [unidade, role] of Object.entries(req.body.roles)) {
-      // obj = {};
-      // obj.tipo = role;
-      // obj.unidade = unidade;
-      // roles.push(obj);
-      roles.set(role, unidade);
-    }
-
     const data = {
       email: req.body.email,
-      roles: roles,
+      roles: req.body.roles,
     };
 
     if (req.params.id) {

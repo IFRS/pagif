@@ -9,6 +9,7 @@
             hint="E-mail da conta Google para acesso."
             v-model="email"
             :rules="validation.email"
+            validate-on-blur
             :disabled="!!id"
             required
           ></v-text-field>
@@ -22,15 +23,17 @@
           <v-card tag="fieldset">
             <v-card-title tag="legend">{{ unidade.nome }}</v-card-title>
             <v-card-text>
-              <v-switch
-                v-for="(role, j) in allroles"
-                v-model="local_roles[unidade._id]"
-                :key="j"
-                :label="role.name"
-                persistent-hint
-                :hint="role.desc"
-                :value="role.role"
-              ></v-switch>
+              <v-radio-group v-model="model_roles[i]">
+                <v-radio
+                  v-for="(role, j) in allroles"
+                  :key="j"
+                  :label="role.name"
+                  persistent-hint
+                  :hint="role.desc"
+                  :value="{ tipo: role.role, unidade: unidade._id }"
+                ></v-radio>
+              </v-radio-group>
+              <v-btn color="accent" text small @click="model_roles.splice(i, 1)">Limpar Seleção</v-btn>
             </v-card-text>
           </v-card>
         </v-col>
@@ -72,7 +75,7 @@
   import allroles from '~/db/roles';
 
   export default {
-    name: 'FormServico',
+    name: 'FormUsuario',
     async fetch() {
       await this.$store.dispatch('fetchUnidades')
       .catch((error) => {
@@ -92,10 +95,11 @@
         validation: {
           email: [
             v => !!v || 'E-mail é obrigatório.',
+            v => !!v || v.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/) || 'E-mail precisa ser válido.',
           ],
         },
         allroles: allroles,
-        local_roles: {},
+        model_roles: [],
       }
     },
     computed: {
@@ -112,10 +116,20 @@
         ...mapMutations({ set: 'usuario/roles' }),
       },
     },
+    watch: {
+      model_roles(selectedRoles) {
+        let roles = [];
+        if (selectedRoles && selectedRoles.length > 0) {
+          selectedRoles.forEach(role => {
+            roles.push(role);
+          });
+        }
+        this.roles = roles;
+      },
+    },
     methods: {
       handleSubmit() {
         if (this.$refs.form.validate()) {
-          this.roles = this.local_roles;
           this.$emit('ok');
         }
       },
@@ -123,6 +137,11 @@
         this.$refs.form.reset();
         this.$emit('cancel');
       },
+    },
+    created() {
+      this.roles.forEach(role => {
+        this.model_roles.push(role);
+      });
     },
   }
 </script>

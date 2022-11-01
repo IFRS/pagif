@@ -3,7 +3,7 @@ const defaultState = {
   email: '',
   nome: '',
   foto: '',
-  roles: {},
+  roles: [],
   createdAt: null,
   updatedAt: null,
 };
