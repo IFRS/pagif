@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const permissions = require('../middleware/permissions');
 
 const router = Router();
 
@@ -6,14 +7,16 @@ const unidadesController = require('../controllers/unidadesController');
 
 router.get('/unidades', unidadesController.list);
 
-router.get('/unidades/:id', unidadesController.show);
+router.get('/unidades', permissions(null, true), unidadesController.list);
 
-router.get('/unidades/token/:id', unidadesController.token);
+router.get('/unidades/:id', permissions(null, true), unidadesController.show);
 
-router.post('/unidades', unidadesController.save);
+router.get('/unidades/token/:id', permissions(null, true), unidadesController.token);
 
-router.put('/unidades/:id', unidadesController.save);
+router.post('/unidades', permissions(null, true), unidadesController.save);
 
-router.delete('/unidades/:id', unidadesController.delete);
+router.put('/unidades/:id', permissions(null, true), unidadesController.save);
+
+router.delete('/unidades/:id', permissions(null, true), unidadesController.delete);
 
 module.exports = router;

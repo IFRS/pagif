@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   ADMIN: {
     role: 'ADMIN',
     name: 'Administrador',
@@ -14,4 +14,4 @@ export default {
     name: 'Usuário Comum',
     desc: 'Pode visualizar somente os Pagamentos da Unidade Gestora.',
   },
-}
+};

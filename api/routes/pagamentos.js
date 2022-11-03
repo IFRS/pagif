@@ -1,20 +1,22 @@
 const { Router } = require('express');
 const recaptcha = require('../middleware/recaptcha');
+const permissions = require('../middleware/permissions');
+const { ADMIN, GERENTE, USER } = require('../../db/roles');
 
 const router = Router();
 
 const pagamentosController = require('../controllers/pagamentosController');
 
-router.get('/pagamentos', pagamentosController.list);
+router.get('/pagamentos', permissions([ADMIN.role, GERENTE.role, USER.role]), pagamentosController.list);
 
-router.get('/pagamentos/:id', pagamentosController.show);
+router.get('/pagamentos/:id', permissions([ADMIN.role, GERENTE.role, USER.role]), pagamentosController.show);
 
-router.post('/pagamentos', pagamentosController.save);
+router.post('/pagamentos', permissions([ADMIN.role, GERENTE.role]), pagamentosController.save);
 
-router.post('/pagamentos/public', recaptcha, pagamentosController.save);
+router.post('/public/pagamentos', recaptcha, pagamentosController.save);
 
-router.put('/pagamentos/:id', pagamentosController.update);
+router.put('/pagamentos/:id', permissions([ADMIN.role, GERENTE.role]), pagamentosController.update);
 
-router.delete('/pagamentos/:id', pagamentosController.delete);
+router.delete('/pagamentos/:id', permissions([ADMIN.role, GERENTE.role]), pagamentosController.delete);
 
 module.exports = router;

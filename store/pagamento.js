@@ -138,7 +138,7 @@ export const mutations = {
 
 export const actions = {
   async save_public(context, recaptcha) {
-    return await this.$axios.post('/api/pagamentos/public', { ...context.state, recaptcha })
+    return await this.$axios.post('/api/public/pagamentos', { ...context.state, recaptcha })
     .then((response) => {
       context.commit('replace', response.data);
     });

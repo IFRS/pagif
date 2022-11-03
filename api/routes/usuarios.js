@@ -1,17 +1,18 @@
 const { Router } = require('express');
+const permissions = require('../middleware/permissions');
 
 const router = Router();
 
 const usuariosController = require('../controllers/usuariosController');
 
-router.get('/usuarios', usuariosController.list);
+router.get('/usuarios', permissions(null, true), usuariosController.list);
 
-router.get('/usuarios/:id', usuariosController.show);
+router.get('/usuarios/:id', permissions(null, true), usuariosController.show);
 
-router.post('/usuarios', usuariosController.save);
+router.post('/usuarios', permissions(null, true), usuariosController.save);
 
-router.put('/usuarios/:id', usuariosController.save);
+router.put('/usuarios/:id', permissions(null, true), usuariosController.save);
 
-router.delete('/usuarios/:id', usuariosController.delete);
+router.delete('/usuarios/:id', permissions(null, true), usuariosController.delete);
 
 module.exports = router;
