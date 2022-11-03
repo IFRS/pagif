@@ -1,6 +1,29 @@
 const Servico = require('../../db/models/Servico');
 const validator = require('express-validator');
 
+module.exports.listPublic = function(req, res) {
+  const unidade_id = req.query.unidade;
+
+  const query = Servico.find({});
+
+  if (unidade_id) {
+    query.where({ unidade: unidade_id });
+  }
+
+  query.select('-createdAt -updatedAt');
+
+  query.exec(function(err, servicos) {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({
+        message: 'Erro obtendo Serviços.',
+      });
+    }
+
+    return res.json(servicos);
+  });
+};
+
 module.exports.list = function(req, res) {
   const unidade_id = req.query.unidade;
 

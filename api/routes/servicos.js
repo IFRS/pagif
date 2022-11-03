@@ -6,6 +6,8 @@ const router = Router();
 
 const servicosController = require('../controllers/servicosController');
 
+router.get('/public/servicos', servicosController.listPublic);
+
 router.get('/servicos', permissions([ADMIN.role, GERENTE.role]), servicosController.list);
 
 router.get('/servicos/:id', permissions([ADMIN.role]), servicosController.show);

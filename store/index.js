@@ -87,8 +87,8 @@ export const actions = {
 
   /* Serviços */
   async fetchServicos(context, payload) {
-    const query = (payload?.unidade) ? '?unidade=' + payload.unidade : '?populate=unidade&populate_fields=nome';
-    return await this.$axios.get('/api/servicos/' + query)
+    const query = (payload?.unidade) ? { unidade: payload.unidade } : { populate: 'unidade', populate_fields: 'nome' };
+    return await this.$axios.get(payload?.isPublic ? '/api/public/servicos' : '/api/servicos', { params: query })
     .then((response) => {
       context.commit('setServicos', response.data);
     });
@@ -104,7 +104,7 @@ export const actions = {
 
   /* Usuários */
   async fetchUsuarios(context) {
-    return await this.$axios.get('/api/usuarios/')
+    return await this.$axios.get('/api/usuarios')
     .then((response) => {
       context.commit('setUsuarios', response.data);
     });
