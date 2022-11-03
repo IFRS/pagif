@@ -13,7 +13,7 @@
             <v-alert
               type="warning"
               text
-            >Atenção! Após clicar em <strong>Pagar</strong> não será possível voltar para realizar o pagamento posteriormente.</v-alert>
+            >Aten&ccedil;&atilde;o! Ap&oacute;s clicar em <strong>Pagar</strong> n&atilde;o ser&aacute; poss&iacute;vel voltar para realizar o pagamento posteriormente.</v-alert>
           </v-card-text>
           <v-card-actions>
             <v-btn
@@ -23,7 +23,8 @@
             >Voltar</v-btn>
             <v-spacer></v-spacer>
             <v-btn
-              v-if="situacao?.codigo === 'CRIADO' && !mostrarPagamento"
+              v-if="situacao?.codigo === 'CRIADO'"
+              :disabled="mostrarPagamento"
               text
               color="primary"
               @click="mostrarPagamento = true"
@@ -40,13 +41,13 @@
             type="info"
             text
           >
-            Confira os dados que aparecerão na tela abaixo antes de efetuar o pagamento.
+            Confira os dados que aparecer&atilde;o na tela abaixo antes de efetuar o pagamento.
           </v-alert>
           <iframe
-            v-resize="{ heightCalculationMethod: 'documentElementOffset' }"
+            v-iframe-resize="{ heightCalculationMethod: 'documentElementOffset' }"
             class="iframe-epag"
             scrolling="no"
-            :src="$store.state.pagamento.proximaUrl + '&btnConcluir=true' + (!$store.getters['config/darkMode'] ? '&tema=tema-light' : '')"
+            :src="$store.getters['pagamento/proximaUrl'] + '&btnConcluir=true' + (!$store.getters['config/darkMode'] ? '&tema=tema-light' : '')"
           ></iframe>
         </v-card>
       </v-col>
@@ -55,7 +56,7 @@
 </template>
 
 <script>
-import iframeResize from 'iframe-resizer/js/iframeResizer';
+import iFrameResize from 'iframe-resizer/js/iframeResizer';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -63,10 +64,13 @@ export default {
   head: {
     title: 'Pagamento',
   },
-  directives:  {
-    resize: {
-      bind (el, { value = {} }) {
-        el.addEventListener('load', () => iframeResize(value, el))
+  directives: {
+    'iframe-resize': {
+      bind(el, { value = {} }) {
+        el.addEventListener('load', () => iFrameResize(value, el));
+      },
+      unbind: function (el) {
+        el.iFrameResizer.removeListeners();
       }
     },
   },
@@ -109,7 +113,7 @@ export default {
       this.$router.push({ name: 'pagamento' });
     });
   },
-  mounted () {
+  mounted() {
     window.addEventListener('message', this.retornoPagtesouro, false);
   },
   methods: {
@@ -124,7 +128,7 @@ export default {
       }
     },
   },
-  destroyed () {
+  destroyed() {
     this.$store.commit('pagamento/clear');
   },
 }
