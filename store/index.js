@@ -78,8 +78,8 @@ export const mutations = {
 
 export const actions = {
   /* Unidades */
-  async fetchUnidades(context) {
-    return await this.$axios.get('/api/unidades')
+  async fetchUnidades(context, isPublic = false) {
+    return await this.$axios.get(isPublic ? '/api/public/unidades' : '/api/unidades')
     .then((response) => {
       context.commit('setUnidades', response.data);
     });

@@ -1,6 +1,24 @@
 const Unidade = require('../../db/models/Unidade');
 const validator = require('express-validator');
 
+module.exports.listPublic = function(req, res) {
+  const query = Unidade.find({});
+
+  query.select('-token');
+
+  query.sort('nome');
+
+  query.exec(function(err, unidades) {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({
+        message: 'Erro obtendo Unidades.',
+      });
+    }
+    return res.json(unidades);
+  });
+};
+
 module.exports.list = function(req, res) {
   let fields = req.query.fields?.split(',');
 
@@ -22,6 +40,28 @@ module.exports.list = function(req, res) {
       });
     }
     return res.json(unidades);
+  });
+};
+
+module.exports.showPublic = function(req, res) {
+  const query = Unidade.findById(req.params.id);
+
+  query.select('-token');
+
+  query.exec(function(err, unidade) {
+    if (err) {
+      return res.status(500).json({
+        message: 'Erro obtendo a Unidade.',
+      });
+    }
+
+    if (!unidade) {
+      return res.status(404).json({
+        message: 'Unidade não encontrada.',
+      });
+    }
+
+    return res.json(unidade);
   });
 };
 

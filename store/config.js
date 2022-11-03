@@ -19,7 +19,7 @@ export const mutations = {
 
 export const actions = {
   async populateUnidade(context, id) {
-    return await this.$axios.get(`/api/unidades/${id}`)
+    return await this.$axios.get(`/api/public/unidades/${id}`)
     .then((response) => {
       context.commit('unidade', response.data);
     });

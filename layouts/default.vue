@@ -141,7 +141,7 @@ export default {
   name: 'DefaultLayout',
   middleware: 'dark-mode',
   async fetch() {
-    await this.$store.dispatch('fetchUnidades')
+    await this.$store.dispatch('fetchUnidades', true)
     .catch((error) => {
       this.$toast.error('Ocorreu um erro ao carregar a lista de Unidades: ' + error.message);
       console.error(error);

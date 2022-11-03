@@ -5,7 +5,9 @@ const router = Router();
 
 const unidadesController = require('../controllers/unidadesController');
 
-router.get('/unidades', unidadesController.list);
+router.get('/public/unidades', unidadesController.listPublic);
+
+router.get('/public/unidades/:id', unidadesController.showPublic);
 
 router.get('/unidades', permissions(null, true), unidadesController.list);
 
