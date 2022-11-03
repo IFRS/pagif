@@ -14,7 +14,7 @@
 export default {
   name: 'ConsultaID',
   async fetch() {
-    await this.$store.dispatch('pagamento/show', this.$route.params.id)
+    await this.$store.dispatch('pagamento/show_public', this.$route.params.id)
     .catch((error) => {
       this.$toast.error('Ocorreu um erro ao buscar o Pagamento. ' + error.message);
       this.$router.push({ name: 'consulta' });

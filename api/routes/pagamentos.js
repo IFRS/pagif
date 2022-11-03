@@ -7,6 +7,8 @@ const router = Router();
 
 const pagamentosController = require('../controllers/pagamentosController');
 
+router.get('/public/pagamentos/:id', pagamentosController.showPublic);
+
 router.get('/pagamentos', permissions([ADMIN.role, GERENTE.role, USER.role]), pagamentosController.list);
 
 router.get('/pagamentos/:id', permissions([ADMIN.role, GERENTE.role, USER.role]), pagamentosController.show);

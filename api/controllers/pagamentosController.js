@@ -27,6 +27,25 @@ module.exports.list = function(req, res) {
   });
 };
 
+module.exports.showPublic = function(req, res) {
+  Pagamento.findById(req.params.id).select('-token -tipoPagamentoEscolhido -nomePSP -transacaoPSP').exec(function(err, pagamento) {
+    if (err) {
+      return res.status(500).json({
+        message: 'Erro obtendo o Pagamento.',
+        error: err,
+      });
+    }
+
+    if (!pagamento) {
+      return res.status(404).json({
+        message: 'Pagamento não encontrado.',
+      });
+    }
+
+    return res.json(pagamento);
+  });
+};
+
 module.exports.show = function(req, res) {
   Pagamento.findById(req.params.id).select('-token').exec(function(err, pagamento) {
     if (err) {

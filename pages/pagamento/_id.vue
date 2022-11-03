@@ -102,7 +102,7 @@ export default {
     }
   },
   async fetch() {
-    await this.$store.dispatch('pagamento/show', this.$route.params.id)
+    await this.$store.dispatch('pagamento/show_public', this.$route.params.id)
     .catch((error) => {
       console.error(error);
       this.$toast.error('Ocorreu um erro ao buscar o Pagamento. ' + error.message);
@@ -131,11 +131,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .iframe-epag {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    width: 1px;
-    min-width: 100%;
-  }
+.iframe-epag {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  width: 1px;
+  min-width: 100%;
+}
 </style>

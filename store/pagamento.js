@@ -162,8 +162,14 @@ export const actions = {
       context.commit('removePagamento', response.data, { root: true });
     });
   },
-  async show(context, payload) {
-    return await this.$axios.get('/api/pagamentos/' + payload)
+  async show_public(context, id) {
+    return await this.$axios.get('/api/public/pagamentos/' + id)
+    .then((response) => {
+      context.commit('replace', response.data);
+    });
+  },
+  async show(context, id) {
+    return await this.$axios.get('/api/pagamentos/' + id)
     .then((response) => {
       context.commit('replace', response.data);
     });
