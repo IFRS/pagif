@@ -1,16 +1,23 @@
 export const state = () => ({
-  usuario: null,
+  user: null,
 });
 
 export const getters = {
-  usuario: state => state.usuario,
+  user: state => state.user,
+  userHasRole: (state) => (value) => {
+    console.log(value);
+    if (state.user.superadmin) return true;
+    if (!state.user.roles || state.user.roles.length === 0) return false;
+    return state.user.roles.some((role) => {
+      return role.tipo === value;
+    });
+  },
 };
 
 export const mutations = {
-  setUsuario: (state, payload) => {
-    state.usuario = payload;
-  }
+  user: (state, payload) => {
+    state.user = payload;
+  },
 };
 
-export const actions = {
-};
+export const actions = {};

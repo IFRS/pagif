@@ -114,7 +114,7 @@ export const actions = {
   async nuxtServerInit({ commit }, { app }) {
     await app.$axios.get('/api/auth/me')
     .then(response => {
-      commit('auth/setUsuario', response.data);
+      commit('auth/user', response.data);
     });
   },
 };

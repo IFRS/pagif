@@ -67,7 +67,7 @@
 
       <DarkMode />
 
-      <UserMenu v-if="$store.getters['auth/usuario']"/>
+      <UserMenu v-if="$store.getters['auth/user']"/>
       <v-btn
         v-else
         color="primary"

@@ -119,6 +119,8 @@
 </template>
 
 <script>
+  import ROLES from '~/db/roles';
+
   export default {
     name: 'Servicos',
     layout: 'admin',
@@ -170,6 +172,9 @@
           this.$toast.error('Erro ao tentar deletar o Serviço. ' + error.message);
         });
       },
+    },
+    validate({ store }) {
+      return store.getters['auth/userHasRole'](ROLES.ADMIN.role);
     },
   };
 </script>
