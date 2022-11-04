@@ -221,5 +221,8 @@
         });
       },
     },
+    validate({ store }) {
+      return store.getters['auth/userHasRole']();
+    },
   };
 </script>

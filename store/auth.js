@@ -4,12 +4,13 @@ export const state = () => ({
 
 export const getters = {
   user: state => state.user,
-  userHasRole: (state) => (value) => {
-    console.log(value);
+  userHasRole: (state) => (roles) => {
+    const rolesArray = Array.of(roles);
     if (state.user.superadmin) return true;
     if (!state.user.roles || state.user.roles.length === 0) return false;
     return state.user.roles.some((role) => {
-      return role.tipo === value;
+      // return role.tipo === value;
+      return rolesArray.includes(role.tipo);
     });
   },
 };
