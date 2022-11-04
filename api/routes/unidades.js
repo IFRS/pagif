@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const permissions = require('../middleware/permissions');
+const { ADMIN, GERENTE } = require('../../db/roles');
 
 const router = Router();
 
@@ -9,7 +10,7 @@ router.get('/public/unidades', unidadesController.listPublic);
 
 router.get('/public/unidades/:id', unidadesController.showPublic);
 
-router.get('/unidades', permissions(null, true), unidadesController.list);
+router.get('/unidades', permissions([ADMIN.role, GERENTE.role]), unidadesController.list);
 
 router.get('/unidades/:id', permissions(null, true), unidadesController.show);
 

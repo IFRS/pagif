@@ -25,12 +25,22 @@ module.exports.listPublic = function(req, res) {
 };
 
 module.exports.list = function(req, res) {
+  const user = req.user;
+
   const unidade_id = req.query.unidade;
 
   const populate = req.query.populate;
   const populate_fields = req.query.populate_fields?.replaceAll(',', ' ');
 
+  let unidades = user.roles.map((role) => {
+    return role.unidade;
+  });
+
   const query = Servico.find({});
+
+  if (!user.superadmin && unidades) {
+    query.where('unidade').in(unidades);
+  }
 
   if (unidade_id) {
     query.where({unidade: unidade_id});
