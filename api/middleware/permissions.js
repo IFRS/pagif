@@ -11,10 +11,11 @@ module.exports = function(roles, superadminOnly = false) {
         res.status(403).end();
       } else if (!roles) {
         next();
-      } else if (roles.size > 0) {
-        roles.forEach(role => {
-          if (role && user.roles.has(role)) next();
+      } else if (roles.length > 0) {
+        const userHasRole = user.roles.some((role) => {
+          return roles.includes(role.tipo);
         });
+        if (userHasRole) next();
       } else {
         res.status(403).end();
       }
