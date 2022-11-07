@@ -3,7 +3,7 @@ const defaultState = {
   email: '',
   nome: '',
   foto: '',
-  roles: [],
+  abilities: [],
   createdAt: null,
   updatedAt: null,
 };
@@ -15,7 +15,7 @@ export const getters = {
   email: state => state.email,
   nome: state => state.nome,
   foto: state => state.foto,
-  roles: state => state.roles,
+  abilities: state => state.abilities,
   createdAt: state => state.createdAt,
   updatedAt: state => state.updatedAt,
 };
@@ -33,8 +33,8 @@ export const mutations = {
   foto: (state, payload) => {
     state.foto = payload;
   },
-  roles: (state, payload) => {
-    state.roles = payload;
+  abilities: (state, payload) => {
+    state.abilities = payload;
   },
   createdAt: (state, payload) => {
     state.createdAt = payload;

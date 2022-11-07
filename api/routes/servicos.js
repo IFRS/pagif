@@ -1,6 +1,5 @@
 const { Router } = require('express');
-const permissions = require('../middleware/permissions');
-const { ADMIN, GERENTE } = require('../../db/roles');
+const requireAbility = require('../middleware/requireAbility');
 
 const router = Router();
 
@@ -8,14 +7,14 @@ const servicosController = require('../controllers/servicosController');
 
 router.get('/public/servicos', servicosController.listPublic);
 
-router.get('/servicos', permissions([ADMIN.role, GERENTE.role]), servicosController.list);
+router.get('/servicos', requireAbility(['read', 'Servico']), servicosController.list);
 
-router.get('/servicos/:id', permissions([ADMIN.role]), servicosController.show);
+router.get('/servicos/:id', requireAbility(['read', 'Servico']), servicosController.show);
 
-router.post('/servicos', permissions([ADMIN.role]), servicosController.save);
+router.post('/servicos', requireAbility(['create', 'Servico']), servicosController.save);
 
-router.put('/servicos/:id', permissions([ADMIN.role]), servicosController.save);
+router.put('/servicos/:id', requireAbility(['update', 'Servico']), servicosController.save);
 
-router.delete('/servicos/:id', permissions([ADMIN.role]), servicosController.delete);
+router.delete('/servicos/:id', requireAbility(['delete', 'Servico']), servicosController.delete);
 
 module.exports = router;

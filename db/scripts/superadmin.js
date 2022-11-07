@@ -4,7 +4,7 @@ const args = process.argv.slice(2);
 
 const email = args[0];
 
-Usuario.findOneAndUpdate({ email: email }, { email: email, superadmin: true }, { upsert: true }, function(err, usuario) {
+Usuario.findOneAndUpdate({ email: email }, { email: email, abilities: [{ action: 'manage', subject: 'all' }] }, { upsert: true }, function(err, usuario) {
   if (err) console.error(err);
 
   if (usuario === null) {

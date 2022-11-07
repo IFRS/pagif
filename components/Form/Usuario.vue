@@ -19,21 +19,37 @@
       <h3>Permiss&otilde;es por Unidade Gestora</h3>
 
       <v-row>
+        <v-col>
+          <v-card tag="fieldset">
+            <v-card-title tag="legend">Geral</v-card-title>
+            <v-card-text>
+              <template v-for="(actions, subject) in all_abilities.geral">
+                <strong>{{ subject }}</strong>
+                <v-switch
+                  v-for="(action, a) in actions"
+                  :key="subject + '_' + a"
+                  v-model="abilities"
+                  :label="action"
+                  :value="JSON.stringify({ action: action, subject: subject })"
+                ></v-switch>
+              </template>
+            </v-card-text>
+          </v-card>
+        </v-col>
         <v-col cols="auto" md="6" lg="4" xl="3" v-for="(unidade, i) in $store.getters['unidades']" :key="i">
           <v-card tag="fieldset">
             <v-card-title tag="legend">{{ unidade.nome }}</v-card-title>
             <v-card-text>
-              <v-radio-group v-model="model_roles[i]">
-                <v-radio
-                  v-for="(role, j) in allroles"
-                  :key="j"
-                  :label="role.name"
-                  persistent-hint
-                  :hint="role.desc"
-                  :value="{ tipo: role.role, unidade: unidade._id }"
-                ></v-radio>
-              </v-radio-group>
-              <v-btn color="accent" text small @click="model_roles.splice(i, 1)">Limpar Seleção</v-btn>
+              <template v-for="(actions, subject) in all_abilities.porUnidade">
+                <strong>{{ subject }}</strong>
+                <v-switch
+                  v-for="(action, a) in actions"
+                  :key="subject + '_' + i + '_' + a"
+                  v-model="abilities"
+                  :label="action"
+                  :value="JSON.stringify({ action: action, subject: subject, conditions: { unidade: unidade._id } })"
+                ></v-switch>
+              </template>
             </v-card-text>
           </v-card>
         </v-col>
@@ -72,7 +88,7 @@
 
 <script>
   import { mapGetters, mapMutations } from 'vuex';
-  import allroles from '~/db/roles';
+  import all_abilities from '~/db/abilities';
 
   export default {
     name: 'FormUsuario',
@@ -98,8 +114,8 @@
             v => !!v || v.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/) || 'E-mail precisa ser válido.',
           ],
         },
-        allroles: allroles,
-        model_roles: [],
+        all_abilities: all_abilities,
+        model_abilities: [],
       }
     },
     computed: {
@@ -111,21 +127,21 @@
         ...mapGetters({ get: 'usuario/email' }),
         ...mapMutations({ set: 'usuario/email' }),
       },
-      roles: {
-        ...mapGetters({ get: 'usuario/roles' }),
-        ...mapMutations({ set: 'usuario/roles' }),
+      abilities: {
+        ...mapGetters({ get: 'usuario/abilities' }),
+        ...mapMutations({ set: 'usuario/abilities' }),
       },
     },
     watch: {
-      model_roles(selectedRoles) {
-        let roles = [];
-        if (selectedRoles && selectedRoles.length > 0) {
-          selectedRoles.forEach(role => {
-            roles.push(role);
-          });
-        }
-        this.roles = roles;
-      },
+      // model_roles(selectedRoles) {
+      //   let roles = [];
+      //   if (selectedRoles && selectedRoles.length > 0) {
+      //     selectedRoles.forEach(role => {
+      //       roles.push(role);
+      //     });
+      //   }
+      //   this.roles = roles;
+      // },
     },
     methods: {
       handleSubmit() {
@@ -139,9 +155,9 @@
       },
     },
     created() {
-      this.roles.forEach(role => {
-        this.model_roles.push(role);
-      });
+      // this.roles.forEach(role => {
+      //   this.model_roles.push(role);
+      // });
     },
   }
 </script>

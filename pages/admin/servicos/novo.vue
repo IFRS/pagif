@@ -14,8 +14,6 @@
 </template>
 
 <script>
-  import ROLES from '~/db/roles';
-
   export default {
     name: 'NovoServico',
     layout: 'admin',
@@ -55,8 +53,8 @@
     destroyed () {
       this.$store.commit('servico/clear');
     },
-    validate({ store }) {
-      return store.getters['auth/userHasRole'](ROLES.ADMIN.role);
-    },
+    // validate({ store }) {
+    //   return store.getters['auth/userHasRole'](ROLES.ADMIN.role);
+    // },
   }
 </script>

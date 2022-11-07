@@ -163,7 +163,6 @@
 
 <script>
   import { mapGetters, mapMutations } from 'vuex';
-  import ROLES from '~/db/roles';
 
   export default {
     name: 'Pagamentos',
@@ -276,9 +275,9 @@
         });
       },
     },
-    validate({ store }) {
-      return store.getters['auth/userHasRole']([ROLES.ADMIN.role, ROLES.GERENTE.role, ROLES.USER.role]);
-    },
+    // validate({ store }) {
+    //   return store.getters['auth/userHasRole']([ROLES.ADMIN.role, ROLES.GERENTE.role, ROLES.USER.role]);
+    // },
   };
 </script>
 

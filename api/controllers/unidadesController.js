@@ -20,19 +20,9 @@ module.exports.listPublic = function(req, res) {
 };
 
 module.exports.list = function(req, res) {
-  const user = req.user;
-
   let fields = req.query.fields?.split(',');
 
   const query = Unidade.find({});
-
-  let unidades = user.roles.map((role) => {
-    return role.unidade;
-  });
-
-  if (!user.superadmin && unidades) {
-    query.where('_id').in(unidades);
-  }
 
   if (Array.isArray(fields)) {
     query.select(fields);

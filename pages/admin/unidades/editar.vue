@@ -60,8 +60,8 @@
     destroyed () {
       this.$store.commit('unidade/clear');
     },
-    validate({ store }) {
-      return store.getters['auth/userHasRole']();
-    },
+    // validate({ store }) {
+    //   return store.getters['auth/userHasRole']();
+    // },
   }
 </script>

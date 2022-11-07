@@ -4,17 +4,7 @@ const validator = require('express-validator');
 const pagtesouro = require('../pagtesouro');
 
 module.exports.list = function(req, res) {
-  const user = req.user;
-
-  let unidades = user.roles.map((role) => {
-    return role.unidade;
-  });
-
   const query = Pagamento.find({}).select('-token').sort('-dataCriacao');
-
-  if (!user.superadmin && unidades) {
-    query.where('unidade').in(unidades);
-  }
 
   if (req.query) {
     if (req.query.unidades) {

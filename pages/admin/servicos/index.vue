@@ -119,8 +119,6 @@
 </template>
 
 <script>
-  import ROLES from '~/db/roles';
-
   export default {
     name: 'Servicos',
     layout: 'admin',
@@ -173,8 +171,8 @@
         });
       },
     },
-    validate({ store }) {
-      return store.getters['auth/userHasRole'](ROLES.ADMIN.role);
-    },
+    // validate({ store }) {
+    //   return store.getters['auth/userHasRole'](ROLES.ADMIN.role);
+    // },
   };
 </script>

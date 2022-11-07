@@ -42,7 +42,7 @@ module.exports.save = [
   .trim()
   .notEmpty()
   .isEmail(),
-  validator.body('roles', '')
+  validator.body('abilities', '')
   .optional()
   .isArray(),
   function(req, res) {
@@ -51,9 +51,15 @@ module.exports.save = [
       return res.status(422).json({ errors: errors.mapped() });
     }
 
+    let abilities = req.body.abilities.map((ability) => {
+      return JSON.parse(ability);
+    });
+
+    console.log(abilities);
+
     const data = {
       email: req.body.email,
-      roles: req.body.roles,
+      abilities: abilities,
     };
 
     if (req.params.id) {

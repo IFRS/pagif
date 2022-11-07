@@ -1,18 +1,18 @@
 const { Router } = require('express');
-const permissions = require('../middleware/permissions');
+const requireAbility = require('../middleware/requireAbility');
 
 const router = Router();
 
 const usuariosController = require('../controllers/usuariosController');
 
-router.get('/usuarios', permissions(null, true), usuariosController.list);
+router.get('/usuarios', requireAbility(['read', 'Usuario']), usuariosController.list);
 
-router.get('/usuarios/:id', permissions(null, true), usuariosController.show);
+router.get('/usuarios/:id', requireAbility(['read', 'Usuario']), usuariosController.show);
 
-router.post('/usuarios', permissions(null, true), usuariosController.save);
+router.post('/usuarios', requireAbility(['create', 'Usuario']), usuariosController.save);
 
-router.put('/usuarios/:id', permissions(null, true), usuariosController.save);
+router.put('/usuarios/:id', requireAbility(['update', 'Usuario']), usuariosController.save);
 
-router.delete('/usuarios/:id', permissions(null, true), usuariosController.delete);
+router.delete('/usuarios/:id', requireAbility(['delete', 'Usuario']), usuariosController.delete);
 
 module.exports = router;

@@ -10,6 +10,8 @@
     "superadmin": "node ./db/scripts/superadmin.js"
   },
   "dependencies": {
+    "@casl/ability": "^6.3.2",
+    "@casl/mongoose": "^7.1.2",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/recaptcha": "^1.1.1",
     "connect-mongodb-session": "^3.1.1",

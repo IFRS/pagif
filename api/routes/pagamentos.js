@@ -1,7 +1,6 @@
 const { Router } = require('express');
+const requireAbility = require('../middleware/requireAbility');
 const recaptcha = require('../middleware/recaptcha');
-const permissions = require('../middleware/permissions');
-const { ADMIN, GERENTE, USER } = require('../../db/roles');
 
 const router = Router();
 
@@ -9,16 +8,16 @@ const pagamentosController = require('../controllers/pagamentosController');
 
 router.get('/public/pagamentos/:id', pagamentosController.showPublic);
 
-router.get('/pagamentos', permissions([ADMIN.role, GERENTE.role, USER.role]), pagamentosController.list);
+router.get('/pagamentos', requireAbility(['read', 'Pagamento']), pagamentosController.list);
 
-router.get('/pagamentos/:id', permissions([ADMIN.role, GERENTE.role, USER.role]), pagamentosController.show);
+router.get('/pagamentos/:id', requireAbility(['read', 'Pagamento']), pagamentosController.show);
 
-router.post('/pagamentos', permissions([ADMIN.role, GERENTE.role]), pagamentosController.save);
+router.post('/pagamentos', requireAbility(['create', 'Pagamento']), pagamentosController.save);
 
 router.post('/public/pagamentos', recaptcha, pagamentosController.save);
 
-router.put('/pagamentos/:id', permissions([ADMIN.role, GERENTE.role]), pagamentosController.update);
+router.put('/pagamentos/:id', requireAbility(['update', 'Pagamento']), pagamentosController.update);
 
-router.delete('/pagamentos/:id', permissions([ADMIN.role, GERENTE.role]), pagamentosController.delete);
+router.delete('/pagamentos/:id', requireAbility(['delete', 'Pagamento']), pagamentosController.delete);
 
 module.exports = router;

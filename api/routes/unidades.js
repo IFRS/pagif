@@ -1,6 +1,5 @@
 const { Router } = require('express');
-const permissions = require('../middleware/permissions');
-const { ADMIN, GERENTE } = require('../../db/roles');
+const requireAbility = require('../middleware/requireAbility');
 
 const router = Router();
 
@@ -10,16 +9,16 @@ router.get('/public/unidades', unidadesController.listPublic);
 
 router.get('/public/unidades/:id', unidadesController.showPublic);
 
-router.get('/unidades', permissions([ADMIN.role, GERENTE.role]), unidadesController.list);
+router.get('/unidades', requireAbility(['read', 'Unidade']), unidadesController.list);
 
-router.get('/unidades/:id', permissions(null, true), unidadesController.show);
+router.get('/unidades/:id', requireAbility(['read', 'Unidade']), unidadesController.show);
 
-router.get('/unidades/token/:id', permissions(null, true), unidadesController.token);
+router.get('/unidades/token/:id', requireAbility(['read', 'UnidadeToken']), unidadesController.token);
 
-router.post('/unidades', permissions(null, true), unidadesController.save);
+router.post('/unidades', requireAbility(['create', 'Unidade']), unidadesController.save);
 
-router.put('/unidades/:id', permissions(null, true), unidadesController.save);
+router.put('/unidades/:id', requireAbility(['update', 'Unidade']), unidadesController.save);
 
-router.delete('/unidades/:id', permissions(null, true), unidadesController.delete);
+router.delete('/unidades/:id', requireAbility(['delete', 'Unidade']), unidadesController.delete);
 
 module.exports = router;
