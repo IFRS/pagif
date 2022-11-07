@@ -114,8 +114,8 @@ export default {
   build: {
     devtools: true,
     watch: [
-      '~/db/**',
-      '~/api/**',
+      '~/db/**/*',
+      '~/api/**/*',
     ],
   },
 }
