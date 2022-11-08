@@ -54,8 +54,8 @@
     destroyed () {
       this.$store.commit('pagamento/clear');
     },
-    // validate({ store }) {
-    //   return store.getters['auth/userHasRole']([ROLES.ADMIN.role, ROLES.GERENTE.role]);
-    // },
+    validate({ app }) {
+      return app.$acl.can('create', 'Pagamento');
+    },
   }
 </script>

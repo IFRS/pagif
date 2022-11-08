@@ -11,6 +11,7 @@
         <v-list-item
           v-for="(item, i) in items"
           :key="i"
+          v-if="item.enabled"
           :to="item.to"
           :exact="item.exact || false"
           router
@@ -77,26 +78,31 @@ export default {
           title: 'Início',
           to: '/admin',
           exact: true,
+          enabled: true,
         },
         {
           icon: 'mdi-office-building-marker',
           title: 'Unidades',
           to: '/admin/unidades',
+          enabled: this.$acl.can('read', 'Unidade'),
         },
         {
           icon: 'mdi-basket',
           title: 'Serviços',
           to: '/admin/servicos',
+          enabled: this.$acl.can('read', 'Servico'),
         },
         {
           icon: 'mdi-credit-card-outline',
           title: 'Pagamentos',
           to: '/admin/pagamentos',
+          enabled: this.$acl.can('read', 'Pagamento'),
         },
         {
           icon: 'mdi-account-multiple',
           title: 'Usuários',
           to: '/admin/usuarios',
+          enabled: this.$acl.can('read', 'Usuario'),
         },
       ],
     }

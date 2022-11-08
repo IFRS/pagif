@@ -33,6 +33,7 @@
                 <v-icon>mdi-refresh</v-icon>
               </v-btn>
               <v-btn
+                v-if="$acl.can('create', 'Usuario')"
                 color="primary"
                 to="/admin/usuarios/novo"
               >
@@ -170,8 +171,8 @@
         });
       },
     },
-    // validate({ store }) {
-    //   return store.getters['auth/userHasRole']();
-    // },
+    validate({ app }) {
+      return app.$acl.can('read', 'Usuario');
+    },
   };
 </script>

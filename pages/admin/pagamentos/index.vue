@@ -45,6 +45,7 @@
                 <v-icon>mdi-refresh</v-icon>
               </v-btn>
               <v-btn
+                v-if="$acl.can('create', 'Pagamento')"
                 color="primary"
                 to="/admin/pagamentos/novo"
               >
@@ -275,9 +276,9 @@
         });
       },
     },
-    // validate({ store }) {
-    //   return store.getters['auth/userHasRole']([ROLES.ADMIN.role, ROLES.GERENTE.role, ROLES.USER.role]);
-    // },
+    validate({ app }) {
+      return app.$acl.can('read', 'Pagamento');
+    },
   };
 </script>
 

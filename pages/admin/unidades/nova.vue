@@ -53,8 +53,8 @@
     destroyed () {
       this.$store.commit('unidade/clear');
     },
-    // validate({ store }) {
-    //   return store.getters['auth/userHasRole']();
-    // },
+    validate({ app }) {
+      return app.$acl.can('create', 'Unidade');
+    },
   }
 </script>

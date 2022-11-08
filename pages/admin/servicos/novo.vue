@@ -53,8 +53,8 @@
     destroyed () {
       this.$store.commit('servico/clear');
     },
-    // validate({ store }) {
-    //   return store.getters['auth/userHasRole'](ROLES.ADMIN.role);
-    // },
+    validate({ app }) {
+      return app.$acl.can('create', 'Servico');
+    },
   }
 </script>

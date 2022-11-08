@@ -33,6 +33,7 @@
                 <v-icon>mdi-refresh</v-icon>
               </v-btn>
               <v-btn
+                v-if="$acl.can('create', 'Servico')"
                 color="primary"
                 to="/admin/servicos/novo"
               >
@@ -171,8 +172,8 @@
         });
       },
     },
-    // validate({ store }) {
-    //   return store.getters['auth/userHasRole'](ROLES.ADMIN.role);
-    // },
+    validate({ app }) {
+      return app.$acl.can('read', 'Servico');
+    },
   };
 </script>

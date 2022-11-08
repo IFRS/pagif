@@ -33,6 +33,7 @@
                 <v-icon>mdi-refresh</v-icon>
               </v-btn>
               <v-btn
+                v-if="$acl.can('create', 'Unidade')"
                 color="primary"
                 to="/admin/unidades/nova"
               >
@@ -221,8 +222,8 @@
         });
       },
     },
-    // validate({ store }) {
-    //   return store.getters['auth/userHasRole']();
-    // },
+    validate({ app }) {
+      return app.$acl.can('read', 'Unidade');
+    },
   };
 </script>
