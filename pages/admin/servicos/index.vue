@@ -54,6 +54,7 @@
                   v-bind="attrs"
                   v-on="on"
                   icon
+                  :disabled="$acl.cannot('update', 'Servico') || $acl.cannot('delete', 'Servico')"
                 >
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
@@ -61,6 +62,7 @@
 
               <v-list dense>
                 <v-list-item
+                  v-if="$acl.can('update', 'Servico')"
                   @click="editServico(item)"
                 >
                   <v-list-item-icon><v-icon>mdi-pencil</v-icon></v-list-item-icon>
@@ -68,6 +70,7 @@
                 </v-list-item>
 
                 <v-list-item
+                  v-if="$acl.can('delete', 'Servico')"
                   @click.stop="confirmDelete(item)"
                 >
                   <v-list-item-icon><v-icon>mdi-delete</v-icon></v-list-item-icon>

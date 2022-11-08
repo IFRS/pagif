@@ -75,6 +75,7 @@
                   v-bind="attrs"
                   v-on="on"
                   icon
+                  :disabled="$acl.cannot('update', 'Pagamento') || $acl.cannot('delete', 'Pagamento')"
                 >
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
@@ -82,6 +83,7 @@
 
               <v-list dense>
                 <v-list-item
+                  v-if="$acl.can('update', 'Pagamento')"
                   :disabled="(item.tipoPagamentoEscolhido === 'BOLETO') || ['CONCLUIDO', 'REJEITADO', 'CANCELADO'].includes(item.situacao.codigo)"
                   @click.stop="consultaPagamento(item)"
                 >
@@ -93,6 +95,7 @@
                 </v-list-item>
 
                 <v-list-item
+                  v-if="$acl.can('delete', 'Pagamento')"
                   :disabled="item.situacao.codigo !== 'CRIADO'"
                   @click.stop="confirmDelete(item)"
                 >
