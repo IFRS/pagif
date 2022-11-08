@@ -64,11 +64,13 @@
             <pagamento-situacao :situacao="value" />
           </template>
           <template #item.actions="{ item }">
+            <v-progress-circular indeterminate :size="20" :width="2" v-if="item.idPagamento === loadingPagamento"></v-progress-circular>
             <v-menu
+              v-else
               bottom
               left
               :offset-x="true"
-              :close-on-content-click="false"
+              :close-on-content-click="true"
             >
               <template #activator="{ on, attrs }">
                 <v-btn
@@ -88,8 +90,7 @@
                   @click.stop="consultaPagamento(item)"
                 >
                   <v-list-item-icon>
-                    <v-progress-circular indeterminate :size="20" :width="2" v-if="item.idPagamento === loadingPagamento"></v-progress-circular>
-                    <v-icon v-else>mdi-cloud-refresh</v-icon>
+                    <v-icon>mdi-cloud-refresh</v-icon>
                   </v-list-item-icon>
                   <v-list-item-title>Consulta Pagtesouro</v-list-item-title>
                 </v-list-item>
