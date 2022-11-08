@@ -30,6 +30,7 @@ export default {
     '~/plugins/toast.js',
     '~/plugins/dayjs.js',
     '~/plugins/validation.js',
+    '~/plugins/casl.js',
     '~/plugins/populate-store.client.js',
     '~/plugins/check-unidade.client.js',
   ],
