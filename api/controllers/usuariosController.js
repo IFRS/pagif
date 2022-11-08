@@ -51,15 +51,9 @@ module.exports.save = [
       return res.status(422).json({ errors: errors.mapped() });
     }
 
-    let abilities = req.body.abilities.map((ability) => {
-      return JSON.parse(ability);
-    });
-
-    console.log(abilities);
-
     const data = {
       email: req.body.email,
-      abilities: abilities,
+      abilities: req.body.abilities,
     };
 
     if (req.params.id) {

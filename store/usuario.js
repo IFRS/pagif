@@ -15,7 +15,11 @@ export const getters = {
   email: state => state.email,
   nome: state => state.nome,
   foto: state => state.foto,
-  abilities: state => state.abilities,
+  abilities: state => {
+    return state.abilities.map((ability) => {
+      return JSON.stringify(ability);
+    });
+  },
   createdAt: state => state.createdAt,
   updatedAt: state => state.updatedAt,
 };
@@ -34,7 +38,9 @@ export const mutations = {
     state.foto = payload;
   },
   abilities: (state, payload) => {
-    state.abilities = payload;
+    state.abilities = payload.map((ability) => {
+      return JSON.parse(ability);
+    });
   },
   createdAt: (state, payload) => {
     state.createdAt = payload;
