@@ -1,5 +1,6 @@
 const Servico = require('../../db/models/Servico');
 const validator = require('express-validator');
+import { createMongoAbility } from '@casl/ability';
 
 module.exports.listPublic = function(req, res) {
   const unidade_id = req.query.unidade;
@@ -25,12 +26,13 @@ module.exports.listPublic = function(req, res) {
 };
 
 module.exports.list = function(req, res) {
+  const ability = createMongoAbility(req.user.abilities);
   const unidade_id = req.query.unidade;
 
   const populate = req.query.populate;
   const populate_fields = req.query.populate_fields?.replaceAll(',', ' ');
 
-  const query = Servico.find({});
+  const query = Servico.find({}).accessibleBy(ability);
 
   if (unidade_id) {
     query.where({unidade: unidade_id});

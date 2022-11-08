@@ -2,9 +2,30 @@ const Pagamento = require('../../db/models/Pagamento');
 const Servico = require('../../db/models/Servico');
 const validator = require('express-validator');
 const pagtesouro = require('../pagtesouro');
+import { createMongoAbility } from '@casl/ability';
+
+module.exports.showPublic = function(req, res) {
+  Pagamento.findById(req.params.id).select('-token -tipoPagamentoEscolhido -nomePSP -transacaoPSP').exec(function(err, pagamento) {
+    if (err) {
+      return res.status(500).json({
+        message: 'Erro obtendo o Pagamento.',
+        error: err,
+      });
+    }
+
+    if (!pagamento) {
+      return res.status(404).json({
+        message: 'Pagamento não encontrado.',
+      });
+    }
+
+    return res.json(pagamento);
+  });
+};
 
 module.exports.list = function(req, res) {
-  const query = Pagamento.find({}).select('-token').sort('-dataCriacao');
+  const ability = createMongoAbility(req.user.abilities);
+  const query = Pagamento.find({}).accessibleBy(ability).select('-token').sort('-dataCriacao');
 
   if (req.query) {
     if (req.query.unidades) {
@@ -24,25 +45,6 @@ module.exports.list = function(req, res) {
     }
 
     return res.json(pagamentos);
-  });
-};
-
-module.exports.showPublic = function(req, res) {
-  Pagamento.findById(req.params.id).select('-token -tipoPagamentoEscolhido -nomePSP -transacaoPSP').exec(function(err, pagamento) {
-    if (err) {
-      return res.status(500).json({
-        message: 'Erro obtendo o Pagamento.',
-        error: err,
-      });
-    }
-
-    if (!pagamento) {
-      return res.status(404).json({
-        message: 'Pagamento não encontrado.',
-      });
-    }
-
-    return res.json(pagamento);
   });
 };
 
