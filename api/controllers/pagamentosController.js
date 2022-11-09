@@ -127,7 +127,7 @@ module.exports.save = [
       valorOutrosAcrescimos: req.body.valorOutrosAcrescimos,
     };
 
-    Servico.findOne({ codigo: req.body.codigoServico }).populate('unidade').exec((err, servico) => {
+    Servico.findOne({ codigo: data.codigoServico }).populate('unidade').exec((err, servico) => {
       if (err) {
         return res.status(500).json({
           message: 'Erro ao buscar Serviço.',
@@ -137,14 +137,15 @@ module.exports.save = [
 
       if (!servico) {
         return res.status(500).json({
-          message: `Serviço de código ${req.body.codigoServico} não encontrado.`,
+          message: `Serviço de código ${data.codigoServico} não encontrado.`,
           error: err,
         });
       }
 
-      data.nomeServico = servico.nome;
-      data.nomeUnidade = servico.unidade.nome;
       data.token = servico.unidade.token;
+      data.unidade = servico.unidade._id;
+      data.nomeUnidade = servico.unidade.nome;
+      data.nomeServico = servico.nome;
 
       pagtesouro.post('/api/gru/solicitacao-pagamento', data, { headers: {'Authorization': `Bearer ${data.token}`} })
       .then((response) => {

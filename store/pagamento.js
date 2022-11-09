@@ -1,6 +1,7 @@
 const defaultState = {
   _id: null,
   idPagamento: null,
+  unidade: null,
   nomeUnidade: null,
   nomeServico: null,
   codigoServico: null,
@@ -29,6 +30,7 @@ export const state = () => defaultState;
 export const getters = {
   id: state => state._id,
   idPagamento: state => state.idPagamento,
+  unidade: state => state.unidade,
   nomeUnidade: state => state.nomeUnidade,
   nomeServico: state => state.nomeServico,
   codigoServico: state => state.codigoServico,
@@ -64,6 +66,9 @@ export const mutations = {
   },
   idPagamento: (state, payload) => {
     state.idPagamento = payload;
+  },
+  unidade: (state, payload) => {
+    state.unidade = payload;
   },
   nomeUnidade: (state, payload) => {
     state.nomeUnidade = payload;
