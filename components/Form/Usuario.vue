@@ -16,26 +16,31 @@
         </v-col>
       </v-row>
 
-      <h3>Permiss&otilde;es por Unidade Gestora</h3>
-
       <v-row>
         <v-col>
           <v-card tag="fieldset">
-            <v-card-title tag="legend">Geral</v-card-title>
+            <v-card-title tag="legend">Permiss&otilde;es Gerais</v-card-title>
             <v-card-text>
-              <template v-for="(actions, subject) in all_abilities.geral">
-                <strong>{{ subject }}</strong>
-                <v-switch
-                  v-for="(action, a) in actions"
-                  :key="subject + '_' + a"
-                  v-model="abilities"
-                  :label="action"
-                  :value="JSON.stringify({ action: action, subject: subject })"
-                ></v-switch>
-              </template>
+              <v-row>
+                <v-col v-for="(actions, subject) in all_abilities.geral" :key="subject">
+                  <strong>{{ subject }}</strong>
+                  <v-switch
+                    v-for="(action, a) in actions"
+                    :key="subject + '_' + a"
+                    v-model="abilities"
+                    :label="action"
+                    :value="JSON.stringify({ action: action, subject: subject })"
+                  ></v-switch>
+                </v-col>
+              </v-row>
             </v-card-text>
           </v-card>
         </v-col>
+      </v-row>
+
+      <h3 class="mt-6">Permiss&otilde;es por Unidade Gestora</h3>
+
+      <v-row>
         <v-col cols="auto" md="6" lg="4" xl="3" v-for="(unidade, i) in $store.getters['unidades']" :key="i">
           <v-card tag="fieldset">
             <v-card-title tag="legend">{{ unidade.nome }}</v-card-title>
