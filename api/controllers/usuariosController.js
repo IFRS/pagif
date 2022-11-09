@@ -13,7 +13,7 @@ module.exports.list = function(req, res) {
         message: 'Erro obtendo Usuários.',
       });
     }
-    return res.json(usuarios);
+    return res.json(usuarios.map(doc => doc.toJSON()));
   });
 };
 
@@ -33,7 +33,7 @@ module.exports.show = function(req, res) {
       });
     }
 
-    return res.json(usuario);
+    return res.json(usuario.toJSON());
   });
 };
 
@@ -74,7 +74,7 @@ module.exports.save = [
             });
           }
 
-          return res.json(usuario);
+          return res.json(usuario.toJSON());
         }
       );
     } else {
@@ -88,7 +88,7 @@ module.exports.save = [
           });
         }
 
-        return res.json(usuario);
+        return res.json(usuario.toJSON());
       });
     }
   }
@@ -102,6 +102,6 @@ module.exports.delete = function(req, res) {
       });
     }
 
-    return res.json(usuario);
+    return res.json(usuario.toJSON());
   });
 };

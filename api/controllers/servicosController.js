@@ -21,7 +21,7 @@ module.exports.listPublic = function(req, res) {
       });
     }
 
-    return res.json(servicos);
+    return res.json(servicos.map(doc => doc.toJSON()));
   });
 };
 
@@ -50,7 +50,7 @@ module.exports.list = function(req, res) {
       });
     }
 
-    return res.json(servicos);
+    return res.json(servicos.map(doc => doc.toJSON()));
   });
 };
 
@@ -68,7 +68,7 @@ module.exports.show = function(req, res) {
       });
     }
 
-    return res.json(servico);
+    return res.json(servico.toJSON());
   });
 };
 
@@ -119,7 +119,7 @@ module.exports.save = [
             });
           }
 
-          return res.json(servico);
+          return res.json(servico.toJSON());
         }
       );
     } else {
@@ -133,7 +133,7 @@ module.exports.save = [
           });
         }
 
-        return res.json(servico);
+        return res.json(servico.toJSON());
       });
     }
   }
@@ -147,6 +147,6 @@ module.exports.delete = function(req, res) {
       });
     }
 
-    return res.json(servico);
+    return res.json(servico.toJSON());
   });
 };

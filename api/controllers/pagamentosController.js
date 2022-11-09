@@ -19,7 +19,7 @@ module.exports.showPublic = function(req, res) {
       });
     }
 
-    return res.json(pagamento);
+    return res.json(pagamento.toJSON());
   });
 };
 
@@ -44,7 +44,7 @@ module.exports.list = function(req, res) {
       });
     }
 
-    return res.json(pagamentos);
+    return res.json(pagamentos.map(doc => doc.toJSON()));
   });
 };
 
@@ -63,7 +63,7 @@ module.exports.show = function(req, res) {
       });
     }
 
-    return res.json(pagamento);
+    return res.json(pagamento.toJSON());
   });
 };
 
@@ -160,7 +160,7 @@ module.exports.save = [
             });
           }
 
-          return res.json(pagamento);
+          return res.json(pagamento.toJSON());
         });
       })
       .catch((error) => {
@@ -192,7 +192,7 @@ module.exports.update = [
           pagamento.save()
           .then((pagamentoAfterSave) => {
             delete pagamentoAfterSave.token;
-            return res.json(pagamentoAfterSave);
+            return res.json(pagamentoAfterSave.toJSON());
           })
           .catch((error) => {
             console.error('Erro atualizando o Pagamento: ' + error);
@@ -227,6 +227,6 @@ module.exports.delete = function(req, res) {
       });
     }
 
-    return res.json(pagamento);
+    return res.json(pagamento.toJSON());
   });
 };

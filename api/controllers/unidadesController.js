@@ -15,7 +15,7 @@ module.exports.listPublic = function(req, res) {
         message: 'Erro obtendo Unidades.',
       });
     }
-    return res.json(unidades);
+    return res.json(unidades.map(doc => doc.toJSON()));
   });
 };
 
@@ -39,7 +39,7 @@ module.exports.list = function(req, res) {
         message: 'Erro obtendo Unidades.',
       });
     }
-    return res.json(unidades);
+    return res.json(unidades.map(doc => doc.toJSON()));
   });
 };
 
@@ -61,7 +61,7 @@ module.exports.showPublic = function(req, res) {
       });
     }
 
-    return res.json(unidade);
+    return res.json(unidade.toJSON());
   });
 };
 
@@ -89,7 +89,7 @@ module.exports.show = function(req, res) {
       });
     }
 
-    return res.json(unidade);
+    return res.json(unidade.toJSON());
   });
 };
 
@@ -152,7 +152,7 @@ module.exports.save = [
             });
           }
 
-          return res.json(unidade);
+          return res.json(unidade.toJSON());
         }
       );
     } else {
@@ -166,7 +166,7 @@ module.exports.save = [
           });
         }
 
-        return res.json(unidade);
+        return res.json(unidade.toJSON());
       });
     }
   }
@@ -180,6 +180,6 @@ module.exports.delete = function(req, res) {
       });
     }
 
-    return res.json(unidade);
+    return res.json(unidade.toJSON());
   });
 };
