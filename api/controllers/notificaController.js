@@ -22,7 +22,16 @@ module.exports.handle = [
       return res.status(422).json(errorList);
     }
 
-    // TODO: Verificar se o token enviado no header confere com o da UG do Pagamento informado.
+    const authorization_header = req.headers['authorization'];
+    let bearer_token = null;
+
+    if (authorization_header) {
+      const bearer = authorization_header.split(' ');
+
+      if (bearer[0] === 'Bearer') {
+        bearer_token = bearer[1];
+      }
+    }
 
     Pagamento.findOne({ idPagamento: req.body.idPagamento }, (err, pagamento) => {
       if (err) {
@@ -37,6 +46,13 @@ module.exports.handle = [
         return res.status(422).json([{
           codigo: 'C0023',
           descricao: 'Pagamento inexistente.',
+        }]);
+      }
+
+      if (pagamento.token && pagamento.token !== bearerToken) {
+        return res.status(422).json([{
+          codigo: 'C0035',
+          descricao: 'Token de autenticação inválido ou inexistente.',
         }]);
       }
 
