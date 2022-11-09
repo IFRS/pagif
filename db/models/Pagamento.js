@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const Pagamento = new Schema({
   _id: { type: String, alias: 'idPagamento' },
   token: { type: String, immutable: true, required: true },
+  unidade: { type: String, immutable: true, required: true },
   nomeUnidade: { type: String, immutable: true, required: true },
   nomeServico: { type: String, immutable: true, required: true },
   codigoServico: { type: Number, immutable: true, required: true },
