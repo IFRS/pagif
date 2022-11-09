@@ -11,6 +11,8 @@ export default async ({ app, store }, inject) => {
     user = store.getters['auth/user'];
   }
 
-  const ability = createMongoAbility(user.abilities);
-  inject('acl', ability);
+  if (user) {
+    const ability = createMongoAbility(user.abilities);
+    inject('acl', ability);
+  }
 }
