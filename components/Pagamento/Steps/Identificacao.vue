@@ -1,24 +1,22 @@
 <template>
-  <v-container>
-    <v-form ref="form" v-on="$listeners">
-      <v-text-field
-        prepend-icon="mdi-text-short"
-        label="Nome"
-        v-model="nomeContribuinte"
-        :rules="validation.nome"
-        :counter="45"
-        required
-      ></v-text-field>
+  <v-form ref="form" v-on="$listeners">
+    <v-text-field
+      prepend-icon="mdi-text-short"
+      label="Nome"
+      v-model="nomeContribuinte"
+      :rules="validation.nome"
+      :counter="45"
+      required
+    ></v-text-field>
 
-      <v-text-field
-        prepend-icon="mdi-card-account-details"
-        label="CPF / CNPJ"
-        v-model="cnpjCpfFormatted"
-        :rules="validation.cnpjCpf"
-        v-mask="cnpjCpfMask"
-      ></v-text-field>
-    </v-form>
-  </v-container>
+    <v-text-field
+      prepend-icon="mdi-card-account-details"
+      label="CPF / CNPJ"
+      v-model="cnpjCpfFormatted"
+      :rules="validation.cnpjCpf"
+      v-mask="cnpjCpfMask"
+    ></v-text-field>
+  </v-form>
 </template>
 
 <script>
