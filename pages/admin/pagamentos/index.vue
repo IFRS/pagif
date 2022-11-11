@@ -257,8 +257,12 @@
       async consultaPagamento(item) {
         this.loadingPagamento = item.idPagamento;
         await this.$store.dispatch('pagamento/consulta', item.idPagamento)
-        .then(() => {
-          this.$toast.success(`Pagamento ${item.idPagamento} atualizado!`);
+        .then((status) => {
+          if (status === 204) {
+            this.$toast.info(`Pagamento ${item.idPagamento} sem atualizações!`);
+          } else {
+            this.$toast.success(`Pagamento ${item.idPagamento} atualizado!`);
+          }
         })
         .catch((error) => {
           console.error(error);

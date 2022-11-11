@@ -183,6 +183,7 @@ export const actions = {
     return await this.$axios.put('/api/pagamentos/update', {idPagamento: payload})
     .then((response) => {
       context.commit('updatePagamento', response.data, { root: true });
+      return response.status;
     });
   },
 };

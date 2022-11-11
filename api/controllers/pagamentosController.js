@@ -189,11 +189,17 @@ module.exports.update = [
 
         pagtesouro.get(`/api/gru/pagamentos/${pagamento.idPagamento}`, { headers: {'Authorization': `Bearer ${pagamento.token}`} })
         .then((response) => {
+          let pagamentoBeforeSave = pagamento.toJSON();
           Object.assign(pagamento, response.data);
           pagamento.save()
           .then((pagamentoAfterSave) => {
-            delete pagamentoAfterSave.token;
-            return res.json(pagamentoAfterSave.toJSON());
+            if (JSON.stringify(pagamentoAfterSave.toJSON()) === JSON.stringify(pagamentoBeforeSave)) return res.status(204).end();
+            return res.json(pagamentoAfterSave.toJSON({
+              transform: function(doc, ret) {
+                delete ret.token;
+                return ret;
+              }
+            }));
           })
           .catch((error) => {
             console.error('Erro atualizando o Pagamento: ' + error);
