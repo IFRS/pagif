@@ -127,8 +127,9 @@
           <v-text-field
             prepend-icon="mdi-card-account-details"
             label="CPF / CNPJ"
-            v-model="cnpjCpf"
+            v-model="cnpjCpfFormatted"
             :rules="validation.cnpjCpf"
+            v-mask="cnpjCpfMask"
             required
           ></v-text-field>
         </v-col>
@@ -317,6 +318,23 @@
       cnpjCpf: {
         ...mapGetters({ get: 'pagamento/cnpjCpf' }),
         ...mapMutations({ set: 'pagamento/cnpjCpf' }),
+      },
+      cnpjCpfFormatted: {
+        get() {
+          if (this.cnpjCpf) return this.$options.filters.VMask(this.cnpjCpf, this.cnpjCpfMask);
+          return '';
+        },
+        set(value) {
+          value = String(value);
+          value = value.replace(/\D/g, '');
+          this.cnpjCpf = value;
+        }
+      },
+      cnpjCpfMask() {
+        if (this.cnpjCpf && this.cnpjCpf.length > 11) {
+          return '##.###.###/####-##';
+        }
+        return '###.###.###-##';
       },
       valorPrincipal: {
         ...mapGetters({ get: 'pagamento/valorPrincipal' }),

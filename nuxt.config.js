@@ -27,6 +27,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/filters.js',
+    '~/plugins/mask.js',
     '~/plugins/toast.js',
     '~/plugins/dayjs.js',
     '~/plugins/validation.js',
