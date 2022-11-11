@@ -222,11 +222,8 @@
 
 <script>
   import { mapGetters, mapMutations } from 'vuex';
-  const dayjs = require('dayjs');
   const customParseFormat = require('dayjs/plugin/customParseFormat');
   const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
-  dayjs.extend(customParseFormat);
-  dayjs.extend(isSameOrAfter);
 
   export default {
     name: 'FormPagamento',
@@ -260,8 +257,8 @@
             v => {
               if (!v) return true;
 
-              const hoje = dayjs();
-              const vencimento = dayjs(v, 'DD/MM/YYYY');
+              const hoje = this.$dayjs();
+              const vencimento = this.$dayjs(v, 'DD/MM/YYYY');
 
               if (vencimento.isSameOrAfter(hoje, 'day')) {
                 return true;
@@ -300,7 +297,7 @@
       competenciaFormatted() {
         if (!this.competencia) return null;
 
-        return dayjs(this.competencia).format('MM/YYYY');
+        return this.$dayjs(this.competencia).format('MM/YYYY');
       },
       vencimento: {
         ...mapGetters({ get: 'pagamento/vencimento' }),
@@ -309,7 +306,7 @@
       vencimentoFormatted() {
         if (!this.vencimento) return null;
 
-        return dayjs(this.vencimento).format('DD/MM/YYYY');
+        return this.$dayjs(this.vencimento).format('DD/MM/YYYY');
       },
       nomeContribuinte: {
         ...mapGetters({ get: 'pagamento/nomeContribuinte' }),
@@ -383,6 +380,10 @@
         this.$refs.form.reset();
         this.$emit('cancel');
       },
+    },
+    created () {
+      this.$dayjs.extend(customParseFormat);
+      this.$dayjs.extend(isSameOrAfter);
     },
   }
 </script>

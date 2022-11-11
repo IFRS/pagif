@@ -1,3 +1,3 @@
-export default ({ app, store }, inject) => {
+export default ({ }, inject) => {
   inject('dayjs', require('dayjs'));
 };

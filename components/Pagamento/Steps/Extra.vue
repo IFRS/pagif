@@ -41,7 +41,6 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex';
-const dayjs = require('dayjs');
 
 export default {
   name: 'Extra',
@@ -67,7 +66,7 @@ export default {
     competenciaFormatted() {
       if (!this.competencia) return null;
 
-      return dayjs(this.competencia).format('MM/YYYY');
+      return this.$dayjs(this.competencia).format('MM/YYYY');
     },
   },
 }
