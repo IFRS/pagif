@@ -1,15 +1,14 @@
 services:
   pagif:
     container_name: pagif
-    image: pagif
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ifrs/pagif:latest
+    build: .
     restart: unless-stopped
+    user: "node"
     environment:
       - NODE_ENV=production
       - NUXT_HOST=0.0.0.0
       - NUXT_PORT=3000
     expose:
       - "3000"
-    command: "npm start"
+    command: "nuxt start"
