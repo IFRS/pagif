@@ -1,0 +1,15 @@
+services:
+  pagif:
+    container_name: pagif
+    image: ifpag
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - NUXT_HOST=0.0.0.0
+      - NUXT_PORT=3000
+    expose:
+      - "3000"
+    command: "npm start"
