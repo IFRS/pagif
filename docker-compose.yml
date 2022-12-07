@@ -1,7 +1,7 @@
 services:
   pagif:
     container_name: pagif
-    image: ifpag
+    image: pagif
     build:
       context: .
       dockerfile: Dockerfile
