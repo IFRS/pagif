@@ -49,7 +49,7 @@ module.exports.handle = [
         }]);
       }
 
-      if (pagamento.token && pagamento.token !== bearerToken) {
+      if (pagamento.token && pagamento.token !== bearer_token) {
         return res.status(422).json([{
           codigo: 'C0035',
           descricao: 'Token de autenticação inválido ou inexistente.',
