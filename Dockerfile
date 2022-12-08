@@ -11,6 +11,8 @@ RUN git clone --quiet https://github.com/IFRS/pagif.git ./
 RUN npm --logevel=error install
 RUN npm run build
 
+RUN rm -Rf .git/ .editorconfig .env.examaple .eslintrc .gitignore docker-compose.json Dockerfile README.md
+
 FROM node:16-alpine
 
 USER node

@@ -1,8 +1,0 @@
-.git/
-
-.editorconfig
-.eslint
-.gitignore
-docker-compose.json
-Dockerfile
-README.md
