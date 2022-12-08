@@ -4,7 +4,6 @@ services:
     image: ifrs/pagif:latest
     build: .
     restart: unless-stopped
-    user: "node"
     environment:
       - NODE_ENV=production
       - NUXT_HOST=0.0.0.0
@@ -26,4 +25,3 @@ services:
       # - RECAPTCHA_SECRET=
     expose:
       - "3000"
-    command: "nuxt start"
