@@ -1,12 +1,10 @@
 FROM node:16-alpine AS build
 
-RUN apk update
-RUN apk upgrade
-RUN apk add git
+RUN apk update && apk upgrade && apk add git
 
 WORKDIR /home/node/app
 
-RUN git clone --quiet https://github.com/IFRS/pagif.git ./
+RUN git clone --quiet --depth 1 https://github.com/IFRS/pagif.git ./
 
 RUN npm --logevel=error install
 RUN npm run build
