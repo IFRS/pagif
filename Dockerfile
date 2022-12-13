@@ -1,22 +1,27 @@
 FROM node:16-alpine AS build
 
-RUN apk update && apk upgrade && apk add git
-
 WORKDIR /home/node/app
 
-RUN git clone --quiet --depth 1 https://github.com/IFRS/pagif.git ./
+COPY . .
 
-RUN npm --logevel=error install
+RUN npm --loglevel error install
 RUN npm run build
 
-RUN rm -Rf .git/ .editorconfig .env.examaple .eslintrc .gitignore docker-compose.json Dockerfile README.md
-
-FROM node:16-alpine
+FROM node:16-alpine AS app
 
 USER node
 
 WORKDIR /home/node/app
 
-COPY --from=build --chown=node /home/node/app ./
+COPY --from=build --chown=node /home/node/app/.env* ./
+
+COPY --from=build --chown=node /home/node/app/package*.json ./
+COPY --from=build --chown=node /home/node/app/nuxt.config.js ./
+
+COPY --from=build --chown=node /home/node/app/.nuxt ./.nuxt
+COPY --from=build --chown=node /home/node/app/api ./api
+COPY --from=build --chown=node /home/node/app/db ./db
+COPY --from=build --chown=node /home/node/app/node_modules ./node_modules
+COPY --from=build --chown=node /home/node/app/static ./static
 
 CMD [ "npm", "run", "start" ]
