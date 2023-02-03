@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production
-      - NUXT_HOST=0.0.0.0
-      - NUXT_PORT=3000
+      - NUXT_HOST=${NUXT_HOST}
+      - NUXT_PORT=${NUXT_PORT}
     expose:
       - "3000"
