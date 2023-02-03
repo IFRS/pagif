@@ -9,4 +9,4 @@ services:
       - NUXT_HOST=${NUXT_HOST}
       - NUXT_PORT=${NUXT_PORT}
     expose:
-      - "3000"
+      - "${NUXT_PORT}"
