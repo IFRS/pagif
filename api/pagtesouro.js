@@ -44,8 +44,8 @@ const pagtesouro = axios.create({
         return obj;
       }, {});
 
-      data.urlRetorno = process.env.SERVER_BASE_URL + '/';
-      data.urlNotificacao = process.env.SERVER_BASE_URL + '/api/notifica';
+      data.urlRetorno = process.env.BROWSER_BASE_URL + '/';
+      data.urlNotificacao = process.env.BROWSER_BASE_URL + '/api/notifica';
 
       if (data.hasOwnProperty('competencia') && data.competencia) {
         let competencia = dayjs(data.competencia).format('MMYYYY');
