@@ -7,6 +7,7 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const passport = require('passport');
 
+const health = require('./routes/health');
 const info = require('./routes/info');
 const unidades = require('./routes/unidades');
 const servicos = require('./routes/servicos');
@@ -56,12 +57,13 @@ if (process.env.NODE_ENV === 'development') {
   app.use((req, res, next) => setTimeout(next, 999));
 }
 
+app.use(health);
 app.use(info);
 app.use(unidades);
 app.use(servicos);
 app.use(pagamentos);
 app.use(notifica);
-app.use(usuarios)
+app.use(usuarios);
 
 module.exports = {
   path: '/api',
