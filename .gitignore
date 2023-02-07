@@ -89,5 +89,11 @@ sw.*
 # Vim swap files
 *.swp
 
-#VS Code
+# VS Code
 .vscode/
+
+# Logs
+log/
+
+# Docker
+docker-compose.override.yml
