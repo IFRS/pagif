@@ -1,3 +1,5 @@
+const logger = require('../logger');
+const _ = require('lodash');
 const axios = require('axios');
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
@@ -164,13 +166,21 @@ const pagtesouro = axios.create({
   ),
 });
 
-// TODO: implementar um sistema de log para registrar os requests feitos para a API do Pagtesouro
-/* pagtesouro.interceptors.request.use(function (config) {
-  console.log('PagTesouro Request:');
-  console.log(config);
+/* Logs */
+pagtesouro.interceptors.request.use(function (config) {
+  logger.info("[PagTesouro Request] %o", _.pick(config, ['url', 'method', 'baseURL', 'headers', 'params', 'data', 'timeout', 'withCredentials', 'auth', 'responseType', 'responseEncoding', 'xsrfCookieName', 'xsrfHeaderName', 'maxContentLength', 'maxBodyLength', 'maxRedirects']));
   return config;
 }, function (error) {
+  logger.error("[PagTesouro Request Error] %o", error);
   return Promise.reject(error);
-}); */
+});
+
+pagtesouro.interceptors.response.use(function (response) {
+  logger.info("[PagTesouro Response] Status: %s; StatusText: %s; Data: %o; Headers: %o", response.status, response.statusText, response.data, response.headers);
+  return response;
+}, function (error) {
+  logger.error("[PagTesouro Response Error] %o", error);
+  return Promise.reject(error);
+});
 
 module.exports = pagtesouro;
