@@ -21,7 +21,8 @@ COPY --from=build --chown=node /home/node/app/nuxt.config.js ./
 COPY --from=build --chown=node /home/node/app/.nuxt ./.nuxt
 COPY --from=build --chown=node /home/node/app/api ./api
 COPY --from=build --chown=node /home/node/app/db ./db
+COPY --from=build --chown=node /home/node/app/logger ./logger
 COPY --from=build --chown=node /home/node/app/node_modules ./node_modules
 COPY --from=build --chown=node /home/node/app/static ./static
 
-CMD [ "npm", "run", "start" ]
+CMD ["npm", "run", "start"]
