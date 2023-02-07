@@ -3,14 +3,19 @@ const winston = require('winston');
 const logger = winston.createLogger({
   format: winston.format.combine(
     winston.format.splat(),
-    winston.format.timestamp(),
+    winston.format.timestamp({
+      format: () => {
+        return new Date().toLocaleString('pt-BR', {
+          timeZone: 'America/Sao_Paulo'
+        });
+      },
+    }),
     winston.format.printf((info) => {
       if (typeof info.message === 'object') {
         info.message = JSON.stringify(info.message, null, 2);
-        return info.message;
-      } else {
-        return `(${info.timestamp}) ${info.level} ${JSON.stringify(info.message, null, 2)}`;
       }
+
+      return `(${info.timestamp}) ${info.level} ${info.message}`;
     }),
   ),
   transports: [
