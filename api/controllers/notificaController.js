@@ -1,6 +1,6 @@
 const Pagamento = require('../../db/models/Pagamento');
 const validator = require('express-validator');
-const logger = require('../../logger');
+const {loggerPagTesouro} = require('../../logger');
 
 module.exports.handle = [
   validator.body('idPagamento', 'Identificador do Pagamento está num formato inválido.')
@@ -34,7 +34,7 @@ module.exports.handle = [
       }
     }
 
-    logger.info('[Notificação Recebida] Pagamento %s', req.body.idPagamento);
+    loggerPagTesouro.info('[Notificação Recebida] Pagamento %s', req.body.idPagamento);
 
     Pagamento.findOne({ idPagamento: req.body.idPagamento }, (err, pagamento) => {
       if (err) {
