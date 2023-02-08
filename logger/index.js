@@ -9,7 +9,7 @@ winston.loggers.add('pagtesouro', {
         info.message = JSON.stringify(info.message, null, 2);
       }
 
-      return `(${info.timestamp}) ${info.level} ${info.message}`;
+      return `(${info.timestamp}) ${info.level} ${info.message.replace(/\n/g, ' ')}`;
     }),
   ),
   transports: [
