@@ -27,7 +27,7 @@
               <component
                 class="mb-6"
                 :is="step.component"
-                ref="step"
+                :ref="'step' + index"
                 @submit.prevent="nextStep()"
                 @recaptcha="handleRecaptcha"
               ></component>
@@ -64,7 +64,7 @@
 
                 <v-btn
                   color="success"
-                  v-if="currentStep == numberOfSteps"
+                  v-else-if="currentStep == numberOfSteps"
                   :disabled="!enablePagamento"
                   :loading="criandoPagamento"
                   @click="criarPagamento()"
@@ -186,12 +186,12 @@ export default {
       this.currentStep = this.currentStep - 1;
     },
     nextStep() {
-      const refIndex = this.currentStep - 1;
+      // const refIndex = this.currentStep - 1;
 
-      if (!this.$refs.step[refIndex]) return;
-      if (!this.$refs.step[refIndex].$refs.form) return;
+      // if (!this.$refs['step' + this.currentStep]) return;
+      // if (!this.$refs['step' + this.currentStep].$refs?.form) return;
 
-      if (this.$refs.step[refIndex].$refs.form.validate()) {
+      if (this.$refs['step' + this.currentStep][0].$refs.form.validate()) {
         this.currentStep = this.currentStep + 1;
       }
     },
