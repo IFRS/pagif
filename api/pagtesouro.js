@@ -176,7 +176,7 @@ pagtesouro.interceptors.request.use(function (config) {
 });
 
 pagtesouro.interceptors.response.use(function (response) {
-  loggerPagTesouro.info("[PagTesouro Response] Status: %s; StatusText: %s; Data: %o; Headers: %o", response.status, response.statusText, response.data, response.headers);
+  loggerPagTesouro.info("[PagTesouro Response] %o", _.pick(response, ['status', 'statusText', 'data', 'headers']));
   return response;
 }, function (error) {
   loggerPagTesouro.error("[PagTesouro Response Error] %o", error);
