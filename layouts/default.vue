@@ -127,7 +127,7 @@
         <v-divider dark></v-divider>
 
         <v-card-text class="text-center text-body-2 white--text">
-          <a href="https://github.com/IFRS/" class="white--text">Código-fonte deste sistema</a>
+          <a href="https://github.com/IFRS/pagif" class="white--text">C&oacute;digo-fonte deste sistema</a>
           -
           <a href="https://ifrs.edu.br/" class="white--text">Desenvolvido pelo Instituto Federal do Rio Grande do Sul</a>
         </v-card-text>

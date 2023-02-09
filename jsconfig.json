@@ -1,7 +1,6 @@
 {
   "vueCompilerOptions": {
-    // "experimentalDisableTemplateSupport": true,
-    "target": 2,
+    "target": 2.7,
   },
   "compilerOptions": {
     "baseUrl": ".",
