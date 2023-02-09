@@ -33,6 +33,7 @@
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
     "slug": "^8.0.0",
+    "tiptap-vuetify": "^2.24.0",
     "v-currency-field": "^3.1.1",
     "v-mask": "^2.3.0",
     "vue": "^2.6.14",

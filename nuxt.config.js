@@ -34,6 +34,7 @@ export default {
     '~/plugins/casl.js',
     '~/plugins/populate-store.client.js',
     '~/plugins/check-unidade.client.js',
+    '~/plugins/tiptap-vuetify.client.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -119,5 +120,6 @@ export default {
       '~/db/**/*',
       '~/api/**/*',
     ],
+    transpile: ['vuetify/lib', "tiptap-vuetify"],
   },
 }

@@ -104,6 +104,12 @@ export default {
           to: '/admin/usuarios',
           enabled: this.$acl.can('read', 'Usuario'),
         },
+        {
+          icon: 'mdi-cog',
+          title: 'Configurações',
+          to: '/admin/config',
+          enabled: this.$acl.can('manage', 'Config'),
+        },
       ],
     }
   },
