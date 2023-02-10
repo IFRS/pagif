@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const Pagamento = new Schema({
+const Pagamento = new mongoose.Schema({
   _id: { type: String, alias: 'idPagamento' },
   token: { type: String, immutable: true, required: true },
   unidade: { type: String, immutable: true, required: true },
