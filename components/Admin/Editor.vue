@@ -59,9 +59,6 @@ export default {
         Code,
         HardBreak,
       ],
-      content: `
-        <p>Sistema de Pagamentos integrado ao PagTesouro.</p>
-      `
     }
   },
 }
