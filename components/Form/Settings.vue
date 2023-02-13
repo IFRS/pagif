@@ -139,9 +139,9 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.tiptap-vuetify-editor {
-  .ProseMirror {
+<style lang="scss" scoped>
+.tiptap-vuetify-editor::v-deep {
+   .ProseMirror {
     min-height: 200px;
   }
 }
