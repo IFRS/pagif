@@ -138,3 +138,11 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.tiptap-vuetify-editor {
+  .ProseMirror {
+    min-height: 200px;
+  }
+}
+</style>
