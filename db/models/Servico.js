@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Servico = new mongoose.Schema({
-  unidade: { type: Schema.Types.ObjectId, ref: 'Unidade' },
+  unidade: { type: mongoose.Schema.Types.ObjectId, ref: 'Unidade' },
   codigo: { type: Number, required: true },
   nome: { type: String, required: true },
   desc: { type: String },
