@@ -24,13 +24,25 @@
       <v-row>
         <v-col>
           <h3>Introdução</h3>
-          <tiptap-vuetify v-model="intro" :extensions="tiptapExtensions" :card-props="tiptapCardProps" placeholder="Texto de Introdução"/>
+          <tiptap-vuetify
+            v-model="intro"
+            :extensions="tiptapExtensions"
+            :toolbar-attributes="{ dark: $store.getters['config/darkMode'], color: ($store.getters['config/darkMode']) ? 'dark' : 'grey lighten-4' }"
+            :card-props="{ dark: $store.getters['config/darkMode'] }"
+            placeholder="Texto de Introdução"
+          />
         </v-col>
       </v-row>
       <v-row>
         <v-col>
           <h3>Contato</h3>
-          <tiptap-vuetify v-model="contato" :extensions="tiptapExtensions" :card-props="tiptapCardProps" placeholder="Informações de Contato"/>
+          <tiptap-vuetify
+            v-model="contato"
+            :extensions="tiptapExtensions"
+            :toolbar-attributes="{ dark: $store.getters['config/darkMode'], color: ($store.getters['config/darkMode']) ? 'dark' : 'grey lighten-4' }"
+            :card-props="tiptapCardProps"
+            placeholder="Informações de Contato"
+          />
         </v-col>
       </v-row>
       <v-row>
@@ -96,9 +108,6 @@ export default {
           v => !!v || 'Nome é obrigatório.',
           v => !(/^\d/).test(v) || 'Nome não pode iniciar com um número.'
         ],
-      },
-      tiptapCardProps: {
-        minHeight: '100',
       },
       tiptapExtensions: [
         History,
