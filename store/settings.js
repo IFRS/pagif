@@ -25,13 +25,23 @@ export const mutations = {
   clear: (state) => {
     Object.assign(state, defaultState);
   },
+  replace: (state, payload) => {
+    Object.assign(state, payload);
+  },
 };
 
 export const actions = {
+  async show(context) {
+    return await this.$axios.get('/api/settings')
+    .then((response) => {
+      context.commit('replace', response.data);
+    });
+  },
   async save(context) {
     return await this.$axios.post('/api/settings', context.state)
-    .then(() => {
-      context.commit('clear');
+    .then((response) => {
+      console.log('RESPOSTA: ', response.data);
+      context.commit('replace', response.data);
     });
   },
 };

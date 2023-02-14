@@ -23,10 +23,6 @@ export default {
       await this.$store.dispatch('settings/save')
       .then(() => {
         this.$toast.success('Configurações salvas com sucesso!');
-        this.$store.commit('settings/clear');
-        this.$router.push({
-          path: '/admin/config',
-        });
       })
       .catch((error) => {
         this.$toast.error('Ocorreu um erro ao salvar as Configurações. ' + error.message);
@@ -38,9 +34,7 @@ export default {
     },
     handleCancel() {
       this.$toast.info('Edição das Configurações cancelada.');
-      this.$router.push({
-        path: '/admin',
-      });
+      this.$router.push({ path: '/admin' });
     },
   },
   destroyed () {

@@ -76,6 +76,13 @@ import {
 
 export default {
   name: 'FormSettings',
+  async fetch() {
+    await this.$store.dispatch('settings/show')
+    .catch((error) => {
+      this.$toast.error('Ocorreu um erro ao carregar as Configurações: ' + error.message);
+      console.error(error);
+    })
+  },
   components: {
     TiptapVuetify,
   },
@@ -132,10 +139,6 @@ export default {
     intro: {
       ...mapGetters({ get: 'settings/intro' }),
       ...mapMutations({ set: 'settings/intro' }),
-    },
-    contato: {
-      ...mapGetters({ get: 'settings/contato' }),
-      ...mapMutations({ set: 'settings/contato' }),
     },
   },
   methods: {

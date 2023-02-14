@@ -1,8 +1,8 @@
 const Settings = require('../../db/models/Settings');
 const validator = require('express-validator');
 
-module.exports.showPublic = function(req, res) {
-  const query = Settings.findById('settings');
+module.exports.show = function(req, res) {
+  const query = Settings.findOne({});
 
   query.exec(function(err, settings) {
     if (err) {
@@ -46,18 +46,15 @@ module.exports.save = [
       intro: req.body.intro,
     };
 
-    Settings.findByIdAndUpdate(
-      'settings',
+    Settings.findOneAndUpdate(
+      {},
       data,
       { returnDocument: 'after', upsert: true },
       function(err, settings) {
-        if (!settings) {
-          return res.status(404).json({
-            message: 'Configurações não encontradas.',
-          });
-        }
-
+        console.log(data);
+        console.log(settings);
         if (err) {
+          console.error(err);
           return res.status(500).json({
             message: 'Erro salvando Configurações.',
           });

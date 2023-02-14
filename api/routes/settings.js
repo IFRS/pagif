@@ -4,7 +4,9 @@ const router = Router();
 
 const settingsController = require('../controllers/settingsController');
 
-router.get('/public/settings', settingsController.showPublic);
+router.get('/public/settings', settingsController.show);
+
+router.get('/settings', settingsController.show);
 
 router.post('/settings', settingsController.save);
 

@@ -15,6 +15,10 @@ const Settings = new mongoose.Schema({
   },
 },
 {
+  timestamps: false,
+  toJSON: {
+    versionKey: false,
+  },
   capped: {
     max: 1,
     size: 999999,

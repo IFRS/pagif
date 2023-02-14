@@ -4,7 +4,6 @@ export const state = () => ({
   sigla: null,
   nome: null,
   intro: null,
-  contato: null,
 });
 
 export const getters = {
@@ -38,7 +37,6 @@ export const actions = {
       context.state.sigla = response.data.sigla;
       context.state.nome = response.data.nome;
       context.state.intro = response.data.intro;
-      context.state.contato = response.data.contato;
     });
   },
 };
