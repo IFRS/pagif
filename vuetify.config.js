@@ -7,6 +7,7 @@ export default {
     current: 'pt',
   },
   theme: {
+    options: { customProperties: true },
     dark: false,
     themes: {
       light: {

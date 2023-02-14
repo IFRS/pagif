@@ -1,0 +1,4 @@
+.required .v-label:not(.v-label--active)::after {
+  content: " *";
+  color: var(--v-error-base, red);
+}
