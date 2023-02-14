@@ -6,12 +6,18 @@
           <v-text-field
             v-model="sigla"
             label="Sigla do Órgão"
+            :rules="validation.sigla"
+            required
+            class="required"
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="8" xl="9">
           <v-text-field
             v-model="nome"
             label="Nome do Órgão"
+            :rules="validation.nome"
+            required
+            class="required"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -81,8 +87,18 @@ export default {
   },
   data() {
     return {
+      validation: {
+        sigla: [
+          v => !!v || 'Sigla é obrigatória.',
+          v => !(/^\d/).test(v) || 'Sigla não pode iniciar com um número.'
+        ],
+        nome: [
+          v => !!v || 'Nome é obrigatório.',
+          v => !(/^\d/).test(v) || 'Nome não pode iniciar com um número.'
+        ],
+      },
       tiptapCardProps: {
-        minHeight: 100,
+        minHeight: '100',
       },
       tiptapExtensions: [
         History,
