@@ -40,7 +40,6 @@ export const actions = {
   async save(context) {
     return await this.$axios.post('/api/settings', context.state)
     .then((response) => {
-      console.log('RESPOSTA: ', response.data);
       context.commit('replace', response.data);
     });
   },

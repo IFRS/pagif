@@ -51,8 +51,6 @@ module.exports.save = [
       data,
       { returnDocument: 'after', upsert: true },
       function(err, settings) {
-        console.log(data);
-        console.log(settings);
         if (err) {
           console.error(err);
           return res.status(500).json({

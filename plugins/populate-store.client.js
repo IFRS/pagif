@@ -1,4 +1,10 @@
 export default async (context) => {
+  await context.store.dispatch('config/populateConfig')
+  .catch((error) => {
+    context.$toast.error('Ocorreu um erro ao carregar as Configurações do Sistema: ' + error.message);
+    console.error(error);
+  });
+
   if (process.client) {
     const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches || context.$cookies.get('darkMode');
     if (darkMode) {
