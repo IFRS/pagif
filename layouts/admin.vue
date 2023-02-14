@@ -71,7 +71,8 @@
       vertical
       color="error"
     >
-      <v-icon>mdi-alert-circle-outline</v-icon> A <em>sigla</em> e o <em>nome</em> do órgão ainda não foram preenchidos.
+      A <em>sigla</em> e o <em>nome</em> do órgão ainda não foram preenchidos.
+      <br>
       Por favor, vá até o menu <router-link :to="{ name: 'admin-config' }" class="white--text font-weight-bold">Configurações</router-link> para definir esses valores.
     </v-snackbar>
   </v-app>
