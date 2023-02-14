@@ -14,6 +14,7 @@ const servicos = require('./routes/servicos');
 const pagamentos = require('./routes/pagamentos');
 const notifica = require('./routes/notifica');
 const usuarios = require('./routes/usuarios');
+const settings = require('./routes/settings');
 
 const google = require('./auth/google');
 
@@ -64,6 +65,7 @@ app.use(servicos);
 app.use(pagamentos);
 app.use(notifica);
 app.use(usuarios);
+app.use(settings);
 
 module.exports = {
   path: '/api',
