@@ -19,6 +19,7 @@
             filled
             :rules="validation"
             required
+            class="required"
           ></v-text-field>
         </v-col>
         <v-col cols="auto">

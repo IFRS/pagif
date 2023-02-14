@@ -7,6 +7,7 @@
       v-model="valorPrincipal"
       :rules="validation"
       required
+      class="required"
     ></v-currency-field>
   </v-form>
 </template>

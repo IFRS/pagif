@@ -7,6 +7,7 @@
       :rules="validation.nome"
       :counter="45"
       required
+      class="required"
     ></v-text-field>
 
     <v-text-field

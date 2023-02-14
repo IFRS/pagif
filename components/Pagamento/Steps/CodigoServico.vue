@@ -19,6 +19,7 @@
       :item-text="item => `${item.nome} (${item.codigo})`"
       :item-value="item => ({ codigo: item.codigo, nome: item.nome })"
       required
+      class="required"
     ></v-autocomplete>
   </v-form>
 </template>
