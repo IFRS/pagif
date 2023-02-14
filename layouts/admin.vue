@@ -59,6 +59,7 @@
     </v-main>
     <v-footer app class="text-body-2 justify-space-between">
       <span><a href="https://www.gov.br/tesouronacional/pt-br/gru-e-pag-tesouro/pagtesouro" class="text-decoration-none grey--text text--darken-2">Sistema Integrado ao PagTesouro</a></span>
+      <span v-if="$acl.can('manage', 'Settings') && (!$store.getters['config/sigla'] || !$store.getters['config/nome'])" class="error--text">A sigla e o nome do órgão ainda não foram preenchidos. Por favor, vá até o menu <router-link color="error" :to="{ name: 'admin-config' }" class="error-text font-weight-bold">Configurações</router-link> para definir esses valores.</span>
       <span><a href="https://ifrs.edu.br/" class="text-decoration-none grey--text text--darken-2">Desenvolvido por Instituto Federal do Rio Grande do Sul</a></span>
     </v-footer>
   </v-app>
