@@ -2,7 +2,6 @@ const defaultState = {
   sigla: '',
   nome: '',
   intro: '',
-  contato: '',
 };
 
 export const state = () => defaultState;
@@ -11,7 +10,6 @@ export const getters = {
   sigla: state => state.sigla,
   nome: state => state.nome,
   intro: state => state.intro,
-  contato: state => state.contato,
 };
 
 export const mutations = {
@@ -23,9 +21,6 @@ export const mutations = {
   },
   intro (state, intro) {
     state.intro = intro;
-  },
-  contato (state, contato) {
-    state.contato = contato;
   },
   clear: (state) => {
     Object.assign(state, defaultState);

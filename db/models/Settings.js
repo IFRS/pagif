@@ -13,10 +13,6 @@ const Settings = new mongoose.Schema({
     type: String,
     required: true
   },
-  contato: {
-    type: String,
-    required: true
-  },
 },
 {
   capped: {

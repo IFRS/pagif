@@ -35,18 +35,6 @@
       </v-row>
       <v-row>
         <v-col>
-          <h3>Contato</h3>
-          <tiptap-vuetify
-            v-model="contato"
-            :extensions="tiptapExtensions"
-            :toolbar-attributes="{ dark: $store.getters['config/darkMode'], color: ($store.getters['config/darkMode']) ? 'dark' : 'grey lighten-4' }"
-            :card-props="tiptapCardProps"
-            placeholder="Informações de Contato"
-          />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
           <v-btn
             color="primary"
             type="submit"
