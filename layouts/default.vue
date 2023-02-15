@@ -1,140 +1,138 @@
 <template>
   <v-app>
-    <template>
-      <v-app-bar app absolute elevation="1">
-        <v-img
-          :src="$store.getters['config/darkMode'] ? '/img/govbr-white.svg' : '/img/govbr.svg'"
-          :max-width="120"
-          aspect-ratio="4/1"
-          contain
-          class="govbr"
-        ></v-img>
+    <v-app-bar app elevation="1">
+      <v-img
+        :src="$store.getters['config/darkMode'] ? '/img/govbr-white.svg' : '/img/govbr.svg'"
+        :max-width="120"
+        aspect-ratio="4/1"
+        contain
+        class="govbr"
+      ></v-img>
 
-        <v-divider
-          vertical
-          class="separador"
-        ></v-divider>
+      <v-divider
+        vertical
+        class="separador"
+      ></v-divider>
 
-        <nuxt-link
-          :to="{ name: 'index' }"
-          class="text-decoration-none"
-          color="primary"
-        >
-          <h1 class="text-h5">Sistema de Pagamentos do {{ sigla }}</h1>
-        </nuxt-link>
+      <nuxt-link
+        :to="{ name: 'index' }"
+        class="text-decoration-none"
+        color="primary"
+      >
+        <h1 class="text-h5">Sistema de Pagamentos do {{ sigla }}</h1>
+      </nuxt-link>
 
-        <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
 
-        <v-menu offset-y>
-          <template #activator="{ on: menu, attrs }">
-            <v-tooltip left>
-              <template #activator="{ on: tooltip }">
-                <v-btn
-                  class="mr-3"
-                  color="primary"
-                  text
-                  v-bind="attrs"
-                  v-on="{ ...tooltip, ...menu }"
-                  :loading="$fetchState.pending"
-                  :disabled="!$store.getters['config/unidade']"
-                >
-                  {{ $store.getters['config/unidade']?.nome || 'Selecione uma Unidade' }}
-                  <v-icon right>
-                    mdi-menu-down
-                  </v-icon>
-                </v-btn>
-              </template>
-              <span>Trocar Unidade</span>
-            </v-tooltip>
-          </template>
-          <v-list>
-            <v-subheader>Unidade Gestora</v-subheader>
-            <v-list-item-group
-              v-model="selectedUnidade"
-              mandatory
-              color="primary"
-            >
-              <v-list-item
-                v-for="(unidade, index) in $store.getters['unidades']"
-                :key="index"
+      <v-menu offset-y>
+        <template #activator="{ on: menu, attrs }">
+          <v-tooltip left>
+            <template #activator="{ on: tooltip }">
+              <v-btn
+                class="mr-3"
+                color="primary"
+                text
+                v-bind="attrs"
+                v-on="{ ...tooltip, ...menu }"
+                :loading="$fetchState.pending"
+                :disabled="!$store.getters['config/unidade']"
               >
-                <v-list-item-content>
-                  <v-list-item-title>{{ unidade.nome }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list-item-group>
-          </v-list>
-        </v-menu>
+                {{ $store.getters['config/unidade']?.nome || 'Selecione uma Unidade' }}
+                <v-icon right>
+                  mdi-menu-down
+                </v-icon>
+              </v-btn>
+            </template>
+            <span>Trocar Unidade</span>
+          </v-tooltip>
+        </template>
+        <v-list>
+          <v-subheader>Unidade Gestora</v-subheader>
+          <v-list-item-group
+            v-model="selectedUnidade"
+            mandatory
+            color="primary"
+          >
+            <v-list-item
+              v-for="(unidade, index) in $store.getters['unidades']"
+              :key="index"
+            >
+              <v-list-item-content>
+                <v-list-item-title>{{ unidade.nome }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-menu>
 
-        <DarkMode />
+      <DarkMode />
 
-        <UserMenu v-if="$store.getters['auth/user']"/>
-        <v-btn
-          v-else
-          color="primary"
-          small
-          style="text-transform: none;"
-          href="/api/auth/google"
-        >
-          Entrar com&nbsp;<strong>Google</strong>
-        </v-btn>
-      </v-app-bar>
-      <v-main>
-        <Nuxt />
-        <Toast />
-      </v-main>
-      <v-footer app absolute padless color="footer">
-        <v-card
-          flat
-          tile
-          color="footer"
-          width="100%"
-        >
-          <v-card-text>
-            <v-row dense class="align-center">
-              <v-col>
-                <v-tooltip top>
-                  <template #activator="{ on, attrs }">
-                    <a href="https://ifrs.edu.br/" style="display: inline-block;">
-                      <v-img
-                        v-bind="attrs"
-                        v-on="on"
-                        src="/img/ifrs.png"
-                        :max-width="200"
-                        contain
-                        class="ifrs"
-                      ></v-img>
-                    </a>
-                  </template>
-                  <span>Portal do IFRS</span>
-                </v-tooltip>
-              </v-col>
+      <UserMenu v-if="$store.getters['auth/user']"/>
+      <v-btn
+        v-else
+        color="primary"
+        small
+        style="text-transform: none;"
+        href="/api/auth/google"
+      >
+        Entrar com&nbsp;<strong>Google</strong>
+      </v-btn>
+    </v-app-bar>
+    <v-main>
+      <Nuxt />
+      <Toast />
+    </v-main>
+    <v-footer app absolute padless color="footer">
+      <v-card
+        flat
+        tile
+        color="footer"
+        width="100%"
+      >
+        <v-card-text>
+          <v-row dense class="align-center">
+            <v-col>
+              <v-tooltip top>
+                <template #activator="{ on, attrs }">
+                  <a href="https://ifrs.edu.br/" style="display: inline-block;">
+                    <v-img
+                      v-bind="attrs"
+                      v-on="on"
+                      src="/img/ifrs.png"
+                      :max-width="200"
+                      contain
+                      class="ifrs"
+                    ></v-img>
+                  </a>
+                </template>
+                <span>Portal do IFRS</span>
+              </v-tooltip>
+            </v-col>
 
-              <v-col class="white--text text-right">
-                <p><strong>Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Sul</strong></p>
-                <address>
-                  <p>
-                    Rua General Osório, 348 - Bairro Centro
-                    <br>
-                    Bento Gonçalves - RS
-                    <br>
-                    CEP 95700-086
-                  </p>
-                </address>
-              </v-col>
-            </v-row>
-          </v-card-text>
+            <v-col class="white--text text-right">
+              <p><strong>Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Sul</strong></p>
+              <address>
+                <p>
+                  Rua General Osório, 348 - Bairro Centro
+                  <br>
+                  Bento Gonçalves - RS
+                  <br>
+                  CEP 95700-086
+                </p>
+              </address>
+            </v-col>
+          </v-row>
+        </v-card-text>
 
-          <v-divider dark></v-divider>
+        <v-divider dark></v-divider>
 
-          <v-card-text class="text-center text-body-2 white--text">
-            <a href="https://github.com/IFRS/pagif" class="white--text">C&oacute;digo-fonte deste sistema</a>
-            -
-            <a href="https://ifrs.edu.br/" class="white--text">Desenvolvido pelo Instituto Federal do Rio Grande do Sul</a>
-          </v-card-text>
-        </v-card>
-      </v-footer>
-    </template>
+        <v-card-text class="text-center text-body-2 white--text">
+          <a href="https://github.com/IFRS/pagif" class="white--text">C&oacute;digo-fonte deste sistema</a>
+          -
+          <a href="https://ifrs.edu.br/" class="white--text">Desenvolvido pelo Instituto Federal do Rio Grande do Sul</a>
+        </v-card-text>
+      </v-card>
+    </v-footer>
     <v-overlay :value="!loaded">
       <v-progress-circular
         indeterminate
@@ -188,7 +186,7 @@ export default {
   mounted() {
     this.loaded = true;
   },
-  destroyed () {
+  destroyed() {
     this.$store.commit('clearUnidades');
   },
 }
