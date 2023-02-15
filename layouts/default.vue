@@ -19,7 +19,7 @@
           class="text-decoration-none"
           color="primary"
         >
-          <h1 class="text-h5">Sistema de Pagamentos</h1>
+          <h1 class="text-h5">Sistema de Pagamentos do {{ sigla }}</h1>
         </nuxt-link>
 
       <v-spacer></v-spacer>
@@ -137,6 +137,8 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex';
+
 export default {
   name: 'DefaultLayout',
   middleware: 'dark-mode',
@@ -164,6 +166,10 @@ export default {
           this.$router.push({ name: 'index' });
         }, 250);
       }
+    },
+    sigla: {
+      ...mapGetters({ get: 'config/sigla' }),
+      ...mapMutations({ set: 'config/sigla' }),
     },
   },
   destroyed () {

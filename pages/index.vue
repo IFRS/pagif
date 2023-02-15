@@ -1,9 +1,7 @@
 <template>
   <v-container>
-    <p class="text-center">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus velit ipsum, tincidunt a auctor a, pretium eget lorem. Sed fermentum neque mauris. Sed non posuere lacus. Nam fringilla felis eget leo auctor, eget egestas arcu gravida. Phasellus sed mi leo. Praesent scelerisque odio est, ac dignissim lacus luctus id. Interdum et malesuada fames ac ante ipsum primis in faucibus. In ac dui rhoncus, egestas mauris nec, vehicula felis. Cras porttitor elementum fermentum. Proin ut condimentum erat.
-    </p>
-    <v-row class="my-10 justify-center">
+    <v-row v-if="intro" v-html="intro"></v-row>
+    <v-row class="my-10" justify="center">
       <v-hover v-slot="{ hover }">
         <v-card
           class="mr-10"
@@ -36,8 +34,16 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex';
+
 export default {
   name: 'Index',
+  computed: {
+    intro: {
+      ...mapGetters({ get: 'config/intro' }),
+      ...mapMutations({ set: 'config/intro' }),
+    }
+  },
   beforeCreate() {
     if (this.$route.query.unidade) {
       const unidade = this.$store.getters['unidades'].find(unidade => (unidade.slug && unidade.slug === this.$route.query.unidade));
