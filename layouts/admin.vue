@@ -73,7 +73,7 @@
     >
       A <em>sigla</em> e o <em>nome</em> do órgão ainda não foram preenchidos.
       <br>
-      Por favor, vá até o menu <router-link :to="{ name: 'admin-config' }" class="white--text font-weight-bold">Configurações</router-link> para definir esses valores.
+      Por favor, vá até o menu <nuxt-link :to="{ name: 'admin-config' }" class="white--text font-weight-bold">Configurações</nuxt-link> para definir esses valores.
     </v-snackbar>
   </v-app>
 </template>
