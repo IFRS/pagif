@@ -46,6 +46,8 @@ module.exports.save = [
       intro: req.body.intro,
     };
 
+    if (data.intro === '<p></p>') data.intro = '';
+
     Settings.findOneAndUpdate(
       {},
       data,
