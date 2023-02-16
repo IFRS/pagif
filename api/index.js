@@ -20,7 +20,7 @@ const google = require('./auth/google');
 
 const app = express();
 
-const expire = (process.env.NODE_ENV === 'development') ? 1000 * 60 * 60 * 24 * 7 : 1000 * 60 * 60 * 1;
+const expire = (process.env.NODE_ENV === 'production') ? 1000 * 60 * 60 * 24 * 7 : 1000 * 60 * 60 * 8; // 7 dias em produção e 8 horas em desenvolvimento
 
 let session_store = new MongoDBStore({
   uri: `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_URL}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
