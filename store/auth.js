@@ -10,6 +10,9 @@ export const mutations = {
   user: (state, payload) => {
     state.user = payload;
   },
+  clear: (state) => {
+    state.user = null;
+  },
 };
 
 export const actions = {};
