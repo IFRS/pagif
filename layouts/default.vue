@@ -19,7 +19,7 @@
         class="text-decoration-none"
         color="primary"
       >
-        <h1 class="text-h5">Sistema de Pagamentos do {{ sigla }}</h1>
+        <h1 class="text-h5">Sistema de Pagamentos do <abbr :title="nome">{{ sigla }}</abbr></h1>
       </nuxt-link>
 
       <v-spacer></v-spacer>
@@ -82,7 +82,7 @@
       <Nuxt />
       <Toast />
     </v-main>
-    <v-footer app absolute padless color="footer">
+    <v-footer app absolute color="footer">
       <v-card
         flat
         tile
@@ -127,9 +127,11 @@
         <v-divider dark></v-divider>
 
         <v-card-text class="text-center text-body-2 white--text">
-          <a href="https://github.com/IFRS/pagif" class="white--text">C&oacute;digo-fonte deste sistema</a>
-          -
-          <a href="https://ifrs.edu.br/" class="white--text">Desenvolvido pelo Instituto Federal do Rio Grande do Sul</a>
+          {{ nome }}
+          &ndash;
+          <a href="https://github.com/IFRS/pagif" class="white--text">C&oacute;digo-fonte desse sistema</a>
+          &ndash;
+          <a href="https://ifrs.edu.br/" class="white--text">Desenvolvido por Instituto Federal do Rio Grande do Sul</a>
         </v-card-text>
       </v-card>
     </v-footer>
@@ -181,6 +183,10 @@ export default {
     sigla: {
       ...mapGetters({ get: 'config/sigla' }),
       ...mapMutations({ set: 'config/sigla' }),
+    },
+    nome: {
+      ...mapGetters({ get: 'config/nome' }),
+      ...mapMutations({ set: 'config/nome' }),
     },
   },
   mounted() {
