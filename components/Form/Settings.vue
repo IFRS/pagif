@@ -6,6 +6,7 @@
           <v-text-field
             v-model="sigla"
             label="Sigla do Órgão"
+            :loading="$fetchState.pending"
             :rules="validation.sigla"
             required
             class="required"
@@ -15,6 +16,7 @@
           <v-text-field
             v-model="nome"
             label="Nome do Órgão"
+            :loading="$fetchState.pending"
             :rules="validation.nome"
             required
             class="required"
@@ -26,6 +28,7 @@
           <h3>Introdução</h3>
           <tiptap-vuetify
             v-model="intro"
+            :disabled="$fetchState.pending"
             :extensions="tiptapExtensions"
             :toolbar-attributes="{ dark: $store.getters['config/darkMode'], color: ($store.getters['config/darkMode']) ? 'dark' : 'grey lighten-4' }"
             :card-props="{ dark: $store.getters['config/darkMode'] }"
@@ -81,7 +84,7 @@ export default {
     .catch((error) => {
       this.$toast.error('Ocorreu um erro ao carregar as Configurações: ' + error.message);
       console.error(error);
-    })
+    });
   },
   components: {
     TiptapVuetify,
