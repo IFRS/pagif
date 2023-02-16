@@ -25,13 +25,13 @@
       </v-row>
       <v-row>
         <v-col>
-          <h3>Introdução</h3>
+          <h3 class="mb-1">Introdução</h3>
           <tiptap-vuetify
             v-model="intro"
             :disabled="$fetchState.pending"
             :extensions="tiptapExtensions"
             :toolbar-attributes="{ dark: $store.getters['config/darkMode'], color: ($store.getters['config/darkMode']) ? 'dark' : 'grey lighten-4' }"
-            :card-props="{ dark: $store.getters['config/darkMode'] }"
+            :card-props="{ dark: $store.getters['config/darkMode'], loading: $fetchState.pending }"
             placeholder="Texto de Introdução"
           />
         </v-col>
