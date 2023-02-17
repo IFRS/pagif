@@ -56,6 +56,78 @@
           ></v-textarea>
         </v-col>
       </v-row>
+      <v-row justify="center">
+        <v-col v-if="imagem" cols="2">
+          <v-hover v-slot="{ hover }">
+            <v-card
+              :elevation="hover ? 1 : 0"
+            >
+              <v-img
+                :src="imagem"
+                contain
+              ></v-img>
+              <v-btn
+                v-show="hover"
+                absolute
+                right
+                bottom
+                icon
+                large
+                color="transparent"
+                style="transform: translate(50%, 50%);"
+                @click="imagem = null"
+              >
+                <v-icon color="error">
+                  mdi-close-circle
+                </v-icon>
+              </v-btn>
+            </v-card>
+          </v-hover>
+        </v-col>
+        <v-col v-else>
+          <v-file-input
+            ref="upload"
+            :value="arquivo"
+            label="Imagem"
+            hint="Marca ou Logo da Unidade. Máximo de 1MB."
+            persistent-hint
+            prepend-icon="mdi-image"
+            accept="image/*"
+            show-size
+            filled
+            @change="handleUpload"
+          ></v-file-input>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-text-field
+            v-model="link_url"
+            label="URL do Link"
+            hint="Endereço para site da Unidade."
+            :rules="validation.link_url"
+          ></v-text-field>
+        </v-col>
+        <v-col>
+          <v-text-field
+            v-model="link_titulo"
+            label="Título do Link"
+            hint="Título do link para o site da Unidade."
+            :rules="validation.link_titulo"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <tiptap-vuetify
+            v-model="contato"
+            :extensions="tiptapExtensions"
+            :toolbar-attributes="{ dark: $store.getters['config/darkMode'], color: ($store.getters['config/darkMode']) ? 'dark' : 'grey lighten-4' }"
+            :card-props="{ dark: $store.getters['config/darkMode'] }"
+            placeholder="Informações de Contato"
+          />
+        </v-col>
+      </v-row>
       <v-row>
         <v-col>
           <v-btn
@@ -82,9 +154,26 @@
 <script>
   import { mapGetters, mapMutations } from 'vuex';
   let slug = require('slug');
+  import {
+    TiptapVuetify,
+    Heading,
+    Bold,
+    Italic,
+    Underline,
+    Paragraph,
+    BulletList,
+    OrderedList,
+    ListItem,
+    Link,
+    Blockquote,
+    History
+  } from 'tiptap-vuetify';
 
   export default {
     name: 'FormUnidade',
+    components: {
+      TiptapVuetify,
+    },
     props: {
       tokenLoading: {
         type: Boolean,
@@ -97,6 +186,7 @@
     },
     data() {
       return {
+        arquivo: null,
         submitText: this.id ? 'Atualizar' : 'Salvar',
         isEditSlug: false,
         validation: {
@@ -108,7 +198,30 @@
             v => !!v || 'Token é obrigatório.',
             v => !(/\s/).test(v) || 'Token não pode conter espaços.',
           ],
+          link_url: [
+            v => !v || (/^(https?:\/\/){1}([\da-z\.-]+\.[a-z\.]{2,6}|[\d\.]+)([\/:?=&#]{1}[\da-z\.-]+)*[\/\?]?$/igm).test(v) || 'O endereço precisa ser uma URL válida, iniciando com http:// ou https://',
+          ],
         },
+        tiptapExtensions: [
+          History,
+          Paragraph,
+          [
+            Heading,
+            {
+              options: {
+                levels: [3, 4, 5],
+              }
+            },
+          ],
+          Bold,
+          Italic,
+          Underline,
+          Link,
+          Blockquote,
+          ListItem,
+          BulletList,
+          OrderedList,
+        ],
       }
     },
     computed: {
@@ -128,8 +241,39 @@
         ...mapGetters({ get: 'unidade/token' }),
         ...mapMutations({ set: 'unidade/token' }),
       },
+      imagem: {
+        ...mapGetters({ get: 'unidade/imagem' }),
+        ...mapMutations({ set: 'unidade/imagem' }),
+      },
+      link_url: {
+        ...mapGetters({ get: 'unidade/link_url' }),
+        ...mapMutations({ set: 'unidade/link_url' }),
+      },
+      link_titulo: {
+        ...mapGetters({ get: 'unidade/link_titulo' }),
+        ...mapMutations({ set: 'unidade/link_titulo' }),
+      },
+      contato: {
+        ...mapGetters({ get: 'unidade/contato' }),
+        ...mapMutations({ set: 'unidade/contato' }),
+      },
     },
     methods: {
+      handleUpload(fileObject) {
+        if (fileObject) {
+          if (fileObject.size > 1000000) {
+            this.$refs.upload.reset();
+            this.$toast.error('Arquivo excedeu o limite de 1MB de tamanho.');
+            return;
+          }
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            this.imagem = e.target.result;
+            this.$refs.upload.reset();
+          };
+          reader.readAsDataURL(fileObject);
+        }
+      },
       editSlug() {
         this.isEditSlug = true;
         setTimeout(() => {
