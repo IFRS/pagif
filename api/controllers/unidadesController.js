@@ -122,6 +122,20 @@ module.exports.save = [
   validator.body('token', '')
     .trim()
     .notEmpty(),
+  validator.body('imagem', '')
+    .optional({ checkFalsy: true })
+    .isBase64(),
+  validator.body('link_url', '')
+    .trim()
+    .optional({ checkFalsy: true })
+    .isURL({ protocols: ['http','https'], require_protocol: true }),
+  validator.body('link_titulo', '')
+    .trim()
+    .optional({ checkFalsy: true })
+    .isString(),
+  validator.body('contato', '')
+    .optional({ checkFalsy: true })
+    .isString(),
   function(req, res) {
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {

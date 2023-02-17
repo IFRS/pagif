@@ -3,6 +3,10 @@ const defaultState = {
   nome: '',
   slug: '',
   token: '',
+  imagem: null,
+  link_url: '',
+  link_titulo: '',
+  contato: '',
   createdAt: null,
   updatedAt: null,
 };
@@ -14,6 +18,10 @@ export const getters = {
   nome: state => state.nome,
   slug: state => state.slug,
   token: state => state.token,
+  imagem: state => state.imagem,
+  link_url: state => state.link_url,
+  link_titulo: state => state.link_titulo,
+  contato: state => state.contato,
   createdAt: state => state.createdAt,
   updatedAt: state => state.updatedAt,
 };
@@ -30,6 +38,18 @@ export const mutations = {
   },
   token: (state, payload) => {
     state.token = payload;
+  },
+  imagem: (state, payload) => {
+    state.imagem = payload;
+  },
+  link_url: (state, payload) => {
+    state.link_url = payload;
+  },
+  link_titulo: (state, payload) => {
+    state.link_titulo = payload;
+  },
+  contato: (state, payload) => {
+    state.contato = payload;
   },
   createdAt: (state, payload) => {
     state.createdAt = payload;
