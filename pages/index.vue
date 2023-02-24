@@ -4,34 +4,33 @@
       <v-col cols="12" md="10" v-html="intro" class="mx-auto"/>
     </v-row>
     <v-row class="my-10" justify="center">
-      <v-hover v-slot="{ hover }">
-        <v-card
-          class="mr-10"
-          :color="hover ? 'accent' : ''"
-          :to="{ name: 'consulta' }"
-        >
-          <v-responsive :aspect-ratio="16/9">
+      <v-col cols="auto">
+        <v-hover v-slot="{ hover }">
+          <v-card
+            :color="hover ? 'accent' : ''"
+            :to="{ name: 'consulta' }"
+          >
             <v-card-text class="text-center" :class="hover ? 'white--text' : ''">
               <v-icon x-large :color="hover ? 'white' : ''">mdi-archive-search-outline</v-icon>
               <v-card-title class="justify-center">Consultar Pagamento</v-card-title>
             </v-card-text>
-          </v-responsive>
-        </v-card>
-      </v-hover>
+          </v-card>
+        </v-hover>
+      </v-col>
 
-      <v-hover v-slot="{ hover }">
-        <v-card
-          :color="hover ? 'accent' : ''"
-          :to="{ name: 'pagamento' }"
-        >
-          <v-responsive :aspect-ratio="16/9">
+      <v-col cols="auto">
+        <v-hover v-slot="{ hover }">
+          <v-card
+            :color="hover ? 'accent' : ''"
+            :to="{ name: 'pagamento' }"
+          >
             <v-card-text class="text-center" :class="hover ? 'white--text' : ''">
               <v-icon x-large :color="hover ? 'white' : ''">mdi-cash-plus</v-icon>
               <v-card-title class="justify-center">Realizar Pagamento</v-card-title>
             </v-card-text>
-          </v-responsive>
-        </v-card>
-      </v-hover>
+          </v-card>
+        </v-hover>
+      </v-col>
     </v-row>
   </v-container>
 </template>
