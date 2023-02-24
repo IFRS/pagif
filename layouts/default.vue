@@ -89,37 +89,39 @@
         color="footer"
         width="100%"
       >
-        <v-card-text>
-          <v-row dense class="align-center">
-            <v-col v-if="unidade?.imagem">
-              <v-tooltip top>
-                <template #activator="{ on, attrs }">
-                  <a :href="unidade?.link_url" style="display: inline-block;">
-                    <v-img
-                      v-bind="attrs"
-                      v-on="on"
-                      :src="unidade?.imagem"
-                      :max-width="320"
-                      contain
-                    ></v-img>
-                  </a>
-                </template>
-                <span>{{ unidade?.link_titulo }}</span>
-              </v-tooltip>
-            </v-col>
+        <client-only>
+          <v-card-text>
+            <v-row dense class="align-center">
+              <v-col v-if="unidade?.imagem">
+                <v-tooltip top>
+                  <template #activator="{ on, attrs }">
+                    <a :href="unidade?.link_url" style="display: inline-block;">
+                      <v-img
+                        v-bind="attrs"
+                        v-on="on"
+                        :src="unidade?.imagem"
+                        :max-width="320"
+                        contain
+                      ></v-img>
+                    </a>
+                  </template>
+                  <span>{{ unidade?.link_titulo }}</span>
+                </v-tooltip>
+              </v-col>
 
-            <v-col class="white--text text-right">
-              <p>
-                <strong>{{ orgao }}</strong>
-                <template v-if="unidade?.nome">
-                  <br>
-                  {{ unidade.nome }}
-                </template>
-              </p>
-              <address v-if="unidade?.contato" v-html="unidade.contato"></address>
-            </v-col>
-          </v-row>
-        </v-card-text>
+              <v-col class="white--text text-right">
+                <p>
+                  <strong>{{ orgao }}</strong>
+                  <template v-if="unidade?.nome">
+                    <br>
+                    {{ unidade.nome }}
+                  </template>
+                </p>
+                <address v-if="unidade?.contato" v-html="unidade.contato"></address>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </client-only>
 
         <v-divider dark></v-divider>
 
