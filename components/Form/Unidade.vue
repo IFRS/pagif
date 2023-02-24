@@ -58,29 +58,33 @@
       </v-row>
       <v-row justify="center">
         <v-col v-if="imagem" cols="2">
+          <p class="caption text-center">Pré-visualização da imagem no site.</p>
           <v-hover v-slot="{ hover }">
             <v-card
               :elevation="hover ? 1 : 0"
+              color="footer"
             >
               <v-img
                 :src="imagem"
                 contain
               ></v-img>
-              <v-btn
-                v-show="hover"
+              <v-overlay
                 absolute
-                right
-                bottom
-                icon
-                large
-                color="transparent"
-                style="transform: translate(50%, 50%);"
-                @click="imagem = null"
+                :value="hover"
               >
-                <v-icon color="error">
-                  mdi-close-circle
-                </v-icon>
-              </v-btn>
+                <v-btn
+                  v-show="hover"
+                  icon
+                  min-width="100%"
+                  min-height="100%"
+                  color="transparent"
+                  @click="imagem = null"
+                >
+                  <v-icon color="grey lighten-3" size="50">
+                    mdi-image-remove
+                  </v-icon>
+                </v-btn>
+              </v-overlay>
             </v-card>
           </v-hover>
         </v-col>
@@ -301,3 +305,11 @@
     },
   }
 </script>
+
+<style lang="scss" scoped>
+.tiptap-vuetify-editor::v-deep {
+   .ProseMirror {
+    min-height: 200px;
+  }
+}
+</style>
