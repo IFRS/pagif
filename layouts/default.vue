@@ -6,12 +6,12 @@
         :max-width="120"
         aspect-ratio="4/1"
         contain
-        class="govbr"
+        class="d-none d-md-block govbr"
       ></v-img>
 
       <v-divider
         vertical
-        class="separador"
+        class="d-none d-md-block separador"
       ></v-divider>
 
       <nuxt-link
@@ -91,35 +91,32 @@
       >
         <v-card-text>
           <v-row dense class="align-center">
-            <v-col>
+            <v-col v-if="unidade?.imagem">
               <v-tooltip top>
                 <template #activator="{ on, attrs }">
-                  <a href="https://ifrs.edu.br/" style="display: inline-block;">
+                  <a :href="unidade?.link_url" style="display: inline-block;">
                     <v-img
                       v-bind="attrs"
                       v-on="on"
-                      src="/img/ifrs.png"
-                      :max-width="200"
+                      :src="unidade?.imagem"
+                      :max-width="320"
                       contain
-                      class="ifrs"
                     ></v-img>
                   </a>
                 </template>
-                <span>Portal do IFRS</span>
+                <span>{{ unidade?.link_titulo }}</span>
               </v-tooltip>
             </v-col>
 
             <v-col class="white--text text-right">
-              <p><strong>Instituto Federal de Educação, Ciência e Tecnologia do Rio Grande do Sul</strong></p>
-              <address>
-                <p>
-                  Rua General Osório, 348 - Bairro Centro
+              <p>
+                <strong>{{ nome }}</strong>
+                <template v-if="unidade?.nome">
                   <br>
-                  Bento Gonçalves - RS
-                  <br>
-                  CEP 95700-086
-                </p>
-              </address>
+                  {{ unidade.nome }}
+                </template>
+              </p>
+              <address v-if="unidade?.contato" v-html="unidade.contato"></address>
             </v-col>
           </v-row>
         </v-card-text>
@@ -127,8 +124,6 @@
         <v-divider dark></v-divider>
 
         <v-card-text class="text-center text-body-2 white--text">
-          {{ nome }}
-          &ndash;
           <a href="https://github.com/IFRS/pagif" class="white--text">C&oacute;digo-fonte desse sistema</a>
           &ndash;
           <a href="https://ifrs.edu.br/" class="white--text">Desenvolvido por Instituto Federal do Rio Grande do Sul</a>
@@ -187,6 +182,10 @@ export default {
     nome: {
       ...mapGetters({ get: 'config/nome' }),
       ...mapMutations({ set: 'config/nome' }),
+    },
+    unidade: {
+      ...mapGetters({ get: 'config/unidade' }),
+      ...mapMutations({ set: 'config/unidade' }),
     },
   },
   mounted() {

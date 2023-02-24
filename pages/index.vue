@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <v-row v-show="intro">
-      <v-col cols="12" v-html="intro"/>
+    <v-row v-show="intro" class="my-5">
+      <v-col cols="12" md="10" v-html="intro" class="mx-auto"/>
     </v-row>
     <v-row class="my-10" justify="center">
       <v-hover v-slot="{ hover }">
