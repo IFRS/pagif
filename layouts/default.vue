@@ -124,8 +124,10 @@
         <v-divider dark></v-divider>
 
         <v-card-text class="text-center text-body-2 white--text">
-          <a href="https://github.com/IFRS/pagif" class="white--text">C&oacute;digo-fonte desse sistema</a>
-          &ndash;
+          PagIF - Sistema de Pagamentos integrado ao <a href="https://www.gov.br/tesouronacional/pt-br/gru-e-pag-tesouro/pagtesouro" class="white--text">PagTesouro</a>
+          &ensp;&verbar;&ensp;
+          <a href="https://github.com/IFRS/pagif" class="white--text">C&oacute;digo-fonte</a>
+          &ensp;&verbar;&ensp;
           <a href="https://ifrs.edu.br/" class="white--text">Desenvolvido por Instituto Federal do Rio Grande do Sul</a>
         </v-card-text>
       </v-card>
