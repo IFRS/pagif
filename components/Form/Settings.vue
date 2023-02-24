@@ -14,10 +14,10 @@
         </v-col>
         <v-col cols="12" md="8" xl="9">
           <v-text-field
-            v-model="nome"
+            v-model="orgao"
             label="Nome do Órgão"
             :loading="$fetchState.pending"
-            :rules="validation.nome"
+            :rules="validation.orgao"
             required
             class="required"
           ></v-text-field>
@@ -102,7 +102,7 @@ export default {
           v => !!v || 'Sigla é obrigatória.',
           v => !(/^\d/).test(v) || 'Sigla não pode iniciar com um número.'
         ],
-        nome: [
+        orgao: [
           v => !!v || 'Nome é obrigatório.',
           v => !(/^\d/).test(v) || 'Nome não pode iniciar com um número.'
         ],
@@ -135,9 +135,9 @@ export default {
       ...mapGetters({ get: 'settings/sigla' }),
       ...mapMutations({ set: 'settings/sigla' }),
     },
-    nome: {
-      ...mapGetters({ get: 'settings/nome' }),
-      ...mapMutations({ set: 'settings/nome' }),
+    orgao: {
+      ...mapGetters({ get: 'settings/orgao' }),
+      ...mapMutations({ set: 'settings/orgao' }),
     },
     intro: {
       ...mapGetters({ get: 'settings/intro' }),

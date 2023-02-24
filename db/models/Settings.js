@@ -5,7 +5,7 @@ const Settings = new mongoose.Schema({
     type: String,
     required: true
   },
-  nome: {
+  orgao: {
     type: String,
     required: true
   },

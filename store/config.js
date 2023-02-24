@@ -2,7 +2,7 @@ export const state = () => ({
   unidade: null,
   darkMode: false,
   sigla: null,
-  nome: null,
+  orgao: null,
   intro: null,
 });
 
@@ -10,7 +10,7 @@ export const getters = {
   unidade: state => state.unidade,
   darkMode: state => state.darkMode,
   sigla: state => state.sigla,
-  nome: state => state.nome,
+  orgao: state => state.orgao,
   intro: state => state.intro,
 };
 
@@ -24,8 +24,8 @@ export const mutations = {
   sigla: (state, payload) => {
     state.sigla = payload;
   },
-  nome: (state, payload) => {
-    state.nome = payload;
+  orgao: (state, payload) => {
+    state.orgao = payload;
   },
   intro: (state, payload) => {
     state.intro = payload;
@@ -43,7 +43,7 @@ export const actions = {
     return await this.$axios.get(`/api/public/settings`)
     .then((response) => {
       context.commit('sigla', response.data.sigla);
-      context.commit('nome', response.data.nome);
+      context.commit('orgao', response.data.orgao);
       context.commit('intro', response.data.intro);
     });
   },

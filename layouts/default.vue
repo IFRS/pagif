@@ -19,7 +19,7 @@
         class="text-decoration-none"
         color="primary"
       >
-        <h1 class="text-h5">Sistema de Pagamentos do <abbr :title="nome">{{ sigla }}</abbr></h1>
+        <h1 class="text-h5">Sistema de Pagamentos do <abbr :title="orgao">{{ sigla }}</abbr></h1>
       </nuxt-link>
 
       <v-spacer></v-spacer>
@@ -35,9 +35,9 @@
                 v-bind="attrs"
                 v-on="{ ...tooltip, ...menu }"
                 :loading="$fetchState.pending"
-                :disabled="!$store.getters['config/unidade']"
+                :disabled="!unidade"
               >
-                {{ $store.getters['config/unidade']?.nome || 'Selecione uma Unidade' }}
+                {{ unidade?.nome || 'Selecione uma Unidade' }}
                 <v-icon right>
                   mdi-menu-down
                 </v-icon>
@@ -110,7 +110,7 @@
 
             <v-col class="white--text text-right">
               <p>
-                <strong>{{ nome }}</strong>
+                <strong>{{ orgao }}</strong>
                 <template v-if="unidade?.nome">
                   <br>
                   {{ unidade.nome }}
@@ -181,9 +181,9 @@ export default {
       ...mapGetters({ get: 'config/sigla' }),
       ...mapMutations({ set: 'config/sigla' }),
     },
-    nome: {
-      ...mapGetters({ get: 'config/nome' }),
-      ...mapMutations({ set: 'config/nome' }),
+    orgao: {
+      ...mapGetters({ get: 'config/orgao' }),
+      ...mapMutations({ set: 'config/orgao' }),
     },
     unidade: {
       ...mapGetters({ get: 'config/unidade' }),

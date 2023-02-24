@@ -62,7 +62,7 @@
       <span><a href="https://ifrs.edu.br/" class="text-decoration-none grey--text text--darken-2">Desenvolvido por Instituto Federal do Rio Grande do Sul</a></span>
     </v-footer>
     <v-snackbar
-      :value="$acl.can('manage', 'Settings') && (!$store.getters['config/sigla'] || !$store.getters['config/nome'])"
+      :value="$acl.can('manage', 'Settings') && (!$store.getters['config/sigla'] || !$store.getters['config/orgao'])"
       :timeout="-1"
       app
       top

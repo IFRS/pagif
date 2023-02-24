@@ -1,6 +1,6 @@
 const defaultState = {
   sigla: '',
-  nome: '',
+  orgao: '',
   intro: '',
 };
 
@@ -8,7 +8,7 @@ export const state = () => defaultState;
 
 export const getters = {
   sigla: state => state.sigla,
-  nome: state => state.nome,
+  orgao: state => state.orgao,
   intro: state => state.intro,
 };
 
@@ -16,8 +16,8 @@ export const mutations = {
   sigla (state, sigla) {
     state.sigla = sigla;
   },
-  nome (state, nome) {
-    state.nome = nome;
+  orgao (state, orgao) {
+    state.orgao = orgao;
   },
   intro (state, intro) {
     state.intro = intro;

@@ -26,7 +26,7 @@ module.exports.save = [
     .trim()
     .notEmpty()
     .isString(),
-  validator.body('nome', '')
+  validator.body('orgao', '')
     .trim()
     .notEmpty()
     .isString(),
@@ -42,7 +42,7 @@ module.exports.save = [
 
     const data = {
       sigla: req.body.sigla,
-      nome: req.body.nome,
+      orgao: req.body.orgao,
       intro: req.body.intro,
     };
 
