@@ -124,7 +124,7 @@ module.exports.save = [
     .notEmpty(),
   validator.body('imagem', '')
     .optional({ checkFalsy: true })
-    .isBase64(),
+    .isString(),
   validator.body('link_url', '')
     .trim()
     .optional({ checkFalsy: true })
@@ -146,6 +146,10 @@ module.exports.save = [
       nome: req.body.nome,
       slug: req.body.slug,
       token: req.body.token,
+      imagem: req.body.imagem,
+      link_url: req.body.link_url,
+      link_titulo: req.body.link_titulo,
+      contato: req.body.contato,
     };
 
     if (req.params.id) {
