@@ -124,7 +124,7 @@ module.exports.save = [
     .notEmpty(),
   validator.body('imagem', '')
     .optional({ checkFalsy: true })
-    .isString(),
+    .isDataURI(),
   validator.body('link_url', '')
     .trim()
     .optional({ checkFalsy: true })
