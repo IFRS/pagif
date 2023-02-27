@@ -62,6 +62,7 @@
       <span><a href="https://ifrs.edu.br/" class="text-decoration-none grey--text text--darken-2">Desenvolvido por Instituto Federal do Rio Grande do Sul</a></span>
     </v-footer>
     <v-snackbar
+      v-if="loaded"
       :value="$acl.can('manage', 'Settings') && (!$store.getters['config/sigla'] || !$store.getters['config/orgao'])"
       :timeout="-1"
       app
@@ -75,6 +76,12 @@
       <br>
       Por favor, vá até o menu <nuxt-link :to="{ name: 'admin-config' }" class="white--text font-weight-bold">Configurações</nuxt-link> para definir esses valores.
     </v-snackbar>
+    <v-overlay :value="!loaded">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
   </v-app>
 </template>
 
@@ -84,6 +91,7 @@ export default {
   middleware: ['auth', 'dark-mode'],
   data () {
     return {
+      loaded: false,
       drawer: true,
       miniVariant: false,
       items: [
@@ -126,6 +134,9 @@ export default {
         },
       ],
     }
+  },
+  mounted () {
+    this.loaded = true;
   },
   destroyed () {
     this.$store.commit('clearUnidades');
