@@ -15,6 +15,7 @@
       label="CPF / CNPJ"
       v-model="cnpjCpfFormatted"
       :rules="validation.cnpjCpf"
+      validate-on-blur
       v-mask="cnpjCpfMask"
     ></v-text-field>
   </v-form>
