@@ -25,7 +25,7 @@
 export default {
   name: 'Unidades',
   head: {
-    title: 'Página Inicial',
+    title: 'Escolha uma Unidade',
   },
   async fetch () {
     await this.$store.dispatch('fetchUnidades', true)
