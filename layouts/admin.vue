@@ -31,7 +31,7 @@
             @click.stop="miniVariant = !miniVariant"
           >
             <v-list-item-icon>
-              <v-icon>{{ (miniVariant) ? 'mdi-chevron-right' : 'mdi-chevron-left' }}</v-icon>
+              <v-icon>{{ (miniVariant) ? 'mdi-chevron-double-right' : 'mdi-chevron-double-left' }}</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title v-text="(miniVariant) ? 'Expandir menu' : 'Recolher menu'"></v-list-item-title>
