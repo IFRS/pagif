@@ -1,6 +1,6 @@
 <template>
   <v-card class="d-flex flex-row flex-nowrap">
-    <v-sheet class="red pa-4 d-flex justify-center align-center" width="40%">
+    <v-sheet class="info pa-4 d-flex justify-center align-center" width="40%">
       <v-icon x-large color="white">{{ icon }}</v-icon>
     </v-sheet>
     <v-card-text class="text-center">
