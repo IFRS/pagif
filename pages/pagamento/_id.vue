@@ -11,9 +11,20 @@
             <p>Em nome de <strong>{{ nomeContribuinte }}<template v-if="cnpjCpf">&nbsp;({{ cnpjCpf | cnpj_cpf }})</template></strong>.</p>
 
             <v-alert
+              v-if="situacao?.codigo !== 'CRIADO'"
+              type="error"
+              text
+            >
+              Pagamento n&atilde;o pode ser realizado por j&aacute; ter sido acessado. Verifique a situa&ccedil;&atilde;o desse Pagamento na <nuxt-link :to="{ name: 'consulta-id', params: { id: idPagamento } }">p&aacute;gina de consulta</nuxt-link>.
+            </v-alert>
+
+            <v-alert
+              v-else
               type="warning"
               text
-            >Aten&ccedil;&atilde;o! Ap&oacute;s clicar em <strong>Pagar</strong> n&atilde;o ser&aacute; poss&iacute;vel voltar para realizar o pagamento posteriormente.</v-alert>
+            >
+              Aten&ccedil;&atilde;o! Ap&oacute;s clicar em <strong>Pagar</strong> n&atilde;o ser&aacute; poss&iacute;vel voltar para realizar o pagamento posteriormente.
+            </v-alert>
           </v-card-text>
           <v-card-actions>
             <v-btn
