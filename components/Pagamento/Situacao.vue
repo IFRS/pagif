@@ -1,5 +1,5 @@
 <template>
-  <span :class="color(situacao)"><slot>{{ situacao }}</slot></span>
+  <span class="d-inline-block pa-1 font-weight-medium white--text" :class="color(situacao)"><slot>{{ situacao }}</slot></span>
 </template>
 
 <script>
@@ -15,22 +15,22 @@ export default {
     color(situacao) {
       switch (situacao) {
         case 'CRIADO':
-          return 'indigo--text text--lighten-3';
+          return 'blue accent-2';
         break;
         case 'INICIADO':
-          return 'cyan--text text--lighten-3';
+          return 'blue accent-3';
         break;
         case 'SUBMETIDO':
-          return 'brown--text text-lighten-3';
+          return 'blue accent-4';
         break;
         case 'CONCLUIDO':
-          return 'success--text';
+          return 'light-green darken-2';
         break;
         case 'REJEITADO':
-          return 'warning--text';
+          return 'red darken-3';
         break;
         case 'CANCELADO':
-          return 'error--text';
+          return 'deep-orange darken-3';
         break;
         default:
           return '';
