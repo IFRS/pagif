@@ -34,9 +34,9 @@
       </v-col>
     </v-row>
 
-    <v-row>
+    <v-row v-if="mostrarPagamento">
       <v-col>
-        <v-card v-if="mostrarPagamento">
+        <v-card>
           <v-alert
             type="info"
             text
@@ -44,7 +44,7 @@
             Confira os dados que aparecer&atilde;o na tela abaixo antes de efetuar o pagamento.
           </v-alert>
           <iframe
-            v-iframe-resize="{ heightCalculationMethod: 'documentElementOffset' }"
+            v-resize-iframe="{ heightCalculationMethod: 'documentElementOffset' }"
             class="iframe-epag"
             scrolling="no"
             :src="$store.getters['pagamento/proximaUrl'] + '&btnConcluir=true' + (!$store.getters['config/darkMode'] ? '&tema=tema-light' : '')"
@@ -65,7 +65,7 @@ export default {
     title: 'Pagamento',
   },
   directives: {
-    'iframe-resize': {
+    'resize-iframe': {
       bind(el, { value = {} }) {
         el.addEventListener('load', () => iFrameResize(value, el));
       },
