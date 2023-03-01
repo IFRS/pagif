@@ -58,8 +58,8 @@
       <Toast />
     </v-main>
     <v-footer app class="text-body-2 justify-space-between">
-      <span><a href="https://www.gov.br/tesouronacional/pt-br/gru-e-pag-tesouro/pagtesouro" class="text-decoration-none grey--text text--darken-2">PagIF - Sistema de Pagamentos integrado ao PagTesouro</a></span>
-      <span><a href="https://ifrs.edu.br/" class="text-decoration-none grey--text text--darken-2">Desenvolvido por Instituto Federal do Rio Grande do Sul</a></span>
+      <span><a href="https://www.gov.br/tesouronacional/pt-br/gru-e-pag-tesouro/pagtesouro" class="text-decoration-none grey--text" :class="{ 'text--darken-2': !$store.getters['config/darkMode'] }">PagIF - Sistema de Pagamentos integrado ao PagTesouro</a></span>
+      <span><a href="https://ifrs.edu.br/" class="text-decoration-none grey--text" :class="{ 'text--darken-2': !$store.getters['config/darkMode'] }">Desenvolvido por Instituto Federal do Rio Grande do Sul</a></span>
     </v-footer>
     <v-snackbar
       v-if="loaded"
