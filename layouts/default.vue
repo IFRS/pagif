@@ -82,7 +82,7 @@
       <Nuxt />
       <Toast />
     </v-main>
-    <v-footer color="footer">
+    <v-footer color="footer" class="mt-4">
       <v-card
         flat
         tile
