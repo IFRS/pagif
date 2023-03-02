@@ -24,9 +24,7 @@
           Ao clicar em "Concluir" o pagamento ser&aacute; gerado e voc&ecirc; ter&aacute; <strong>24h</strong> para realiz&aacute;-lo.
         </v-alert>
       </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
+      <v-col class="d-flex justify-center align-center">
         <recaptcha @success="$emit('recaptcha', true)" @error="$emit('recaptcha', false)" @expired="$emit('recaptcha', false)"/>
       </v-col>
     </v-row>
