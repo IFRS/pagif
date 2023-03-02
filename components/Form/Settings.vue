@@ -25,7 +25,7 @@
       </v-row>
       <v-row>
         <v-col>
-          <h3 class="mb-1">Introdução</h3>
+          <label class="d-inline-block mb-1 font-weight-medium">Introdução</label>
           <tiptap-vuetify
             v-model="intro"
             :disabled="$fetchState.pending"
