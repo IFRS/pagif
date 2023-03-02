@@ -57,12 +57,14 @@
         </v-col>
       </v-row>
       <v-row justify="center">
-        <v-col v-if="imagem" cols="2">
+        <v-col v-if="imagem" cols="12" sm="6" md="4" lg="3">
           <p class="caption text-center">Pré-visualização da imagem no site.</p>
           <v-hover v-slot="{ hover }">
             <v-card
               :elevation="hover ? 1 : 0"
+              tile
               color="footer"
+              class="pa-5"
             >
               <v-img
                 :src="imagem"
