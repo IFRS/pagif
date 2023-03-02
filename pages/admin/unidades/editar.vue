@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>Editar Unidade Gestora "{{ this.$store.getters['unidade/nome'] }}"</h2>
+        <PageTitle>Editar Unidade Gestora "{{ this.$store.getters['unidade/nome'] }}"</PageTitle>
       </v-col>
     </v-row>
     <v-row>

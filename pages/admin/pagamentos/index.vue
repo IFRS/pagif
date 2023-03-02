@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>Pagamentos</h2>
+        <PageTitle>Pagamentos</PageTitle>
       </v-col>
     </v-row>
     <v-row>

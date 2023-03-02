@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>Nova Cobran&ccedil;a</h2>
+        <PageTitle>Nova Cobran&ccedil;a</PageTitle>
       </v-col>
     </v-row>
     <v-row>

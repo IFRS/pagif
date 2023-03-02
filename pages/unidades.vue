@@ -2,7 +2,7 @@
   <v-container>
     <v-row class="text-center">
       <v-col>
-        <h2>Escolha uma Unidade para Pagamento</h2>
+        <PageTitle>Escolha uma Unidade para Pagamento</PageTitle>
       </v-col>
     </v-row>
     <v-row class="text-center">

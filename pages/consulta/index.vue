@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2>Consultar Pagamento</h2>
+    <PageTitle>Consultar Pagamento</PageTitle>
 
     <v-form
       ref="form"

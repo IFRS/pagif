@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>Serviços</h2>
+        <PageTitle>Serviços</PageTitle>
       </v-col>
     </v-row>
     <v-row>

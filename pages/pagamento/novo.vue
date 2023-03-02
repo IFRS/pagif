@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>Novo Pagamento para {{ $store.getters['config/unidade']?.nome }}</h2>
+        <PageTitle>Novo Pagamento para {{ $store.getters['config/unidade']?.nome }}</PageTitle>
       </v-col>
     </v-row>
     <v-row>

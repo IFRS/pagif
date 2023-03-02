@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2>Pagamento para {{ $store.getters['config/unidade']?.nome }}</h2>
+    <PageTitle>Pagamento para {{ $store.getters['config/unidade']?.nome }}</PageTitle>
 
     <h3 class="mb-4 text-center">J&aacute; tenho o c&oacute;digo para Pagamento</h3>
     <v-form
@@ -35,7 +35,7 @@
     </v-form>
 
     <div class="text-center">
-      <h3 class="mb-4">ou, realizar um pagamento manualmente</h3>
+      <Titulo level="3" class="mb-4">ou, realizar um pagamento manualmente</Titulo>
       <v-btn
         class="mx-auto"
         x-large

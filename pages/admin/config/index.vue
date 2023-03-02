@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2>Configurações</h2>
+    <PageTitle>Configurações</PageTitle>
     <FormSettings @ok="handleSubmit" @cancel="handleCancel" :submitting="submitting"></FormSettings>
   </v-container>
 </template>

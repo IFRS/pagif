@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>Editar Servi&ccedil;o "{{ this.$store.getters['servico/nome'] }}"</h2>
+        <PageTitle>Editar Servi&ccedil;o "{{ this.$store.getters['servico/nome'] }}"</PageTitle>
       </v-col>
     </v-row>
     <v-row>

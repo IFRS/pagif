@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>Usu&aacute;rios</h2>
+        <PageTitle>Usu&aacute;rios</PageTitle>
       </v-col>
     </v-row>
     <v-row>

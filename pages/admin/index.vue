@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2>Administração</h2>
+    <PageTitle>Administração</PageTitle>
     <v-row justify="center">
       <v-col v-if="numUnidades" cols="12" md="3">
         <AdminCount :num="numUnidades" icon="mdi-office-building-marker">Unidades</AdminCount>

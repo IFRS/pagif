@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>Unidades Gestoras</h2>
+        <PageTitle>Unidades Gestoras</PageTitle>
       </v-col>
     </v-row>
     <v-row>
