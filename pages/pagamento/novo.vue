@@ -130,7 +130,7 @@
             color="primary"
             :to="{ name: 'pagamento-id', params: { id: $store.getters['pagamento/id'] } }"
           >
-            Pagar Agora
+            Pagar
           </v-btn>
         </v-card-actions>
       </v-card>
