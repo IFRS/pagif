@@ -1,10 +1,15 @@
 export default (context) => {
-  if (
-    process.client
-    && context.nuxtState.layout === 'default'
-    && context.route.name !== 'unidades'
-    && !context.store.getters['config/unidade']
-  ) {
-    window.onNuxtReady(() => { window.$nuxt.$router.push({ name: 'unidades' }) });
-  }
+  context.app.router.beforeEach((to, from, next) => {
+    if (
+      process.client
+      && to.name !== 'index'
+      && to.name !== 'unidades'
+      && !to.name.startsWith('admin')
+      && !context.store.getters['config/unidade']
+    ) {
+      next({ name: 'unidades' });
+    } else {
+      next();
+    }
+  });
 }
