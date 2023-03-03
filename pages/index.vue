@@ -50,7 +50,8 @@ export default {
     if (this.$route.query.unidade) {
       const unidade = this.$store.getters['unidades'].find(unidade => (unidade.slug && unidade.slug === this.$route.query.unidade));
       if (unidade) {
-        this.$store.commit('unidade/replace', unidade);
+        this.$store.commit('config/unidade', unidade);
+        this.$toast.success(`Unidade definida para "${unidade.nome}".`);
       }
 
       this.$router.replace({ 'query': null });
