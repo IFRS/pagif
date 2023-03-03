@@ -29,11 +29,27 @@
             </p>
 
             <v-alert
-              v-if="situacao?.codigo !== 'CRIADO'"
+              v-if="situacao?.codigo === 'INICIADO' || situacao?.codigo === 'SUBMETIDO'"
               type="info"
               text
             >
-              Pagamento n&atilde;o pode ser realizado por j&aacute; ter sido acessado. Verifique a situa&ccedil;&atilde;o desse Pagamento na <nuxt-link :to="{ name: 'consulta-id', params: { id: idPagamento } }">p&aacute;gina de consulta</nuxt-link>.
+              Pagamento n&atilde;o pode ser realizado por j&aacute; ter sido iniciado. Verifique mais informa&ccedil;&otilde;es sobre esse Pagamento na <nuxt-link :to="{ name: 'consulta-id', params: { id: idPagamento } }">p&aacute;gina de consulta</nuxt-link>.
+            </v-alert>
+
+            <v-alert
+              v-else-if="situacao?.codigo === 'CONCLUIDO'"
+              type="info"
+              text
+            >
+              Pagamento n&atilde;o pode ser realizado por j&aacute; ter sido conclu&iacute;do. Verifique mais informa&ccedil;&otilde;es sobre esse Pagamento na <nuxt-link :to="{ name: 'consulta-id', params: { id: idPagamento } }">p&aacute;gina de consulta</nuxt-link>.
+            </v-alert>
+
+            <v-alert
+              v-else-if="situacao?.codigo === 'REJEITADO' || situacao?.codigo === 'CANCELADO'"
+              type="info"
+              text
+            >
+              Pagamento n&atilde;o pode ser realizado por j&aacute; ter sido finalizado. Verifique mais informa&ccedil;&otilde;es sobre esse Pagamento na <nuxt-link :to="{ name: 'consulta-id', params: { id: idPagamento } }">p&aacute;gina de consulta</nuxt-link>.
             </v-alert>
 
             <v-alert
@@ -41,7 +57,7 @@
               type="warning"
               text
             >
-              Aten&ccedil;&atilde;o! Ap&oacute;s clicar em <strong>Pagar</strong> n&atilde;o ser&aacute; poss&iacute;vel voltar para realizar o pagamento posteriormente.
+              Aten&ccedil;&atilde;o! Ao clicar em <strong>Pagar Agora</strong> voc&ecirc; iniciar&aacute; um processo de acesso &uacute;nico. Ap&oacute;s, n&atilde;o ser&aacute; poss&iacute;vel realizar o pagamento em outro momento.
             </v-alert>
           </v-card-text>
           <v-card-actions>
