@@ -35,7 +35,7 @@
     </v-form>
 
     <div class="text-center">
-      <Titulo level="3" class="mb-4">ou, realizar um pagamento manualmente</Titulo>
+      <h3 class="mb-4">ou, realizar um pagamento manualmente</h3>
       <v-btn
         class="mx-auto"
         x-large
