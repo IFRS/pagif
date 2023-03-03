@@ -13,7 +13,7 @@ export default {
       light: {
         primary: '#1351B4',
         secondary: '#636363',
-        accent: '#4866FF',
+        accent: '#1351B4',
         error: '#E52207',
         info: '#155BCB',
         success: '#168821',
