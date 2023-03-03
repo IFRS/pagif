@@ -7,12 +7,30 @@
             Pagamento {{ $store.getters['pagamento/idPagamento'] }}
           </v-card-title>
           <v-card-text>
-            <p>Pagamento no valor de <strong>R$ {{ valorPrincipal | int_to_real }}</strong> para <strong>{{ nomeUnidade }}</strong> pelo produto/servi&ccedil;o <strong>{{ nomeServico }} ({{ codigoServico }})</strong>.</p>
-            <p>Em nome de <strong>{{ nomeContribuinte }}<template v-if="cnpjCpf">&nbsp;({{ cnpjCpf | cnpj_cpf }})</template></strong>.</p>
+            <p>
+              Pagamento no valor de <strong>R$ {{ valorPrincipal | int_to_real }}</strong> para <strong>{{ nomeUnidade }}</strong> pelo produto/servi&ccedil;o <strong>{{ nomeServico }} ({{ codigoServico }})</strong>.
+            </p>
+            <p>
+              O pagamento <template v-if="competencia">referente ao m&ecirc;s <strong>{{ $dayjs(competencia, 'YYYY-MM').format('MM/YYYY') }}</strong>&nbsp;</template>est&aacute; em nome de <strong>{{ nomeContribuinte }}<template v-if="cnpjCpf">&nbsp;({{ cnpjCpf | cnpj_cpf }})</template></strong>.
+            </p>
+            <p v-if="referencia">
+              O n&uacute;mero de refer&ecirc;ncia atrelado a esse pagamento &eacute; <strong>{{ referencia }}</strong>.
+            </p>
+            <p>
+              Vencimento em
+              <strong>
+                <template v-if="vencimento">
+                  {{ $dayjs(vencimento).format('DD/MM/YYYY') }}
+                </template>
+                <template v-else>
+                  {{ $dayjs(dataCriacao).add(1, 'day').format('DD/MM/YYYY') }}
+                </template>
+              </strong>.
+            </p>
 
             <v-alert
               v-if="situacao?.codigo !== 'CRIADO'"
-              type="error"
+              type="info"
               text
             >
               Pagamento n&atilde;o pode ser realizado por j&aacute; ter sido acessado. Verifique a situa&ccedil;&atilde;o desse Pagamento na <nuxt-link :to="{ name: 'consulta-id', params: { id: idPagamento } }">p&aacute;gina de consulta</nuxt-link>.
@@ -29,17 +47,20 @@
           <v-card-actions>
             <v-btn
               color="secondary"
-              plain
+              text
               :to="{ name: 'pagamento' }"
-            >Voltar</v-btn>
-            <v-spacer></v-spacer>
+            >
+              Voltar
+            </v-btn>
             <v-btn
               v-if="situacao?.codigo === 'CRIADO'"
               :disabled="mostrarPagamento"
               text
               color="primary"
               @click="mostrarPagamento = true"
-            >Pagar</v-btn>
+            >
+              Pagar Agora
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -114,7 +135,19 @@ export default {
     },
     situacao: {
       ...mapGetters({ get: 'pagamento/situacao' }),
-    }
+    },
+    referencia: {
+      ...mapGetters({ get: 'pagamento/referencia' }),
+    },
+    competencia: {
+      ...mapGetters({ get: 'pagamento/competencia' }),
+    },
+    vencimento: {
+      ...mapGetters({ get: 'pagamento/vencimento' }),
+    },
+    dataCriacao: {
+      ...mapGetters({ get: 'pagamento/dataCriacao' }),
+    },
   },
   async fetch() {
     await this.$store.dispatch('pagamento/show_public', this.$route.params.id)
