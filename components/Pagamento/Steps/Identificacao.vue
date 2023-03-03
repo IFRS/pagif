@@ -2,7 +2,7 @@
   <v-form ref="form" v-on="$listeners">
     <v-text-field
       prepend-icon="mdi-text-short"
-      label="Nome"
+      label="Nome Completo"
       v-model="nomeContribuinte"
       :rules="validation.nome"
       :counter="45"
