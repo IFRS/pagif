@@ -19,7 +19,11 @@
         class="text-decoration-none"
         color="primary"
       >
-        <h1 class="text-h5">Sistema de Pagamentos do <abbr :title="orgao">{{ sigla }}</abbr></h1>
+        <h1 class="text-h5">
+          Sistema de Pagamentos
+          <template v-if="orgao && sigla">do <abbr :title="orgao">{{ sigla }}</abbr></template>
+          <template v-else-if="sigla">do {{ sigla }}</template>
+        </h1>
       </nuxt-link>
 
       <v-spacer></v-spacer>
