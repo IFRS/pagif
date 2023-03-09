@@ -3,8 +3,8 @@
     <v-row class="my-5" align="center">
       <v-col>
         <div v-if="intro" class="intro">
-          <v-img class="intro__marca" :src="($vuetify.theme.dark) ? '/img/logo-white.png' : '/img/logo.png'" contain/>
-          <div class="intro__text" v-html="intro"/>
+          <v-img class="intro__marca" :src="($vuetify.theme.dark) ? '/img/logo-white.png' : '/img/logo.png'" contain></v-img>
+          <div class="intro__text" v-html="intro"></div>
         </div>
       </v-col>
     </v-row>

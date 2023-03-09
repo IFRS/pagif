@@ -61,7 +61,7 @@
             <v-icon small>mdi-currency-brl</v-icon> {{ handleValor(item) || '-' }}
           </template>
           <template #item.situacao.codigo="{ value }">
-            <pagamento-situacao :situacao="value" />
+            <pagamento-situacao :situacao="value"></pagamento-situacao>
           </template>
           <template #item.actions="{ item }">
             <v-progress-circular indeterminate :size="20" :width="2" v-if="item.idPagamento === loadingPagamento"></v-progress-circular>

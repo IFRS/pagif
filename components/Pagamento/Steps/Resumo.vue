@@ -25,7 +25,7 @@
         </v-alert>
       </v-col>
       <v-col class="d-flex justify-center align-center">
-        <recaptcha @success="$emit('recaptcha', true)" @error="$emit('recaptcha', false)" @expired="$emit('recaptcha', false)"/>
+        <recaptcha @success="$emit('recaptcha', true)" @error="$emit('recaptcha', false)" @expired="$emit('recaptcha', false)"></recaptcha>
       </v-col>
     </v-row>
   </v-container>

@@ -20,7 +20,7 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
+            <v-list-item-title v-text="item.title"></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -45,17 +45,17 @@
       fixed
       app
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Administração do Sistema de Pagamentos</v-toolbar-title>
 
-      <v-spacer />
+      <v-spacer></v-spacer>
 
-      <DarkMode />
-      <UserMenu admin />
+      <DarkMode></DarkMode>
+      <UserMenu admin></UserMenu>
     </v-app-bar>
     <v-main>
-      <Nuxt />
-      <Toast />
+      <Nuxt></Nuxt>
+      <Toast></Toast>
     </v-main>
     <v-footer app class="text-body-2 justify-space-between">
       <span><a href="https://www.gov.br/tesouronacional/pt-br/gru-e-pag-tesouro/pagtesouro" class="text-decoration-none grey--text" :class="{ 'text--darken-2': !$store.getters['config/darkMode'] }">PagIF - Sistema de Pagamentos integrado ao PagTesouro</a></span>

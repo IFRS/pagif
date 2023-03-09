@@ -21,7 +21,7 @@
             :src="usuario.foto"
             :alt="'Foto de ' + usuario.nome"
             referrerpolicy="no-referrer"
-          />
+          >
           <v-icon v-else dark>mdi-account-circle</v-icon>
         </v-avatar>
       </v-btn>

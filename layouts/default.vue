@@ -69,9 +69,9 @@
         </v-list>
       </v-menu>
 
-      <DarkMode />
+      <DarkMode></DarkMode>
 
-      <UserMenu v-if="$store.getters['auth/user']"/>
+      <UserMenu v-if="$store.getters['auth/user']"></UserMenu>
       <v-btn
         v-else
         color="primary"
@@ -83,8 +83,8 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <Nuxt />
-      <Toast />
+      <Nuxt></Nuxt>
+      <Toast></Toast>
     </v-main>
     <v-footer color="footer" class="mt-4">
       <v-card

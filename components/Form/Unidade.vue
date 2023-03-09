@@ -131,7 +131,7 @@
             :toolbar-attributes="{ dark: $store.getters['config/darkMode'], color: ($store.getters['config/darkMode']) ? 'dark' : 'grey lighten-4' }"
             :card-props="{ dark: $store.getters['config/darkMode'] }"
             placeholder="Informações de Contato"
-          />
+          ></tiptap-vuetify>
         </v-col>
       </v-row>
       <v-row>
