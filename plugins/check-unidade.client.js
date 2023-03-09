@@ -7,7 +7,7 @@ export default (context) => {
       && !to.name.startsWith('admin')
       && !context.store.getters['config/unidade']
     ) {
-      next({ name: 'unidades' });
+      next({ name: 'unidades', query: { returnPath: to.path } });
     } else {
       next();
     }
