@@ -1,0 +1,11 @@
+@function clampBuilder( $minWidthPx, $maxWidthPx, $minSize, $maxSize ) {
+  $pixelsPerRem: 16;
+
+  $minWidth: $minWidthPx / $pixelsPerRem;
+  $maxWidth: $maxWidthPx / $pixelsPerRem;
+
+  $slope: ( $maxSize - $minSize ) / ( $maxWidth - $minWidth );
+  $yAxisIntersection: ($minWidth * -1) * $slope + $minSize;
+
+  @return clamp( #{$minSize}rem, #{$yAxisIntersection}rem + #{$slope * 100}vw, #{$maxSize}rem );
+}

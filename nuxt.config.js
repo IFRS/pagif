@@ -33,6 +33,12 @@ export default {
     '~/assets/vuetify-required.scss',
   ],
 
+  styleResources: {
+    scss: [
+      '~/assets/_functions.scss',
+    ]
+  },
+
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/filters.js',
@@ -53,6 +59,7 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     '@nuxtjs/vuetify',
+    '@nuxtjs/style-resources',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

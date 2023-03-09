@@ -19,7 +19,7 @@
         class="text-decoration-none"
         color="primary"
       >
-        <h1 class="text-h5">
+        <h1 class="titulo">
           Sistema de Pagamentos
           <template v-if="orgao && sigla">do <abbr :title="orgao">{{ sigla }}</abbr></template>
           <template v-else-if="sigla">do {{ sigla }}</template>
@@ -209,7 +209,14 @@ export default {
 .govbr {
   flex: 0 0 200px;
 }
+
 .separador {
   margin: 0 1rem;
+}
+
+.titulo {
+  font-size: 1rem;
+  font-size: clampBuilder(600, 1200, 0.8, 1.5);
+  font-weight: 400;
 }
 </style>
