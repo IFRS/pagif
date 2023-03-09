@@ -2,10 +2,12 @@
   <v-container>
     <v-row class="my-5" align="center">
       <v-col>
-        <div v-if="intro" class="intro">
-          <v-img class="intro__marca" :src="($vuetify.theme.dark) ? '/img/logo-white.png' : '/img/logo.png'" contain></v-img>
-          <div class="intro__text" v-html="intro"></div>
-        </div>
+        <client-only>
+          <div class="intro">
+            <v-img class="intro__marca" :src="($store.getters['config/darkMode']) ? '/img/logo-white.png' : '/img/logo.png'" contain></v-img>
+            <div class="intro__text" v-if="intro" v-html="intro"></div>
+          </div>
+        </client-only>
       </v-col>
     </v-row>
     <v-row class="my-10" justify="center">

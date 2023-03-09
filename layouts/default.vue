@@ -19,11 +19,13 @@
         class="text-decoration-none"
         color="primary"
       >
-        <h1 class="titulo">
-          Sistema de Pagamentos
-          <template v-if="orgao && sigla">do <abbr :title="orgao">{{ sigla }}</abbr></template>
-          <template v-else-if="sigla">do {{ sigla }}</template>
-        </h1>
+        <client-only>
+          <h1 class="titulo">
+            Sistema de Pagamentos
+            <template v-if="orgao && sigla">do <abbr :title="orgao">{{ sigla }}</abbr></template>
+            <template v-else-if="sigla">do {{ sigla }}</template>
+          </h1>
+        </client-only>
       </nuxt-link>
 
       <v-spacer></v-spacer>
@@ -197,7 +199,9 @@ export default {
     },
   },
   mounted() {
-    this.loaded = true;
+    this.$nextTick(function () {
+      this.loaded = true;
+    });
   },
   destroyed() {
     this.$store.commit('clearUnidades');
