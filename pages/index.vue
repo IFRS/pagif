@@ -1,7 +1,12 @@
 <template>
   <v-container>
-    <v-row v-show="intro" class="my-5">
-      <v-col cols="12" md="10" v-html="intro" class="mx-auto"/>
+    <v-row v-if="intro" class="my-5" align="center">
+      <v-col>
+        <div class="intro">
+          <v-img class="intro__marca" :src="($vuetify.theme.dark) ? '/img/logo-white.png' : '/img/logo.png'" contain></v-img>
+          <div class="intro__text" v-html="intro"/>
+        </div>
+      </v-col>
     </v-row>
     <v-row class="my-10" justify="center">
       <v-col cols="auto">
@@ -59,3 +64,31 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+@import '~vuetify/src/styles/styles.sass';
+.intro {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+  @media #{map-get($display-breakpoints, 'sm-and-down')} {
+    flex-direction: column;
+  }
+
+  &__marca {
+    flex: 0 1 160px;
+  }
+
+  &__text {
+    flex: 0 1 80ch;
+
+    @media #{map-get($display-breakpoints, 'sm-and-down')} {
+      flex-basis: auto;
+    }
+  }
+}
+</style>
