@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <PageTitle>Consultar Pagamento</PageTitle>
+    <PageTitle>Consultar Pagamento para {{ $store.getters['config/unidade']?.nome }}</PageTitle>
 
     <v-form
       ref="form"
