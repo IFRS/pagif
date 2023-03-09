@@ -67,6 +67,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '~vuetify/src/styles/styles.sass';
+
 .intro {
   display: flex;
   flex-direction: row;
