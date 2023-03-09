@@ -1,9 +1,9 @@
 <template>
   <v-container>
-    <v-row v-if="intro" class="my-5" align="center">
+    <v-row class="my-5" align="center">
       <v-col>
-        <div class="intro">
-          <v-img class="intro__marca" :src="($vuetify.theme.dark) ? '/img/logo-white.png' : '/img/logo.png'" contain></v-img>
+        <div v-if="intro" class="intro">
+          <v-img class="intro__marca" :src="($vuetify.theme.dark) ? '/img/logo-white.png' : '/img/logo.png'" contain/>
           <div class="intro__text" v-html="intro"/>
         </div>
       </v-col>
