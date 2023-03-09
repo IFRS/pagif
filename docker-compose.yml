@@ -9,3 +9,7 @@ services:
       - NUXT_HOST=0.0.0.0
     ports:
       - "${DOCKER_PORT}:3000"
+    volumes:
+      - log:/home/node/app/log
+volumes:
+  log:
