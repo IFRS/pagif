@@ -1,5 +1,39 @@
 <template>
   <v-app>
+    <v-navigation-drawer
+      v-model="drawer"
+      mobile-breakpoint="0"
+      width="300"
+      app
+      right
+      temporary
+    >
+      <v-list nav two-line>
+        <v-list-item>
+          <SelectUnidade></SelectUnidade>
+        </v-list-item>
+
+        <v-list-item>
+          <v-toolbar flat>
+            <DarkMode></DarkMode>
+            <Autenticacao></Autenticacao>
+          </v-toolbar>
+        </v-list-item>
+      </v-list>
+
+      <template #prepend>
+        <v-list>
+          <v-list-item>
+            <v-btn
+              icon
+              @click="drawer = false"
+            >
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </v-list-item>
+        </v-list>
+      </template>
+    </v-navigation-drawer>
     <v-app-bar app elevation="1">
       <v-img
         :src="$store.getters['config/darkMode'] ? '/img/govbr-white.svg' : '/img/govbr.svg'"
@@ -30,59 +64,16 @@
 
       <v-spacer></v-spacer>
 
-      <v-menu offset-y>
-        <template #activator="{ on: menu, attrs }">
-          <v-tooltip left>
-            <template #activator="{ on: tooltip }">
-              <v-btn
-                class="mr-3"
-                color="primary"
-                text
-                v-bind="attrs"
-                v-on="{ ...tooltip, ...menu }"
-                :loading="$fetchState.pending"
-                :disabled="!unidade"
-              >
-                {{ unidade?.nome || 'Selecione uma Unidade' }}
-                <v-icon right>
-                  mdi-menu-down
-                </v-icon>
-              </v-btn>
-            </template>
-            <span>Trocar Unidade</span>
-          </v-tooltip>
-        </template>
-        <v-list>
-          <v-subheader>Unidade Gestora</v-subheader>
-          <v-list-item-group
-            v-model="selectedUnidade"
-            mandatory
-            color="primary"
-          >
-            <v-list-item
-              v-for="(unidade, index) in $store.getters['unidades']"
-              :key="index"
-            >
-              <v-list-item-content>
-                <v-list-item-title>{{ unidade.nome }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
-      </v-menu>
+      <template v-if="$vuetify.breakpoint.smAndDown">
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      </template>
+      <template v-else>
+        <SelectUnidade></SelectUnidade>
 
-      <DarkMode></DarkMode>
+        <DarkMode></DarkMode>
 
-      <UserMenu v-if="$store.getters['auth/user']"></UserMenu>
-      <v-btn
-        v-else
-        color="primary"
-        small
-        style="text-transform: none;"
-        href="/api/auth/google"
-      >
-        Entrar com&nbsp;<strong>Google</strong>
-      </v-btn>
+        <Autenticacao></Autenticacao>
+      </template>
     </v-app-bar>
     <v-main>
       <Nuxt></Nuxt>
@@ -153,58 +144,32 @@
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-  name: 'DefaultLayout',
-  middleware: 'dark-mode',
-  async fetch() {
-    await this.$store.dispatch('fetchUnidades', true)
-    .catch((error) => {
-      this.$toast.error('Ocorreu um erro ao carregar a lista de Unidades: ' + error.message);
-      console.error(error);
-    });
-  },
+  name: "DefaultLayout",
+  middleware: "dark-mode",
   data() {
     return {
       loaded: false,
+      drawer: false,
     }
   },
   computed: {
-    selectedUnidade: {
-      get() {
-        return this.$store.state.unidades.findIndex((item) => {
-          return item._id === this.$store.getters['config/unidade']?._id;
-        });
-      },
-      set(index) {
-        this.$nuxt.$loading.start();
-
-        this.$store.commit('config/unidade', this.$store.state.unidades[index]);
-
-        setTimeout(() => {
-          this.$nuxt.$loading.finish();
-          this.$router.push({ name: 'index' });
-        }, 250);
-      }
-    },
     sigla: {
-      ...mapGetters({ get: 'config/sigla' }),
-      ...mapMutations({ set: 'config/sigla' }),
+      ...mapGetters({ get: "config/sigla" }),
+      ...mapMutations({ set: "config/sigla" }),
     },
     orgao: {
-      ...mapGetters({ get: 'config/orgao' }),
-      ...mapMutations({ set: 'config/orgao' }),
+      ...mapGetters({ get: "config/orgao" }),
+      ...mapMutations({ set: "config/orgao" }),
     },
     unidade: {
-      ...mapGetters({ get: 'config/unidade' }),
-      ...mapMutations({ set: 'config/unidade' }),
+      ...mapGetters({ get: "config/unidade" }),
+      ...mapMutations({ set: "config/unidade" }),
     },
   },
   mounted() {
     this.$nextTick(function () {
       this.loaded = true;
     });
-  },
-  destroyed() {
-    this.$store.commit('clearUnidades');
   },
 }
 </script>
@@ -220,7 +185,7 @@ export default {
 
 .titulo {
   font-size: 1rem;
-  font-size: clampBuilder(600, 1200, 0.8, 1.5);
+  font-size: clampBuilder(400, 1200, 1, 1.5);
   font-weight: 400;
 }
 </style>
