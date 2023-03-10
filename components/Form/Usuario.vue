@@ -120,7 +120,6 @@
           ],
         },
         all_abilities: all_abilities,
-        model_abilities: [],
       }
     },
     computed: {
@@ -137,17 +136,6 @@
         ...mapMutations({ set: 'usuario/abilities' }),
       },
     },
-    watch: {
-      // model_roles(selectedRoles) {
-      //   let roles = [];
-      //   if (selectedRoles && selectedRoles.length > 0) {
-      //     selectedRoles.forEach(role => {
-      //       roles.push(role);
-      //     });
-      //   }
-      //   this.roles = roles;
-      // },
-    },
     methods: {
       handleSubmit() {
         if (this.$refs.form.validate()) {
@@ -158,11 +146,6 @@
         this.$refs.form.reset();
         this.$emit('cancel');
       },
-    },
-    created() {
-      // this.roles.forEach(role => {
-      //   this.model_roles.push(role);
-      // });
     },
   }
 </script>
