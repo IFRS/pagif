@@ -18,10 +18,27 @@
 
       <v-row>
         <v-col>
+          <v-alert type="info">
+            O <strong>nome</strong> e a <strong>foto</strong> do usuário serão recuperados do Google no primeiro login.
+          </v-alert>
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col>
           <v-card tag="fieldset">
             <v-card-title tag="legend">Permiss&otilde;es Gerais</v-card-title>
             <v-card-text>
               <v-row>
+                <v-col v-if="$acl.can('manage', 'all')">
+                  <strong>Administra&ccedil;&atilde;o</strong>
+                  <v-switch
+                    v-model="abilities"
+                    label="super admin"
+                    :value="JSON.stringify({ action: 'manage', subject: 'all' })"
+                    :disabled="user_is_me"
+                  ></v-switch>
+                </v-col>
                 <v-col v-for="(actions, subject) in all_abilities.geral" :key="subject">
                   <strong>{{ subject }}</strong>
                   <v-switch
@@ -30,6 +47,7 @@
                     v-model="abilities"
                     :label="action"
                     :value="JSON.stringify({ action: action, subject: subject })"
+                    :disabled="user_is_me"
                   ></v-switch>
                 </v-col>
               </v-row>
@@ -53,18 +71,11 @@
                   v-model="abilities"
                   :label="action"
                   :value="JSON.stringify({ action: action, subject: subject, conditions: { unidade: unidade._id } })"
+                  :disabled="user_is_me"
                 ></v-switch>
               </template>
             </v-card-text>
           </v-card>
-        </v-col>
-      </v-row>
-
-      <v-row>
-        <v-col>
-          <v-alert type="info">
-            O <strong>nome</strong> e a <strong>foto</strong> do usuário serão recuperados do Google no primeiro login.
-          </v-alert>
         </v-col>
       </v-row>
 
@@ -123,6 +134,9 @@
       }
     },
     computed: {
+      user_is_me() {
+        return this.id === this.$store.getters['auth/user']?._id;
+      },
       id: {
         ...mapGetters({ get: 'usuario/id' }),
         ...mapMutations({ set: 'usuario/id' }),
