@@ -92,7 +92,7 @@ module.exports.save = [
     .isAlpha('pt-BR', { ignore: ' _-' })
     .isLength({ min: 2, max: 45 }),
   validator.body('cnpjCpf', '')
-    .optional({ checkFalsy: true })
+    .notEmpty()
     .trim()
     .isNumeric({ no_symbols: true })
     .isLength({ min: 11, max: 14 }),

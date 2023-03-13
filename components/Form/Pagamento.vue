@@ -273,6 +273,7 @@
             v => (v?.length >= 2 && v?.length <= 45) || 'Nome do Contribuinte precisa ter entre 2 e 45 caracteres.',
           ],
           cnpjCpf: [
+            v => !!v || 'CPF / CNPJ é obrigatório.',
             v => !v || (this.$validation.CPF(v) || this.$validation.CNPJ(v)) || 'CPF / CNPJ deve ser válido.',
           ],
           valorPrincipal: [
