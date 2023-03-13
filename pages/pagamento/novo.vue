@@ -154,7 +154,7 @@ export default {
       steps: {
         1: {
           component: 'PagamentoStepsCodigoServico',
-          title: 'Produto ou Serviço',
+          title: 'Serviço',
         },
         2: {
           component: 'PagamentoStepsIdentificacao',

@@ -9,8 +9,8 @@
 
     <v-autocomplete
       prepend-icon="mdi-basket"
-      label="Produto ou Serviço"
-      no-data-text="Nenhum Produto ou Serviço encontrado na Unidade atual."
+      label="Serviço"
+      no-data-text="Nenhum Serviço encontrado na Unidade atual."
       v-model="servico"
       :rules="validation"
       :loading="$fetchState.pending"
