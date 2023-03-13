@@ -114,7 +114,7 @@
                     {{ unidade.nome }}
                   </template>
                 </p>
-                <address v-if="unidade?.contato" v-html="unidade.contato"></address>
+                <address v-if="unidade?.contato" class="contato" v-html="unidade.contato"></address>
               </v-col>
             </v-row>
           </v-card-text>
@@ -187,5 +187,11 @@ export default {
   font-size: 1rem;
   font-size: clampBuilder(400, 1200, 1, 1.5);
   font-weight: 400;
+}
+
+.contato::v-deep {
+  a {
+    color: inherit;
+  }
 }
 </style>
