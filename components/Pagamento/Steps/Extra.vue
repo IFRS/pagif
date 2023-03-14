@@ -1,5 +1,7 @@
 <template>
   <v-form ref="form" v-on="$listeners">
+    <p class="body-2 text--secondary">As informações abaixo são opcionais.</p>
+
     <v-text-field
       prepend-icon="mdi-numeric"
       label="Número de Referência"
