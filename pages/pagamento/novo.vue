@@ -122,7 +122,7 @@
             color="secondary"
             :to="{ name: 'index' }"
           >
-            Já salvei o Código do Pagamento, quero sair dessa tela
+            Sair
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn
@@ -186,11 +186,6 @@ export default {
       this.currentStep = this.currentStep - 1;
     },
     nextStep() {
-      // const refIndex = this.currentStep - 1;
-
-      // if (!this.$refs['step' + this.currentStep]) return;
-      // if (!this.$refs['step' + this.currentStep].$refs?.form) return;
-
       if (this.$refs['step' + this.currentStep][0].$refs.form.validate()) {
         this.currentStep = this.currentStep + 1;
       }
