@@ -1,10 +1,10 @@
-const defaultState = {
+const defaultState = () => ({
   sigla: '',
   orgao: '',
   intro: '',
-};
+});
 
-export const state = () => defaultState;
+export const state = () => defaultState();
 
 export const getters = {
   sigla: state => state.sigla,
@@ -23,7 +23,7 @@ export const mutations = {
     state.intro = intro;
   },
   clear: (state) => {
-    Object.assign(state, defaultState);
+    Object.assign(state, defaultState());
   },
   replace: (state, payload) => {
     Object.assign(state, payload);
