@@ -19,7 +19,17 @@ module.exports.showPublic = function(req, res) {
       });
     }
 
-    return res.json(pagamento.toJSON());
+    pagamento = pagamento.toObject();
+
+    if (pagamento.cnpjCpf) {
+      if (pagamento.cnpjCpf.length === 11) {
+        pagamento.cnpjCpf = pagamento.cnpjCpf.replace(/(.{3})(.{3})(.{3})(.{2})/, "***$2$3**");
+      } else if (pagamento.cnpjCpf.length === 14) {
+        pagamento.cnpjCpf = pagamento.cnpjCpf.replace(/(.{2})(.{3})(.{3})(.{4})(.{2})/, "*****$3$4**");
+      }
+    }
+
+    return res.json(pagamento);
   });
 };
 

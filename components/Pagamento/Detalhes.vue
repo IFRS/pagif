@@ -20,7 +20,7 @@
             <v-list-item two-line>
               <v-list-item-content>
                 <v-list-item-title>CPF / CNPJ</v-list-item-title>
-                <v-list-item-subtitle>{{ $store.getters['pagamento/cnpjCpf'] | cnpj_cpf(!private) || '-' }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ $store.getters['pagamento/cnpjCpf'] | cnpj_cpf() || '-' }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
 
@@ -192,7 +192,8 @@ export default {
   },
   computed: {
     domain() {
-      return window.location.host;
+      if (process.client) return window.location.host;
+      if (process.server) return process.env.BROWSER_BASE_URL;
     }
   },
 }

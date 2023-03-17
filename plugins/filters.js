@@ -29,26 +29,15 @@ Vue.filter('int_to_real', function(valor, prefixo = false) {
   return valor;
 });
 
-Vue.filter('cnpj_cpf', function(cnpjCpf, hide = false) {
+Vue.filter('cnpj_cpf', function(cnpjCpf) {
   if (!cnpjCpf) return null;
 
   cnpjCpf = String(cnpjCpf);
-  cnpjCpf = cnpjCpf.replace(/\D/g, '');
 
   if (cnpjCpf.length === 11) {
-    if (hide) {
-      cnpjCpf = cnpjCpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "***.$2.$3-**");
-    } else {
-      cnpjCpf = cnpjCpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-    }
-  }
-
-  if (cnpjCpf.length === 14) {
-    if (hide) {
-      cnpjCpf = cnpjCpf.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "**.***.$3/$4-**");
-    } else {
-      cnpjCpf = cnpjCpf.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
-    }
+    cnpjCpf = cnpjCpf.replace(/(.{3})(.{3})(.{3})(.{2})/, "$1.$2.$3-$4");
+  } else if (cnpjCpf.length === 14) {
+      cnpjCpf = cnpjCpf.replace(/(.{2})(.{3})(.{3})(.{4})(.{2})/, "$1.$2.$3/$4-$5");
   }
 
   return cnpjCpf;
