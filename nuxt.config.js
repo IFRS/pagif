@@ -50,6 +50,7 @@ export default {
     '~/plugins/casl.js',
     '~/plugins/populate-store.client.js',
     '~/plugins/check-unidade.client.js',
+    '~/plugins/gtag.client.js',
     '~/plugins/tiptap-vuetify.client.js',
   ],
 
@@ -98,10 +99,11 @@ export default {
     axios: {
       baseURL: process.env.BROWSER_BASE_URL,
     },
-    pagtesouroURL: process.env.PAGTESOURO_URL,
     recaptcha: {
       siteKey: process.env.RECAPTCHA_SITE_KEY,
     },
+    pagtesouroURL: process.env.PAGTESOURO_URL,
+    GA: process.env.GA_ID,
   },
 
   privateRuntimeConfig: {

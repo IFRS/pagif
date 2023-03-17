@@ -1,6 +1,7 @@
 export const state = () => ({
   unidade: null,
   darkMode: false,
+  dnt: false,
   sigla: null,
   orgao: null,
   intro: null,
@@ -9,6 +10,7 @@ export const state = () => ({
 export const getters = {
   unidade: state => state.unidade,
   darkMode: state => state.darkMode,
+  dnt: state => state.dnt,
   sigla: state => state.sigla,
   orgao: state => state.orgao,
   intro: state => state.intro,
@@ -20,6 +22,9 @@ export const mutations = {
   },
   darkMode: (state, payload) => {
     state.darkMode = payload;
+  },
+  dnt: (state, payload) => {
+    state.dnt = payload;
   },
   sigla: (state, payload) => {
     state.sigla = payload;

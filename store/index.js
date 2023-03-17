@@ -111,10 +111,13 @@ export const actions = {
   },
 
   /* Server Store Population */
-  async nuxtServerInit({ commit }, { app }) {
+  async nuxtServerInit({ commit }, { app, req }) {
     await app.$axios.get('/api/auth/me')
     .then(response => {
       commit('auth/user', response.data);
     });
+    if (req.headers['dnt'] == 1) {
+      commit('config/dnt', true);
+    }
   },
 };
