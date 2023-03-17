@@ -11,8 +11,8 @@ export default ({ app, store }) => {
           send_page_view: false
         }
       },
-      appName: app.name,
-      pageTrackerScreenviewEnabled: true
+      appName: 'PagIF - Sistema de Pagamentos',
+      pageTrackerScreenviewEnabled: true,
     }, app.router);
   }
 }
