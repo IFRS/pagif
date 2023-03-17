@@ -11,6 +11,6 @@
       "@@/*": ["./*"]
     }
   },
-  "include": ["./**/*"],
+  "include": ["**/*"],
   "exclude": ["node_modules", ".nuxt", "dist"],
 }
