@@ -143,7 +143,7 @@
                 <v-list-item-title>Situa&ccedil;&atilde;o</v-list-item-title>
                 <v-list-item-subtitle>
                   <PagamentoSituacao :situacao="$store.getters['pagamento/situacao']?.codigo || ''"></PagamentoSituacao>
-                  <small v-if="$dayjs($store.getters['pagamento/situacao']?.data).isValid()">({{ 'atualizado em ' + $dayjs($store.getters['pagamento/situacao'].data).format('DD/MM/YYYY [às] HH:mm:ss') }})</small>
+                  <small v-if="$store.getters['pagamento/situacao']?.data">({{ 'atualizado em ' + $dayjs($store.getters['pagamento/situacao'].data).format('DD/MM/YYYY [às] HH:mm:ss') }})</small>
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
