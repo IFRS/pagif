@@ -63,6 +63,12 @@
           <v-card tag="fieldset">
             <v-card-title tag="legend">{{ unidade.nome }}</v-card-title>
             <v-card-text>
+              <v-switch
+                v-model="abilities"
+                label="read"
+                :value="JSON.stringify({ action: 'read', subject: 'Unidade', conditions: { '_id': unidade._id } })"
+                :disabled="user_is_me"
+              ></v-switch>
               <template v-for="(actions, subject) in all_abilities.porUnidade">
                 <strong>{{ subject }}</strong>
                 <v-switch
@@ -70,7 +76,7 @@
                   :key="subject + '_' + i + '_' + a"
                   v-model="abilities"
                   :label="action"
-                  :value="JSON.stringify({ action: action, subject: subject, conditions: { unidade: unidade._id } })"
+                  :value="JSON.stringify({ action: action, subject: subject, conditions: { 'unidade': unidade._id } })"
                   :disabled="user_is_me"
                 ></v-switch>
               </template>

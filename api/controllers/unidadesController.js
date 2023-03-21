@@ -1,5 +1,6 @@
 const Unidade = require('../../db/models/Unidade');
 const validator = require('express-validator');
+import { createMongoAbility } from '@casl/ability';
 
 module.exports.listPublic = function(req, res) {
   const query = Unidade.find({});
@@ -20,9 +21,10 @@ module.exports.listPublic = function(req, res) {
 };
 
 module.exports.list = function(req, res) {
+  const ability = createMongoAbility(req.user.abilities);
   let fields = req.query.fields?.split(',');
 
-  const query = Unidade.find({});
+  const query = Unidade.find({}).accessibleBy(ability);
 
   if (Array.isArray(fields)) {
     query.select(fields);
