@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 const defaultState = () => ({
   _id: null,
   idPagamento: null,
@@ -144,6 +146,7 @@ export const mutations = {
 
 export const actions = {
   async save_public(context, recaptcha) {
+    await context.commit('vencimento', dayjs().add(1, 'day').format('YYYY-MM-DD'));
     return await this.$axios.post('/api/public/pagamentos', { ...context.state, recaptcha })
     .then((response) => {
       context.commit('replace', response.data);

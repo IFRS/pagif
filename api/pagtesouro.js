@@ -63,8 +63,6 @@ const pagtesouro = axios.create({
         } else {
           data.vencimento = null;
         }
-      } else {
-        data.vencimento = dayjs().add(1, 'day').format('DDMMYYYY');
       }
 
       if (data.hasOwnProperty('valorPrincipal') && data.valorPrincipal) {
