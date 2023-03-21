@@ -125,6 +125,8 @@ const pagtesouro = axios.create({
         }
       }
 
+      loggerPagTesouro.info("[PagTesouro Request] %o / %o", data, headers);
+
       return data;
     }
   ].concat(axios.defaults.transformRequest),
@@ -161,6 +163,8 @@ const pagtesouro = axios.create({
         }
       }
 
+      loggerPagTesouro.info("[PagTesouro Response] %o", rawData);
+
       return rawData;
     },
   ),
@@ -168,7 +172,6 @@ const pagtesouro = axios.create({
 
 /* Logs */
 pagtesouro.interceptors.request.use(function (config) {
-  loggerPagTesouro.info("[PagTesouro Request] %o", _.pick(config, ['url', 'method', 'baseURL', 'headers', 'params', 'data', 'timeout', 'withCredentials', 'auth', 'responseType', 'responseEncoding', 'xsrfCookieName', 'xsrfHeaderName', 'maxContentLength', 'maxBodyLength', 'maxRedirects']));
   return config;
 }, function (error) {
   loggerPagTesouro.error("[PagTesouro Request Error] %o", error);
@@ -176,7 +179,6 @@ pagtesouro.interceptors.request.use(function (config) {
 });
 
 pagtesouro.interceptors.response.use(function (response) {
-  loggerPagTesouro.info("[PagTesouro Response] %o", _.pick(response, ['status', 'statusText', 'data', 'headers']));
   return response;
 }, function (error) {
   loggerPagTesouro.error("[PagTesouro Response Error] %o", error);
