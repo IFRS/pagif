@@ -1,10 +1,11 @@
 require('dotenv').config();
+const { logger } = require('./logger');
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - PagIF',
-    title: 'Sistema de Pagamentos',
+    titleTemplate: '%s - Sistema de Pagamentos',
+    title: 'Início',
     htmlAttrs: {
       lang: 'pt-BR',
     },
@@ -140,5 +141,18 @@ export default {
       '~/api/**/*',
     ],
     transpile: ['vuetify/lib', "tiptap-vuetify"],
+  },
+
+  hooks: {
+    render: {
+      errorMiddleware(app) {
+        app.use((error, _req, _res, next) => {
+          if (error) {
+            logger.error("[Nuxt Render Error] %o", error);
+          }
+          next(error);
+        });
+      },
+    },
   },
 }
