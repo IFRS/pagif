@@ -25,6 +25,7 @@
       <v-form @submit.prevent="filtrar()" @filtro="addFiltro">
         <slot></slot>
         <v-btn color="primary" type="submit">Filtrar</v-btn>
+        <v-btn color="secondary" @click="limpar()">Limpar</v-btn>
       </v-form>
     </v-navigation-drawer>
   </v-sheet>
@@ -47,7 +48,7 @@ export default {
         case 'lg': return '30%';
         case 'xl': return '30%';
       }
-    }
+    },
   },
   methods: {
     handleActivator() {
@@ -60,6 +61,10 @@ export default {
       this.$emit('filtrar', this.filtros);
       this.$emit('input', false);
     },
+    limpar() {
+      this.filtros = {};
+      this.filtrar();
+    }
   },
 }
 </script>
