@@ -1,5 +1,4 @@
 const {loggerPagTesouro} = require('../logger');
-const _ = require('lodash');
 const axios = require('axios');
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
