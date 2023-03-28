@@ -16,7 +16,7 @@ let request = http.request(options, (res) => {
 });
 
 request.on('error', function(err) {
-  console.log(`ERROR: ${err}`);
+  console.error(`ERROR: ${err}`);
   process.exit(1);
 });
 
