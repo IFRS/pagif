@@ -154,9 +154,8 @@ const pagtesouro = axios.create({
       }
 
       if (rawData.hasOwnProperty('valor') && rawData.valor) {
-        let valor = parseFloat(rawData.valor) * 100; // Converte o valor que chega em FLOAT em centavos.
-        valor = String((valor)).replace('.', ''); // Retira o ponto, caso ainda tenha.
-        valor = parseInt(valor); // Por fim, transforma em INT.
+        let valor = String((rawData.valor)).replace('.', ''); // Retira o ponto.
+        valor = parseInt(valor); // Converte para INT.
         if (valor) {
           rawData.valor = valor;
         } else {
