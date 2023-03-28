@@ -1,5 +1,4 @@
 require('dotenv').config();
-const { logger } = require('./logger');
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -148,7 +147,7 @@ export default {
       errorMiddleware(app) {
         app.use((error, _req, _res, next) => {
           if (error) {
-            logger.error("[Nuxt Render Error] %o", error);
+            console.error(`[Nuxt Render Error] ${error}`);
           }
           next(error);
         });
