@@ -131,6 +131,8 @@ const pagtesouro = axios.create({
   ].concat(axios.defaults.transformRequest),
   transformResponse: axios.defaults.transformResponse.concat(
     (rawData) => {
+      loggerPagTesouro.info("[PagTesouro Response] %o", rawData);
+
       if (rawData.hasOwnProperty('dataCriacao') && rawData.dataCriacao) {
         let dataUTC = dayjs.tz(rawData.dataCriacao, 'America/Sao_Paulo').toISOString();
 
@@ -161,8 +163,6 @@ const pagtesouro = axios.create({
           rawData.valor = null;
         }
       }
-
-      loggerPagTesouro.info("[PagTesouro Response] %o", rawData);
 
       return rawData;
     },
