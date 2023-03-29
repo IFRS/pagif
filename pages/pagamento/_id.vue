@@ -54,10 +54,10 @@
 
             <v-alert
               v-else
-              type="warning"
+              type="error"
               text
             >
-              Aten&ccedil;&atilde;o! Ao clicar em <strong>Pagar Agora</strong> voc&ecirc; iniciar&aacute; um processo de acesso &uacute;nico. Ap&oacute;s, n&atilde;o ser&aacute; poss&iacute;vel realizar o pagamento em outro momento.
+              Aten&ccedil;&atilde;o! Ao clicar em <strong>Pagar Agora</strong> voc&ecirc; iniciar&aacute; um processo de <strong>acesso &uacute;nico</strong>. Ou seja, a tela para pagamento s&oacute; ser&aacute; exibida uma &uacute;nica vez.
             </v-alert>
           </v-card-text>
           <v-card-actions>
