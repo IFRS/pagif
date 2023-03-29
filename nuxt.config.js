@@ -143,6 +143,15 @@ export default {
   },
 
   hooks: {
+    listen: (server) => {
+      const { fork } = require('child_process');
+
+      let fila = fork('./queue/process.js');
+
+      fila.on('close', (code) => {
+        console.log(`Fila terminada com o código: ${code}`);
+      });
+    },
     render: {
       errorMiddleware(app) {
         app.use((error, _req, _res, next) => {
