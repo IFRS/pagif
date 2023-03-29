@@ -34,9 +34,9 @@ module.exports.handle = [
       }
     }
 
-    loggerPagTesouro.info('[Notificação Recebida] Pagamento %s', req.body.idPagamento);
+    loggerPagTesouro.info('[Notificação Recebida] %o', req.body);
 
-    Pagamento.findOne({ idPagamento: req.body.idPagamento }, (err, pagamento) => {
+    Pagamento.findById(req.body.idPagamento, async (err, pagamento) => {
       if (err) {
         console.error('Erro buscando o Pagamento: ' + err);
         return res.status(500).json([{
