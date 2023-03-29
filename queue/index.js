@@ -4,7 +4,7 @@ const Pagamento = require('../db/models/Pagamento');
 const pagtesouro = require('../api/pagtesouro');
 const {logger} = require('../logger');
 
-const agenda = new Agenda({mongo: mongo, db: { collection: 'jobs' }, processEvery: '5 seconds'});
+const agenda = new Agenda({mongo: mongo, db: { collection: 'jobs' }, processEvery: '5 minute'});
 
 agenda.define('update pagamentos', async job => {
   const { idPagamento } = job.attrs.data;
