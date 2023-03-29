@@ -154,7 +154,9 @@ const pagtesouro = axios.create({
       }
 
       if (rawData.hasOwnProperty('valor') && rawData.valor) {
-        let valor = String((rawData.valor)).replace('.', ''); // Retira o ponto.
+        let valor = parseFloat(valor); // Coverte para FLOAT.
+        valor = valor.toFixed(2); // Adiciona duas casas decimais ou ajusta as existentes para no máximo duas.
+        valor = String((rawData.valor)).replace('.', ''); // Retira o ponto.
         valor = parseInt(valor); // Converte para INT.
         if (valor) {
           rawData.valor = valor;
