@@ -25,6 +25,7 @@ COPY --from=build --chown=node /home/node/app/api ./api
 COPY --from=build --chown=node /home/node/app/db ./db
 COPY --from=build --chown=node /home/node/app/logger ./logger
 COPY --from=build --chown=node /home/node/app/node_modules ./node_modules
+COPY --from=build --chown=node /home/node/app/queue ./queue
 COPY --from=build --chown=node /home/node/app/static ./static
 
 HEALTHCHECK --interval=5m --start-period=1m CMD node ./healthcheck.js
