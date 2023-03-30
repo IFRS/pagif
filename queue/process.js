@@ -2,7 +2,7 @@ const agenda = require('./index');
 const { logger } = require('../logger');
 
 (async function() {
-  logger.info(`[Fila] Início do processo com PID ${process.pid}.`);
+  logger.info(`[Fila] Início do subprocesso com PID ${process.pid}.`);
   await agenda.start();
 })();
 
