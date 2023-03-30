@@ -5,14 +5,8 @@ const pagtesouro = require('../pagtesouro');
 import { createMongoAbility } from '@casl/ability';
 
 module.exports.showPublic = function(req, res) {
-  Pagamento.findById(req.params.id).select('-token -tipoPagamentoEscolhido -nomePSP -transacaoPSP').exec(function(err, pagamento) {
-    if (err) {
-      return res.status(500).json({
-        message: 'Erro obtendo o Pagamento.',
-        error: err,
-      });
-    }
-
+  Pagamento.findById(req.params.id).select('-token -tipoPagamentoEscolhido -nomePSP -transacaoPSP')
+  .then(pagamento => {
     if (!pagamento) {
       return res.status(404).json({
         message: 'Pagamento não encontrado.',
@@ -30,6 +24,12 @@ module.exports.showPublic = function(req, res) {
     }
 
     return res.json(pagamento);
+  })
+  .catch(error => {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Erro obtendo o Pagamento.',
+    });
   });
 };
 
@@ -46,27 +46,20 @@ module.exports.list = function(req, res) {
     }
   }
 
-  query.exec(function(err, pagamentos) {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({
-        message: 'Erro obtendo Pagamentos.',
-      });
-    }
-
+  query.then(pagamentos => {
     return res.json(pagamentos.map(doc => doc.toJSON()));
+  })
+  .catch(error => {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Erro obtendo Pagamentos.',
+    });
   });
 };
 
 module.exports.show = function(req, res) {
-  Pagamento.findById(req.params.id).select('-token').exec(function(err, pagamento) {
-    if (err) {
-      return res.status(500).json({
-        message: 'Erro obtendo o Pagamento.',
-        error: err,
-      });
-    }
-
+  Pagamento.findById(req.params.id).select('-token')
+  .then(pagamento => {
     if (!pagamento) {
       return res.status(404).json({
         message: 'Pagamento não encontrado.',
@@ -74,6 +67,12 @@ module.exports.show = function(req, res) {
     }
 
     return res.json(pagamento.toJSON());
+  })
+  .catch(error => {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Erro obtendo o Pagamento.',
+    });
   });
 };
 
@@ -137,18 +136,11 @@ module.exports.save = [
       valorOutrosAcrescimos: req.body.valorOutrosAcrescimos,
     };
 
-    Servico.findOne({ codigo: data.codigoServico }).populate('unidade').exec((err, servico) => {
-      if (err) {
-        return res.status(500).json({
-          message: 'Erro ao buscar Serviço.',
-          error: err,
-        });
-      }
-
+    Servico.findOne({ codigo: data.codigoServico }).populate('unidade')
+    .then(servico => {
       if (!servico) {
         return res.status(500).json({
           message: `Serviço de código ${data.codigoServico} não encontrado.`,
-          error: err,
         });
       }
 
@@ -163,19 +155,26 @@ module.exports.save = [
 
         let pagamento = new Pagamento(data);
 
-        pagamento.save(function(err, pagamento) {
-          if (err) {
-            return res.status(500).json({
-              message: 'Erro ao adicionar o Pagamento.',
-              error: err,
-            });
-          }
-
+        pagamento.save()
+        .then(pagamento => {
           return res.json(pagamento.toJSON());
+        })
+        .catch(error => {
+          console.error(error);
+          return res.status(500).json({
+            message: 'Erro ao adicionar o Pagamento.',
+          });
         });
       })
       .catch((error) => {
+        console.error(error);
         return res.status(500).json(error);
+      });
+    })
+    .catch(error => {
+      console.error(error);
+      return res.status(500).json({
+        message: 'Erro ao buscar Serviço.',
       });
     });
   }
@@ -189,8 +188,9 @@ module.exports.update = [
     .isLength({ max: 50 }),
   function(req, res) {
     if (req.body.idPagamento) {
-      Pagamento.findById(req.body.idPagamento).exec((err, pagamento) => {
-        if (err || !pagamento) {
+      Pagamento.findById(req.body.idPagamento)
+      .then(pagamento => {
+        if (!pagamento) {
           return res.status(500).json([{
             codigo: 'C0027',
             descricao: 'Falha ao verificar a situação do pagamento.',
@@ -226,24 +226,31 @@ module.exports.update = [
             descricao: 'Falha ao verificar a situação do pagamento.',
           }]);
         });
+      })
+      .catch(error => {
+        return res.status(500).json([{
+          codigo: 'C0027',
+          descricao: 'Falha ao verificar a situação do pagamento.',
+        }]);
       });
     } else {
       return res.status(400).json({
         message: 'idPagamento não presente.',
-        error: err,
+        error: null,
       });
     }
   }
 ];
 
 module.exports.delete = function(req, res) {
-  Pagamento.findByIdAndRemove(req.params.id, function(err, pagamento) {
-    if (err) {
-      return res.status(500).json({
-        message: 'Erro ao remover o Pagamento.',
-      });
-    }
-
+  Pagamento.findByIdAndRemove(req.params.id)
+  .then(pagamento => {
     return res.json(pagamento.toJSON());
+  })
+  .catch(error => {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Erro ao remover o Pagamento.',
+    });
   });
 };

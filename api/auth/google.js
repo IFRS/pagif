@@ -14,16 +14,20 @@ passport.use(new GoogleStrategy(
     let emails = profile.emails.map((email) => {
       if (email.verified) return email.value;
     });
-    Usuario.findOne({ email: { $in: emails } }, async function(err, usuario) {
-      if (err) return cb(err);
+    Usuario.findOne({ email: { $in: emails } })
+    .then(async usuario => {
       if (!usuario) return cb(null, false);
 
       usuario.nome = profile.displayName;
+
       if (profile.photos) usuario.foto = profile.photos[0].value;
 
       await usuario.save();
 
       return cb(null, usuario);
+    })
+    .catch(error => {
+      return cb(error);
     });
   }
 ));

@@ -6,27 +6,21 @@ module.exports.list = function(req, res) {
 
   query.sort('nome');
 
-  query.exec(function(err, usuarios) {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({
-        message: 'Erro obtendo Usuários.',
-      });
-    }
+  query.then(usuarios => {
     return res.json(usuarios.map(doc => doc.toJSON()));
+  })
+  .catch(error => {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Erro obtendo Usuários.',
+    });
   });
 };
 
 module.exports.show = function(req, res) {
   const query = Usuario.findById(req.params.id);
 
-  query.exec(function(err, usuario) {
-    if (err) {
-      return res.status(500).json({
-        message: 'Erro obtendo o Usuário.',
-      });
-    }
-
+  query.then(usuario => {
     if (!usuario) {
       return res.status(404).json({
         message: 'Usuário não encontrado.',
@@ -34,6 +28,12 @@ module.exports.show = function(req, res) {
     }
 
     return res.json(usuario.toJSON());
+  })
+  .catch(error => {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Erro obtendo o Usuário.',
+    });
   });
 };
 
@@ -57,51 +57,48 @@ module.exports.save = [
     };
 
     if (req.params.id) {
-      Usuario.findByIdAndUpdate(
-        req.params.id,
-        data,
-        { returnDocument: 'after' },
-        function(err, usuario) {
-          if (!usuario) {
-            return res.status(404).json({
-              message: 'Usuário não encontrado.',
-            });
-          }
-
-          if (err) {
-            return res.status(500).json({
-              message: 'Erro atualizando Usuário.',
-            });
-          }
-
-          return res.json(usuario.toJSON());
-        }
-      );
-    } else {
-      let usuario = new Usuario(data);
-
-      usuario.save(function(err, usuario) {
-        if (err) {
-          return res.status(500).json({
-            message: 'Erro ao adicionar o Usuário.',
-            error: err,
+      Usuario.findByIdAndUpdate(req.params.id, data, { returnDocument: 'after' })
+      .then(usuario => {
+        if (!usuario) {
+          return res.status(404).json({
+            message: 'Usuário não encontrado.',
           });
         }
 
         return res.json(usuario.toJSON());
+      })
+      .catch(error => {
+        console.error(error);
+        return res.status(500).json({
+          message: 'Erro atualizando Usuário.',
+        });
+      });
+    } else {
+      let usuario = new Usuario(data);
+
+      usuario.save()
+      .then(usuario => {
+        return res.json(usuario.toJSON());
+      })
+      .catch(error => {
+        console.error(error);
+        return res.status(500).json({
+          message: 'Erro ao adicionar o Usuário.',
+        });
       });
     }
   }
 ];
 
 module.exports.delete = function(req, res) {
-  Usuario.findByIdAndRemove(req.params.id, function(err, usuario) {
-    if (err) {
-      return res.status(500).json({
-        message: 'Erro ao remover a Usuário.',
-      });
-    }
-
+  Usuario.findByIdAndRemove(req.params.id)
+  .then(usuario => {
     return res.json(usuario.toJSON());
+  })
+  .catch(error => {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Erro ao remover a Usuário.',
+    });
   });
 };

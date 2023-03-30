@@ -13,15 +13,14 @@ module.exports.listPublic = function(req, res) {
 
   query.select('-createdAt -updatedAt');
 
-  query.exec(function(err, servicos) {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({
-        message: 'Erro obtendo Serviços.',
-      });
-    }
-
+  query.then(servicos => {
     return res.json(servicos.map(doc => doc.toJSON()));
+  })
+  .catch(error => {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Erro obtendo Serviços.',
+    });
   });
 };
 
@@ -42,26 +41,19 @@ module.exports.list = function(req, res) {
     query.populate(populate, populate_fields);
   }
 
-  query.exec(function(err, servicos) {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({
-        message: 'Erro obtendo Serviços.',
-      });
-    }
-
+  query.then(servicos => {
     return res.json(servicos.map(doc => doc.toJSON()));
+  })
+  .catch(error => {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Erro obtendo Serviços.',
+    });
   });
 };
 
 module.exports.show = function(req, res) {
-  Servico.findById(req.params.id, function(err, servico) {
-    if (err) {
-      return res.status(500).json({
-        message: 'Erro obtendo o Serviço.',
-      });
-    }
-
+  Servico.findById(req.params.id).then(servico => {
     if (!servico) {
       return res.status(404).json({
         message: 'Serviço não encontrado.',
@@ -69,6 +61,12 @@ module.exports.show = function(req, res) {
     }
 
     return res.json(servico.toJSON());
+  })
+  .catch(error => {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Erro obtendo o Serviço.',
+    });
   });
 };
 
@@ -102,51 +100,47 @@ module.exports.save = [
     };
 
     if (req.params.id) {
-      Servico.findByIdAndUpdate(
-        req.params.id,
-        data,
-        { returnDocument: 'after' },
-        function(err, servico) {
-          if (!servico) {
-            return res.status(404).json({
-              message: 'Serviço não encontrado.',
-            });
-          }
-
-          if (err) {
-            return res.status(500).json({
-              message: 'Erro atualizando Serviço.',
-            });
-          }
-
-          return res.json(servico.toJSON());
-        }
-      );
-    } else {
-      let servico = new Servico(data);
-
-      servico.save(function(err, servico) {
-        if (err) {
-          return res.status(500).json({
-            message: 'Erro ao adicionar o Serviço.',
-            error: err,
+      Servico.findByIdAndUpdate(req.params.id, data, { returnDocument: 'after' })
+      .then(servico => {
+        if (!servico) {
+          return res.status(404).json({
+            message: 'Serviço não encontrado.',
           });
         }
 
         return res.json(servico.toJSON());
+      })
+      .catch(error => {
+        console.error(error);
+        return res.status(500).json({
+          message: 'Erro atualizando Serviço.',
+        });
+      });
+    } else {
+      let servico = new Servico(data);
+
+      servico.save()
+      .then(servico => {
+        return res.json(servico.toJSON());
+      })
+      .catch(error => {
+        console.error(error);
+        return res.status(500).json({
+          message: 'Erro ao adicionar o Serviço.',
+        });
       });
     }
   }
 ];
 
 module.exports.delete = function(req, res) {
-  Servico.findByIdAndRemove(req.params.id, function(err, servico) {
-    if (err) {
-      return res.status(500).json({
-        message: 'Erro ao remover o Serviço.',
-      });
-    }
-
+  Servico.findByIdAndRemove(req.params.id).then(servico => {
     return res.json(servico.toJSON());
+  })
+  .catch(error => {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Erro ao remover o Serviço.',
+    });
   });
 };

@@ -9,12 +9,13 @@ const agenda = new Agenda({mongo: mongo, db: { collection: 'jobs' }, processEver
 agenda.define('update pagamentos', async job => {
   const { idPagamento } = job.attrs.data;
 
-	logger.info('[Fila] Iniciando tarefa para o Pagamento %s', idPagamento);
+	logger.info('[Fila] Iniciando atualização do Pagamento %s', idPagamento);
 
-  await Pagamento.findById(idPagamento).exec(async (err, pagamento) => {
-    if (err || !pagamento) {
-      log.error('[Fila] Erro ao obter Pagamento.');
-      await job.fail('Erro ao obter Pagamento. ' + err);
+  await Pagamento.findById(idPagamento)
+  .then(async pagamento => {
+    if (!pagamento) {
+      log.error('[Fila] Pagamento não encontrado.');
+      await job.fail('Pagamento não encontrado.');
       await job.save();
     }
 
@@ -28,15 +29,20 @@ agenda.define('update pagamentos', async job => {
       })
       .catch(async (error) => {
         log.error('[Fila] Erro ao atualizar o pagamento.');
-        await job.fail('Erro atualizando o pagamento. ' + error);
+        await job.fail('Erro ao atualizar o pagamento. ' + error);
         await job.save();
       });
     })
     .catch(async (error) => {
-      log.error('[Fila] Erro consultando o Pagamento.');
-      await job.fail('Erro consultando o Pagamento. ' + error);
+      log.error('[Fila] Erro ao consultar o Pagamento.');
+      await job.fail('Erro ao consultar o Pagamento. ' + error);
       await job.save();
     });
+  })
+  .catch(async error => {
+      log.error('[Fila] Erro ao obter Pagamento.');
+      await job.fail('Erro ao obter Pagamento. ' + error);
+      await job.save();
   });
 });
 

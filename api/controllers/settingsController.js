@@ -4,13 +4,7 @@ const validator = require('express-validator');
 module.exports.show = function(req, res) {
   const query = Settings.findOne({});
 
-  query.exec(function(err, settings) {
-    if (err) {
-      return res.status(500).json({
-        message: 'Erro obtendo as Configurações.',
-      });
-    }
-
+  query.then(settings => {
     if (!settings) {
       return res.status(404).json({
         message: 'Configurações não encontradas.',
@@ -18,6 +12,12 @@ module.exports.show = function(req, res) {
     }
 
     return res.json(settings.toJSON());
+  })
+  .catch(error => {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Erro obtendo as Configurações.',
+    });
   });
 };
 
@@ -48,20 +48,15 @@ module.exports.save = [
 
     if (data.intro === '<p></p>') data.intro = '';
 
-    Settings.findOneAndUpdate(
-      {},
-      data,
-      { returnDocument: 'after', upsert: true },
-      function(err, settings) {
-        if (err) {
-          console.error(err);
-          return res.status(500).json({
-            message: 'Erro salvando Configurações.',
-          });
-        }
-
-        return res.json(settings.toJSON());
-      }
-    );
+    Settings.findOneAndUpdate({}, data, { returnDocument: 'after', upsert: true })
+    .then(settings => {
+      return res.json(settings.toJSON());
+    })
+    .catch(error => {
+      console.error(error);
+      return res.status(500).json({
+        message: 'Erro salvando Configurações.',
+      });
+    });
   }
 ];

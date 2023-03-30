@@ -41,14 +41,8 @@ module.exports.handle = [
 
     loggerPagTesouro.info('[Notificação Recebida] %o', req.body);
 
-    Pagamento.findById(req.body.idPagamento, async (err, pagamento) => {
-      if (err) {
-        return res.status(500).json([{
-          codigo: 'C0027',
-          descricao: 'Falha ao verificar a situação do pagamento.',
-        }]);
-      }
-
+    Pagamento.findById(req.body.idPagamento)
+    .then(async pagamento => {
       if (!pagamento) {
         return res.status(422).json([{
           codigo: 'C0023',
@@ -74,6 +68,13 @@ module.exports.handle = [
         logger.error('[Fila] Erro adicionando tarefa: %o', error);
         return res.status(500).end();
       }
+    })
+    .catch(error => {
+      console.error(error);
+      return res.status(500).json([{
+        codigo: 'C0027',
+        descricao: 'Falha ao verificar a situação do pagamento.',
+      }]);
     });
   }
 ];

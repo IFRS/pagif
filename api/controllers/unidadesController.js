@@ -9,14 +9,14 @@ module.exports.listPublic = function(req, res) {
 
   query.sort('nome');
 
-  query.exec(function(err, unidades) {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({
-        message: 'Erro obtendo Unidades.',
-      });
-    }
+  query.then(unidades => {
     return res.json(unidades.map(doc => doc.toJSON()));
+  })
+  .catch(error => {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Erro obtendo Unidades.',
+    });
   });
 };
 
@@ -34,14 +34,14 @@ module.exports.list = function(req, res) {
 
   query.sort('nome');
 
-  query.exec(function(err, unidades) {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({
-        message: 'Erro obtendo Unidades.',
-      });
-    }
+  query.then(unidades => {
     return res.json(unidades.map(doc => doc.toJSON()));
+  })
+  .catch(error => {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Erro obtendo Unidades.',
+    });
   });
 };
 
@@ -50,13 +50,7 @@ module.exports.showPublic = function(req, res) {
 
   query.select('-token');
 
-  query.exec(function(err, unidade) {
-    if (err) {
-      return res.status(500).json({
-        message: 'Erro obtendo a Unidade.',
-      });
-    }
-
+  query.then(unidade => {
     if (!unidade) {
       return res.status(404).json({
         message: 'Unidade não encontrada.',
@@ -64,6 +58,12 @@ module.exports.showPublic = function(req, res) {
     }
 
     return res.json(unidade.toJSON());
+  })
+  .catch(error => {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Erro obtendo a Unidade.',
+    });
   });
 };
 
@@ -78,13 +78,7 @@ module.exports.show = function(req, res) {
 
   query.select('-token');
 
-  query.exec(function(err, unidade) {
-    if (err) {
-      return res.status(500).json({
-        message: 'Erro obtendo a Unidade.',
-      });
-    }
-
+  query.then(unidade => {
     if (!unidade) {
       return res.status(404).json({
         message: 'Unidade não encontrada.',
@@ -92,17 +86,18 @@ module.exports.show = function(req, res) {
     }
 
     return res.json(unidade.toJSON());
+  })
+  .catch(error => {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Erro obtendo a Unidade.',
+    });
   });
 };
 
 module.exports.token = function(req, res) {
-  Unidade.findById(req.params.id).select('token').exec(function(err, unidade) {
-    if (err) {
-      return res.status(500).json({
-        message: 'Erro obtendo o token da Unidade.',
-      });
-    }
-
+  Unidade.findById(req.params.id).select('token')
+  .then(unidade => {
     if (!unidade) {
       return res.status(404).json({
         message: 'Unidade não encontrada.',
@@ -110,6 +105,11 @@ module.exports.token = function(req, res) {
     }
 
     return res.json(unidade.token);
+  }).catch(error => {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Erro obtendo o token da Unidade.',
+    });
   });
 };
 
@@ -155,51 +155,48 @@ module.exports.save = [
     };
 
     if (req.params.id) {
-      Unidade.findByIdAndUpdate(
-        req.params.id,
-        data,
-        { returnDocument: 'after' },
-        function(err, unidade) {
-          if (!unidade) {
-            return res.status(404).json({
-              message: 'Unidade não encontrada.',
-            });
-          }
-
-          if (err) {
-            return res.status(500).json({
-              message: 'Erro atualizando Unidade.',
-            });
-          }
-
-          return res.json(unidade.toJSON());
-        }
-      );
-    } else {
-      let unidade = new Unidade(data);
-
-      unidade.save(function(err, unidade) {
-        if (err) {
-          return res.status(500).json({
-            message: 'Erro ao adicionar a Unidade.',
-            error: err,
+      Unidade.findByIdAndUpdate(req.params.id, data, { returnDocument: 'after' })
+      .then(unidade => {
+        if (!unidade) {
+          return res.status(404).json({
+            message: 'Unidade não encontrada.',
           });
         }
 
         return res.json(unidade.toJSON());
+      })
+      .catch(error => {
+        console.error(error);
+        return res.status(500).json({
+          message: 'Erro atualizando Unidade.',
+        });
+      });
+    } else {
+      let unidade = new Unidade(data);
+
+      unidade.save()
+      .then(unidade => {
+        return res.json(unidade.toJSON());
+      })
+      .catch(error => {
+        console.error(error);
+        return res.status(500).json({
+          message: 'Erro ao adicionar a Unidade.',
+        });
       });
     }
   }
 ];
 
 module.exports.delete = function(req, res) {
-  Unidade.findByIdAndRemove(req.params.id, function(err, unidade) {
-    if (err) {
-      return res.status(500).json({
-        message: 'Erro ao remover a Unidade.',
-      });
-    }
-
+  Unidade.findByIdAndRemove(req.params.id)
+  .then(unidade => {
     return res.json(unidade.toJSON());
+  })
+  .catch(error => {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Erro ao remover a Unidade.',
+    });
   });
 };
