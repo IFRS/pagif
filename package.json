@@ -29,7 +29,7 @@
     "express-validator": "^6.14.0",
     "helmet": "^6.0.0",
     "iframe-resizer": "^4.3.2",
-    "mongoose": "^7.0.3",
+    "mongoose": "^6.10.4",
     "nuxt": "^2.15.8",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
