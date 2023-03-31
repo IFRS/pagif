@@ -29,6 +29,19 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '@fontsource/roboto/latin.css',
+    '@fontsource/roboto/latin-100-italic.css',
+    '@fontsource/roboto/latin-100.css',
+    '@fontsource/roboto/latin-300-italic.css',
+    '@fontsource/roboto/latin-300.css',
+    '@fontsource/roboto/latin-400-italic.css',
+    '@fontsource/roboto/latin-400.css',
+    '@fontsource/roboto/latin-500-italic.css',
+    '@fontsource/roboto/latin-500.css',
+    '@fontsource/roboto/latin-700-italic.css',
+    '@fontsource/roboto/latin-700.css',
+    '@fontsource/roboto/latin-900-italic.css',
+    '@fontsource/roboto/latin-900.css',
     '~/assets/transitions.scss',
     '~/assets/vuetify-required.scss',
   ],
@@ -41,6 +54,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/vuetify.js',
     '~/plugins/filters.js',
     '~/plugins/mask.js',
     '~/plugins/toast.js',
@@ -128,6 +142,7 @@ export default {
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     treeShake: true,
+    defaultAssets: false,
     customVariables: ['~/assets/variables.scss'],
     optionsPath: '~/vuetify.config.js',
   },
