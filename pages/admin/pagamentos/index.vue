@@ -31,7 +31,7 @@
                 hide-details
                 class="mr-5"
               ></v-text-field>
-              <v-btn text @click="showFiltros = !showFiltros">
+              <v-btn text @click="showFiltros = !showFiltros" :color="(Object.values(filtros).length > 0) ? 'accent' : ''">
                 <v-icon>mdi-filter-variant</v-icon>
                 Filtros
               </v-btn>

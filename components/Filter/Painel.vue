@@ -22,7 +22,7 @@
           </v-btn>
         </v-toolbar>
       </template>
-      <v-form @submit.prevent="filtrar()" @filtro="addFiltro">
+      <v-form ref="form" @submit.prevent="filtrar()" @filtro="addFiltro">
         <slot></slot>
         <v-btn color="primary" type="submit">Filtrar</v-btn>
         <v-btn color="secondary" @click="limpar()">Limpar</v-btn>
@@ -62,8 +62,11 @@ export default {
       this.$emit('input', false);
     },
     limpar() {
-      this.filtros = {};
-      this.filtrar();
+      this.$refs.form.reset();
+      this.$nextTick(() => {
+        this.filtros = new Object();
+        this.filtrar();
+      });
     }
   },
 }
