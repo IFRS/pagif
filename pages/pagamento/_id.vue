@@ -57,7 +57,7 @@
               type="error"
               text
             >
-              Aten&ccedil;&atilde;o! Ao clicar em <strong>Pagar Agora</strong> voc&ecirc; iniciar&aacute; um processo de <strong>acesso &uacute;nico</strong>. Ou seja, a tela para pagamento s&oacute; ser&aacute; exibida uma &uacute;nica vez.
+              Aten&ccedil;&atilde;o! Ao clicar em &quot;<strong>Pagar Agora</strong>&quot; voc&ecirc; iniciar&aacute; um processo de <strong>acesso &uacute;nico</strong>. Ou seja, a tela para pagamento s&oacute; ser&aacute; exibida uma &uacute;nica vez.
             </v-alert>
           </v-card-text>
           <v-card-actions>
