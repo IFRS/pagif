@@ -4,6 +4,7 @@ export default (context) => {
       process.client
       && to.name !== 'index'
       && to.name !== 'unidades'
+      && to.name !== 'pagamento-id'
       && !to.name.startsWith('admin')
       && !context.store.getters['config/unidade']
     ) {
