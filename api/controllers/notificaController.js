@@ -70,7 +70,7 @@ module.exports.handle = [
       }
     })
     .catch(error => {
-      console.error(error);
+      logger.error('[Fila] Erro buscando o pagamento: %o', error);
       return res.status(500).json([{
         codigo: 'C0027',
         descricao: 'Falha ao verificar a situação do pagamento.',

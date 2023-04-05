@@ -14,7 +14,7 @@ module.exports.show = function(req, res) {
     return res.json(settings.toJSON());
   })
   .catch(error => {
-    console.error(error);
+    logger.error('Erro obtendo as Configurações: %o', error);
     return res.status(500).json({
       message: 'Erro obtendo as Configurações.',
     });
@@ -53,7 +53,7 @@ module.exports.save = [
       return res.json(settings.toJSON());
     })
     .catch(error => {
-      console.error(error);
+      logger.error('Erro salvando Configurações: %o', error);
       return res.status(500).json({
         message: 'Erro salvando Configurações.',
       });

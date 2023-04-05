@@ -1,6 +1,7 @@
 const Unidade = require('../../db/models/Unidade');
 const validator = require('express-validator');
 import { createMongoAbility } from '@casl/ability';
+import { logger } from '~/logger';
 
 module.exports.listPublic = function(req, res) {
   const query = Unidade.find({});
@@ -13,7 +14,7 @@ module.exports.listPublic = function(req, res) {
     return res.json(unidades.map(doc => doc.toJSON()));
   })
   .catch(error => {
-    console.error(error);
+    logger.error('Erro obtendo Unidades: %o', error);
     return res.status(500).json({
       message: 'Erro obtendo Unidades.',
     });
@@ -38,7 +39,7 @@ module.exports.list = function(req, res) {
     return res.json(unidades.map(doc => doc.toJSON()));
   })
   .catch(error => {
-    console.error(error);
+    logger.error('Erro obtendo Unidades: %o', error);
     return res.status(500).json({
       message: 'Erro obtendo Unidades.',
     });
@@ -60,7 +61,7 @@ module.exports.showPublic = function(req, res) {
     return res.json(unidade.toJSON());
   })
   .catch(error => {
-    console.error(error);
+    logger.error('Erro obtendo a Unidade: %o', error);
     return res.status(500).json({
       message: 'Erro obtendo a Unidade.',
     });
@@ -88,7 +89,7 @@ module.exports.show = function(req, res) {
     return res.json(unidade.toJSON());
   })
   .catch(error => {
-    console.error(error);
+    logger.error('Erro obtendo a Unidade: %o', error);
     return res.status(500).json({
       message: 'Erro obtendo a Unidade.',
     });
@@ -106,7 +107,7 @@ module.exports.token = function(req, res) {
 
     return res.json(unidade.token);
   }).catch(error => {
-    console.error(error);
+    logger.error('Erro obtendo o token da Unidade: %o', error);
     return res.status(500).json({
       message: 'Erro obtendo o token da Unidade.',
     });
@@ -166,7 +167,7 @@ module.exports.save = [
         return res.json(unidade.toJSON());
       })
       .catch(error => {
-        console.error(error);
+        logger.error('Erro atualizando Unidade: %o', error);
         return res.status(500).json({
           message: 'Erro atualizando Unidade.',
         });
@@ -179,7 +180,7 @@ module.exports.save = [
         return res.json(unidade.toJSON());
       })
       .catch(error => {
-        console.error(error);
+        logger.error('Erro ao adicionar a Unidade: %o', error);
         return res.status(500).json({
           message: 'Erro ao adicionar a Unidade.',
         });
@@ -194,7 +195,7 @@ module.exports.delete = function(req, res) {
     return res.json(unidade.toJSON());
   })
   .catch(error => {
-    console.error(error);
+    logger.error('Erro ao remover a Unidade: %o', error);
     return res.status(500).json({
       message: 'Erro ao remover a Unidade.',
     });

@@ -1,6 +1,7 @@
 const Servico = require('../../db/models/Servico');
 const validator = require('express-validator');
 import { createMongoAbility } from '@casl/ability';
+import { logger } from '~/logger';
 
 module.exports.listPublic = function(req, res) {
   const unidade_id = req.query.unidade;
@@ -17,7 +18,7 @@ module.exports.listPublic = function(req, res) {
     return res.json(servicos.map(doc => doc.toJSON()));
   })
   .catch(error => {
-    console.error(error);
+    logger.error('Erro obtendo Serviços: %o', error);
     return res.status(500).json({
       message: 'Erro obtendo Serviços.',
     });
@@ -45,7 +46,7 @@ module.exports.list = function(req, res) {
     return res.json(servicos.map(doc => doc.toJSON()));
   })
   .catch(error => {
-    console.error(error);
+    logger.error('Erro obtendo Serviços: %o', error);
     return res.status(500).json({
       message: 'Erro obtendo Serviços.',
     });
@@ -63,7 +64,7 @@ module.exports.show = function(req, res) {
     return res.json(servico.toJSON());
   })
   .catch(error => {
-    console.error(error);
+    logger.error('Erro obtendo o Serviço: %o', error);
     return res.status(500).json({
       message: 'Erro obtendo o Serviço.',
     });
@@ -111,7 +112,7 @@ module.exports.save = [
         return res.json(servico.toJSON());
       })
       .catch(error => {
-        console.error(error);
+        logger.error('Erro atualizando Serviço: %o', error);
         return res.status(500).json({
           message: 'Erro atualizando Serviço.',
         });
@@ -124,7 +125,7 @@ module.exports.save = [
         return res.json(servico.toJSON());
       })
       .catch(error => {
-        console.error(error);
+        logger.error('Erro ao adicionar o Serviço: %o', error);
         return res.status(500).json({
           message: 'Erro ao adicionar o Serviço.',
         });
@@ -138,7 +139,7 @@ module.exports.delete = function(req, res) {
     return res.json(servico.toJSON());
   })
   .catch(error => {
-    console.error(error);
+    logger.error('Erro ao remover o Serviço: %o', error);
     return res.status(500).json({
       message: 'Erro ao remover o Serviço.',
     });

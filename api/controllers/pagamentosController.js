@@ -3,6 +3,7 @@ const Servico = require('../../db/models/Servico');
 const validator = require('express-validator');
 const pagtesouro = require('../pagtesouro');
 import { createMongoAbility } from '@casl/ability';
+import { logger } from '~/logger';
 
 module.exports.showPublic = function(req, res) {
   Pagamento.findById(req.params.id).select('-token -tipoPagamentoEscolhido -nomePSP -transacaoPSP')
@@ -26,7 +27,7 @@ module.exports.showPublic = function(req, res) {
     return res.json(pagamento);
   })
   .catch(error => {
-    console.error(error);
+    logger.error('Erro obtendo o Pagamento: %o', error);
     return res.status(500).json({
       message: 'Erro obtendo o Pagamento.',
     });
@@ -50,7 +51,7 @@ module.exports.list = function(req, res) {
     return res.json(pagamentos.map(doc => doc.toJSON()));
   })
   .catch(error => {
-    console.error(error);
+    logger.error('Erro obtendo Pagamentos: %o', error);
     return res.status(500).json({
       message: 'Erro obtendo Pagamentos.',
     });
@@ -69,7 +70,7 @@ module.exports.show = function(req, res) {
     return res.json(pagamento.toJSON());
   })
   .catch(error => {
-    console.error(error);
+    logger.error('Erro obtendo o Pagamento: %o', error);
     return res.status(500).json({
       message: 'Erro obtendo o Pagamento.',
     });
@@ -160,19 +161,19 @@ module.exports.save = [
           return res.json(pagamento.toJSON());
         })
         .catch(error => {
-          console.error(error);
+          logger.error('Erro ao adicionar o Pagamento: %o', error);
           return res.status(500).json({
             message: 'Erro ao adicionar o Pagamento.',
           });
         });
       })
       .catch((error) => {
-        console.error(error);
+        logger.error(error);
         return res.status(500).json(error);
       });
     })
     .catch(error => {
-      console.error(error);
+      logger.error('Erro ao buscar Serviço: %o', error);
       return res.status(500).json({
         message: 'Erro ao buscar Serviço.',
       });
@@ -212,7 +213,7 @@ module.exports.update = [
             }));
           })
           .catch((error) => {
-            console.error('Erro atualizando o Pagamento: ' + error);
+            logger.error('Erro atualizando o Pagamento: %o' + error);
             return res.status(500).json([{
               codigo: 'C0027',
               descricao: 'Falha ao verificar a situação do pagamento.',
@@ -220,7 +221,7 @@ module.exports.update = [
           });
         })
         .catch((error) => {
-          console.error('Erro consultando o Pagamento!', error, error.response?.data);
+          logger.error('Erro consultando o Pagamento: %o / %o', error, error.response?.data);
           return res.status(500).json([{
             codigo: 'C0027',
             descricao: 'Falha ao verificar a situação do pagamento.',
@@ -248,7 +249,7 @@ module.exports.delete = function(req, res) {
     return res.json(pagamento.toJSON());
   })
   .catch(error => {
-    console.error(error);
+    logger.error('Erro ao remover o Pagamento: %o', error);
     return res.status(500).json({
       message: 'Erro ao remover o Pagamento.',
     });

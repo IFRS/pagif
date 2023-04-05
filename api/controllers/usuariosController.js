@@ -1,3 +1,4 @@
+const { logger } = require('~/logger');
 const Usuario = require('../../db/models/Usuario');
 const validator = require('express-validator');
 
@@ -10,7 +11,7 @@ module.exports.list = function(req, res) {
     return res.json(usuarios.map(doc => doc.toJSON()));
   })
   .catch(error => {
-    console.error(error);
+    logger.error('Erro obtendo Usuários: %o', error);
     return res.status(500).json({
       message: 'Erro obtendo Usuários.',
     });
@@ -30,7 +31,7 @@ module.exports.show = function(req, res) {
     return res.json(usuario.toJSON());
   })
   .catch(error => {
-    console.error(error);
+    logger.error('Erro obtendo o Usuário: %o', error);
     return res.status(500).json({
       message: 'Erro obtendo o Usuário.',
     });
@@ -68,7 +69,7 @@ module.exports.save = [
         return res.json(usuario.toJSON());
       })
       .catch(error => {
-        console.error(error);
+        logger.error('Erro atualizando Usuário: %o', error);
         return res.status(500).json({
           message: 'Erro atualizando Usuário.',
         });
@@ -81,7 +82,7 @@ module.exports.save = [
         return res.json(usuario.toJSON());
       })
       .catch(error => {
-        console.error(error);
+        logger.error('Erro ao adicionar o Usuário: %o', error);
         return res.status(500).json({
           message: 'Erro ao adicionar o Usuário.',
         });
@@ -96,7 +97,7 @@ module.exports.delete = function(req, res) {
     return res.json(usuario.toJSON());
   })
   .catch(error => {
-    console.error(error);
+    logger.error('Erro ao remover a Usuário: %o', error);
     return res.status(500).json({
       message: 'Erro ao remover a Usuário.',
     });

@@ -17,6 +17,7 @@ const usuarios = require('./routes/usuarios');
 const settings = require('./routes/settings');
 
 const google = require('./auth/google');
+const { logger } = require('~/logger');
 
 const app = express();
 
@@ -29,7 +30,7 @@ let session_store = new MongoDBStore({
   expires: expire,
 });
 session_store.on('error', function(error) {
-  console.error(error);
+  logger.error('Erro na sessão: %o', error);
 });
 
 app.use(cors({
