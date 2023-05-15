@@ -57,6 +57,9 @@
           <template #item.nomeServico="{ item }">
             {{ item.nomeServico }} ({{ item.codigoServico }})
           </template>
+          <template #item.cnpjCpf="{ value }">
+            {{ value | cnpj_cpf }}
+          </template>
           <template #item.valor="{ item }">
             <v-icon small>mdi-currency-brl</v-icon> {{ handleValor(item) || '-' }}
           </template>
@@ -186,6 +189,7 @@
           { text: 'Unidade', value: 'nomeUnidade' },
           { text: 'Serviço', value: 'nomeServico' },
           { text: 'Contribuinte', value: 'nomeContribuinte' },
+          { text: 'CPF / CNPJ', value: 'cnpjCpf' },
           { text: 'Valor', value: 'valor' },
           { text: 'Situação', value: 'situacao.codigo' },
           { text: 'Ações', value: 'actions', sortable: false, align: 'center', width: 80 },
