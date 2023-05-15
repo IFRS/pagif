@@ -2,16 +2,10 @@
   <v-container>
     <v-row>
       <v-col>
-        <PageTitle>Pagamentos</PageTitle>
-        <v-alert
-          v-if="!filtros || !filtros.datas || filtros.datas.length === 0"
-          type="info"
-          dense
-          text
-          dismissible
-        >
-          Exibindo Pagamentos dos &uacute;ltimos 30 dias. Para alterar esse comportamento, utilize os Filtros.
-        </v-alert>
+        <PageTitle>
+          Pagamentos
+          <small v-if="!filtros || !filtros.datas || filtros.datas.length === 0" class="info--text text-caption float-md-right d-block d-md-inline-block"><v-icon color="info" small>mdi-information-outline</v-icon> Exibindo Pagamentos dos &uacute;ltimos 30 dias. Para alterar esse comportamento, utilize os Filtros.</small>
+        </PageTitle>
       </v-col>
     </v-row>
     <v-row>
@@ -213,7 +207,8 @@
           { text: 'Ações', value: 'actions', sortable: false, align: 'center', width: 80 },
         ],
         tableFooterProps: {
-          "items-per-page-options": [
+          'items-per-page-text': 'Pagamentos por página:',
+          'items-per-page-options': [
             10, 25, 50, -1
           ],
         },
