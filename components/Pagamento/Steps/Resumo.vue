@@ -21,7 +21,18 @@
           text
           type="info"
         >
-          Ao clicar em "Concluir" o pagamento ser&aacute; gerado e voc&ecirc; ter&aacute; <strong>24h</strong> para realiz&aacute;-lo.
+          Ao clicar em "Concluir" o pagamento ser&aacute; gerado e voc&ecirc; ter&aacute;
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <span
+                v-bind="attrs"
+                v-on="on"
+                class="text-decoration-underline"
+              ><strong>1h</strong></span>
+            </template>
+            <span>Devido a um problema no PagTesouro os pagamentos estão sendo cancelados após 1 hora, caso não tenham sido iniciados. No futuro esse tempo voltará a ser de 24 horas.</span>
+          </v-tooltip>
+          para realiz&aacute;-lo.
         </v-alert>
       </v-col>
       <v-col class="d-flex justify-center align-center">
