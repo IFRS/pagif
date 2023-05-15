@@ -2,6 +2,7 @@ const Pagamento = require('../../db/models/Pagamento');
 const Servico = require('../../db/models/Servico');
 const validator = require('express-validator');
 const pagtesouro = require('../pagtesouro');
+const dayjs = require('dayjs')
 import { createMongoAbility } from '@casl/ability';
 import { logger } from '../../logger';
 
@@ -44,6 +45,13 @@ module.exports.list = function(req, res) {
     }
     if (req.query.situacoes) {
       query.where('situacao.codigo').in(req.query.situacoes);
+    }
+    if (req.query.datas && Array.isArray(req.query.datas)) {
+      const datas = req.query.datas;
+      query.where('situacao.data').gte(dayjs(datas[0]).startOf('day').toDate());
+      if (datas[1]) query.lte(dayjs(datas[1]).endOf('day').toDate());
+    } else {
+      query.or([{ 'situacao.data': null }, { 'situacao.data': { $gte: dayjs().startOf('day').subtract(30, 'day').toDate() } }]);
     }
   }
 

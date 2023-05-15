@@ -3,6 +3,15 @@
     <v-row>
       <v-col>
         <PageTitle>Pagamentos</PageTitle>
+        <v-alert
+          v-if="!filtros || !filtros.datas || filtros.datas.length === 0"
+          type="info"
+          dense
+          text
+          dismissible
+        >
+          Exibindo Pagamentos dos &uacute;ltimos 30 dias. Para alterar esse comportamento, utilize os Filtros.
+        </v-alert>
       </v-col>
     </v-row>
     <v-row>
@@ -10,6 +19,7 @@
         <FilterPainel v-model="showFiltros" @filtrar="handleFiltrar">
           <FilterUnidades></FilterUnidades>
           <FilterSituacoes></FilterSituacoes>
+          <FilterDatas></FilterDatas>
         </FilterPainel>
         <v-data-table
           class="pagamentos"
@@ -65,8 +75,10 @@
           </template>
           <template #item.situacao="{ value }">
             <pagamento-situacao :situacao="value.codigo" class="mt-1"></pagamento-situacao>
-            <br>
-            <small>{{ $dayjs(value.data).format('DD/MM/YYYY HH:mm') }}</small>
+            <template v-if="value.data">
+              <br>
+              <small>{{ $dayjs(value.data).format('DD/MM/YYYY HH:mm') }}</small>
+            </template>
           </template>
           <template #item.actions="{ item }">
             <v-progress-circular indeterminate :size="20" :width="2" v-if="item.idPagamento === loadingPagamento"></v-progress-circular>
@@ -114,10 +126,14 @@
           <template slot="no-data">
             <v-alert
               dense
+              text
               type="info"
               class="my-3"
             >
-              N&atilde;o h&aacute; Pagamentos cadastrados.
+              N&atilde;o foram encontrados Pagamentos.
+              <template v-if="(Object.values(filtros).length > 0)">
+                Tente editar ou limpar os Filtros.
+              </template>
             </v-alert>
           </template>
         </v-data-table>
