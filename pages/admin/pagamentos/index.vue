@@ -63,8 +63,10 @@
           <template #item.valor="{ item }">
             <v-icon small>mdi-currency-brl</v-icon> {{ handleValor(item) || '-' }}
           </template>
-          <template #item.situacao.codigo="{ value }">
-            <pagamento-situacao :situacao="value"></pagamento-situacao>
+          <template #item.situacao="{ value }">
+            <pagamento-situacao :situacao="value.codigo" class="mt-1"></pagamento-situacao>
+            <br>
+            <small>{{ $dayjs(value.data).format('DD/MM/YYYY HH:mm') }}</small>
           </template>
           <template #item.actions="{ item }">
             <v-progress-circular indeterminate :size="20" :width="2" v-if="item.idPagamento === loadingPagamento"></v-progress-circular>
@@ -191,7 +193,7 @@
           { text: 'Contribuinte', value: 'nomeContribuinte' },
           { text: 'CPF / CNPJ', value: 'cnpjCpf' },
           { text: 'Valor', value: 'valor' },
-          { text: 'Situação', value: 'situacao.codigo' },
+          { text: 'Situação', value: 'situacao' },
           { text: 'Ações', value: 'actions', sortable: false, align: 'center', width: 80 },
         ],
         tableFooterProps: {
