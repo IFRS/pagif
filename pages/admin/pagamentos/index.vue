@@ -4,7 +4,7 @@
       <v-col>
         <PageTitle>
           Pagamentos
-          <small v-if="!filtros || !filtros.datas || filtros.datas.length === 0" class="info--text text-caption float-md-right d-block d-md-inline-block"><v-icon color="info" small>mdi-information-outline</v-icon> Exibindo Pagamentos dos &uacute;ltimos 30 dias. Para alterar esse comportamento, utilize os Filtros.</small>
+          <small v-if="!filtros || !filtros.datas || filtros.datas.length === 0" class="info--text text-caption float-md-right d-block d-md-inline-block"><v-icon color="info" small>mdi-information-outline</v-icon> Exibindo Pagamentos dos &uacute;ltimos <strong>30 dias</strong>. Para alterar esse comportamento, utilize os Filtros.</small>
         </PageTitle>
       </v-col>
     </v-row>
