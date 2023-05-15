@@ -17,7 +17,7 @@ const usuarios = require('./routes/usuarios');
 const settings = require('./routes/settings');
 
 const google = require('./auth/google');
-const { logger } = require('~/logger');
+const { logger } = require('../logger');
 
 const app = express();
 

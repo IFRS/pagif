@@ -1,4 +1,4 @@
-const { logger } = require('~/logger');
+const { logger } = require('../../logger');
 const Usuario = require('../../db/models/Usuario');
 const validator = require('express-validator');
 

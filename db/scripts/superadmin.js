@@ -1,4 +1,4 @@
-const { logger } = require('~/logger');
+const { logger } = require('../../logger');
 const DB = require('../index');
 const Usuario = require('../models/Usuario');
 const args = process.argv.slice(2);

@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { accessibleRecordsPlugin } = require('@casl/mongoose');
 const mongoose = require('mongoose');
-const { logger } = require('~/logger');
+const { logger } = require('../logger');
 
 mongoose.plugin(accessibleRecordsPlugin);
 

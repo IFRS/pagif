@@ -3,7 +3,7 @@ const Servico = require('../../db/models/Servico');
 const validator = require('express-validator');
 const pagtesouro = require('../pagtesouro');
 import { createMongoAbility } from '@casl/ability';
-import { logger } from '~/logger';
+import { logger } from '../../logger';
 
 module.exports.showPublic = function(req, res) {
   Pagamento.findById(req.params.id).select('-token -tipoPagamentoEscolhido -nomePSP -transacaoPSP')
