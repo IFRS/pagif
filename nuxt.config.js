@@ -2,29 +2,32 @@ import { defineNuxtConfig } from 'nuxt/config';
 import { fork } from 'child_process';
 
 export default defineNuxtConfig({
-  meta: {
-    titleTemplate: '%s - Sistema de Pagamentos',
-    title: 'Início',
-    htmlAttrs: {
-      lang: 'pt-BR',
+  app: {
+    head: {
+      titleTemplate: '%s - Sistema de Pagamentos',
+      title: 'Início',
+      htmlAttrs: {
+        lang: 'pt-BR',
+      },
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { hid: 'description', name: 'description', content: 'Sistema de Pagamentos integrado ao PagTesouro.' },
+        { name: 'format-detection', content: 'telephone=no' },
+        { name: 'msapplication-TileColor', content: '#2b5797' },
+        { name: 'theme-color', content: '#ffffff' },
+      ],
+      link: [
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
+        { rel: 'icon', type: 'image/png', sizes: '194x194', href: '/favicon-194x194.png' },
+        { rel: 'icon', type: 'image/png', sizes: '192x192', href: '/android-chrome-192x192.png' },
+        { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
+        { rel: 'manifest', href: '/site.webmanifest' },
+        { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#1351B4' },
+      ],
     },
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Sistema de Pagamentos integrado ao PagTesouro.' },
-      { name: 'format-detection', content: 'telephone=no' },
-      { name: 'msapplication-TileColor', content: '#2b5797' },
-      { name: 'theme-color', content: '#ffffff' },
-    ],
-    link: [
-      { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
-      { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
-      { rel: 'icon', type: 'image/png', sizes: '194x194', href: '/favicon-194x194.png' },
-      { rel: 'icon', type: 'image/png', sizes: '192x192', href: '/android-chrome-192x192.png' },
-      { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
-      { rel: 'manifest', href: '/site.webmanifest' },
-      { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#1351B4' },
-    ],
+    pageTransition: { name: 'page', mode: 'out-in' },
   },
 
   css: [
