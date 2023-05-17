@@ -48,7 +48,7 @@
         class="d-none d-md-block separador"
       ></v-divider>
 
-      <nuxt-link
+      <NuxtLink
         :to="{ name: 'index' }"
         class="text-decoration-none"
         color="primary"
@@ -60,7 +60,7 @@
             <template v-else-if="sigla">do {{ sigla }}</template>
           </h1>
         </client-only>
-      </nuxt-link>
+      </NuxtLink>
 
       <v-spacer></v-spacer>
 

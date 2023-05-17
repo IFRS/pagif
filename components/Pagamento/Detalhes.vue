@@ -156,12 +156,12 @@
               <v-list-item-content>
                 <v-list-item-title>
                   Endere&ccedil;o para Pagamento:
-                  <nuxt-link
+                  <NuxtLink
                     :to="{ name: 'pagamento-id', params: { id: $store.getters['pagamento/id'] } }"
                     v-slot="{ href, route, navigate, isActive, isExactActive }"
                   >
                     <a :href="href" @click="navigate">{{ domain + route.fullPath }}</a>
-                  </nuxt-link>
+                  </NuxtLink>
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
