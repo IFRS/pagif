@@ -30,4 +30,4 @@ COPY --from=build --chown=node /home/node/app/static ./static
 
 HEALTHCHECK --interval=5m --start-period=1m CMD node ./healthcheck.js
 
-CMD ["npm", "run", "start"]
+CMD ["node", ".output/server/index.mjs"]
