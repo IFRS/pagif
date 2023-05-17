@@ -8,6 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
+    "lint": "eslint .",
     "superadmin": "node ./db/scripts/superadmin.js"
   },
   "eslintConfig": {
@@ -18,6 +19,7 @@
     "extends": [
       "eslint:recommended",
       "plugin:vue/vue3-recommended",
+      "plugin:@nuxt/eslint-config",
       "plugin:vuetify/base"
     ]
   },
@@ -58,6 +60,7 @@
     "winston": "^3.8.2"
   },
   "devDependencies": {
+    "@nuxt/eslint-config": "^0.1.1",
     "@nuxtjs/eslint-module": "^4.0.2",
     "eslint": "^8.40.0",
     "eslint-plugin-vue": "^9.13.0",
