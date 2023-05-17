@@ -7,10 +7,10 @@
             class="mr-3"
             color="primary"
             text
-            v-bind="attrs"
-            v-on="{ ...tooltip, ...menu }"
             :loading="$fetchState.pending"
             :disabled="!unidade"
+            v-bind="attrs"
+            v-on="{ ...tooltip, ...menu }"
           >
             {{ unidade?.nome || 'Selecione uma Unidade' }}
             <v-icon right>
@@ -29,11 +29,11 @@
         color="primary"
       >
         <v-list-item
-          v-for="(unidade, index) in $store.getters['unidades']"
-          :key="index"
+          v-for="(u, i) in $store.getters['unidades']"
+          :key="i"
         >
           <v-list-item-content>
-            <v-list-item-title>{{ unidade.nome }}</v-list-item-title>
+            <v-list-item-title>{{ u.nome }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
