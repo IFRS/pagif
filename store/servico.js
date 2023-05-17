@@ -1,81 +1,44 @@
-const defaultState = () => ({
-  _id: null,
-  unidade: null,
-  codigo: null,
-  nome: '',
-  desc: '',
-  createdAt: null,
-  updatedAt: null,
-});
+import { defineStore } from 'pinia';
+import { useMainStore } from '.';
 
-export const state = () => defaultState();
+export const useServicoStore = defineStore('servico', {
+  state: () => ({
+    _id: null,
+    unidade: null,
+    codigo: null,
+    nome: '',
+    desc: '',
+    createdAt: null,
+    updatedAt: null,
+  }),
 
-export const getters = {
-  id: state => state._id,
-  unidade: state => state.unidade,
-  codigo: state => state.codigo,
-  nome: state => state.nome,
-  desc: state => state.desc,
-  createdAt: state => state.createdAt,
-  updatedAt: state => state.updatedAt,
-};
-
-export const mutations = {
-  id: (state, payload) => {
-    state._id = payload;
+  actions: {
+    async save() {
+      let servico = {
+        ...this.$state,
+        unidade: (Object.prototype.hasOwnProperty.call(this.unidade, '_id')) ? this.unidade._id : this.unidade
+      };
+      return await this.$axios.post('/api/servicos', servico)
+      .then(() => {
+        this.$reset();
+      });
+    },
+    async update() {
+      let servico = {
+        ...this.$state,
+        unidade: (Object.prototype.hasOwnProperty.call(this.unidade, '_id')) ? this.unidade._id : this.unidade
+      };
+      return await this.$axios.put('/api/servicos/' + this._id, servico)
+      .then(() => {
+        this.$reset();
+      });
+    },
+    async delete() {
+      return await this.$axios.delete('/api/servicos/' + this._id)
+      .then((response) => {
+        this.$reset();
+        useMainStore().removeServico(response.data);
+      });
+    },
   },
-  unidade: (state, payload) => {
-    state.unidade = payload;
-  },
-  codigo: (state, payload) => {
-    state.codigo = payload;
-  },
-  nome: (state, payload) => {
-    state.nome = payload;
-  },
-  desc: (state, payload) => {
-    state.desc = payload;
-  },
-  createdAt: (state, payload) => {
-    state.createdAt = payload;
-  },
-  updatedAt: (state, payload) => {
-    state.updatedAt = payload;
-  },
-  clear: (state) => {
-    Object.assign(state, defaultState());
-  },
-  replace: (state, payload) => {
-    Object.assign(state, payload);
-  },
-};
-
-export const actions = {
-  async save(context) {
-    let servico = {
-      ...context.state,
-      unidade: (context.state.unidade.hasOwnProperty('_id')) ? context.state.unidade._id : context.state.unidade
-    };
-    return await this.$axios.post('/api/servicos', servico)
-    .then(() => {
-      context.commit('clear');
-    });
-  },
-  async update(context) {
-    let servico = {
-      ...context.state,
-      unidade: (context.state.unidade.hasOwnProperty('_id')) ? context.state.unidade._id : context.state.unidade
-    };
-    return await this.$axios.put('/api/servicos/' + context.state._id, servico)
-    .then(() => {
-      context.commit('clear');
-    });
-  },
-  async delete(context) {
-    return await this.$axios.delete('/api/servicos/' + context.state._id)
-    .then((response) => {
-      context.commit('clear');
-      context.commit('removeServico', response.data, { root: true });
-    });
-  },
-};
+})

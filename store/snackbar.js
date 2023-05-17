@@ -1,38 +1,42 @@
-export const state = () => ({
-  show: false,
-  text: '',
-  color: '',
-  icon: '',
-});
+import { defineStore } from 'pinia';
 
-export const mutations = {
-  show: (state, payload) => {
-    state.show = true;
-    state.text = payload.text;
-    switch (payload.type) {
-      case 'info':
-        state.color = 'info';
-        state.icon = 'mdi-information';
-        break;
-      case 'success':
-        state.color = 'success';
-        state.icon = 'mdi-check';
-        break;
-      case 'warning':
-        state.color = 'warning';
-        state.icon = 'mdi-alert';
-        break;
-      case 'error':
-        state.color = 'error';
-        state.icon = 'mdi-close-circle';
-        break;
-      default:
-        state.color = '';
-        state.icon = '';
-        break;
-    };
+export const useSnackbarStore = defineStore('snackbar', {
+  state: () => ({
+    show: false,
+    text: '',
+    color: '',
+    icon: '',
+  }),
+
+  actions: {
+    show(payload) {
+      this.show = true;
+      this.text = payload.text;
+      switch (payload.type) {
+        case 'info':
+          this.color = 'info';
+          this.icon = 'mdi-information';
+          break;
+        case 'success':
+          this.color = 'success';
+          this.icon = 'mdi-check';
+          break;
+        case 'warning':
+          this.color = 'warning';
+          this.icon = 'mdi-alert';
+          break;
+        case 'error':
+          this.color = 'error';
+          this.icon = 'mdi-close-circle';
+          break;
+        default:
+          this.color = '';
+          this.icon = '';
+          break;
+      }
+    },
+    updateShow(payload) {
+      this.show = payload;
+    },
   },
-  updateShow: (state, payload) => {
-    state.show = payload;
-  }
-};
+})

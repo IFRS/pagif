@@ -1,18 +1,7 @@
-export const state = () => ({
-  user: null,
-});
+import { defineStore } from 'pinia';
 
-export const getters = {
-  user: state => state.user,
-};
-
-export const mutations = {
-  user: (state, payload) => {
-    state.user = payload;
-  },
-  clear: (state) => {
-    state.user = null;
-  },
-};
-
-export const actions = {};
+export const useAuthStore = defineStore('auth', {
+  state: () => ({
+    user: null,
+  }),
+})
