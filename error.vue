@@ -17,26 +17,19 @@
       >
         Ocorreu um erro inesperado.
       </v-alert>
-      <NuxtLink to="/">
+      <div>
+        {{ props }}
+      </div>
+      <v-bnt @click="handleError">
         Ir para a P&aacute;gina Inicial
-      </NuxtLink>
+      </v-bnt>
     </v-container>
   </v-app>
 </template>
 
-<script>
-export default {
-  name: 'EmptyLayout',
-  layout: 'empty',
-  props: {
-    error: {
-      type: Object,
-      default: null,
-    },
-  },
-  head() {
-    const title = this.error.statusCode === 404 ? 'Página não encontrada!' : 'Erro';
-    return title;
-  },
-}
+<script setup>
+  const props = defineProps({
+    error: Object
+  })
+  const handleError = () => clearError({ redirect: '/' })
 </script>
