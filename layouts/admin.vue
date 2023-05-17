@@ -54,8 +54,8 @@
       <UserMenu admin></UserMenu>
     </v-app-bar>
     <v-main>
-      <Nuxt></Nuxt>
-      <Toast></Toast>
+      <slot />
+      <Toast />
     </v-main>
     <v-footer app class="text-body-2 justify-space-between">
       <span><a href="https://www.gov.br/tesouronacional/pt-br/gru-e-pag-tesouro/pagtesouro" class="text-decoration-none grey--text" :class="{ 'text--darken-2': !$store.getters['config/darkMode'] }">PagIF - Sistema de Pagamentos integrado ao PagTesouro</a></span>

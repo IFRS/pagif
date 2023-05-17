@@ -76,8 +76,8 @@
       </template>
     </v-app-bar>
     <v-main>
-      <Nuxt></Nuxt>
-      <Toast></Toast>
+      <slot />
+      <Toast />
     </v-main>
     <v-footer color="footer" class="mt-4">
       <v-card
