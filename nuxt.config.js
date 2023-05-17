@@ -1,8 +1,8 @@
-require('dotenv').config();
+import { defineNuxtConfig } from 'nuxt/config';
+import { fork } from 'child_process';
 
-export default {
-  // Global page headers: https://go.nuxtjs.dev/config-head
-  head: {
+export default defineNuxtConfig({
+  meta: {
     titleTemplate: '%s - Sistema de Pagamentos',
     title: 'Início',
     htmlAttrs: {
@@ -27,7 +27,6 @@ export default {
     ],
   },
 
-  // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '@fontsource/roboto/latin.css',
     '@fontsource/roboto/latin-100-italic.css',
@@ -52,34 +51,19 @@ export default {
     ]
   },
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    '~/plugins/vuetify.js',
-    '~/plugins/filters.js',
-    '~/plugins/mask.js',
-    '~/plugins/toast.js',
-    '~/plugins/dayjs.js',
-    '~/plugins/validation.js',
-    '~/plugins/unauthorized.js',
-    '~/plugins/casl.js',
-    '~/plugins/populate-store.client.js',
-    '~/plugins/check-unidade.client.js',
-    '~/plugins/gtag.client.js',
-    '~/plugins/tiptap-vuetify.client.js',
-  ],
-
-  // Auto import components: https://go.nuxtjs.dev/config-components
-  components: true,
-
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
+  modules: [
     '@nuxtjs/vuetify',
     '@nuxtjs/style-resources',
-  ],
-
-  // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [
     '@nuxtjs/axios',
+    ['@nuxtjs/recaptcha', {
+        hideBadge: false,  // Hide badge element (v3 & v2 via size=invisible)
+        language: 'pt-BR', // Recaptcha language (v2)
+        mode: 'base',      // Mode: 'base', 'enterprise'
+        version: 2,        // Version
+        size: 'normal'     // Size: 'compact', 'normal', 'invisible' (v2)
+    }],
+    '@pinia/nuxt',
+    ['cookie-universal-nuxt', { alias: 'cookies' }],
     ['v-currency-field/nuxt-treeshaking', {
       locale: 'pt-BR',
       autoDecimalMode: true,
@@ -90,56 +74,32 @@ export default {
       allowNegative: false,
       valueAsInteger: true,
     }],
-    ['cookie-universal-nuxt', { alias: 'cookies' }],
-    ['@nuxtjs/recaptcha', {
-        hideBadge: false,  // Hide badge element (v3 & v2 via size=invisible)
-        language: 'pt-BR', // Recaptcha language (v2)
-        mode: 'base',      // Mode: 'base', 'enterprise'
-        version: 2,        // Version
-        size: 'normal'     // Size: 'compact', 'normal', 'invisible' (v2)
-    }],
   ],
 
   serverMiddleware: [
     '~/api/index.js',
   ],
 
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: '/',
   },
 
-  publicRuntimeConfig: {
+  runtimeConfig: {
     axios: {
-      baseURL: process.env.BROWSER_BASE_URL,
+      baseURL: 'http://localhost:3000/',
     },
-    recaptcha: {
-      siteKey: process.env.RECAPTCHA_SITE_KEY,
-    },
-    pagtesouroURL: process.env.PAGTESOURO_URL,
-    GA: process.env.GA_ID,
-  },
-
-  privateRuntimeConfig: {
-    axios: {
-      baseURL: process.env.SERVER_BASE_URL,
-    },
-  },
-
-  router: {
-    middleware: ['ssr-cookie'],
-    extendRoutes(routes, resolve) {
-      routes.push({
-        name: 'unidades-slug',
-        path: '/unidades/:slug',
-        redirect: (to) => {
-          return { name: 'index', query: { unidade: to.params.slug } };
-        },
-      });
+    public: {
+      axios: {
+        baseURL: '/',
+      },
+      recaptcha: {
+        siteKey: '',
+      },
+      pagtesouroURL: '',
+      GA: '',
     },
   },
 
-  // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     treeShake: true,
     defaultAssets: false,
@@ -147,7 +107,6 @@ export default {
     optionsPath: '~/vuetify.config.js',
   },
 
-  // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     devtools: true,
     watch: [
@@ -158,24 +117,21 @@ export default {
   },
 
   hooks: {
-    listen: (server) => {
-      const { fork } = require('child_process');
-
+    'pages:extend' (routes) {
+      routes.push({
+        name: 'unidades-slug',
+        path: '/unidades/:slug',
+        redirect: (to) => {
+          return { name: 'index', query: { unidade: to.params.slug } };
+        },
+      });
+    },
+    listen: () => {
       let fila = fork('./queue/process.js');
 
       fila.on('close', (code) => {
         console.log(`Fila terminada com o código: ${code}`);
       });
     },
-    render: {
-      errorMiddleware(app) {
-        app.use((error, _req, _res, next) => {
-          if (error) {
-            console.error(`[Nuxt Render Error] ${error}`);
-          }
-          next(error);
-        });
-      },
-    },
   },
-}
+})

@@ -1,13 +1,25 @@
 {
   "name": "pagif",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
     "build": "nuxt build",
-    "start": "nuxt start",
+    "dev": "nuxt dev",
     "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
     "superadmin": "node ./db/scripts/superadmin.js"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:vue/vue3-recommended",
+      "plugin:vuetify/base"
+    ]
   },
   "dependencies": {
     "@casl/ability": "^6.3.2",
@@ -19,32 +31,37 @@
     "@nuxtjs/recaptcha": "^1.1.1",
     "@nuxtjs/style-resources": "^1.2.1",
     "@nuxtjs/vuetify": "^1.12.3",
+    "@pinia/nuxt": "^0.4.11",
     "connect-mongodb-session": "^3.1.1",
     "cookie-universal-nuxt": "^2.2.1",
     "copy-to-clipboard": "^3.3.2",
-    "core-js": "^3.19.3",
     "cors": "^2.8.5",
     "dayjs": "^1.11.3",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-session": "^1.17.3",
-    "express-validator": "^6.14.0",
+    "express-validator": "^7.0.1",
     "helmet": "^7.0.0",
     "iframe-resizer": "^4.3.2",
     "mongoose": "^7.1.1",
-    "nuxt": "^2.15.8",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
+    "pinia": "^2.1.1",
     "slug": "^8.0.0",
-    "tiptap-vuetify": "^2.24.0",
-    "v-currency-field": "^3.1.1",
     "v-mask": "^2.3.0",
-    "vue": "^2.6.14",
-    "vue-gtag": "^1.16.1",
+    "vue": "^3.3.2",
+    "vue-gtag": "^2.0.1",
     "vue-server-renderer": "^2.6.14",
     "vue-template-compiler": "^2.6.14",
-    "vuetify": "^2.6.1",
-    "webpack": "^4.46.0",
+    "vuetify": "^3.2.5",
+    "webpack": "^5.82.1",
     "winston": "^3.8.2"
+  },
+  "devDependencies": {
+    "@nuxtjs/eslint-module": "^4.0.2",
+    "eslint": "^8.40.0",
+    "eslint-plugin-vue": "^9.13.0",
+    "eslint-plugin-vuetify": "^2.0.0-beta.4",
+    "nuxt": "^3.5.0"
   }
 }
