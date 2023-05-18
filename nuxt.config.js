@@ -1,5 +1,10 @@
 import { defineNuxtConfig } from 'nuxt/config';
 import { fork } from 'child_process';
+import viteVuetify from 'vite-plugin-vuetify'
+import { aliases, mdi } from 'vuetify/iconsets/mdi'
+import { pt } from 'vuetify/locale'
+import '@mdi/font/css/materialdesignicons.css'
+import 'vuetify/styles'
 
 export default defineNuxtConfig({
   app: {
@@ -55,7 +60,8 @@ export default defineNuxtConfig({
   },
 
   modules: [
-    '@nuxtjs/vuetify',
+    '@nuxt/devtools',
+    '@invictus.codes/nuxt-vuetify',
     '@nuxtjs/style-resources',
     '@nuxtjs/axios',
     ['@nuxtjs/recaptcha', {
@@ -77,6 +83,11 @@ export default defineNuxtConfig({
       allowNegative: false,
       valueAsInteger: true,
     }],
+    async (options, nuxt) => {
+      nuxt.hooks.hook('vite:extendConfig', config => config.plugins.push(
+        viteVuetify()
+      ))
+    },
   ],
 
   // serverMiddleware: [
@@ -106,11 +117,62 @@ export default defineNuxtConfig({
     },
   },
 
+  // vuetify: {
+  //   treeShake: true,
+  //   defaultAssets: false,
+  //   customVariables: ['~/assets/variables.scss'],
+  //   optionsPath: '~/vuetify.config.js',
+  // },
   vuetify: {
-    treeShake: true,
-    defaultAssets: false,
-    customVariables: ['~/assets/variables.scss'],
-    optionsPath: '~/vuetify.config.js',
+    vuetifyOptions: {
+      ssr: true,
+      icons: {
+        defaultSet: 'mdi',
+        aliases,
+        sets: {
+          mdi,
+        },
+      },
+      locale: {
+        locale: 'pt',
+        messages: {
+          pt,
+        },
+      },
+      theme: {
+        options: {
+          customProperties: true
+        },
+        dark: false,
+        themes: {
+          light: {
+            primary: '#1351B4',
+            secondary: '#636363',
+            accent: '#1351B4',
+            error: '#E52207',
+            info: '#155BCB',
+            success: '#168821',
+            warning: '#B38C00',
+            footer: '#0C326F',
+          },
+          dark: {
+            primary: '#5992ED',
+            secondary: '#565C65',
+            accent: '#1351B4',
+            error: '#FD8BA0',
+            info: '#345D96',
+            success: '#4d8055',
+            warning: '#E6C74C',
+            footer: '#071D41',
+          },
+        },
+      },
+    },
+    moduleOptions: {
+      treeshaking: true,
+      useIconCDN: false,
+      autoImport: true,
+    },
   },
 
   build: {

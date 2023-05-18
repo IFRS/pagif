@@ -1,11 +1,55 @@
-import '@mdi/font/css/materialdesignicons.css';
-import Vue from 'vue';
-import Vuetify from 'vuetify/lib';
+// import { defineNuxtPlugin } from 'nuxt'
+// import { createVuetify } from 'vuetify'
+// import { aliases, mdi } from 'vuetify/iconsets/mdi'
+// import { pt } from 'vuetify/locale'
+// import '@mdi/font/css/materialdesignicons.css'
+// import 'vuetify/styles'
 
-Vue.use(Vuetify);
+// export default defineNuxtPlugin(nuxtApp => {
+//   const vuetify = createVuetify({
+//     ssr: true,
+//     icons: {
+//       defaultSet: 'mdi',
+//       aliases,
+//       sets: {
+//         mdi,
+//       },
+//     },
+//     locale: {
+//       locale: 'pt',
+//       messages: {
+//         pt,
+//       },
+//     },
+//     theme: {
+//       options: {
+//         customProperties: true
+//       },
+//       dark: false,
+//       themes: {
+//         light: {
+//           primary: '#1351B4',
+//           secondary: '#636363',
+//           accent: '#1351B4',
+//           error: '#E52207',
+//           info: '#155BCB',
+//           success: '#168821',
+//           warning: '#B38C00',
+//           footer: '#0C326F',
+//         },
+//         dark: {
+//           primary: '#5992ED',
+//           secondary: '#565C65',
+//           accent: '#1351B4',
+//           error: '#FD8BA0',
+//           info: '#345D96',
+//           success: '#4d8055',
+//           warning: '#E6C74C',
+//           footer: '#071D41',
+//         },
+//       },
+//     },
+//   })
 
-export default new Vuetify({
-  icons: {
-    iconfont: 'mdi',
-  },
-});
+//   nuxtApp.vueApp.use(vuetify)
+// })
