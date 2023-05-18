@@ -1,8 +1,7 @@
 {
   "env": {
     "browser": true,
-    "node": true,
-    "commonjs": true
+    "node": true
   },
   "extends": [
     "eslint:recommended",
@@ -10,9 +9,4 @@
     "@nuxt/eslint-config",
     "plugin:vuetify/base"
   ]
-  // "rules": {
-  //   "vue/valid-v-slot": ["error", {
-  //     "allowModifiers": true
-  //   }]
-  // }
 }
