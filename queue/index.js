@@ -2,7 +2,7 @@ const { Agenda } = require('@hokify/agenda');
 const mongo = require('../db');
 const Pagamento = require('../db/models/Pagamento');
 const pagtesouro = require('../api/pagtesouro');
-const {logger} = require('../logger');
+const { logger } = require('../logger');
 
 const agenda = new Agenda({mongo: mongo, db: { collection: 'jobs' }, processEvery: '5 minute'});
 
@@ -14,7 +14,7 @@ agenda.define('update pagamentos', async job => {
   await Pagamento.findById(idPagamento)
   .then(async pagamento => {
     if (!pagamento) {
-      log.error('[Fila] Pagamento não encontrado.');
+      logger.error('[Fila] Pagamento não encontrado.');
       await job.fail('Pagamento não encontrado.');
       await job.save();
     }
@@ -28,19 +28,19 @@ agenda.define('update pagamentos', async job => {
         logger.info('[Fila] Pagamento %s atualizado!', pagamento.idPagamento);
       })
       .catch(async (error) => {
-        log.error('[Fila] Erro ao atualizar o pagamento.');
+        logger.error('[Fila] Erro ao atualizar o pagamento.');
         await job.fail('Erro ao atualizar o pagamento. ' + error);
         await job.save();
       });
     })
     .catch(async (error) => {
-      log.error('[Fila] Erro ao consultar o Pagamento.');
+      logger.error('[Fila] Erro ao consultar o Pagamento.');
       await job.fail('Erro ao consultar o Pagamento. ' + error);
       await job.save();
     });
   })
   .catch(async error => {
-      log.error('[Fila] Erro ao obter Pagamento.');
+      logger.error('[Fila] Erro ao obter Pagamento.');
       await job.fail('Erro ao obter Pagamento. ' + error);
       await job.save();
   });

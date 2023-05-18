@@ -1,4 +1,4 @@
-export default ({ app, store }, inject) => {
+export default ({ store }, inject) => {
   inject('toast', {
     info (text) {
       store.commit('snackbar/show', { text, type: 'info' });

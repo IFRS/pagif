@@ -24,15 +24,15 @@
 <script>
 export default {
   name: 'Unidades',
-  head: {
-    title: 'Escolha uma Unidade',
-  },
   async fetch () {
     await this.$store.dispatch('fetchUnidades', true)
     .catch((error) => {
       this.$toast.error('Ocorreu um erro ao carregar as Unidades: ' + error.message);
       console.error(error);
     });
+  },
+  head: {
+    title: 'Escolha uma Unidade',
   },
   methods: {
     escolha(unidade) {

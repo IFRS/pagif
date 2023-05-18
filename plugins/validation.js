@@ -1,4 +1,4 @@
-export default ({}, inject) => {
+export default (context, inject) => {
   inject('validation', {
     CPF(value) {
       let cpf = String(value);
