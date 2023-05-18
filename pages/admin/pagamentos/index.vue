@@ -75,7 +75,7 @@
             {{ item.nomeServico }} ({{ item.codigoServico }})
           </template>
           <template #item.cnpjCpf="{ value }">
-            {{ value | cnpj_cpf }}
+            {{ $filters.cnpj_cpf(value) }}
           </template>
           <template #item.valor="{ item }">
             <v-icon size="small">

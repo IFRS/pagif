@@ -8,12 +8,12 @@
     <v-row>
       <v-col cols="auto">
         <p>
-          Voc&ecirc; pagar&aacute; a quantia de <strong>R$ {{ valorPrincipal | int_to_real }}</strong> para <strong>{{ unidade?.nome }}</strong> pelo servi&ccedil;o <strong>{{ nomeServico }} ({{ codigoServico }})</strong>.
+          Voc&ecirc; pagar&aacute; a quantia de <strong>R$ {{ $filters.int_to_real(valorPrincipal) }}</strong> para <strong>{{ unidade?.nome }}</strong> pelo servi&ccedil;o <strong>{{ nomeServico }} ({{ codigoServico }})</strong>.
         </p>
         <p>
           O pagamento <template v-if="competencia">
             referente ao m&ecirc;s <strong>{{ $dayjs(competencia, 'YYYY-MM').format('MM/YYYY') }}</strong>&nbsp;
-          </template>ser&aacute; em nome de <strong>{{ nomeContribuinte }}<template v-if="cnpjCpf">&nbsp;({{ cnpjCpf | cnpj_cpf }})</template></strong>.
+          </template>ser&aacute; em nome de <strong>{{ nomeContribuinte }}<template v-if="cnpjCpf">&nbsp;({{ $filters.cnpj_cpf(cnpjCpf) }})</template></strong>.
         </p>
         <p v-if="referencia">
           O n&uacute;mero de refer&ecirc;ncia atrelado a esse pagamento &eacute; <strong>{{ referencia }}</strong>.
