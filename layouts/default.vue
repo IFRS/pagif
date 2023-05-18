@@ -45,7 +45,6 @@
         :src="$store.getters['config/darkMode'] ? '/img/govbr-white.svg' : '/img/govbr.svg'"
         :max-width="120"
         aspect-ratio="4/1"
-        contain
         class="d-none d-md-block govbr"
       />
 
@@ -116,7 +115,6 @@
                         v-bind="attrs"
                         :src="unidade?.imagem"
                         :max-width="320"
-                        contain
                         v-on="on"
                       />
                     </a>

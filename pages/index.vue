@@ -10,7 +10,6 @@
             <v-img
               class="intro__marca"
               :src="($store.getters['config/darkMode']) ? '/img/logo-white.png' : '/img/logo.png'"
-              contain
             />
             <div
               v-if="intro"
