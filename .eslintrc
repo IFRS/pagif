@@ -8,5 +8,8 @@
     "plugin:vue/vue3-recommended",
     "@nuxt/eslint-config",
     "plugin:vuetify/base"
-  ]
+  ],
+  "rules": {
+    "vue/no-v-html": "off"
+  }
 }
