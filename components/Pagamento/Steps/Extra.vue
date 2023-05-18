@@ -1,7 +1,7 @@
 <template>
   <v-form
     ref="form"
-    v-on="$listeners"
+    v-bind="$attrs"
   >
     <p class="text-body-2 text--secondary">
       As informações abaixo são opcionais.

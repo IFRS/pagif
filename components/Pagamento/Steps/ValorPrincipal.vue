@@ -1,7 +1,7 @@
 <template>
   <v-form
     ref="form"
-    v-on="$listeners"
+    v-bind="$attrs"
   >
     <v-currency-field
       v-model="valorPrincipal"

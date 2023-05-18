@@ -11,7 +11,6 @@
       temporary
       class="pa-3"
       :width="drawerWidth"
-      v-on="$listeners"
     >
       <template #prepend>
         <v-toolbar

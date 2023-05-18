@@ -181,7 +181,7 @@
         </v-row>
       </v-card-text>
 
-      <template v-if="!!$slots.default || !!$slots.default">
+      <template v-if="!!$slots.default()">
         <v-divider />
 
         <v-card-actions>

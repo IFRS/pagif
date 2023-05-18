@@ -9,19 +9,18 @@
       <v-col>
         <v-stepper v-model="currentStep">
           <v-stepper-header>
-            <template v-for="(step, index) in steps">
+            <template
+              v-for="(step, index) in steps"
+              :key="index"
+            >
               <v-stepper-step
-                :key="index"
                 :complete="currentStep > index"
                 :step="index"
               >
                 {{ step.title }}
               </v-stepper-step>
 
-              <v-divider
-                v-if="index != numberOfSteps"
-                :key="index + '_divider'"
-              />
+              <v-divider v-if="index != numberOfSteps" />
             </template>
           </v-stepper-header>
 
@@ -108,12 +107,10 @@
                 <v-icon>mdi-content-copy</v-icon>
               </v-btn>
             </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title style="user-select: all">
-                {{ $store.getters['pagamento/idPagamento'] }}
-              </v-list-item-title>
-              <v-list-item-subtitle>Código do Pagamento</v-list-item-subtitle>
-            </v-list-item-content>
+            <v-list-item-title style="user-select: all">
+              {{ $store.getters['pagamento/idPagamento'] }}
+            </v-list-item-title>
+            <v-list-item-subtitle>Código do Pagamento</v-list-item-subtitle>
           </v-list-item>
 
           <v-alert
