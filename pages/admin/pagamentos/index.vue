@@ -191,7 +191,7 @@
       max-width="800"
       @click:outside="hidePagamento"
     >
-      <pagamento-detalhes private>
+      <pagamento-detalhes privado>
         <v-btn
           variant="text"
           color="primary"

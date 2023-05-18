@@ -117,7 +117,7 @@
         <v-row>
           <v-col md="6">
             <v-list-item
-              v-if="private"
+              v-if="privado"
               lines="two"
             >
               <v-list-item-content>
@@ -127,7 +127,7 @@
             </v-list-item>
 
             <v-list-item
-              v-if="private"
+              v-if="privado"
               lines="two"
             >
               <v-list-item-content>
@@ -138,7 +138,7 @@
           </v-col>
           <v-col md="6">
             <v-list-item
-              v-if="private"
+              v-if="privado"
               lines="two"
             >
               <v-list-item-content>
@@ -196,20 +196,18 @@
   </v-card>
 </template>
 
-<script>
-export default {
-  name: 'PagamentoDetalhes',
-  props: {
-    private: {
-      type: Boolean,
-      default: false,
-    },
+<script setup>
+import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader';
+
+defineProps({
+  privado: {
+    type: Boolean,
+    default: false,
   },
-  computed: {
-    domain() {
-      if (process.client) return window.location.host;
-      if (process.server) return process.env.BROWSER_BASE_URL;
-    }
-  },
-}
+})
+
+const domain = computed(() => {
+  if (process.client) return window.location.host;
+  return process.env.BROWSER_BASE_URL;
+})
 </script>
