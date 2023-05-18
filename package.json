@@ -11,18 +11,6 @@
     "lint": "eslint .",
     "superadmin": "node ./db/scripts/superadmin.js"
   },
-  "eslintConfig": {
-    "env": {
-      "browser": true,
-      "node": true
-    },
-    "extends": [
-      "eslint:recommended",
-      "plugin:vue/vue3-recommended",
-      "@nuxt/eslint-config",
-      "plugin:vuetify/base"
-    ]
-  },
   "dependencies": {
     "@casl/ability": "^6.3.2",
     "@casl/mongoose": "^7.1.2",

@@ -1,11 +1,18 @@
 {
+  "env": {
+    "browser": true,
+    "node": true,
+    "commonjs": true
+  },
   "extends": [
     "eslint:recommended",
-    "plugin:vue/recommended"
-  ],
-  "rules": {
-    "vue/valid-v-slot": ["error", {
-      "allowModifiers": true
-    }]
-  }
+    "plugin:vue/vue3-recommended",
+    "@nuxt/eslint-config",
+    "plugin:vuetify/base"
+  ]
+  // "rules": {
+  //   "vue/valid-v-slot": ["error", {
+  //     "allowModifiers": true
+  //   }]
+  // }
 }
