@@ -76,9 +76,7 @@
       v-if="loaded"
       :model-value="$acl.can('manage', 'Settings') && (!$store.getters['config/sigla'] || !$store.getters['config/orgao'])"
       :timeout="-1"
-      app
       location="top"
-      location="right"
       multi-line
       vertical
       color="error"

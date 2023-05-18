@@ -82,10 +82,7 @@
               color="footer"
               class="pa-5"
             >
-              <v-img
-                :src="imagem"
-                contain
-              />
+              <v-img :src="imagem" />
               <v-overlay
                 absolute
                 :model-value="hover"

@@ -10,7 +10,7 @@
       {{ $store.state.snackbar.icon }}
     </v-icon>
     {{ $store.state.snackbar.text }}
-    <template #action="{ attrs }">
+    <template #actions="{ attrs }">
       <v-btn
         color="white"
         variant="text"
