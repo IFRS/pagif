@@ -4,7 +4,6 @@
       v-model="drawer"
       mobile-breakpoint="0"
       width="300"
-      app
       location="right"
       temporary
     >
@@ -37,10 +36,7 @@
         </v-list>
       </template>
     </v-navigation-drawer>
-    <v-app-bar
-      app
-      elevation="1"
-    >
+    <v-app-bar elevation="1">
       <v-img
         :src="$store.getters['config/darkMode'] ? '/img/govbr-white.svg' : '/img/govbr.svg'"
         :max-width="120"

@@ -45,7 +45,6 @@
           <template #item.actions="{ item }">
             <v-menu
               location="bottom"
-              location="left"
               :offset-x="true"
               :close-on-content-click="false"
             >

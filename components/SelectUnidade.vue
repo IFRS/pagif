@@ -1,5 +1,5 @@
 <template>
-  <v-menu offset-y>
+  <v-menu>
     <template #activator="{ on: menu, attrs }">
       <v-tooltip location="left">
         <template #activator="{ on: tooltip }">
@@ -21,22 +21,17 @@
         <span>Trocar Unidade</span>
       </v-tooltip>
     </template>
-    <v-list>
-      <v-subheader>Unidade Gestora</v-subheader>
-      <v-list-item-group
-        v-model="selectedUnidade"
+    <v-list v-model:selected="selectedUnidade">
+      <v-list-subheader>Unidade Gestora</v-list-subheader>
+      <v-list-item
+        v-for="(u, i) in $store.getters['unidades']"
+        :key="i"
+        :value="selectedUnidade"
         mandatory
         color="primary"
       >
-        <v-list-item
-          v-for="(u, i) in $store.getters['unidades']"
-          :key="i"
-        >
-          <v-list-item-content>
-            <v-list-item-title>{{ u.nome }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-item-group>
+        <v-list-item-title>{{ u.nome }}</v-list-item-title>
+      </v-list-item>
     </v-list>
   </v-menu>
 </template>

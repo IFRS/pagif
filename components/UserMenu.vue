@@ -1,12 +1,10 @@
 <template>
   <v-menu
-    offset-y
     :close-on-content-click="false"
   >
     <template #activator="{ on, attrs }">
       <v-btn
         class="mr-3"
-        dark
         icon
         v-bind="attrs"
         v-on="on"
@@ -34,45 +32,34 @@
     <v-card>
       <v-list>
         <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title class="text-h6">
-              {{ usuario.nome }}
-            </v-list-item-title>
-            <v-list-item-subtitle>{{ usuario.email }}</v-list-item-subtitle>
-          </v-list-item-content>
+          <v-list-item-title class="text-h6">
+            {{ usuario.nome }}
+          </v-list-item-title>
+          <v-list-item-subtitle>{{ usuario.email }}</v-list-item-subtitle>
         </v-list-item>
 
         <v-divider />
 
         <v-list-item
           v-if="admin"
-          nuxt
           :to="{ path: '/' }"
         >
-          <v-list-item-content>
-            <v-list-item-title>Site</v-list-item-title>
-          </v-list-item-content>
+          <v-list-item-title>Site</v-list-item-title>
         </v-list-item>
 
         <v-list-item
           v-else
-          nuxt
           :to="{ name: 'admin' }"
         >
-          <v-list-item-content>
-            <v-list-item-title>Administração</v-list-item-title>
-          </v-list-item-content>
+          <v-list-item-title>Administração</v-list-item-title>
         </v-list-item>
 
         <v-divider />
 
         <v-list-item
-          nuxt
           href="/api/auth/logout"
         >
-          <v-list-item-content>
-            <v-list-item-title>Sair</v-list-item-title>
-          </v-list-item-content>
+          <v-list-item-title>Sair</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-card>

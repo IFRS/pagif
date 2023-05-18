@@ -3,48 +3,32 @@
     <v-navigation-drawer
       v-model="drawer"
       :rail="miniVariant"
-      clipped
-      fixed
-      app
     >
       <v-list>
         <v-list-item
-          v-for="(item, i) in items"
-          v-if="item.enabled"
+          v-for="(item, i) in itemsEnabled"
           :key="i"
           :to="item.to"
           :exact="item.exact || false"
           router
+          :icon="item.icon"
         >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
       </v-list>
       <template #append>
         <v-list density="compact">
           <v-list-item
             density="compact"
+            :icon="(miniVariant) ? 'mdi-chevron-double-right' : 'mdi-chevron-double-left'"
             @click.stop="miniVariant = !miniVariant"
           >
-            <v-list-item-icon>
-              <v-icon>{{ (miniVariant) ? 'mdi-chevron-double-right' : 'mdi-chevron-double-left' }}</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title v-text="(miniVariant) ? 'Expandir menu' : 'Recolher menu'" />
-            </v-list-item-content>
+            <v-list-item-title>{{ (miniVariant) ? 'Expandir menu' : 'Recolher menu' }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </template>
     </v-navigation-drawer>
-    <v-app-bar
-      clipped-left
-      fixed
-      app
-    >
+    <v-app-bar>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>Administração do Sistema de Pagamentos</v-toolbar-title>
 
@@ -148,6 +132,13 @@ export default {
         },
       ],
     }
+  },
+  computed: {
+    itemsEnabled() {
+      return this.items.filter((item) => {
+        return item.enabled;
+      })
+    },
   },
   mounted () {
     this.loaded = true;

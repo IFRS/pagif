@@ -102,7 +102,6 @@
             <v-menu
               v-else
               location="bottom"
-              location="left"
               :offset-x="true"
               :close-on-content-click="true"
             >
@@ -210,6 +209,9 @@
   export default {
     name: 'Pagamentos',
     layout: 'admin',
+    validate({ app }) {
+      return app.$acl.can('read', 'Pagamento');
+    },
     data() {
       return {
         confirmDialog: false,
@@ -236,6 +238,13 @@
         filtros: {},
       }
     },
+    async fetch() {
+      await this.$store.dispatch('fetchPagamentos', this.filtros)
+      .catch((error) => {
+        this.$toast.error('Ocorreu um erro ao carregar os Pagamentos: ' + error.message);
+        console.error(error);
+      });
+    },
     head: {
       title: 'Lista de Pagamentos',
     },
@@ -251,13 +260,6 @@
           this.$store.commit('pagamento/clear');
         }
       }
-    },
-    async fetch() {
-      await this.$store.dispatch('fetchPagamentos', this.filtros)
-      .catch((error) => {
-        this.$toast.error('Ocorreu um erro ao carregar os Pagamentos: ' + error.message);
-        console.error(error);
-      });
     },
     methods: {
       handleValor(item) {
@@ -323,9 +325,6 @@
           this.$toast.error('Erro ao tentar deletar o Pagamento. ' + error.message);
         });
       },
-    },
-    validate({ app }) {
-      return app.$acl.can('read', 'Pagamento');
     },
   };
 </script>

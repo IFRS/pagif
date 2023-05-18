@@ -53,6 +53,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'Resumo',
+  emits: ['recaptcha'],
   computed: {
     unidade: {
       ...mapGetters({ get: 'config/unidade' }),
