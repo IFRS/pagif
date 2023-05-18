@@ -1,3 +1,4 @@
+import { useFetch } from 'nuxt/app';
 import { defineStore } from 'pinia';
 
 export const useConfigStore = defineStore('config', {
@@ -12,18 +13,28 @@ export const useConfigStore = defineStore('config', {
 
   actions: {
     async populateUnidade(id) {
-      return await this.$axios.get(`/api/public/unidades/${id}`)
-      .then((response) => {
-        this.unidade = response.data;
-      });
+      const response = await useFetch(`/api/public/unidades/${id}`);
+      if (response.data) this.unidade = response.data;
+      return response;
+      // return await this.$axios.get(`/api/public/unidades/${id}`)
+      // .then((response) => {
+      //   this.unidade = response.data;
+      // });
     },
     async populateConfig() {
-      return await this.$axios.get(`/api/public/settings`)
-      .then((response) => {
+      const response = await useFetch('/api/public/settings');
+      if (response.data) {
         this.sigla = response.data.sigla;
         this.orgao = response.data.orgao;
         this.intro = response.data.intro;
-      });
+      }
+      return response;
+      // return await this.$axios.get(`/api/public/settings`)
+      // .then((response) => {
+      //   this.sigla = response.data.sigla;
+      //   this.orgao = response.data.orgao;
+      //   this.intro = response.data.intro;
+      // });
     },
   },
 })
