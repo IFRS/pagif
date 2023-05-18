@@ -68,7 +68,9 @@ app.use(notifica);
 app.use(usuarios);
 app.use(settings);
 
-module.exports = {
-  path: '/api',
-  handler: app,
-};
+export default app;
+
+// module.exports = {
+//   path: '/api',
+//   handler: app,
+// };

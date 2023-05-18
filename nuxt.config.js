@@ -79,8 +79,11 @@ export default defineNuxtConfig({
     }],
   ],
 
+  // serverMiddleware: [
+  //   '~/api/index.js',
+  // ],
   serverMiddleware: [
-    '~/api/index.js',
+    { path: "/api", handler: "~/api/index.js" },
   ],
 
   axios: {
