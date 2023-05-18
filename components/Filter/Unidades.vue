@@ -10,9 +10,9 @@
         clearable
         chips
         label="Unidades"
-        item-text="nome"
+        item-title="nome"
         item-value="nome"
-      ></v-autocomplete>
+      />
     </v-card-text>
   </v-card>
 </template>

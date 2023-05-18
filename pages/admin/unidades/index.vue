@@ -22,8 +22,8 @@
                 label="Buscar"
                 single-line
                 hide-details
-              ></v-text-field>
-              <v-spacer></v-spacer>
+              />
+              <v-spacer />
               <v-btn
                 class="mr-2"
                 color="secondary"
@@ -44,30 +44,37 @@
           </template>
           <template #item.actions="{ item }">
             <v-menu
-              bottom
-              left
+              location="bottom"
+              location="left"
               :offset-x="true"
               :close-on-content-click="false"
             >
               <template #activator="{ on, attrs }">
                 <v-btn
                   v-bind="attrs"
-                  v-on="on"
                   icon
                   :disabled="$acl.cannot('update', 'Unidade') || $acl.cannot('delete', 'Unidade')"
+                  v-on="on"
                 >
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
               </template>
 
-              <v-list dense>
+              <v-list density="compact">
                 <v-list-item
                   :loading="tokenLoading === item._id"
                   @click="showTokenDialog(item)"
                 >
                   <v-list-item-icon>
-                    <v-progress-circular indeterminate :size="20" :width="2" v-if="tokenLoading === item._id"></v-progress-circular>
-                    <v-icon v-else>mdi-key</v-icon>
+                    <v-progress-circular
+                      v-if="tokenLoading === item._id"
+                      indeterminate
+                      :size="20"
+                      :width="2"
+                    />
+                    <v-icon v-else>
+                      mdi-key
+                    </v-icon>
                   </v-list-item-icon>
                   <v-list-item-title>Ver Token de {{ item.nome }}</v-list-item-title>
                 </v-list-item>
@@ -90,9 +97,9 @@
               </v-list>
             </v-menu>
           </template>
-          <template slot="no-data">
+          <template #no-data>
             <v-alert
-              dense
+              density="compact"
               type="info"
               class="my-3"
             >
@@ -129,17 +136,17 @@
           Deletar a Unidade "{{ $store.getters['unidade/nome'] }}"?
         </v-card-title>
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <v-spacer />
           <v-btn
             color="secondary"
-            text
+            variant="text"
             @click="closeDelete()"
           >
             Cancelar
           </v-btn>
           <v-btn
             color="danger"
-            text
+            variant="text"
             @click="deleteUnidade()"
           >
             Confirmar
@@ -154,8 +161,8 @@
   export default {
     name: 'Unidades',
     layout: 'admin',
-    head: {
-      title: 'Lista de Unidades',
+    validate({ app }) {
+      return app.$acl.can('read', 'Unidade');
     },
     data() {
       return {
@@ -176,6 +183,9 @@
         this.$toast.error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.message);
         console.error(error);
       });
+    },
+    head: {
+      title: 'Lista de Unidades',
     },
     methods: {
       async showTokenDialog(item) {
@@ -222,9 +232,6 @@
           this.$toast.error('Erro ao tentar deletar a Unidade Gestora. ' + error.message);
         });
       },
-    },
-    validate({ app }) {
-      return app.$acl.can('read', 'Unidade');
     },
   };
 </script>

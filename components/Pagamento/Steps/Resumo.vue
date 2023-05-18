@@ -11,7 +11,9 @@
           Voc&ecirc; pagar&aacute; a quantia de <strong>R$ {{ valorPrincipal | int_to_real }}</strong> para <strong>{{ unidade?.nome }}</strong> pelo servi&ccedil;o <strong>{{ nomeServico }} ({{ codigoServico }})</strong>.
         </p>
         <p>
-          O pagamento <template v-if="competencia">referente ao m&ecirc;s <strong>{{ $dayjs(competencia, 'YYYY-MM').format('MM/YYYY') }}</strong>&nbsp;</template>ser&aacute; em nome de <strong>{{ nomeContribuinte }}<template v-if="cnpjCpf">&nbsp;({{ cnpjCpf | cnpj_cpf }})</template></strong>.
+          O pagamento <template v-if="competencia">
+            referente ao m&ecirc;s <strong>{{ $dayjs(competencia, 'YYYY-MM').format('MM/YYYY') }}</strong>&nbsp;
+          </template>ser&aacute; em nome de <strong>{{ nomeContribuinte }}<template v-if="cnpjCpf">&nbsp;({{ cnpjCpf | cnpj_cpf }})</template></strong>.
         </p>
         <p v-if="referencia">
           O n&uacute;mero de refer&ecirc;ncia atrelado a esse pagamento &eacute; <strong>{{ referencia }}</strong>.
@@ -22,12 +24,12 @@
           type="info"
         >
           Ao clicar em "Concluir" o pagamento ser&aacute; gerado e voc&ecirc; ter&aacute;
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
+          <v-tooltip location="bottom">
+            <template #activator="{ on, attrs }">
               <span
                 v-bind="attrs"
-                v-on="on"
                 class="text-decoration-underline"
+                v-on="on"
               ><strong>1h</strong></span>
             </template>
             <span>Devido a um problema no PagTesouro os pagamentos estão sendo cancelados após 1 hora, caso não tenham sido iniciados. No futuro esse tempo voltará a ser de 24 horas.</span>
@@ -36,7 +38,11 @@
         </v-alert>
       </v-col>
       <v-col class="d-flex justify-center align-center">
-        <recaptcha @success="$emit('recaptcha', true)" @error="$emit('recaptcha', false)" @expired="$emit('recaptcha', false)"></recaptcha>
+        <recaptcha
+          @success="$emit('recaptcha', true)"
+          @error="$emit('recaptcha', false)"
+          @expired="$emit('recaptcha', false)"
+        />
       </v-col>
     </v-row>
   </v-container>

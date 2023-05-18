@@ -1,5 +1,10 @@
 <template>
-  <component :is="tag" class="mb-5"><slot></slot></component>
+  <component
+    :is="tag"
+    class="mb-5"
+  >
+    <slot />
+  </component>
 </template>
 
 <script>

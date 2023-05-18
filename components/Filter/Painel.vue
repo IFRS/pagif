@@ -1,19 +1,25 @@
 <template>
   <v-sheet>
-    <slot name="activator" :on="{ click: handleActivator }"></slot>
+    <slot
+      name="activator"
+      :on="{ click: handleActivator }"
+    />
     <v-navigation-drawer
       v-bind="$attrs"
-      v-on="$listeners"
-      right
+      location="right"
       absolute
       temporary
       class="pa-3"
       :width="drawerWidth"
+      v-on="$listeners"
     >
       <template #prepend>
-        <v-toolbar dense flat>
+        <v-toolbar
+          dense
+          flat
+        >
           <v-toolbar-title>Filtros</v-toolbar-title>
-          <v-spacer></v-spacer>
+          <v-spacer />
           <v-btn
             icon
             @click="$emit('input', false)"
@@ -22,10 +28,24 @@
           </v-btn>
         </v-toolbar>
       </template>
-      <v-form ref="form" @submit.prevent="filtrar()" @filtro="addFiltro">
-        <slot></slot>
-        <v-btn color="primary" type="submit">Filtrar</v-btn>
-        <v-btn color="secondary" @click="limpar()">Limpar</v-btn>
+      <v-form
+        ref="form"
+        @submit.prevent="filtrar()"
+        @filtro="addFiltro"
+      >
+        <slot />
+        <v-btn
+          color="primary"
+          type="submit"
+        >
+          Filtrar
+        </v-btn>
+        <v-btn
+          color="secondary"
+          @click="limpar()"
+        >
+          Limpar
+        </v-btn>
       </v-form>
     </v-navigation-drawer>
   </v-sheet>

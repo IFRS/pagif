@@ -14,17 +14,17 @@
             label="Código do Pagamento"
             hint="Insira um código de pagamento em andamento."
             clearable
-            filled
+            variant="filled"
             :rules="validation"
             required
             class="required"
-          ></v-text-field>
+          />
         </v-col>
         <v-col cols="auto">
           <v-btn
             type="submit"
             icon
-            x-large
+            size="x-large"
           >
             <v-icon>mdi-arrow-right</v-icon>
           </v-btn>
@@ -37,14 +37,14 @@
 <script>
 export default {
   name: 'Consulta',
-  head: {
-    title: 'Consulta Pagamento',
-  },
   data() {
     return {
       idPagamento: null,
       validation: [],
     }
+  },
+  head: {
+    title: 'Consulta Pagamento',
   },
   methods: {
     submitConsulta() {

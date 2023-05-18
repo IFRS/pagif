@@ -1,7 +1,11 @@
 <template>
   <v-container>
     <PageTitle>Configurações</PageTitle>
-    <FormSettings @ok="handleSubmit" @cancel="handleCancel" :submitting="submitting"></FormSettings>
+    <FormSettings
+      :submitting="submitting"
+      @ok="handleSubmit"
+      @cancel="handleCancel"
+    />
   </v-container>
 </template>
 
@@ -9,13 +13,19 @@
 export default {
   name: 'AdminConfig',
   layout: 'admin',
-  head: {
-    title: 'Configurações',
+  validate({ app }) {
+    return app.$acl.can('edit', 'Settings');
   },
   data() {
     return {
       submitting: false,
     }
+  },
+  head: {
+    title: 'Configurações',
+  },
+  unmounted () {
+    this.$store.commit('settings/clear');
   },
   methods: {
     async handleSubmit() {
@@ -36,12 +46,6 @@ export default {
       this.$toast.info('Edição das Configurações cancelada.');
       this.$router.push({ path: '/admin' });
     },
-  },
-  destroyed () {
-    this.$store.commit('settings/clear');
-  },
-  validate({ app }) {
-    return app.$acl.can('edit', 'Settings');
   },
 }
 </script>

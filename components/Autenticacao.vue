@@ -1,10 +1,10 @@
 <template>
-  <UserMenu v-if="$store.getters['auth/user']"></UserMenu>
+  <UserMenu v-if="$store.getters['auth/user']" />
 
   <v-btn
     v-else
     color="primary"
-    small
+    size="small"
     class="text-none"
     href="/api/auth/google"
   >

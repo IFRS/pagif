@@ -1,31 +1,39 @@
 <template>
-  <v-form ref="form" @submit.prevent="handleSubmit()">
+  <v-form
+    ref="form"
+    @submit.prevent="handleSubmit()"
+  >
     <v-container>
       <v-row>
         <v-col>
           <v-text-field
+            v-model="nome"
             label="Nome"
             hint="Nome da Unidade Gestora, que será apresentado no pagamento."
-            v-model="nome"
             :rules="validation.nome"
             required
             @blur="slugify()"
-          ></v-text-field>
-          <v-row no-gutters align="center">
+          />
+          <v-row
+            no-gutters
+            align="center"
+          >
             <v-col>
               <v-text-field
+                ref="slug"
+                v-model="slug"
                 :disabled="!isEditSlug"
                 label="Slug"
                 hint="O slug é gerado automaticamente usando o nome da Unidade. Se preferir, é possível editá-lo no botão ao lado do campo."
                 persistent-hint
-                v-model="slug"
-                ref="slug"
                 :rules="validation.slug"
                 required
-              >
-              </v-text-field>
+              />
             </v-col>
-            <v-col cols="1" sm="auto">
+            <v-col
+              cols="1"
+              sm="auto"
+            >
               <v-btn
                 v-if="!isEditSlug"
                 color="secondary"
@@ -37,8 +45,8 @@
               <v-btn
                 v-else
                 color="success"
-                small
-                text
+                size="small"
+                variant="text"
                 @click="slugify()"
               >
                 Ok
@@ -46,33 +54,41 @@
             </v-col>
           </v-row>
           <v-textarea
+            v-model="token"
             label="Token do PagTesouro"
             hint="Token de acesso gerado no SISGRU."
-            v-model="token"
             :rules="validation.token"
             :loading="tokenLoading"
             auto-grow
             required
-          ></v-textarea>
+          />
         </v-col>
       </v-row>
       <v-row justify="center">
-        <v-col v-if="imagem" cols="12" sm="6" md="4" lg="3">
-          <p class="caption text-center">Pré-visualização da imagem no site.</p>
+        <v-col
+          v-if="imagem"
+          cols="12"
+          sm="6"
+          md="4"
+          lg="3"
+        >
+          <p class="text-caption text-center">
+            Pré-visualização da imagem no site.
+          </p>
           <v-hover v-slot="{ hover }">
             <v-card
               :elevation="hover ? 1 : 0"
-              tile
+              rounded="0"
               color="footer"
               class="pa-5"
             >
               <v-img
                 :src="imagem"
                 contain
-              ></v-img>
+              />
               <v-overlay
                 absolute
-                :value="hover"
+                :model-value="hover"
               >
                 <v-btn
                   v-show="hover"
@@ -82,7 +98,10 @@
                   color="transparent"
                   @click="imagem = null"
                 >
-                  <v-icon color="grey lighten-3" size="50">
+                  <v-icon
+                    color="grey-lighten-3"
+                    size="50"
+                  >
                     mdi-image-remove
                   </v-icon>
                 </v-btn>
@@ -93,16 +112,16 @@
         <v-col v-else>
           <v-file-input
             ref="upload"
-            :value="arquivo"
+            :model-value="arquivo"
             label="Imagem"
             hint="Marca ou Logo da Unidade. Máximo de 1MB."
             persistent-hint
             prepend-icon="mdi-image"
             accept="image/*"
             show-size
-            filled
+            variant="filled"
             @change="handleUpload"
-          ></v-file-input>
+          />
         </v-col>
       </v-row>
       <v-row>
@@ -112,7 +131,7 @@
             label="URL do Link"
             hint="Endereço para site da Unidade."
             :rules="validation.link_url"
-          ></v-text-field>
+          />
         </v-col>
         <v-col>
           <v-text-field
@@ -120,7 +139,7 @@
             label="Título do Link"
             hint="Título do link para o site da Unidade."
             :rules="validation.link_titulo"
-          ></v-text-field>
+          />
         </v-col>
       </v-row>
       <v-row>
@@ -131,7 +150,7 @@
             :toolbar-attributes="{ dark: $store.getters['config/darkMode'], color: ($store.getters['config/darkMode']) ? 'dark' : 'grey lighten-4' }"
             :card-props="{ dark: $store.getters['config/darkMode'] }"
             placeholder="Informações de Contato"
-          ></tiptap-vuetify>
+          />
         </v-col>
       </v-row>
       <v-row>
@@ -159,7 +178,7 @@
 
 <script>
   import { mapGetters, mapMutations } from 'vuex';
-  let slug = require('slug');
+  const slug = require('slug');
   import {
     TiptapVuetify,
     Heading,

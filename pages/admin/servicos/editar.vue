@@ -2,12 +2,16 @@
   <v-container>
     <v-row>
       <v-col>
-        <PageTitle>Editar Servi&ccedil;o "{{ this.$store.getters['servico/nome'] }}"</PageTitle>
+        <PageTitle>Editar Servi&ccedil;o "{{ $store.getters['servico/nome'] }}"</PageTitle>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <FormServico @ok="handleSubmit" @cancel="handleCancel" :submitting="submitting"></FormServico>
+        <FormServico
+          :submitting="submitting"
+          @ok="handleSubmit"
+          @cancel="handleCancel"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -17,13 +21,19 @@
   export default {
     name: 'EditarServico',
     layout: 'admin',
-    head: {
-      title: 'Edição de Serviço',
+    validate({ app }) {
+      return app.$acl.can('update', 'Servico');
     },
     data() {
       return {
         submitting: false,
       }
+    },
+    head: {
+      title: 'Edição de Serviço',
+    },
+    unmounted () {
+      this.$store.commit('servico/clear');
     },
     methods: {
       async handleSubmit() {
@@ -49,12 +59,6 @@
           path: '/admin/servicos',
         });
       },
-    },
-    destroyed () {
-      this.$store.commit('servico/clear');
-    },
-    validate({ app }) {
-      return app.$acl.can('update', 'Servico');
     },
   }
 </script>

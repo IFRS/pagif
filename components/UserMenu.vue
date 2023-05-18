@@ -22,7 +22,12 @@
             :alt="'Foto de ' + usuario.nome"
             referrerpolicy="no-referrer"
           >
-          <v-icon v-else dark>mdi-account-circle</v-icon>
+          <v-icon
+            v-else
+            dark
+          >
+            mdi-account-circle
+          </v-icon>
         </v-avatar>
       </v-btn>
     </template>
@@ -37,23 +42,34 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-divider></v-divider>
+        <v-divider />
 
-        <v-list-item v-if="admin" nuxt :to="{ path: '/' }">
+        <v-list-item
+          v-if="admin"
+          nuxt
+          :to="{ path: '/' }"
+        >
           <v-list-item-content>
             <v-list-item-title>Site</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item v-else nuxt :to="{ name: 'admin' }">
+        <v-list-item
+          v-else
+          nuxt
+          :to="{ name: 'admin' }"
+        >
           <v-list-item-content>
             <v-list-item-title>Administração</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
-        <v-divider></v-divider>
+        <v-divider />
 
-        <v-list-item nuxt href="/api/auth/logout">
+        <v-list-item
+          nuxt
+          href="/api/auth/logout"
+        >
           <v-list-item-content>
             <v-list-item-title>Sair</v-list-item-title>
           </v-list-item-content>

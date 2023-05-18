@@ -7,7 +7,11 @@
     </v-row>
     <v-row>
       <v-col>
-        <FormUsuario @ok="handleSubmit" @cancel="handleCancel" :submitting="submitting"></FormUsuario>
+        <FormUsuario
+          :submitting="submitting"
+          @ok="handleSubmit"
+          @cancel="handleCancel"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -17,13 +21,19 @@
   export default {
     name: 'NovoUsuario',
     layout: 'admin',
-    head: {
-      title: 'Cadastro de Novo Usuário',
+    validate({ app }) {
+      return app.$acl.can('create', 'Usuario');
     },
     data() {
       return {
         submitting: false,
       }
+    },
+    head: {
+      title: 'Cadastro de Novo Usuário',
+    },
+    unmounted () {
+      this.$store.commit('usuario/clear');
     },
     methods: {
       async handleSubmit() {
@@ -49,12 +59,6 @@
           path: '/admin/usuarios',
         });
       },
-    },
-    destroyed () {
-      this.$store.commit('usuario/clear');
-    },
-    validate({ app }) {
-      return app.$acl.can('create', 'Usuario');
     },
   }
 </script>

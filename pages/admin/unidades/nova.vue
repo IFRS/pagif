@@ -7,7 +7,11 @@
     </v-row>
     <v-row>
       <v-col>
-        <FormUnidade @ok="handleSubmit" @cancel="handleCancel" :submitting="submitting"></FormUnidade>
+        <FormUnidade
+          :submitting="submitting"
+          @ok="handleSubmit"
+          @cancel="handleCancel"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -17,13 +21,19 @@
   export default {
     name: 'NovaUnidade',
     layout: 'admin',
-    head: {
-      title: 'Cadastro de Nova Unidade',
+    validate({ app }) {
+      return app.$acl.can('create', 'Unidade');
     },
     data() {
       return {
         submitting: false,
       }
+    },
+    head: {
+      title: 'Cadastro de Nova Unidade',
+    },
+    unmounted () {
+      this.$store.commit('unidade/clear');
     },
     methods: {
       async handleSubmit() {
@@ -49,12 +59,6 @@
           path: '/admin/unidades',
         });
       },
-    },
-    destroyed () {
-      this.$store.commit('unidade/clear');
-    },
-    validate({ app }) {
-      return app.$acl.can('create', 'Unidade');
     },
   }
 </script>

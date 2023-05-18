@@ -2,10 +2,12 @@
   <v-container>
     <PageTitle>Pagamento para {{ $store.getters['config/unidade']?.nome }}</PageTitle>
 
-    <h3 class="mb-4 text-center">J&aacute; tenho o c&oacute;digo para Pagamento</h3>
+    <h3 class="mb-4 text-center">
+      J&aacute; tenho o c&oacute;digo para Pagamento
+    </h3>
     <v-form
-      class="mb-8"
       ref="form"
+      class="mb-8"
       lazy-validation
       @submit.prevent="submitPagamento"
     >
@@ -16,17 +18,17 @@
             label="Código do Pagamento"
             hint="Insira um código de pagamento já cadastrado."
             clearable
-            filled
+            variant="filled"
             :rules="validation"
             required
             class="required"
-          ></v-text-field>
+          />
         </v-col>
         <v-col cols="auto">
           <v-btn
             type="submit"
             icon
-            x-large
+            size="x-large"
           >
             <v-icon>mdi-arrow-right</v-icon>
           </v-btn>
@@ -35,10 +37,12 @@
     </v-form>
 
     <div class="text-center">
-      <h3 class="mb-4">ou, realizar um pagamento manualmente</h3>
+      <h3 class="mb-4">
+        ou, realizar um pagamento manualmente
+      </h3>
       <v-btn
         class="mx-auto"
-        x-large
+        size="x-large"
         color="primary"
         :to="{ name: 'pagamento-novo' }"
       >
@@ -51,14 +55,14 @@
 <script>
 export default {
   name: 'Pagamento',
-  head: {
-    title: 'Pagamento',
-  },
   data() {
     return {
       idPagamento: null,
       validation: [],
     }
+  },
+  head: {
+    title: 'Pagamento',
   },
   methods: {
     submitPagamento() {

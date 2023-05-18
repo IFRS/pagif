@@ -6,12 +6,14 @@
     :color="$store.state.snackbar.color"
     :multi-line="true"
   >
-    <v-icon left>{{ $store.state.snackbar.icon }}</v-icon>
+    <v-icon start>
+      {{ $store.state.snackbar.icon }}
+    </v-icon>
     {{ $store.state.snackbar.text }}
     <template #action="{ attrs }">
       <v-btn
         color="white"
-        text
+        variant="text"
         v-bind="attrs"
         @click="snackbarShow = false"
       >

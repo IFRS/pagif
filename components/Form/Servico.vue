@@ -1,55 +1,62 @@
 <template>
-  <v-form ref="form" @submit.prevent="handleSubmit()">
+  <v-form
+    ref="form"
+    @submit.prevent="handleSubmit()"
+  >
     <v-container>
       <v-row>
         <v-col>
           <v-autocomplete
+            v-model="unidade"
             prepend-icon="mdi-office-building-marker"
             label="Unidade Gestora"
-            v-model="unidade"
             :rules="validation.unidade"
             :loading="$fetchState.pending"
             :disabled="$fetchState.pending"
             :items="$store.getters['unidades']"
-            item-text="nome"
+            item-title="nome"
             item-value="_id"
             required
-          ></v-autocomplete>
+          />
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" md="4" lg="2">
+        <v-col
+          cols="12"
+          md="4"
+          lg="2"
+        >
           <v-text-field
+            v-model="codigo"
             prepend-icon="mdi-identifier"
             label="Código do Serviço"
             hint="Deve existir no cadastro de serviços da UG e não estar excluído."
-            v-model="codigo"
             :rules="validation.codigo"
             :counter="5"
             required
-          ></v-text-field>
+          />
         </v-col>
         <v-col>
           <v-text-field
+            v-model="nome"
             prepend-icon="mdi-text-short"
             label="Nome"
             hint="Nome do Serviço, que será apresentado no pagamento."
-            v-model="nome"
             :rules="validation.nome"
             required
-          ></v-text-field>
+          />
         </v-col>
       </v-row>
       <v-row>
         <v-col>
           <v-textarea
-            label="Descrição"
             v-model="desc"
+            label="Descrição"
             :rules="validation.desc"
             prepend-icon="mdi-text"
             :counter="999"
             rows="9"
-          ></v-textarea>
+          />
         </v-col>
       </v-row>
       <v-row>
@@ -64,8 +71,8 @@
           </v-btn>
           <v-btn
             color="secondary"
-            @click="handleCancel()"
             :disabled="submitting"
+            @click="handleCancel()"
           >
             Cancelar
           </v-btn>
@@ -80,13 +87,6 @@
 
   export default {
     name: 'FormServico',
-    async fetch() {
-      await this.$store.dispatch('fetchUnidades')
-      .catch((error) => {
-        this.$toast.error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.message);
-        console.error(error);
-      });
-    },
     props: {
       submitting: {
         type: Boolean,
@@ -113,6 +113,13 @@
           ],
         },
       }
+    },
+    async fetch() {
+      await this.$store.dispatch('fetchUnidades')
+      .catch((error) => {
+        this.$toast.error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.message);
+        console.error(error);
+      });
     },
     computed: {
       id: {

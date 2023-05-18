@@ -1,25 +1,49 @@
 <template>
   <v-container>
-    <v-row class="my-5" align="center">
+    <v-row
+      class="my-5"
+      align="center"
+    >
       <v-col>
         <client-only>
           <div class="intro">
-            <v-img class="intro__marca" :src="($store.getters['config/darkMode']) ? '/img/logo-white.png' : '/img/logo.png'" contain></v-img>
-            <div class="intro__text" v-if="intro" v-html="intro"></div>
+            <v-img
+              class="intro__marca"
+              :src="($store.getters['config/darkMode']) ? '/img/logo-white.png' : '/img/logo.png'"
+              contain
+            />
+            <div
+              v-if="intro"
+              class="intro__text"
+              v-html="intro"
+            />
           </div>
         </client-only>
       </v-col>
     </v-row>
-    <v-row class="my-10" justify="center">
+    <v-row
+      class="my-10"
+      justify="center"
+    >
       <v-col cols="auto">
         <v-hover v-slot="{ hover }">
           <v-card
             :color="hover ? 'accent' : ''"
             :to="{ name: 'consulta' }"
           >
-            <v-card-text class="text-center" :class="hover ? 'white--text' : ''">
-              <v-icon x-large :color="hover ? 'white' : ''">mdi-archive-search-outline</v-icon>
-              <v-card-title class="justify-center">Consultar Pagamento</v-card-title>
+            <v-card-text
+              class="text-center"
+              :class="hover ? 'white--text' : ''"
+            >
+              <v-icon
+                size="x-large"
+                :color="hover ? 'white' : ''"
+              >
+                mdi-archive-search-outline
+              </v-icon>
+              <v-card-title class="justify-center">
+                Consultar Pagamento
+              </v-card-title>
             </v-card-text>
           </v-card>
         </v-hover>
@@ -31,9 +55,19 @@
             :color="hover ? 'accent' : ''"
             :to="{ name: 'pagamento' }"
           >
-            <v-card-text class="text-center" :class="hover ? 'white--text' : ''">
-              <v-icon x-large :color="hover ? 'white' : ''">mdi-cash-plus</v-icon>
-              <v-card-title class="justify-center">Realizar Pagamento</v-card-title>
+            <v-card-text
+              class="text-center"
+              :class="hover ? 'white--text' : ''"
+            >
+              <v-icon
+                size="x-large"
+                :color="hover ? 'white' : ''"
+              >
+                mdi-cash-plus
+              </v-icon>
+              <v-card-title class="justify-center">
+                Realizar Pagamento
+              </v-card-title>
             </v-card-text>
           </v-card>
         </v-hover>

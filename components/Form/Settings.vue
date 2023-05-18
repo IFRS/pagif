@@ -1,8 +1,15 @@
 <template>
-  <v-form  ref="form" @submit.prevent="handleSubmit">
+  <v-form
+    ref="form"
+    @submit.prevent="handleSubmit"
+  >
     <v-container>
       <v-row>
-        <v-col cols="12" md="4" xl="3">
+        <v-col
+          cols="12"
+          md="4"
+          xl="3"
+        >
           <v-text-field
             v-model="sigla"
             label="Sigla do Órgão"
@@ -10,9 +17,13 @@
             :rules="validation.sigla"
             required
             class="required"
-          ></v-text-field>
+          />
         </v-col>
-        <v-col cols="12" md="8" xl="9">
+        <v-col
+          cols="12"
+          md="8"
+          xl="9"
+        >
           <v-text-field
             v-model="orgao"
             label="Nome do Órgão"
@@ -20,7 +31,7 @@
             :rules="validation.orgao"
             required
             class="required"
-          ></v-text-field>
+          />
         </v-col>
       </v-row>
       <v-row>
@@ -33,7 +44,7 @@
             :toolbar-attributes="{ dark: $store.getters['config/darkMode'], color: ($store.getters['config/darkMode']) ? 'dark' : 'grey lighten-4' }"
             :card-props="{ dark: $store.getters['config/darkMode'], loading: $fetchState.pending }"
             placeholder="Texto de Introdução"
-          ></tiptap-vuetify>
+          />
         </v-col>
       </v-row>
       <v-row>
@@ -48,8 +59,8 @@
           </v-btn>
           <v-btn
             color="secondary"
-            @click="handleCancel()"
             :disabled="submitting"
+            @click="handleCancel()"
           >
             Cancelar
           </v-btn>
@@ -79,13 +90,6 @@ import {
 
 export default {
   name: 'FormSettings',
-  async fetch() {
-    await this.$store.dispatch('settings/show')
-    .catch((error) => {
-      this.$toast.error('Ocorreu um erro ao carregar as Configurações: ' + error.message);
-      console.error(error);
-    });
-  },
   components: {
     TiptapVuetify,
   },
@@ -129,6 +133,13 @@ export default {
         Code,
       ],
     }
+  },
+  async fetch() {
+    await this.$store.dispatch('settings/show')
+    .catch((error) => {
+      this.$toast.error('Ocorreu um erro ao carregar as Configurações: ' + error.message);
+      console.error(error);
+    });
   },
   computed: {
     sigla: {

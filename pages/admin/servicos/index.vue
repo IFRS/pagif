@@ -22,8 +22,8 @@
                 label="Buscar"
                 single-line
                 hide-details
-              ></v-text-field>
-              <v-spacer></v-spacer>
+              />
+              <v-spacer />
               <v-btn
                 class="mr-2"
                 color="secondary"
@@ -44,23 +44,23 @@
           </template>
           <template #item.actions="{ item }">
             <v-menu
-              bottom
-              left
+              location="bottom"
+              location="left"
               :offset-x="true"
               :close-on-content-click="false"
             >
               <template #activator="{ on, attrs }">
                 <v-btn
                   v-bind="attrs"
-                  v-on="on"
                   icon
                   :disabled="$acl.cannot('update', 'Servico') || $acl.cannot('delete', 'Servico')"
+                  v-on="on"
                 >
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
               </template>
 
-              <v-list dense>
+              <v-list density="compact">
                 <v-list-item
                   v-if="$acl.can('update', 'Servico')"
                   @click="editServico(item)"
@@ -79,9 +79,9 @@
               </v-list>
             </v-menu>
           </template>
-          <template slot="no-data">
+          <template #no-data>
             <v-alert
-              dense
+              density="compact"
               type="info"
               class="my-3"
             >
@@ -101,17 +101,17 @@
           Deletar o Servi&ccedil;o "{{ $store.getters['servico/nome'] }}"?
         </v-card-title>
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <v-spacer />
           <v-btn
             color="secondary"
-            text
+            variant="text"
             @click="closeDelete()"
           >
             Cancelar
           </v-btn>
           <v-btn
             color="danger"
-            text
+            variant="text"
             @click="deleteServico()"
           >
             Confirmar
@@ -126,8 +126,8 @@
   export default {
     name: 'Servicos',
     layout: 'admin',
-    head: {
-      title: 'Lista de Serviços',
+    validate({ app }) {
+      return app.$acl.can('read', 'Servico');
     },
     data() {
       return {
@@ -147,6 +147,9 @@
         this.$toast.error('Ocorreu um erro ao carregar os Serviços: ' + error.message);
         console.error(error);
       });
+    },
+    head: {
+      title: 'Lista de Serviços',
     },
     methods: {
       editServico(servico) {
@@ -174,9 +177,6 @@
           this.$toast.error('Erro ao tentar deletar o Serviço. ' + error.message);
         });
       },
-    },
-    validate({ app }) {
-      return app.$acl.can('read', 'Servico');
     },
   };
 </script>

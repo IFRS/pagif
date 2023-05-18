@@ -1,5 +1,8 @@
 <template>
-  <v-form ref="form" @submit.prevent="handleSubmit">
+  <v-form
+    ref="form"
+    @submit.prevent="handleSubmit"
+  >
     <v-container>
       <v-row>
         <v-col>
@@ -11,24 +14,24 @@
             :loading="$fetchState.pending"
             :disabled="$fetchState.pending"
             :items="$store.getters['unidades']"
-            item-text="nome"
+            item-title="nome"
             item-value="_id"
             required
-            @change="fetchServicos"
-          ></v-autocomplete>
+            @update:model-value="fetchServicos"
+          />
         </v-col>
         <v-col>
           <!-- Código do Serviço -->
           <v-autocomplete
+            v-model="codigoServico"
             prepend-icon="mdi-basket"
             label="Serviço"
-            v-model="codigoServico"
-            validate-on-blur
+            validate-on="blur"
             :rules="validation.codigoServico"
             :loading="loadingServicos"
             :disabled="loadingServicos || $store.getters['servicos'].length === 0"
             :items="$store.getters['servicos']"
-            item-text="nome"
+            item-title="nome"
             item-value="codigo"
             required
           >
@@ -44,17 +47,17 @@
         <v-col>
           <!-- Referência -->
           <v-text-field
+            v-model="referencia"
             prepend-icon="mdi-numeric"
             label="Número de Referência"
-            v-model="referencia"
             :rules="validation.referencia"
             :counter="20"
-          ></v-text-field>
+          />
         </v-col>
         <v-col>
           <!-- Competência -->
           <v-menu
-            :close-on-click="true"
+            :persistent="!(true)"
             :close-on-content-click="true"
             :return-value="competencia"
             transition="scale-transition"
@@ -70,20 +73,20 @@
                 readonly
                 v-bind="attrs"
                 v-on="on"
-              ></v-text-field>
+              />
             </template>
             <v-date-picker
               v-model="competencia"
               type="month"
               no-title
               scrollable
-            ></v-date-picker>
+            />
           </v-menu>
         </v-col>
         <v-col>
           <!-- Vencimento -->
           <v-menu
-            :close-on-click="true"
+            :persistent="!(true)"
             :close-on-content-click="true"
             :return-value="vencimento"
             transition="scale-transition"
@@ -98,15 +101,15 @@
                 prepend-icon="mdi-calendar"
                 readonly
                 v-bind="attrs"
-                v-on="on"
                 :rules="validation.vencimento"
-              ></v-text-field>
+                v-on="on"
+              />
             </template>
             <v-date-picker
               v-model="vencimento"
               no-title
               scrollable
-            ></v-date-picker>
+            />
           </v-menu>
         </v-col>
       </v-row>
@@ -114,88 +117,98 @@
         <v-col>
           <!-- Nome do Contribuinte -->
           <v-text-field
+            v-model="nomeContribuinte"
             prepend-icon="mdi-text-short"
             label="Nome do Contribuinte"
-            v-model="nomeContribuinte"
             :rules="validation.nomeContribuinte"
             :counter="45"
             required
-          ></v-text-field>
+          />
         </v-col>
         <v-col>
           <!-- CPF / CNPJ -->
           <v-text-field
+            v-model="cnpjCpfFormatted"
+            v-mask="cnpjCpfMask"
             prepend-icon="mdi-card-account-details"
             label="CPF / CNPJ"
-            v-model="cnpjCpfFormatted"
             :rules="validation.cnpjCpf"
-            validate-on-blur
-            v-mask="cnpjCpfMask"
+            validate-on="blur"
             required
-          ></v-text-field>
+          />
         </v-col>
       </v-row>
       <v-row>
         <v-col>
           <!-- Valor Principal -->
           <v-currency-field
+            v-model="valorPrincipal"
             prepend-icon="mdi-currency-brl"
             label="Valor Principal"
             hint="Valor do pagamento."
-            v-model="valorPrincipal"
             :rules="validation.valorPrincipal"
             required
-          ></v-currency-field>
+          />
         </v-col>
-        <v-icon small>mdi-minus</v-icon>
+        <v-icon size="small">
+          mdi-minus
+        </v-icon>
         <v-col>
           <!-- Valor Descontos -->
           <v-currency-field
+            v-model="valorDescontos"
             prepend-icon="mdi-currency-brl"
             label="Valor Descontos"
             hint="Valor dos descontos."
-            v-model="valorDescontos"
-          ></v-currency-field>
+          />
         </v-col>
-        <v-icon small>mdi-minus</v-icon>
+        <v-icon size="small">
+          mdi-minus
+        </v-icon>
         <v-col>
           <!-- Valor Deduções -->
           <v-currency-field
+            v-model="valorOutrasDeducoes"
             prepend-icon="mdi-currency-brl"
             label="Valor Deduções"
             hint="Valor de outras deduções."
-            v-model="valorOutrasDeducoes"
-          ></v-currency-field>
+          />
         </v-col>
-        <v-icon small>mdi-plus</v-icon>
+        <v-icon size="small">
+          mdi-plus
+        </v-icon>
         <v-col>
           <!-- Valor Multa -->
           <v-currency-field
+            v-model="valorMulta"
             prepend-icon="mdi-currency-brl"
             label="Valor Multa"
             hint="Valor da multa."
-            v-model="valorMulta"
-          ></v-currency-field>
+          />
         </v-col>
-        <v-icon small>mdi-plus</v-icon>
+        <v-icon size="small">
+          mdi-plus
+        </v-icon>
         <v-col>
           <!-- Valor Juros -->
           <v-currency-field
+            v-model="valorJuros"
             prepend-icon="mdi-currency-brl"
             label="Valor Juros"
             hint="Valor dos juros."
-            v-model="valorJuros"
-          ></v-currency-field>
+          />
         </v-col>
-        <v-icon small>mdi-plus</v-icon>
+        <v-icon size="small">
+          mdi-plus
+        </v-icon>
         <v-col>
           <!-- Valor Acréscimos -->
           <v-currency-field
+            v-model="valorOutrosAcrescimos"
             prepend-icon="mdi-currency-brl"
             label="Valor Acréscimos"
             hint="Valor de outros acréscimos."
-            v-model="valorOutrosAcrescimos"
-          ></v-currency-field>
+          />
         </v-col>
       </v-row>
       <v-row>
@@ -210,8 +223,8 @@
           </v-btn>
           <v-btn
             color="secondary"
-            @click="handleCancel()"
             :disabled="submitting"
+            @click="handleCancel()"
           >
             Cancelar
           </v-btn>
@@ -228,13 +241,6 @@
 
   export default {
     name: 'FormPagamento',
-    async fetch() {
-      await this.$store.dispatch('fetchUnidades')
-      .catch((error) => {
-        this.$toast.error('Ocorreu um erro ao carregar as Unidades: ' + error.message);
-        console.error(error);
-      });
-    },
     props: {
       submitting: {
         type: Boolean,
@@ -282,6 +288,13 @@
         },
         loadingServicos: false,
       }
+    },
+    async fetch() {
+      await this.$store.dispatch('fetchUnidades')
+      .catch((error) => {
+        this.$toast.error('Ocorreu um erro ao carregar as Unidades: ' + error.message);
+        console.error(error);
+      });
     },
     computed: {
       codigoServico: {
@@ -360,6 +373,10 @@
         ...mapMutations({ set: 'pagamento/valorOutrosAcrescimos' }),
       },
     },
+    created () {
+      this.$dayjs.extend(customParseFormat);
+      this.$dayjs.extend(isSameOrAfter);
+    },
     methods: {
       async fetchServicos(unidade_id) {
         this.loadingServicos = true;
@@ -382,10 +399,6 @@
         this.$refs.form.reset();
         this.$emit('cancel');
       },
-    },
-    created () {
-      this.$dayjs.extend(customParseFormat);
-      this.$dayjs.extend(isSameOrAfter);
     },
   }
 </script>

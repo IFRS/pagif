@@ -1,5 +1,8 @@
 <template>
-  <span class="d-inline-block pa-1 font-weight-medium white--text" :class="color(situacao)"><slot>{{ situacao }}</slot></span>
+  <span
+    class="d-inline-block pa-1 font-weight-medium text-white"
+    :class="color(situacao)"
+  ><slot>{{ situacao }}</slot></span>
 </template>
 
 <script>

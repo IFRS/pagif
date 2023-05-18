@@ -2,12 +2,17 @@
   <v-container>
     <v-row>
       <v-col>
-        <PageTitle>Editar Unidade Gestora "{{ this.$store.getters['unidade/nome'] }}"</PageTitle>
+        <PageTitle>Editar Unidade Gestora "{{ $store.getters['unidade/nome'] }}"</PageTitle>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <FormUnidade @ok="handleSubmit" @cancel="handleCancel" :tokenLoading="$fetchState.pending" :submitting="submitting"></FormUnidade>
+        <FormUnidade
+          :token-loading="$fetchState.pending"
+          :submitting="submitting"
+          @ok="handleSubmit"
+          @cancel="handleCancel"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -17,8 +22,13 @@
   export default {
     name: 'EditarUnidade',
     layout: 'admin',
-    head: {
-      title: 'Edição de Unidade',
+    validate({ app }) {
+      return app.$acl.can('update', 'Unidade');
+    },
+    data() {
+      return {
+        submitting: false,
+      }
     },
     async fetch() {
       await this.$store.dispatch('unidade/fetchToken')
@@ -27,10 +37,11 @@
         console.error(error);
       });
     },
-    data() {
-      return {
-        submitting: false,
-      }
+    head: {
+      title: 'Edição de Unidade',
+    },
+    unmounted () {
+      this.$store.commit('unidade/clear');
     },
     methods: {
       async handleSubmit() {
@@ -56,12 +67,6 @@
           path: '/admin/unidades',
         });
       },
-    },
-    destroyed () {
-      this.$store.commit('unidade/clear');
-    },
-    validate({ app }) {
-      return app.$acl.can('update', 'Unidade');
     },
   }
 </script>

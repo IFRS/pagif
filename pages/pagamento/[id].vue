@@ -2,7 +2,10 @@
   <v-container>
     <v-row>
       <v-col>
-        <v-card :loading="$fetchState.pending" :disabled="$fetchState.pending">
+        <v-card
+          :loading="$fetchState.pending"
+          :disabled="$fetchState.pending"
+        >
           <v-card-title primary-title>
             Pagamento {{ $store.getters['pagamento/idPagamento'] }}
           </v-card-title>
@@ -11,7 +14,9 @@
               Pagamento no valor de <strong>R$ {{ valorPrincipal | int_to_real }}</strong> para <strong>{{ nomeUnidade }}</strong> pelo servi&ccedil;o <strong>{{ nomeServico }} ({{ codigoServico }})</strong>.
             </p>
             <p>
-              O pagamento <template v-if="competencia">referente ao m&ecirc;s <strong>{{ $dayjs(competencia, 'YYYY-MM').format('MM/YYYY') }}</strong>&nbsp;</template>est&aacute; em nome de <strong>{{ nomeContribuinte }}<template v-if="cnpjCpf">&nbsp;({{ cnpjCpf | cnpj_cpf }})</template></strong>.
+              O pagamento <template v-if="competencia">
+                referente ao m&ecirc;s <strong>{{ $dayjs(competencia, 'YYYY-MM').format('MM/YYYY') }}</strong>&nbsp;
+              </template>est&aacute; em nome de <strong>{{ nomeContribuinte }}<template v-if="cnpjCpf">&nbsp;({{ cnpjCpf | cnpj_cpf }})</template></strong>.
             </p>
             <p v-if="referencia">
               O n&uacute;mero de refer&ecirc;ncia atrelado a esse pagamento &eacute; <strong>{{ referencia }}</strong>.
@@ -33,7 +38,9 @@
               type="info"
               text
             >
-              Pagamento n&atilde;o pode ser realizado por j&aacute; ter sido iniciado. Verifique mais informa&ccedil;&otilde;es sobre esse Pagamento na <NuxtLink :to="{ name: 'consulta-id', params: { id: idPagamento } }">p&aacute;gina de consulta</NuxtLink>.
+              Pagamento n&atilde;o pode ser realizado por j&aacute; ter sido iniciado. Verifique mais informa&ccedil;&otilde;es sobre esse Pagamento na <NuxtLink :to="{ name: 'consulta-id', params: { id: idPagamento } }">
+                p&aacute;gina de consulta
+              </NuxtLink>.
             </v-alert>
 
             <v-alert
@@ -41,7 +48,9 @@
               type="info"
               text
             >
-              Pagamento n&atilde;o pode ser realizado por j&aacute; ter sido conclu&iacute;do. Verifique mais informa&ccedil;&otilde;es sobre esse Pagamento na <NuxtLink :to="{ name: 'consulta-id', params: { id: idPagamento } }">p&aacute;gina de consulta</NuxtLink>.
+              Pagamento n&atilde;o pode ser realizado por j&aacute; ter sido conclu&iacute;do. Verifique mais informa&ccedil;&otilde;es sobre esse Pagamento na <NuxtLink :to="{ name: 'consulta-id', params: { id: idPagamento } }">
+                p&aacute;gina de consulta
+              </NuxtLink>.
             </v-alert>
 
             <v-alert
@@ -49,7 +58,9 @@
               type="info"
               text
             >
-              Pagamento n&atilde;o pode ser realizado por j&aacute; ter sido finalizado. Verifique mais informa&ccedil;&otilde;es sobre esse Pagamento na <NuxtLink :to="{ name: 'consulta-id', params: { id: idPagamento } }">p&aacute;gina de consulta</NuxtLink>.
+              Pagamento n&atilde;o pode ser realizado por j&aacute; ter sido finalizado. Verifique mais informa&ccedil;&otilde;es sobre esse Pagamento na <NuxtLink :to="{ name: 'consulta-id', params: { id: idPagamento } }">
+                p&aacute;gina de consulta
+              </NuxtLink>.
             </v-alert>
 
             <v-alert
@@ -63,7 +74,7 @@
           <v-card-actions>
             <v-btn
               color="secondary"
-              text
+              variant="text"
               :to="{ name: 'pagamento' }"
             >
               Voltar
@@ -71,7 +82,7 @@
             <v-btn
               v-if="situacao?.codigo === 'CRIADO'"
               :disabled="mostrarPagamento"
-              text
+              variant="text"
               color="primary"
               @click="mostrarPagamento = true"
             >
@@ -96,7 +107,7 @@
             class="iframe-epag"
             scrolling="no"
             :src="$store.getters['pagamento/proximaUrl'] + '&btnConcluir=true' + (!$store.getters['config/darkMode'] ? '&tema=tema-light' : '')"
-          ></iframe>
+          />
         </v-card>
       </v-col>
     </v-row>
@@ -109,9 +120,6 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'Pagamento',
-  head: {
-    title: 'Pagamento',
-  },
   directives: {
     'resize-iframe': {
       bind(el, { value = {} }) {
@@ -126,6 +134,9 @@ export default {
     return {
       mostrarPagamento: false,
     }
+  },
+  head: {
+    title: 'Pagamento',
   },
   computed: {
     idPagamento: {
@@ -176,6 +187,9 @@ export default {
   mounted() {
     window.addEventListener('message', this.retornoPagtesouro, false);
   },
+  unmounted() {
+    this.$store.commit('pagamento/clear');
+  },
   methods: {
     retornoPagtesouro(event) {
       // Só confiar em eventos oriundos do PagTesouro.
@@ -187,9 +201,6 @@ export default {
         this.$router.push({ name: 'index' });
       }
     },
-  },
-  destroyed() {
-    this.$store.commit('pagamento/clear');
   },
 }
 </script>

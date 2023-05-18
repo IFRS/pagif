@@ -1,18 +1,21 @@
 <template>
-  <v-form ref="form" @submit.prevent="handleSubmit()">
+  <v-form
+    ref="form"
+    @submit.prevent="handleSubmit()"
+  >
     <v-container>
       <v-row>
         <v-col>
           <v-text-field
+            v-model="email"
             prepend-icon="mdi-text-short"
             label="E-mail"
             hint="E-mail da conta Google para acesso."
-            v-model="email"
             :rules="validation.email"
-            validate-on-blur
+            validate-on="blur"
             :disabled="!!id"
             required
-          ></v-text-field>
+          />
         </v-col>
       </v-row>
 
@@ -27,7 +30,9 @@
       <v-row>
         <v-col>
           <v-card tag="fieldset">
-            <v-card-title tag="legend">Permiss&otilde;es Gerais</v-card-title>
+            <v-card-title tag="legend">
+              Permiss&otilde;es Gerais
+            </v-card-title>
             <v-card-text>
               <v-row>
                 <v-col v-if="$acl.can('manage', 'all')">
@@ -37,9 +42,12 @@
                     label="super admin"
                     :value="JSON.stringify({ action: 'manage', subject: 'all' })"
                     :disabled="user_is_me"
-                  ></v-switch>
+                  />
                 </v-col>
-                <v-col v-for="(actions, subject) in all_abilities.geral" :key="subject">
+                <v-col
+                  v-for="(actions, subject) in all_abilities.geral"
+                  :key="subject"
+                >
                   <strong>{{ subject }}</strong>
                   <v-switch
                     v-for="(action, a) in actions"
@@ -48,7 +56,7 @@
                     :label="action"
                     :value="JSON.stringify({ action: action, subject: subject })"
                     :disabled="user_is_me"
-                  ></v-switch>
+                  />
                 </v-col>
               </v-row>
             </v-card-text>
@@ -56,19 +64,30 @@
         </v-col>
       </v-row>
 
-      <h3 class="mt-6">Permiss&otilde;es por Unidade Gestora</h3>
+      <h3 class="mt-6">
+        Permiss&otilde;es por Unidade Gestora
+      </h3>
 
       <v-row>
-        <v-col cols="auto" md="6" lg="4" xl="3" v-for="(unidade, i) in $store.getters['unidades']" :key="i">
+        <v-col
+          v-for="(unidade, i) in $store.getters['unidades']"
+          :key="i"
+          cols="auto"
+          md="6"
+          lg="4"
+          xl="3"
+        >
           <v-card tag="fieldset">
-            <v-card-title tag="legend">{{ unidade.nome }}</v-card-title>
+            <v-card-title tag="legend">
+              {{ unidade.nome }}
+            </v-card-title>
             <v-card-text>
               <v-switch
                 v-model="abilities"
                 label="read"
                 :value="JSON.stringify({ action: 'read', subject: 'Unidade', conditions: { '_id': unidade._id } })"
                 :disabled="user_is_me"
-              ></v-switch>
+              />
               <template v-for="(actions, subject) in all_abilities.porUnidade">
                 <strong>{{ subject }}</strong>
                 <v-switch
@@ -78,7 +97,7 @@
                   :label="action"
                   :value="JSON.stringify({ action: action, subject: subject, conditions: { 'unidade': unidade._id } })"
                   :disabled="user_is_me"
-                ></v-switch>
+                />
               </template>
             </v-card-text>
           </v-card>
@@ -97,8 +116,8 @@
           </v-btn>
           <v-btn
             color="secondary"
-            @click="handleCancel()"
             :disabled="submitting"
+            @click="handleCancel()"
           >
             Cancelar
           </v-btn>
@@ -114,13 +133,6 @@
 
   export default {
     name: 'FormUsuario',
-    async fetch() {
-      await this.$store.dispatch('fetchUnidades')
-      .catch((error) => {
-        this.$toast.error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.message);
-        console.error(error);
-      });
-    },
     props: {
       submitting: {
         type: Boolean,
@@ -138,6 +150,13 @@
         },
         all_abilities: all_abilities,
       }
+    },
+    async fetch() {
+      await this.$store.dispatch('fetchUnidades')
+      .catch((error) => {
+        this.$toast.error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.message);
+        console.error(error);
+      });
     },
     computed: {
       user_is_me() {

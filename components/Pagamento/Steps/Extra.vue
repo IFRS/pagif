@@ -1,17 +1,22 @@
 <template>
-  <v-form ref="form" v-on="$listeners">
-    <p class="body-2 text--secondary">As informações abaixo são opcionais.</p>
+  <v-form
+    ref="form"
+    v-on="$listeners"
+  >
+    <p class="text-body-2 text--secondary">
+      As informações abaixo são opcionais.
+    </p>
 
     <v-text-field
+      v-model="referencia"
       prepend-icon="mdi-numeric"
       label="Número de Referência"
-      v-model="referencia"
       :rules="validation.referencia"
       :counter="20"
-    ></v-text-field>
+    />
 
     <v-menu
-      :close-on-click="true"
+      :persistent="!(true)"
       :close-on-content-click="true"
       :return-value="competencia"
       transition="scale-transition"
@@ -27,14 +32,14 @@
           readonly
           v-bind="attrs"
           v-on="on"
-        ></v-text-field>
+        />
       </template>
       <v-date-picker
         v-model="competencia"
         type="month"
         no-title
         scrollable
-      ></v-date-picker>
+      />
     </v-menu>
   </v-form>
 </template>

@@ -1,14 +1,17 @@
 <template>
-  <v-form ref="form" v-on="$listeners">
+  <v-form
+    ref="form"
+    v-on="$listeners"
+  >
     <v-currency-field
+      v-model="valorPrincipal"
       prepend-icon="mdi-currency-brl"
       label="Valor"
       hint="Valor total do pagamento."
-      v-model="valorPrincipal"
       :rules="validation"
       required
       class="required"
-    ></v-currency-field>
+    />
   </v-form>
 </template>
 

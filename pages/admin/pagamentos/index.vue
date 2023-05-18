@@ -4,16 +4,25 @@
       <v-col>
         <PageTitle>
           Pagamentos
-          <small v-if="!filtros || !filtros.datas || filtros.datas.length === 0" class="info--text text-caption float-md-right d-block d-md-inline-block"><v-icon color="info" small>mdi-information-outline</v-icon> Exibindo Pagamentos dos &uacute;ltimos <strong>30 dias</strong>. Para alterar esse comportamento, utilize os Filtros.</small>
+          <small
+            v-if="!filtros || !filtros.datas || filtros.datas.length === 0"
+            class="text-info text-caption float-md-right d-block d-md-inline-block"
+          ><v-icon
+            color="info"
+            size="small"
+          >mdi-information-outline</v-icon> Exibindo Pagamentos dos &uacute;ltimos <strong>30 dias</strong>. Para alterar esse comportamento, utilize os Filtros.</small>
         </PageTitle>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <FilterPainel v-model="showFiltros" @filtrar="handleFiltrar">
-          <FilterUnidades></FilterUnidades>
-          <FilterSituacoes></FilterSituacoes>
-          <FilterDatas></FilterDatas>
+        <FilterPainel
+          v-model="showFiltros"
+          @filtrar="handleFiltrar"
+        >
+          <FilterUnidades />
+          <FilterSituacoes />
+          <FilterDatas />
         </FilterPainel>
         <v-data-table
           class="pagamentos"
@@ -34,12 +43,16 @@
                 single-line
                 hide-details
                 class="mr-5"
-              ></v-text-field>
-              <v-btn text @click="showFiltros = !showFiltros" :color="(Object.values(filtros).length > 0) ? 'accent' : ''">
+              />
+              <v-btn
+                variant="text"
+                :color="(Object.values(filtros).length > 0) ? 'accent' : ''"
+                @click="showFiltros = !showFiltros"
+              >
                 <v-icon>mdi-filter-variant</v-icon>
                 Filtros
               </v-btn>
-              <v-spacer></v-spacer>
+              <v-spacer />
               <v-btn
                 class="mr-2"
                 color="secondary"
@@ -65,36 +78,46 @@
             {{ value | cnpj_cpf }}
           </template>
           <template #item.valor="{ item }">
-            <v-icon small>mdi-currency-brl</v-icon> {{ handleValor(item) || '-' }}
+            <v-icon size="small">
+              mdi-currency-brl
+            </v-icon> {{ handleValor(item) || '-' }}
           </template>
           <template #item.situacao="{ value }">
-            <pagamento-situacao :situacao="value.codigo" class="mt-1"></pagamento-situacao>
+            <pagamento-situacao
+              :situacao="value.codigo"
+              class="mt-1"
+            />
             <template v-if="value.data">
               <br>
               <small>{{ $dayjs(value.data).format('DD/MM/YYYY HH:mm') }}</small>
             </template>
           </template>
           <template #item.actions="{ item }">
-            <v-progress-circular indeterminate :size="20" :width="2" v-if="item.idPagamento === loadingPagamento"></v-progress-circular>
+            <v-progress-circular
+              v-if="item.idPagamento === loadingPagamento"
+              indeterminate
+              :size="20"
+              :width="2"
+            />
             <v-menu
               v-else
-              bottom
-              left
+              location="bottom"
+              location="left"
               :offset-x="true"
               :close-on-content-click="true"
             >
               <template #activator="{ on, attrs }">
                 <v-btn
                   v-bind="attrs"
-                  v-on="on"
                   icon
                   :disabled="$acl.cannot('update', 'Pagamento') || $acl.cannot('delete', 'Pagamento')"
+                  v-on="on"
                 >
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
               </template>
 
-              <v-list dense>
+              <v-list density="compact">
                 <v-list-item
                   v-if="$acl.can('update', 'Pagamento')"
                   :disabled="(item.tipoPagamentoEscolhido === 'BOLETO') || ['CONCLUIDO', 'REJEITADO', 'CANCELADO'].includes(item.situacao.codigo)"
@@ -117,9 +140,9 @@
               </v-list>
             </v-menu>
           </template>
-          <template slot="no-data">
+          <template #no-data>
             <v-alert
-              dense
+              density="compact"
               text
               type="info"
               class="my-3"
@@ -143,17 +166,17 @@
           Deletar o Pagamento "{{ $store.getters['pagamento/id'] }}"?
         </v-card-title>
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <v-spacer />
           <v-btn
             color="secondary"
-            text
+            variant="text"
             @click="closeDelete()"
           >
             Cancelar
           </v-btn>
           <v-btn
             color="danger"
-            text
+            variant="text"
             @click="deletePagamento()"
           >
             Confirmar
@@ -170,7 +193,7 @@
     >
       <pagamento-detalhes private>
         <v-btn
-          text
+          variant="text"
           color="primary"
           @click="hidePagamento"
         >
@@ -187,9 +210,6 @@
   export default {
     name: 'Pagamentos',
     layout: 'admin',
-    head: {
-      title: 'Lista de Pagamentos',
-    },
     data() {
       return {
         confirmDialog: false,
@@ -216,6 +236,9 @@
         filtros: {},
       }
     },
+    head: {
+      title: 'Lista de Pagamentos',
+    },
     computed: {
       pagamentos: {
         ...mapGetters({ get: 'pagamentos' }),
@@ -239,7 +262,7 @@
     methods: {
       handleValor(item) {
         if (!item.valor) {
-          let valor = item.valorPrincipal
+          const valor = item.valorPrincipal
             - (item.valorDescontos || 0)
             - (item.valorOutrasDeducoes || 0)
             + (item.valorMulta || 0)

@@ -2,7 +2,7 @@
   <v-app dark>
     <v-navigation-drawer
       v-model="drawer"
-      :mini-variant="miniVariant"
+      :rail="miniVariant"
       clipped
       fixed
       app
@@ -10,8 +10,8 @@
       <v-list>
         <v-list-item
           v-for="(item, i) in items"
-          :key="i"
           v-if="item.enabled"
+          :key="i"
           :to="item.to"
           :exact="item.exact || false"
           router
@@ -20,21 +20,21 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title v-text="item.title"></v-list-item-title>
+            <v-list-item-title v-text="item.title" />
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <template slot="append">
-        <v-list dense>
+      <template #append>
+        <v-list density="compact">
           <v-list-item
-            dense
+            density="compact"
             @click.stop="miniVariant = !miniVariant"
           >
             <v-list-item-icon>
               <v-icon>{{ (miniVariant) ? 'mdi-chevron-double-right' : 'mdi-chevron-double-left' }}</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title v-text="(miniVariant) ? 'Expandir menu' : 'Recolher menu'"></v-list-item-title>
+              <v-list-item-title v-text="(miniVariant) ? 'Expandir menu' : 'Recolher menu'" />
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -45,42 +45,58 @@
       fixed
       app
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>Administração do Sistema de Pagamentos</v-toolbar-title>
 
-      <v-spacer></v-spacer>
+      <v-spacer />
 
-      <DarkMode></DarkMode>
-      <UserMenu admin></UserMenu>
+      <DarkMode />
+      <UserMenu admin />
     </v-app-bar>
     <v-main>
       <slot />
       <Toast />
     </v-main>
-    <v-footer app class="text-body-2 justify-space-between">
-      <span><a href="https://www.gov.br/tesouronacional/pt-br/gru-e-pag-tesouro/pagtesouro" class="text-decoration-none grey--text" :class="{ 'text--darken-2': !$store.getters['config/darkMode'] }">PagIF - Sistema de Pagamentos integrado ao PagTesouro</a></span>
-      <span><a href="https://ifrs.edu.br/" class="text-decoration-none grey--text" :class="{ 'text--darken-2': !$store.getters['config/darkMode'] }">Desenvolvido por Instituto Federal do Rio Grande do Sul</a></span>
+    <v-footer
+      app
+      class="text-body-2 justify-space-between"
+    >
+      <span><a
+        href="https://www.gov.br/tesouronacional/pt-br/gru-e-pag-tesouro/pagtesouro"
+        class="text-decoration-none text-grey"
+        :class="{ 'text--darken-2': !$store.getters['config/darkMode'] }"
+      >PagIF - Sistema de Pagamentos integrado ao PagTesouro</a></span>
+      <span><a
+        href="https://ifrs.edu.br/"
+        class="text-decoration-none text-grey"
+        :class="{ 'text--darken-2': !$store.getters['config/darkMode'] }"
+      >Desenvolvido por Instituto Federal do Rio Grande do Sul</a></span>
     </v-footer>
     <v-snackbar
       v-if="loaded"
-      :value="$acl.can('manage', 'Settings') && (!$store.getters['config/sigla'] || !$store.getters['config/orgao'])"
+      :model-value="$acl.can('manage', 'Settings') && (!$store.getters['config/sigla'] || !$store.getters['config/orgao'])"
       :timeout="-1"
       app
-      top
-      right
+      location="top"
+      location="right"
       multi-line
       vertical
       color="error"
     >
       A <em>sigla</em> e o <em>nome</em> do órgão ainda não foram preenchidos.
       <br>
-      Por favor, vá até o menu <NuxtLink :to="{ name: 'admin-config' }" class="white--text font-weight-bold">Configurações</NuxtLink> para definir esses valores.
+      Por favor, vá até o menu <NuxtLink
+        :to="{ name: 'admin-config' }"
+        class="text-white font-weight-bold"
+      >
+        Configurações
+      </NuxtLink> para definir esses valores.
     </v-snackbar>
-    <v-overlay :value="!loaded">
+    <v-overlay :model-value="!loaded">
       <v-progress-circular
         indeterminate
         size="64"
-      ></v-progress-circular>
+      />
     </v-overlay>
   </v-app>
 </template>
@@ -138,7 +154,7 @@ export default {
   mounted () {
     this.loaded = true;
   },
-  destroyed () {
+  unmounted () {
     this.$store.commit('clearUnidades');
     this.$store.commit('clearServicos');
     this.$store.commit('clearPagamentos');

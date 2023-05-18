@@ -1,15 +1,19 @@
 <template>
-  <v-tooltip bottom>
+  <v-tooltip location="bottom">
     <template #activator="{ on, attrs }">
-      <div v-bind="attrs" v-on="on" style="width: min-content;">
+      <div
+        v-bind="attrs"
+        style="width: min-content;"
+        v-on="on"
+      >
         <v-switch
           v-model="darkMode"
           inset
-          dense
+          density="compact"
           hide-details
           color="primary"
           prepend-icon="mdi-theme-light-dark"
-        ></v-switch>
+        />
       </div>
     </template>
     <span>Modo Escuro</span>

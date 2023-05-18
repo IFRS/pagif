@@ -7,7 +7,11 @@
     </v-row>
     <v-row>
       <v-col>
-        <FormPagamento @ok="handleSubmit" @cancel="handleCancel" :submitting="submitting"></FormPagamento>
+        <FormPagamento
+          :submitting="submitting"
+          @ok="handleSubmit"
+          @cancel="handleCancel"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -17,13 +21,19 @@
   export default {
     name: 'NovoPagamento',
     layout: 'admin',
-    head: {
-      title: 'Nova Cobrança',
+    validate({ app }) {
+      return app.$acl.can('create', 'Pagamento');
     },
     data() {
       return {
         submitting: false,
       }
+    },
+    head: {
+      title: 'Nova Cobrança',
+    },
+    unmounted () {
+      this.$store.commit('pagamento/clear');
     },
     methods: {
       async handleSubmit() {
@@ -50,12 +60,6 @@
           path: '/admin/pagamentos',
         });
       },
-    },
-    destroyed () {
-      this.$store.commit('pagamento/clear');
-    },
-    validate({ app }) {
-      return app.$acl.can('create', 'Pagamento');
     },
   }
 </script>

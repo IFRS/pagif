@@ -3,9 +3,11 @@
     <PagamentoDetalhes :loading="$fetchState.pending">
       <v-btn
         color="primary"
-        plain
+        variant="plain"
         :to="{ name: 'consulta' }"
-      >Voltar</v-btn>
+      >
+        Voltar
+      </v-btn>
     </PagamentoDetalhes>
   </v-container>
 </template>
@@ -20,7 +22,7 @@ export default {
       this.$router.push({ name: 'consulta' });
     })
   },
-  destroyed() {
+  unmounted() {
     this.$store.commit('pagamento/clear');
   },
 }

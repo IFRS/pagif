@@ -11,7 +11,7 @@
         :key="i"
       >
         <v-btn
-          x-large
+          size="x-large"
           @click="escolha(unidade)"
         >
           {{ unidade.nome }}

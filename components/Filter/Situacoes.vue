@@ -1,5 +1,8 @@
 <template>
-  <v-card flat tag="fieldset">
+  <v-card
+    flat
+    tag="fieldset"
+  >
     <v-card-subtitle tag="legend">
       Situa&ccedil;&otilde;es
     </v-card-subtitle>
@@ -12,7 +15,7 @@
         :value="situacao"
         dense
         class="mr-5"
-      ></v-checkbox>
+      />
     </v-card-text>
   </v-card>
 </template>

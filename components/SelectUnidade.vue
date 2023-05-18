@@ -1,19 +1,19 @@
 <template>
   <v-menu offset-y>
     <template #activator="{ on: menu, attrs }">
-      <v-tooltip left>
+      <v-tooltip location="left">
         <template #activator="{ on: tooltip }">
           <v-btn
             class="mr-3"
             color="primary"
-            text
+            variant="text"
             :loading="$fetchState.pending"
             :disabled="!unidade"
             v-bind="attrs"
             v-on="{ ...tooltip, ...menu }"
           >
             {{ unidade?.nome || 'Selecione uma Unidade' }}
-            <v-icon right>
+            <v-icon end>
               mdi-menu-down
             </v-icon>
           </v-btn>
@@ -76,7 +76,7 @@ export default {
       ...mapMutations({ set: 'config/unidade' }),
     },
   },
-  destroyed() {
+  unmounted() {
     this.$store.commit('clearUnidades');
   },
 }

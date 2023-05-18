@@ -18,53 +18,60 @@
                 {{ step.title }}
               </v-stepper-step>
 
-              <v-divider v-if="index != numberOfSteps" :key="index + '_divider'"></v-divider>
+              <v-divider
+                v-if="index != numberOfSteps"
+                :key="index + '_divider'"
+              />
             </template>
           </v-stepper-header>
 
           <v-stepper-items>
-            <v-stepper-content v-for="(step, index) in steps" :key="index" :step="index">
+            <v-stepper-content
+              v-for="(step, index) in steps"
+              :key="index"
+              :step="index"
+            >
               <component
-                class="mb-6"
                 :is="step.component"
                 :ref="'step' + index"
+                class="mb-6"
                 @submit.prevent="nextStep()"
                 @recaptcha="handleRecaptcha"
-              ></component>
+              />
 
               <v-toolbar
                 color="transparent"
                 flat
               >
                 <v-btn
-                  text
                   v-if="currentStep === 1"
+                  variant="text"
                   @click="$router.push({ name: 'pagamento' })"
                 >
                   Voltar
                 </v-btn>
                 <v-btn
-                  text
                   v-else
+                  variant="text"
                   :disabled="criandoPagamento"
                   @click="previousStep()"
                 >
                   Anterior
                 </v-btn>
 
-                <v-spacer></v-spacer>
+                <v-spacer />
 
                 <v-btn
-                  color="primary"
                   v-if="currentStep < numberOfSteps"
+                  color="primary"
                   @click="nextStep()"
                 >
                   Pr&oacute;ximo
                 </v-btn>
 
                 <v-btn
-                  color="success"
                   v-else-if="currentStep == numberOfSteps"
+                  color="success"
                   :disabled="!enablePagamento"
                   :loading="criandoPagamento"
                   @click="criarPagamento()"
@@ -91,7 +98,7 @@
 
           <v-list-item
             class="px-0"
-            two-line
+            lines="two"
           >
             <v-list-item-action>
               <v-btn
@@ -102,7 +109,9 @@
               </v-btn>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title style="user-select: all">{{ $store.getters['pagamento/idPagamento'] }}</v-list-item-title>
+              <v-list-item-title style="user-select: all">
+                {{ $store.getters['pagamento/idPagamento'] }}
+              </v-list-item-title>
               <v-list-item-subtitle>Código do Pagamento</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -111,22 +120,22 @@
             text
             type="warning"
             prominent
-            dense
+            density="compact"
           >
             Lembre-se, sem esse código <strong>não</strong> é possível retomar esse pagamento.
           </v-alert>
         </v-card-text>
         <v-card-actions>
           <v-btn
-            text
+            variant="text"
             color="secondary"
             :to="{ name: 'index' }"
           >
             Sair
           </v-btn>
-          <v-spacer></v-spacer>
+          <v-spacer />
           <v-btn
-            text
+            variant="text"
             color="primary"
             :to="{ name: 'pagamento-id', params: { id: $store.getters['pagamento/id'] } }"
           >
@@ -143,9 +152,6 @@ import copy from 'copy-to-clipboard';
 
 export default {
   name: 'PagamentoNovo',
-  head: {
-    title: 'Novo Pagamento',
-  },
   data() {
     return {
       enablePagamento: false,
@@ -176,10 +182,17 @@ export default {
       pagamentoConcluido: false,
     }
   },
+  head: {
+    title: 'Novo Pagamento',
+  },
   computed: {
     numberOfSteps() {
       return Object.keys(this.steps).length;
     }
+  },
+  unmounted () {
+    this.$store.commit('clearServicos');
+    this.$store.commit('pagamento/clear');
   },
   methods: {
     previousStep() {
@@ -233,10 +246,6 @@ export default {
         this.$toast.info('Seu navegador não suporta esse recurso. Por favor, copie manualmente.');
       }
     },
-  },
-  destroyed () {
-    this.$store.commit('clearServicos');
-    this.$store.commit('pagamento/clear');
   },
 }
 </script>

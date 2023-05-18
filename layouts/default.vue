@@ -5,18 +5,21 @@
       mobile-breakpoint="0"
       width="300"
       app
-      right
+      location="right"
       temporary
     >
-      <v-list nav two-line>
+      <v-list
+        nav
+        lines="two"
+      >
         <v-list-item>
-          <SelectUnidade></SelectUnidade>
+          <SelectUnidade />
         </v-list-item>
 
         <v-list-item>
           <v-toolbar flat>
-            <DarkMode></DarkMode>
-            <Autenticacao></Autenticacao>
+            <DarkMode />
+            <Autenticacao />
           </v-toolbar>
         </v-list-item>
       </v-list>
@@ -34,19 +37,22 @@
         </v-list>
       </template>
     </v-navigation-drawer>
-    <v-app-bar app elevation="1">
+    <v-app-bar
+      app
+      elevation="1"
+    >
       <v-img
         :src="$store.getters['config/darkMode'] ? '/img/govbr-white.svg' : '/img/govbr.svg'"
         :max-width="120"
         aspect-ratio="4/1"
         contain
         class="d-none d-md-block govbr"
-      ></v-img>
+      />
 
       <v-divider
         vertical
         class="d-none d-md-block separador"
-      ></v-divider>
+      />
 
       <NuxtLink
         :to="{ name: 'index' }"
@@ -56,57 +62,70 @@
         <client-only>
           <h1 class="titulo">
             Sistema de Pagamentos
-            <template v-if="orgao && sigla">do <abbr :title="orgao">{{ sigla }}</abbr></template>
-            <template v-else-if="sigla">do {{ sigla }}</template>
+            <template v-if="orgao && sigla">
+              do <abbr :title="orgao">{{ sigla }}</abbr>
+            </template>
+            <template v-else-if="sigla">
+              do {{ sigla }}
+            </template>
           </h1>
         </client-only>
       </NuxtLink>
 
-      <v-spacer></v-spacer>
+      <v-spacer />
 
       <template v-if="$vuetify.breakpoint.smAndDown">
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       </template>
       <template v-else>
-        <SelectUnidade></SelectUnidade>
+        <SelectUnidade />
 
-        <DarkMode></DarkMode>
+        <DarkMode />
 
-        <Autenticacao></Autenticacao>
+        <Autenticacao />
       </template>
     </v-app-bar>
     <v-main>
       <slot />
       <Toast />
     </v-main>
-    <v-footer color="footer" class="mt-4">
+    <v-footer
+      color="footer"
+      class="mt-4"
+    >
       <v-card
         flat
-        tile
+        rounded="0"
         color="footer"
         width="100%"
       >
         <client-only>
           <v-card-text>
-            <v-row dense class="align-center">
+            <v-row
+              dense
+              class="align-center"
+            >
               <v-col v-if="unidade?.imagem">
-                <v-tooltip top>
+                <v-tooltip location="top">
                   <template #activator="{ on, attrs }">
-                    <a :href="unidade?.link_url" style="display: inline-block;">
+                    <a
+                      :href="unidade?.link_url"
+                      style="display: inline-block;"
+                    >
                       <v-img
                         v-bind="attrs"
-                        v-on="on"
                         :src="unidade?.imagem"
                         :max-width="320"
                         contain
-                      ></v-img>
+                        v-on="on"
+                      />
                     </a>
                   </template>
                   <span>{{ unidade?.link_titulo }}</span>
                 </v-tooltip>
               </v-col>
 
-              <v-col class="white--text text-right">
+              <v-col class="text-white text-right">
                 <p>
                   <strong>{{ orgao }}</strong>
                   <template v-if="unidade?.nome">
@@ -114,28 +133,41 @@
                     {{ unidade.nome }}
                   </template>
                 </p>
-                <address v-if="unidade?.contato" class="contato" v-html="unidade.contato"></address>
+                <address
+                  v-if="unidade?.contato"
+                  class="contato"
+                  v-html="unidade.contato"
+                />
               </v-col>
             </v-row>
           </v-card-text>
         </client-only>
 
-        <v-divider dark></v-divider>
+        <v-divider dark />
 
-        <v-card-text class="text-center text-body-2 grey--text text--lighten-2">
-          PagIF - Sistema de Pagamentos integrado ao <a href="https://www.gov.br/tesouronacional/pt-br/gru-e-pag-tesouro/pagtesouro" class="grey--text text--lighten-2">PagTesouro</a>
+        <v-card-text class="text-center text-body-2 text-grey-lighten-2">
+          PagIF - Sistema de Pagamentos integrado ao <a
+            href="https://www.gov.br/tesouronacional/pt-br/gru-e-pag-tesouro/pagtesouro"
+            class="text-grey-lighten-2"
+          >PagTesouro</a>
           &ensp;&verbar;&ensp;
-          <a href="https://github.com/IFRS/pagif" class="grey--text text--lighten-2">C&oacute;digo-fonte</a>
+          <a
+            href="https://github.com/IFRS/pagif"
+            class="text-grey-lighten-2"
+          >C&oacute;digo-fonte</a>
           &ensp;&verbar;&ensp;
-          <a href="https://ifrs.edu.br/" class="grey--text text--lighten-2">Desenvolvido por Instituto Federal do Rio Grande do Sul</a>
+          <a
+            href="https://ifrs.edu.br/"
+            class="text-grey-lighten-2"
+          >Desenvolvido por Instituto Federal do Rio Grande do Sul</a>
         </v-card-text>
       </v-card>
     </v-footer>
-    <v-overlay :value="!loaded">
+    <v-overlay :model-value="!loaded">
       <v-progress-circular
         indeterminate
         size="64"
-      ></v-progress-circular>
+      />
     </v-overlay>
   </v-app>
 </template>

@@ -22,8 +22,8 @@
                 label="Buscar Usuários"
                 single-line
                 hide-details
-              ></v-text-field>
-              <v-spacer></v-spacer>
+              />
+              <v-spacer />
               <v-btn
                 class="mr-2"
                 color="secondary"
@@ -44,29 +44,29 @@
           </template>
           <template #item.actions="{ item }">
             <v-menu
-              bottom
-              left
+              location="bottom"
+              location="left"
               :offset-x="true"
               :close-on-content-click="false"
             >
               <template #activator="{ on, attrs }">
                 <v-btn
                   v-bind="attrs"
-                  v-on="on"
                   icon
                   :disabled="$acl.cannot('update', 'Usuario') || $acl.cannot('delete', 'Usuario')"
+                  v-on="on"
                 >
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
               </template>
 
-              <v-list dense>
+              <v-list density="compact">
                 <v-list-item
                   v-if="$acl.can('update', 'Usuario')"
                   @click="editUsuario(item)"
                 >
                   <v-list-item-icon><v-icon>mdi-pencil</v-icon></v-list-item-icon>
-                  <v-list-item-title>Editar {{ item.nome || item.email}}</v-list-item-title>
+                  <v-list-item-title>Editar {{ item.nome || item.email }}</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item
@@ -79,9 +79,9 @@
               </v-list>
             </v-menu>
           </template>
-          <template slot="no-data">
+          <template #no-data>
             <v-alert
-              dense
+              density="compact"
               type="info"
               class="my-3"
             >
@@ -101,17 +101,17 @@
           Deletar o Usu&aacute;rio "{{ $store.getters['usuario/nome'] || $store.getters['usuario/email'] }}"?
         </v-card-title>
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <v-spacer />
           <v-btn
             color="secondary"
-            text
+            variant="text"
             @click="closeDelete()"
           >
             Cancelar
           </v-btn>
           <v-btn
             color="danger"
-            text
+            variant="text"
             @click="deleteUsuario()"
           >
             Confirmar
@@ -126,8 +126,8 @@
   export default {
     name: 'Usuários',
     layout: 'admin',
-    head: {
-      title: 'Lista de Usuários',
+    validate({ app }) {
+      return app.$acl.can('read', 'Usuario');
     },
     data() {
       return {
@@ -146,6 +146,9 @@
         this.$toast.error('Ocorreu um erro ao carregar os Usuários: ' + error.message);
         console.error(error);
       });
+    },
+    head: {
+      title: 'Lista de Usuários',
     },
     methods: {
       editUsuario(usuario) {
@@ -173,9 +176,6 @@
           this.$toast.error('Erro ao tentar deletar o Usuário. ' + error.message);
         });
       },
-    },
-    validate({ app }) {
-      return app.$acl.can('read', 'Usuario');
     },
   };
 </script>

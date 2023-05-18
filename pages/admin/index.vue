@@ -2,14 +2,41 @@
   <v-container>
     <PageTitle>Administração</PageTitle>
     <v-row justify="center">
-      <v-col v-if="numUnidades" cols="12" md="3">
-        <AdminCount :num="numUnidades" icon="mdi-office-building-marker">Unidades</AdminCount>
+      <v-col
+        v-if="numUnidades"
+        cols="12"
+        md="3"
+      >
+        <AdminCount
+          :num="numUnidades"
+          icon="mdi-office-building-marker"
+        >
+          Unidades
+        </AdminCount>
       </v-col>
-      <v-col v-if="numServicos" cols="12" md="3">
-        <AdminCount :num="numServicos" icon="mdi-basket">Serviços</AdminCount>
+      <v-col
+        v-if="numServicos"
+        cols="12"
+        md="3"
+      >
+        <AdminCount
+          :num="numServicos"
+          icon="mdi-basket"
+        >
+          Serviços
+        </AdminCount>
       </v-col>
-      <v-col v-if="numPagamentos" cols="12" md="3">
-        <AdminCount :num="numPagamentos" icon="mdi-credit-card-outline">Pagamentos</AdminCount>
+      <v-col
+        v-if="numPagamentos"
+        cols="12"
+        md="3"
+      >
+        <AdminCount
+          :num="numPagamentos"
+          icon="mdi-credit-card-outline"
+        >
+          Pagamentos
+        </AdminCount>
       </v-col>
     </v-row>
   </v-container>
@@ -19,9 +46,6 @@
 export default {
   name: 'AdminIndex',
   layout: 'admin',
-  head: {
-    title: 'Área Administrativa',
-  },
   data() {
     return {
       numUnidades: null,
@@ -40,6 +64,9 @@ export default {
       this.$toast.error('Ocorreu um erro ao carregar as informações sobre o sistema: ' + error.message);
       console.error(error);
     });
+  },
+  head: {
+    title: 'Área Administrativa',
   },
 }
 </script>

@@ -7,7 +7,11 @@
     </v-row>
     <v-row>
       <v-col>
-        <FormServico @ok="handleSubmit" @cancel="handleCancel" :submitting="submitting"></FormServico>
+        <FormServico
+          :submitting="submitting"
+          @ok="handleSubmit"
+          @cancel="handleCancel"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -17,13 +21,19 @@
   export default {
     name: 'NovoServico',
     layout: 'admin',
-    head: {
-      title: 'Cadastro de Novo Serviço',
+    validate({ app }) {
+      return app.$acl.can('create', 'Servico');
     },
     data() {
       return {
         submitting: false,
       }
+    },
+    head: {
+      title: 'Cadastro de Novo Serviço',
+    },
+    unmounted () {
+      this.$store.commit('servico/clear');
     },
     methods: {
       async handleSubmit() {
@@ -49,12 +59,6 @@
           path: '/admin/servicos',
         });
       },
-    },
-    destroyed () {
-      this.$store.commit('servico/clear');
-    },
-    validate({ app }) {
-      return app.$acl.can('create', 'Servico');
     },
   }
 </script>

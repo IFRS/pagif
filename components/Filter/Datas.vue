@@ -1,5 +1,8 @@
 <template>
-  <v-card flat tag="fieldset">
+  <v-card
+    flat
+    tag="fieldset"
+  >
     <v-card-subtitle tag="legend">
       Datas
     </v-card-subtitle>
@@ -8,7 +11,7 @@
         <v-col>
           <!-- Datas -->
           <v-menu
-            :close-on-click="true"
+            :persistent="!(true)"
             :close-on-content-click="false"
             :return-value="datas"
             transition="scale-transition"
@@ -24,9 +27,9 @@
                 readonly
                 clearable
                 v-bind="attrs"
-                v-on="on"
                 :rules="validation.datas"
-              ></v-text-field>
+                v-on="on"
+              />
             </template>
             <v-date-picker
               v-model="datas"
@@ -35,7 +38,7 @@
               show-adjacent-months
               no-title
               scrollable
-            ></v-date-picker>
+            />
           </v-menu>
         </v-col>
       </v-row>
@@ -78,7 +81,7 @@ export default {
       get() {
         if (!this.datas || this.datas.length === 0) return null;
 
-        let formatted = this.datas.map((data) => {
+        const formatted = this.datas.map((data) => {
           return this.$dayjs(data).format('DD/MM/YYYY');
         });
 
@@ -92,8 +95,8 @@ export default {
   watch: {
     datas(newDatas) {
       if (newDatas.length === 2) {
-        let dataInicial = this.$dayjs(newDatas[0]);
-        let dataFinal = this.$dayjs(newDatas[1]);
+        const dataInicial = this.$dayjs(newDatas[0]);
+        const dataFinal = this.$dayjs(newDatas[1]);
 
         if (dataFinal.isBefore(dataInicial, 'day')) newDatas.reverse();
       }

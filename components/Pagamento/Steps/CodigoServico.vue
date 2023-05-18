@@ -1,26 +1,29 @@
 <template>
-  <v-form ref="form" v-on="$listeners">
+  <v-form
+    ref="form"
+    v-on="$listeners"
+  >
     <v-text-field
       prepend-icon="mdi-office-building-marker"
       label="Unidade"
       disabled
-      :value="$store.getters['config/unidade']?.nome"
-    ></v-text-field>
+      :model-value="$store.getters['config/unidade']?.nome"
+    />
 
     <v-autocomplete
+      v-model="servico"
       prepend-icon="mdi-basket"
       label="Serviço"
       no-data-text="Nenhum Serviço encontrado na Unidade atual."
-      v-model="servico"
       :rules="validation"
       :loading="$fetchState.pending"
       :disabled="$fetchState.pending"
       :items="$store.getters['servicos']"
-      :item-text="item => `${item.nome} (${item.codigo})`"
+      :item-title="item => `${item.nome} (${item.codigo})`"
       :item-value="item => ({ codigo: item.codigo, nome: item.nome })"
       required
       class="required"
-    ></v-autocomplete>
+    />
   </v-form>
 </template>
 
