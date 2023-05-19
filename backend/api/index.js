@@ -1,5 +1,5 @@
-require('../db');
 require('dotenv').config();
+require('../db');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -68,7 +68,9 @@ app.use(notifica);
 app.use(usuarios);
 app.use(settings);
 
-export default app;
+module.exports = app;
+
+// export default app;
 
 // module.exports = {
 //   path: '/api',

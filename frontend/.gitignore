@@ -1,0 +1,10 @@
+dist
+.nuxt
+.nuxt-*
+.output
+.gen
+*.log
+
+node_modules/
+dist/
+npm-debug.log

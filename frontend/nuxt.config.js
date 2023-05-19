@@ -1,5 +1,4 @@
 import { defineNuxtConfig } from 'nuxt/config';
-import { fork } from 'child_process';
 import viteVuetify from 'vite-plugin-vuetify'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { pt } from 'vuetify/locale'
@@ -194,13 +193,6 @@ export default defineNuxtConfig({
         redirect: (to) => {
           return { name: 'index', query: { unidade: to.params.slug } };
         },
-      });
-    },
-    listen: () => {
-      let fila = fork('./queue/process.js');
-
-      fila.on('close', (code) => {
-        console.log(`Fila terminada com o código: ${code}`);
       });
     },
   },
