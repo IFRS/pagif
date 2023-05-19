@@ -11,7 +11,7 @@
           :to="item.to"
           :exact="item.exact || false"
           router
-          :icon="item.icon"
+          :prepend-icon="item.icon"
         >
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
@@ -20,7 +20,7 @@
         <v-list density="compact">
           <v-list-item
             density="compact"
-            :icon="(miniVariant) ? 'mdi-chevron-double-right' : 'mdi-chevron-double-left'"
+            :prepend-icon="(miniVariant) ? 'mdi-chevron-double-right' : 'mdi-chevron-double-left'"
             @click.stop="miniVariant = !miniVariant"
           >
             <v-list-item-title>{{ (miniVariant) ? 'Expandir menu' : 'Recolher menu' }}</v-list-item-title>

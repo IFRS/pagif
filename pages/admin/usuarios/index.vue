@@ -61,7 +61,7 @@
               <v-list density="compact">
                 <v-list-item
                   v-if="$acl.can('update', 'Usuario')"
-                  icon="mdi-pencil"
+                  prepend-icon="mdi-pencil"
                   @click="editUsuario(item)"
                 >
                   <v-list-item-title>Editar {{ item.nome || item.email }}</v-list-item-title>
@@ -69,7 +69,7 @@
 
                 <v-list-item
                   v-if="$acl.can('delete', 'Usuario')"
-                  icon="mdi-delete"
+                  prepend-icon="mdi-delete"
                   @click.stop="confirmDelete(item)"
                 >
                   <v-list-item-title>Deletar {{ item.nome || item.email }}</v-list-item-title>

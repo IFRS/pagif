@@ -61,17 +61,17 @@
               <v-list density="compact">
                 <v-list-item
                   v-if="$acl.can('update', 'Servico')"
+                  prepend-icon="mdi-pencil"
                   @click="editServico(item)"
                 >
-                  <v-list-item-icon><v-icon>mdi-pencil</v-icon></v-list-item-icon>
                   <v-list-item-title>Editar {{ item.nome }}</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item
                   v-if="$acl.can('delete', 'Servico')"
+                  prepend-icon="mdi-delete"
                   @click.stop="confirmDelete(item)"
                 >
-                  <v-list-item-icon><v-icon>mdi-delete</v-icon></v-list-item-icon>
                   <v-list-item-title>Deletar {{ item.nome }}</v-list-item-title>
                 </v-list-item>
               </v-list>

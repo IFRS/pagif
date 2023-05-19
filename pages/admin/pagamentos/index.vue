@@ -118,21 +118,19 @@
               <v-list density="compact">
                 <v-list-item
                   v-if="$acl.can('update', 'Pagamento')"
+                  prepend-icon="mdi-cloud-refresh"
                   :disabled="(item.tipoPagamentoEscolhido === 'BOLETO') || ['CONCLUIDO', 'REJEITADO', 'CANCELADO'].includes(item.situacao.codigo)"
                   @click.stop="consultaPagamento(item)"
                 >
-                  <v-list-item-icon>
-                    <v-icon>mdi-cloud-refresh</v-icon>
-                  </v-list-item-icon>
                   <v-list-item-title>Consulta Pagtesouro</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item
                   v-if="$acl.can('delete', 'Pagamento')"
+                  prepend-icon="mdi-delete"
                   :disabled="item.situacao.codigo !== 'CRIADO'"
                   @click.stop="confirmDelete(item)"
                 >
-                  <v-list-item-icon><v-icon>mdi-delete</v-icon></v-list-item-icon>
                   <v-list-item-title>Deletar Pagamento</v-list-item-title>
                 </v-list-item>
               </v-list>

@@ -63,7 +63,7 @@
                   :loading="tokenLoading === item._id"
                   @click="showTokenDialog(item)"
                 >
-                  <v-list-item-icon>
+                  <template #prepend>
                     <v-progress-circular
                       v-if="tokenLoading === item._id"
                       indeterminate
@@ -73,23 +73,23 @@
                     <v-icon v-else>
                       mdi-key
                     </v-icon>
-                  </v-list-item-icon>
+                  </template>
                   <v-list-item-title>Ver Token de {{ item.nome }}</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item
                   v-if="$acl.can('update', 'Unidade')"
+                  prepend-icon="mdi-pencil"
                   @click="editUnidade(item)"
                 >
-                  <v-list-item-icon><v-icon>mdi-pencil</v-icon></v-list-item-icon>
                   <v-list-item-title>Editar {{ item.nome }}</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item
                   v-if="$acl.can('delete', 'Unidade')"
+                  prepend-icon="mdi-delete"
                   @click="confirmDelete(item)"
                 >
-                  <v-list-item-icon><v-icon>mdi-delete</v-icon></v-list-item-icon>
                   <v-list-item-title>Deletar {{ item.nome }}</v-list-item-title>
                 </v-list-item>
               </v-list>
