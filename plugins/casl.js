@@ -1,18 +1,22 @@
 import { createMongoAbility } from "@casl/ability";
+import { defineNuxtPlugin } from 'nuxt'
+import { useFetch } from "nuxt/app";
+import { useAuthStore } from "~/store/auth";
 
-export default async ({ app, store }, inject) => {
+export default defineNuxtPlugin(async (nuxtApp) => {
+  const store = useAuthStore();
   let user = null;
 
   if (process.server) {
-    user = await app.$axios.$get('/api/auth/me');
+    user = await useFetch('/api/auth/me');
   }
 
   if (process.client) {
-    user = store.getters['auth/user'];
+    user = store.user;
   }
 
   if (user) {
     const ability = createMongoAbility(user.abilities);
-    inject('acl', ability);
+    nuxtApp.vueApp.config.globalProperties.$acl = ability;
   }
-}
+})

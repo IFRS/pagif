@@ -1,32 +1,30 @@
-export default async (context) => {
-  await context.store.dispatch('config/populateConfig')
+import { defineNuxtPlugin } from 'nuxt'
+import { useConfigStore } from '~/store/config';
+
+export default defineNuxtPlugin(async (nuxtApp) => {
+  const store = useConfigStore()
+  await store.populateConfig()
   .catch((error) => {
-    context.$toast.error('Ocorreu um erro ao carregar as Configurações do Sistema: ' + error.message);
+    nuxtApp.$toast.error('Ocorreu um erro ao carregar as Configurações do Sistema: ' + error.message);
     console.error(error);
   });
 
-  if (process.client) {
-    const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches || context.$cookies.get('darkMode');
-    if (darkMode) {
-      context.store.commit('config/darkMode', darkMode);
-    }
+  const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches || nuxtApp.$cookies.get('darkMode');
+  if (darkMode) {
+    store.darkMode = darkMode;
+  }
 
-    const unidade_id = localStorage.getItem('unidade');
-    if (unidade_id) {
-      await context.store.dispatch('config/populateUnidade', unidade_id)
-      .catch((error) => {
-        context.$toast.error('Ocorreu um erro ao carregar a Unidade previamente selecionada: ' + error.message);
-        console.error(error);
-      });
-    }
-
-    context.store.subscribe((mutation, state) => {
-      if (mutation.type === 'config/darkMode') {
-        context.$cookies.set('darkMode', state.config.darkMode);
-      }
-      if (mutation.type === 'config/unidade') {
-        localStorage.setItem('unidade', state.config.unidade._id);
-      }
+  const unidade_id = localStorage.getItem('unidade');
+  if (unidade_id) {
+    await store.populateUnidade(unidade_id)
+    .catch((error) => {
+      nuxtApp.$toast.error('Ocorreu um erro ao carregar a Unidade previamente selecionada: ' + error.message);
+      console.error(error);
     });
   }
-}
+
+  store.$subscribe((mutation, state) => {
+    nuxtApp.$cookies.set('darkMode', state.darkMode);
+    localStorage.setItem('unidade', state.unidade._id);
+  });
+})
