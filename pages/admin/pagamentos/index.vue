@@ -102,7 +102,6 @@
             <v-menu
               v-else
               location="bottom"
-              :offset-x="true"
               :close-on-content-click="true"
             >
               <template #activator="{ on, attrs }">

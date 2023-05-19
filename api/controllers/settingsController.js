@@ -1,5 +1,6 @@
 const Settings = require('../../db/models/Settings');
 const validator = require('express-validator');
+const { logger } = require('~/logger');
 
 module.exports.show = function(req, res) {
   const query = Settings.findOne({});

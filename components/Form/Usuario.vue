@@ -88,7 +88,10 @@
                 :value="JSON.stringify({ action: 'read', subject: 'Unidade', conditions: { '_id': unidade._id } })"
                 :disabled="user_is_me"
               />
-              <template v-for="(actions, subject) in all_abilities.porUnidade">
+              <template
+                v-for="(actions, subject) in all_abilities.porUnidade"
+                :key="subject"
+              >
                 <strong>{{ subject }}</strong>
                 <v-switch
                   v-for="(action, a) in actions"
@@ -139,9 +142,10 @@
         default: false,
       },
     },
+    emits: ['ok', 'cancel'],
     data() {
       return {
-        submitText: this.id ? 'Atualizar' : 'Salvar',
+        submitText: this.$store.getters['usuario/id'] ? 'Atualizar' : 'Salvar',
         validation: {
           email: [
             v => !!v || 'E-mail é obrigatório.',

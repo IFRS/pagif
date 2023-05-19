@@ -236,7 +236,7 @@ module.exports.update = [
           }]);
         });
       })
-      .catch(error => {
+      .catch(() => {
         return res.status(500).json([{
           codigo: 'C0027',
           descricao: 'Falha ao verificar a situação do pagamento.',

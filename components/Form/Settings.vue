@@ -99,6 +99,7 @@ export default {
       default: false,
     },
   },
+  emits: ['ok', 'cancel'],
   data() {
     return {
       validation: {

@@ -9,7 +9,6 @@ module.exports = function(req, res, next) {
       } else {
         return res.status(412).json({
           message: 'Verificação de CAPTCHA falhou.',
-          error: err,
         });
       }
     })

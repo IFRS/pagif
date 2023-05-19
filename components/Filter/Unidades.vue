@@ -5,7 +5,7 @@
         v-model="unidadesSelected"
         :loading="$fetchState.pending"
         :items="unidades"
-        dense
+        density="compact"
         multiple
         clearable
         chips

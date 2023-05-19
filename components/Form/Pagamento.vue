@@ -36,9 +36,7 @@
             required
           >
             <template #item="{ item }">
-              <v-list-item-content>
-                <v-list-item-title>{{ item.codigo }} - {{ item.nome }}</v-list-item-title>
-              </v-list-item-content>
+              <v-list-item-title>{{ item.codigo }} - {{ item.nome }}</v-list-item-title>
             </template>
           </v-autocomplete>
         </v-col>
@@ -59,9 +57,8 @@
           <v-menu
             :persistent="!(true)"
             :close-on-content-click="true"
-            :return-value="competencia"
+            :model-value="competencia"
             transition="scale-transition"
-            offset-y
             max-width="auto"
             min-width="auto"
           >
@@ -88,9 +85,8 @@
           <v-menu
             :persistent="!(true)"
             :close-on-content-click="true"
-            :return-value="vencimento"
+            :model-value="vencimento"
             transition="scale-transition"
-            offset-y
             max-width="auto"
             min-width="auto"
           >
@@ -247,6 +243,7 @@
         default: false,
       },
     },
+    emits: ['ok', 'cancel'],
     data() {
       return {
         validation: {

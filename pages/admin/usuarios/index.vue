@@ -45,8 +45,6 @@
           <template #item.actions="{ item }">
             <v-menu
               location="bottom"
-              location="left"
-              :offset-x="true"
               :close-on-content-click="false"
             >
               <template #activator="{ on, attrs }">
@@ -63,17 +61,17 @@
               <v-list density="compact">
                 <v-list-item
                   v-if="$acl.can('update', 'Usuario')"
+                  icon="mdi-pencil"
                   @click="editUsuario(item)"
                 >
-                  <v-list-item-icon><v-icon>mdi-pencil</v-icon></v-list-item-icon>
                   <v-list-item-title>Editar {{ item.nome || item.email }}</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item
                   v-if="$acl.can('delete', 'Usuario')"
+                  icon="mdi-delete"
                   @click.stop="confirmDelete(item)"
                 >
-                  <v-list-item-icon><v-icon>mdi-delete</v-icon></v-list-item-icon>
                   <v-list-item-title>Deletar {{ item.nome || item.email }}</v-list-item-title>
                 </v-list-item>
               </v-list>

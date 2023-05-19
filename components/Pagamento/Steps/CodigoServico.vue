@@ -40,6 +40,13 @@ export default {
       ],
     }
   },
+  async fetch() {
+    await this.$store.dispatch('fetchServicos', { isPublic: true, unidade: this.$store.getters['config/unidade']?._id })
+    .catch((error) => {
+      this.$toast.error('Ocorreu um erro ao carregar os Serviços: ' + error.message);
+      console.error(error);
+    });
+  },
   computed: {
     servico: {
       get() {
@@ -58,13 +65,6 @@ export default {
       ...mapGetters({ get: 'pagamento/nomeServico' }),
       ...mapMutations({ set: 'pagamento/nomeServico' }),
     },
-  },
-  async fetch() {
-    await this.$store.dispatch('fetchServicos', { isPublic: true, unidade: this.$store.getters['config/unidade']?._id })
-    .catch((error) => {
-      this.$toast.error('Ocorreu um erro ao carregar os Serviços: ' + error.message);
-      console.error(error);
-    });
   },
 }
 </script>

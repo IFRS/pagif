@@ -18,9 +18,8 @@
     <v-menu
       :persistent="!(true)"
       :close-on-content-click="true"
-      :return-value="competencia"
+      :model-value="competencia"
       transition="scale-transition"
-      offset-y
       max-width="auto"
       min-width="auto"
     >

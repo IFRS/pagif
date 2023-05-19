@@ -206,10 +206,11 @@
         default: false,
       },
     },
+    emits: ['ok', 'cancel'],
     data() {
       return {
         arquivo: null,
-        submitText: this.id ? 'Atualizar' : 'Salvar',
+        submitText: this.$store.getters['unidade/id'] ? 'Atualizar' : 'Salvar',
         isEditSlug: false,
         validation: {
           nome: [

@@ -53,6 +53,7 @@
 <script>
 export default {
   name: 'FilterPainel',
+  emits: ['input', 'filtrar'],
   data() {
     return {
       filtros: {},
@@ -61,11 +62,12 @@ export default {
   computed: {
     drawerWidth() {
       switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return 'auto';
-        case 'sm': return 'auto';
-        case 'md': return '50%';
-        case 'lg': return '30%';
         case 'xl': return '30%';
+        case 'lg': return '30%';
+        case 'md': return '50%';
+        case 'sm': return 'auto';
+        case 'xs': return 'auto';
+        default: return 'auto';
       }
     },
   },

@@ -7,7 +7,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 function valor_formatter(valor) {
-  valor_formatted = String(valor).padStart(3, '0');
+  let valor_formatted = String(valor).padStart(3, '0');
   valor_formatted = valor_formatted.split('');
   valor_formatted.splice(-2, 0, '.');
   valor_formatted = valor_formatted.join('');

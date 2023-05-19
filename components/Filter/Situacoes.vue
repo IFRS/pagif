@@ -13,7 +13,7 @@
         v-model="situacoesSelected"
         :label="situacao"
         :value="situacao"
-        dense
+        density="compact"
         class="mr-5"
       />
     </v-card-text>

@@ -135,6 +135,14 @@ export default {
       mostrarPagamento: false,
     }
   },
+  async fetch() {
+    await this.$store.dispatch('pagamento/show_public', this.$route.params.id)
+    .catch((error) => {
+      console.error(error);
+      this.$toast.error('Ocorreu um erro ao buscar o Pagamento. ' + error.message);
+      this.$router.push({ name: 'pagamento' });
+    });
+  },
   head: {
     title: 'Pagamento',
   },
@@ -175,14 +183,6 @@ export default {
     dataCriacao: {
       ...mapGetters({ get: 'pagamento/dataCriacao' }),
     },
-  },
-  async fetch() {
-    await this.$store.dispatch('pagamento/show_public', this.$route.params.id)
-    .catch((error) => {
-      console.error(error);
-      this.$toast.error('Ocorreu um erro ao buscar o Pagamento. ' + error.message);
-      this.$router.push({ name: 'pagamento' });
-    });
   },
   mounted() {
     window.addEventListener('message', this.retornoPagtesouro, false);

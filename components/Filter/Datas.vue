@@ -13,9 +13,8 @@
           <v-menu
             :persistent="!(true)"
             :close-on-content-click="false"
-            :return-value="datas"
+            :model-value="datas"
             transition="scale-transition"
-            offset-y
             max-width="auto"
             min-width="auto"
           >

@@ -45,7 +45,6 @@
           <template #item.actions="{ item }">
             <v-menu
               location="bottom"
-              :offset-x="true"
               :close-on-content-click="false"
             >
               <template #activator="{ on, attrs }">

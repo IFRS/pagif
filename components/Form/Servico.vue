@@ -93,9 +93,10 @@
         default: false,
       },
     },
+    emits: ['ok', 'cancel'],
     data() {
       return {
-        submitText: this.id ? 'Atualizar' : 'Salvar',
+        submitText: this.$store.getters['servico/id'] ? 'Atualizar' : 'Salvar',
         validation: {
           unidade: [
             v => !!v || 'Selecione uma Unidade Gestora.',
