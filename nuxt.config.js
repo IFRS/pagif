@@ -3,8 +3,8 @@ import { fork } from 'child_process';
 import viteVuetify from 'vite-plugin-vuetify'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { pt } from 'vuetify/locale'
-import '@mdi/font/css/materialdesignicons.css'
-import 'vuetify/styles'
+// import '@mdi/font/css/materialdesignicons.css'
+// import 'vuetify/styles'
 
 export default defineNuxtConfig({
   app: {
@@ -36,6 +36,8 @@ export default defineNuxtConfig({
   },
 
   css: [
+    'vuetify/styles',
+    '@mdi/font/css/materialdesignicons.css',
     '@fontsource/roboto/latin.css',
     '@fontsource/roboto/latin-100-italic.css',
     '@fontsource/roboto/latin-100.css',
@@ -62,27 +64,27 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/devtools',
     '@invictus.codes/nuxt-vuetify',
-    '@nuxtjs/style-resources',
-    '@nuxtjs/axios',
-    ['@nuxtjs/recaptcha', {
-        hideBadge: false,  // Hide badge element (v3 & v2 via size=invisible)
-        language: 'pt-BR', // Recaptcha language (v2)
-        mode: 'base',      // Mode: 'base', 'enterprise'
-        version: 2,        // Version
-        size: 'normal'     // Size: 'compact', 'normal', 'invisible' (v2)
-    }],
+    // '@nuxtjs/style-resources',
+    // '@nuxtjs/axios',
+    // ['@nuxtjs/recaptcha', {
+    //     hideBadge: false,  // Hide badge element (v3 & v2 via size=invisible)
+    //     language: 'pt-BR', // Recaptcha language (v2)
+    //     mode: 'base',      // Mode: 'base', 'enterprise'
+    //     version: 2,        // Version
+    //     size: 'normal'     // Size: 'compact', 'normal', 'invisible' (v2)
+    // }],
     '@pinia/nuxt',
-    ['cookie-universal-nuxt', { alias: 'cookies' }],
-    ['v-currency-field/nuxt-treeshaking', {
-      locale: 'pt-BR',
-      autoDecimalMode: true,
-      decimalLength: 2,
-      min: undefined,
-      max: undefined,
-      defaultValue: null,
-      allowNegative: false,
-      valueAsInteger: true,
-    }],
+    // ['cookie-universal-nuxt', { alias: 'cookies' }],
+    // ['v-currency-field/nuxt-treeshaking', {
+    //   locale: 'pt-BR',
+    //   autoDecimalMode: true,
+    //   decimalLength: 2,
+    //   min: undefined,
+    //   max: undefined,
+    //   defaultValue: null,
+    //   allowNegative: false,
+    //   valueAsInteger: true,
+    // }],
     async (options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', config => config.plugins.push(
         viteVuetify()
