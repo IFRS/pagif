@@ -221,7 +221,8 @@
             v => !(/\s/).test(v) || 'Token não pode conter espaços.',
           ],
           link_url: [
-            v => !v || (/^(https?:\/\/){1}([\da-z\.-]+\.[a-z\.]{2,6}|[\d\.]+)([\/:?=&#]{1}[\da-z\.-]+)*[\/\?]?$/igm).test(v) || 'O endereço precisa ser uma URL válida, iniciando com http:// ou https://',
+            // v => !v || (/^(https?:\/\/){1}([\da-z\.-]+\.[a-z\.]{2,6}|[\d\.]+)([\/:?=&#]{1}[\da-z\.-]+)*[\/\?]?$/igm).test(v) || 'O endereço precisa ser uma URL válida, iniciando com http:// ou https://',
+            v => !v || (/^(https?:\/\/){1}([\da-z.-]+\.[a-z.]{2,6}|[\d.]+)([/:?=&#]{1}[\da-z.-]+)*[/?]?$/igm).test(v) || 'O endereço precisa ser uma URL válida, iniciando com http:// ou https://',
           ],
         },
         tiptapExtensions: [
