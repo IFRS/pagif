@@ -8,4 +8,6 @@ fila.on('close', (code) => {
   console.log(`Fila terminada com o código: ${code}`);
 });
 
-api.listen(process.env.LISTEN_PORT);
+api.listen(process.env.LISTEN_PORT, () => {
+  console.log(`API rodando na porta ${process.env.LISTEN_PORT}`)
+});

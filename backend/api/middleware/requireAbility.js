@@ -1,4 +1,4 @@
-import { createMongoAbility } from '@casl/ability';
+const { createMongoAbility } = require('@casl/ability');
 
 module.exports = function(restrictions) {
   return function(req, res, next) {

@@ -1,7 +1,7 @@
 const Unidade = require('../../db/models/Unidade');
 const validator = require('express-validator');
-import { createMongoAbility } from '@casl/ability';
-import { logger } from '../../logger';
+const { createMongoAbility } = require('@casl/ability');
+const { logger } = require('../../logger');
 
 module.exports.listPublic = function(req, res) {
   const query = Unidade.find({});

@@ -69,10 +69,3 @@ app.use(usuarios);
 app.use(settings);
 
 module.exports = app;
-
-// export default app;
-
-// module.exports = {
-//   path: '/api',
-//   handler: app,
-// };

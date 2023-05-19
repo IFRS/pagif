@@ -1,7 +1,7 @@
 const Servico = require('../../db/models/Servico');
 const validator = require('express-validator');
-import { createMongoAbility } from '@casl/ability';
-import { logger } from '../../logger';
+const { createMongoAbility } = require('@casl/ability');
+const { logger } = require('../../logger');
 
 module.exports.listPublic = function(req, res) {
   const unidade_id = req.query.unidade;
