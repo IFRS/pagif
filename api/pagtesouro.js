@@ -46,7 +46,7 @@ const pagtesouro = axios.create({
       data.urlRetorno = process.env.BROWSER_BASE_URL + '/';
       data.urlNotificacao = process.env.BROWSER_BASE_URL + '/api/notifica';
 
-      if (data.hasOwnProperty('competencia') && data.competencia) {
+      if (Object.prototype.hasOwnProperty.call(data, 'competencia') && data.competencia) {
         let competencia = dayjs(data.competencia).format('MMYYYY');
         if (competencia) {
           data.competencia = competencia;
@@ -55,7 +55,7 @@ const pagtesouro = axios.create({
         }
       }
 
-      if (data.hasOwnProperty('vencimento') && data.vencimento) {
+      if (Object.prototype.hasOwnProperty.call(data, 'vencimento') && data.vencimento) {
         let vencimento = dayjs(data.vencimento).format('DDMMYYYY');
         if (vencimento) {
           data.vencimento = vencimento;
@@ -64,7 +64,7 @@ const pagtesouro = axios.create({
         }
       }
 
-      if (data.hasOwnProperty('valorPrincipal') && data.valorPrincipal) {
+      if (Object.prototype.hasOwnProperty.call(data, 'valorPrincipal') && data.valorPrincipal) {
         let valorPrincipal = valor_formatter(data.valorPrincipal);
 
         if (valorPrincipal) {
@@ -74,7 +74,7 @@ const pagtesouro = axios.create({
         }
       }
 
-      if (data.hasOwnProperty('valorDescontos') && data.valorDescontos) {
+      if (Object.prototype.hasOwnProperty.call(data, 'valorDescontos') && data.valorDescontos) {
         let valorDescontos = valor_formatter(data.valorDescontos);
 
         if (valorDescontos) {
@@ -84,7 +84,7 @@ const pagtesouro = axios.create({
         }
       }
 
-      if (data.hasOwnProperty('valorOutrasDeducoes') && data.valorOutrasDeducoes) {
+      if (Object.prototype.hasOwnProperty.call(data, 'valorOutrasDeducoes') && data.valorOutrasDeducoes) {
         let valorOutrasDeducoes = valor_formatter(data.valorOutrasDeducoes);
 
         if (valorOutrasDeducoes) {
@@ -94,7 +94,7 @@ const pagtesouro = axios.create({
         }
       }
 
-      if (data.hasOwnProperty('valorMulta') && data.valorMulta) {
+      if (Object.prototype.hasOwnProperty.call(data, 'valorMulta') && data.valorMulta) {
         let valorMulta = valor_formatter(data.valorMulta);
 
         if (valorMulta) {
@@ -104,7 +104,7 @@ const pagtesouro = axios.create({
         }
       }
 
-      if (data.hasOwnProperty('valorJuros') && data.valorJuros) {
+      if (Object.prototype.hasOwnProperty.call(data, 'valorJuros') && data.valorJuros) {
         let valorJuros = valor_formatter(data.valorJuros);
 
         if (valorJuros) {
@@ -114,7 +114,7 @@ const pagtesouro = axios.create({
         }
       }
 
-      if (data.hasOwnProperty('valorOutrosAcrescimos') && data.valorOutrosAcrescimos) {
+      if (Object.prototype.hasOwnProperty.call(data, 'valorOutrosAcrescimos') && data.valorOutrosAcrescimos) {
         let valorOutrosAcrescimos = valor_formatter(data.valorOutrosAcrescimos);
 
         if (valorOutrosAcrescimos) {
@@ -133,7 +133,7 @@ const pagtesouro = axios.create({
     (rawData) => {
       loggerPagTesouro.info("[PagTesouro Response] %o", rawData);
 
-      if (rawData.hasOwnProperty('dataCriacao') && rawData.dataCriacao) {
+      if (Object.prototype.hasOwnProperty.call(rawData, 'dataCriacao') && rawData.dataCriacao) {
         let dataUTC = dayjs.tz(rawData.dataCriacao, 'America/Sao_Paulo').toISOString();
 
         if (dataUTC) {
@@ -143,7 +143,7 @@ const pagtesouro = axios.create({
         }
       }
 
-      if (rawData.hasOwnProperty('situacao') && rawData.situacao.hasOwnProperty('data') && rawData.situacao.data) {
+      if (Object.prototype.hasOwnProperty.call(rawData, 'situacao') && Object.prototype.hasOwnProperty.call(rawData.situacao, 'data') && rawData.situacao.data) {
         let dataUTC = dayjs.tz(rawData.situacao.data, 'America/Sao_Paulo').toISOString();
 
         if (dataUTC) {
@@ -153,7 +153,7 @@ const pagtesouro = axios.create({
         }
       }
 
-      if (rawData.hasOwnProperty('valor') && rawData.valor) {
+      if (Object.prototype.hasOwnProperty.call(rawData, 'valor') && rawData.valor) {
         let valor = parseFloat(rawData.valor); // Coverte para FLOAT.
         valor = valor.toFixed(2); // Adiciona duas casas decimais ou ajusta as existentes para no máximo duas.
         valor = String((valor)).replace('.', ''); // Retira o ponto.
