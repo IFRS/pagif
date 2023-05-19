@@ -1,5 +1,5 @@
 {
-  "name": "pagif",
+  "name": "pagif-frontend",
   "version": "2.0.0",
   "private": true,
   "type": "module",
@@ -28,7 +28,6 @@
     "v-mask": "^2.3.0",
     "vue": "^3.3.2",
     "vue-gtag": "^2.0.1",
-    "vue-server-renderer": "^2.6.14",
     "vuetify": "^3.2.5"
   },
   "devDependencies": {
