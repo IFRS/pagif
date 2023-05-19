@@ -1,16 +1,20 @@
-export default ({ store }, inject) => {
-  inject('toast', {
+import { defineNuxtPlugin } from 'nuxt'
+import { useSnackbarStore } from '~/store/snackbar';
+
+export default defineNuxtPlugin((nuxtApp) => {
+  const store = useSnackbarStore();
+  nuxtApp.vueApp.config.globalProperties.$toast = {
     info (text) {
-      store.commit('snackbar/show', { text, type: 'info' });
+      store.show({ text, type: 'info' });
     },
     success (text) {
-      store.commit('snackbar/show', { text, type: 'success' });
+      store.show({ text, type: 'success' });
     },
     warning (text) {
-      store.commit('snackbar/show', { text, type: 'warning' });
+      store.show({ text, type: 'warning' });
     },
     error (text) {
-      store.commit('snackbar/show', { text, type: 'error' });
+      store.show({ text, type: 'error' });
     }
-  });
-};
+  }
+})
