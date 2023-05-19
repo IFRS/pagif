@@ -20,7 +20,6 @@
 
 <script>
   export default {
-    name: 'EditarUnidade',
     layout: 'admin',
     validate({ app }) {
       return app.$acl.can('update', 'Unidade');

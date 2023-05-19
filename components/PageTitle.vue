@@ -9,7 +9,6 @@
 
 <script>
 export default {
-  name: 'PageTitle',
   props: {
     level: {
       default() {

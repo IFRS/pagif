@@ -236,7 +236,6 @@
   const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
 
   export default {
-    name: 'FormPagamento',
     props: {
       submitting: {
         type: Boolean,

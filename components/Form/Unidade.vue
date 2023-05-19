@@ -192,7 +192,6 @@
   } from 'tiptap-vuetify';
 
   export default {
-    name: 'FormUnidade',
     components: {
       TiptapVuetify,
     },

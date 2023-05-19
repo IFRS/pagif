@@ -7,7 +7,6 @@
 
 <script>
 export default {
-  name: 'PagamentoSituacao',
   props: {
     situacao: {
       type: String,

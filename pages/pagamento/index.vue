@@ -54,7 +54,6 @@
 
 <script>
 export default {
-  name: 'Pagamento',
   data() {
     return {
       idPagamento: null,

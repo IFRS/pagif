@@ -135,7 +135,6 @@
   import all_abilities from '~/db/abilities';
 
   export default {
-    name: 'FormUsuario',
     props: {
       submitting: {
         type: Boolean,

@@ -119,7 +119,6 @@ import iFrameResize from 'iframe-resizer/js/iframeResizer';
 import { mapGetters } from 'vuex';
 
 export default {
-  name: 'Pagamento',
   directives: {
     'resize-iframe': {
       bind(el, { value = {} }) {

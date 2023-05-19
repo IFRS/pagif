@@ -19,7 +19,6 @@
 
 <script>
 export default {
-  name: 'FilterUnidades',
   data() {
     return {
       unidades: null,

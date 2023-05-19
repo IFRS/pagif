@@ -23,7 +23,6 @@
 
 <script>
 export default {
-  name: 'Unidades',
   async fetch () {
     await this.$store.dispatch('fetchUnidades', true)
     .catch((error) => {

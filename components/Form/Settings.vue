@@ -89,7 +89,6 @@ import {
 } from 'tiptap-vuetify';
 
 export default {
-  name: 'FormSettings',
   components: {
     TiptapVuetify,
   },

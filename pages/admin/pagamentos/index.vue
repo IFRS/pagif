@@ -204,7 +204,6 @@
   import { mapGetters, mapMutations } from 'vuex';
 
   export default {
-    name: 'Pagamentos',
     layout: 'admin',
     validate({ app }) {
       return app.$acl.can('read', 'Pagamento');

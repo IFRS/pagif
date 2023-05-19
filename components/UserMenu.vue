@@ -70,7 +70,6 @@
 import { mapGetters } from 'vuex';
 
 export default {
-  name: 'UserMenu',
   props: {
     admin: {
       type: Boolean,

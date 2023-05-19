@@ -122,7 +122,6 @@
 
 <script>
   export default {
-    name: 'Usuários',
     layout: 'admin',
     validate({ app }) {
       return app.$acl.can('read', 'Usuario');

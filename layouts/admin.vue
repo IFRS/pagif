@@ -85,7 +85,6 @@
 
 <script>
 export default {
-  name: 'AdminLayout',
   middleware: ['auth', 'dark-mode'],
   data () {
     return {

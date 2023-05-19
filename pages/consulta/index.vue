@@ -36,7 +36,6 @@
 
 <script>
 export default {
-  name: 'Consulta',
   data() {
     return {
       idPagamento: null,

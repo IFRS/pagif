@@ -19,7 +19,6 @@
 
 <script>
   export default {
-    name: 'EditarUsuario',
     layout: 'admin',
     validate({ app }) {
       return app.$acl.can('update', 'Usuario');

@@ -19,7 +19,6 @@
 
 <script>
   export default {
-    name: 'EditarServico',
     layout: 'admin',
     validate({ app }) {
       return app.$acl.can('update', 'Servico');

@@ -86,7 +86,6 @@
   import { mapGetters, mapMutations } from 'vuex';
 
   export default {
-    name: 'FormServico',
     props: {
       submitting: {
         type: Boolean,

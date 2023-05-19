@@ -19,7 +19,6 @@
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-  name: 'ValorPrincipal',
   data() {
     return {
       validation: [

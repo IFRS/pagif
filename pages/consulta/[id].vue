@@ -14,7 +14,6 @@
 
 <script>
 export default {
-  name: 'ConsultaID',
   async fetch() {
     await this.$store.dispatch('pagamento/show_public', this.$route.params.id)
     .catch((error) => {

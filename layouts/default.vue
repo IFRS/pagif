@@ -170,7 +170,6 @@
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-  name: "DefaultLayout",
   middleware: "dark-mode",
   data() {
     return {

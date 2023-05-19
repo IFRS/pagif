@@ -148,7 +148,6 @@
 import copy from 'copy-to-clipboard';
 
 export default {
-  name: 'PagamentoNovo',
   data() {
     return {
       enablePagamento: false,

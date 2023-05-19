@@ -11,9 +11,3 @@
     Entrar com&nbsp;<strong>Google</strong>
   </v-btn>
 </template>
-
-<script>
-export default {
-  name: 'Autenticacao',
-}
-</script>

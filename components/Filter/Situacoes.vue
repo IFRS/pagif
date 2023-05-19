@@ -22,7 +22,6 @@
 
 <script>
 export default {
-  name: 'FilterSituacoes',
   data() {
     return {
       situacoes: ['CRIADO', 'INICIADO', 'SUBMETIDO', 'CONCLUIDO', 'REJEITADO', 'CANCELADO'],

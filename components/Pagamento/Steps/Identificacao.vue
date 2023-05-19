@@ -30,7 +30,6 @@
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-  name: 'Identificacao',
   data() {
     return {
       validation: {

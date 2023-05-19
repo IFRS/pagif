@@ -52,7 +52,6 @@
 
 <script>
 export default {
-  name: 'FilterPainel',
   emits: ['input', 'filtrar'],
   data() {
     return {

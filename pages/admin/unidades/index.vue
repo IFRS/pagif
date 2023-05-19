@@ -157,7 +157,6 @@
 
 <script>
   export default {
-    name: 'Unidades',
     layout: 'admin',
     validate({ app }) {
       return app.$acl.can('read', 'Unidade');

@@ -50,7 +50,6 @@ const customParseFormat = require('dayjs/plugin/customParseFormat');
 const isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
 
 export default {
-  name: 'FilterDatas',
   data() {
     return {
       datas: [],

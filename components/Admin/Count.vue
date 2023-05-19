@@ -23,7 +23,6 @@
 
 <script>
 export default {
-  name: 'AdminCount',
   props: {
     icon: {
       type: String,

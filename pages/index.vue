@@ -79,7 +79,6 @@
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-  name: 'Index',
   computed: {
     intro: {
       ...mapGetters({ get: 'config/intro' }),

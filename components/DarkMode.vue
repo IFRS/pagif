@@ -24,7 +24,6 @@
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-  name: 'DarkMode',
   computed: {
     darkMode: {
       ...mapGetters({ get: 'config/darkMode' }),

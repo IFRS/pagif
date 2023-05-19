@@ -40,7 +40,6 @@
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-  name: 'SelectUnidade',
   async fetch() {
     await this.$store.dispatch('fetchUnidades', true)
     .catch((error) => {

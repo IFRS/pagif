@@ -11,7 +11,6 @@
 
 <script>
 export default {
-  name: 'AdminConfig',
   layout: 'admin',
   validate({ app }) {
     return app.$acl.can('edit', 'Settings');

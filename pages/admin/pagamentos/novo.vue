@@ -19,7 +19,6 @@
 
 <script>
   export default {
-    name: 'NovoPagamento',
     layout: 'admin',
     validate({ app }) {
       return app.$acl.can('create', 'Pagamento');

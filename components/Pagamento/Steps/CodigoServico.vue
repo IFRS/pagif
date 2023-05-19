@@ -31,7 +31,6 @@
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-  name: 'CodigoServico',
   data() {
     return {
       validation: [

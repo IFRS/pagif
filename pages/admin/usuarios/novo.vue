@@ -19,7 +19,6 @@
 
 <script>
   export default {
-    name: 'NovoUsuario',
     layout: 'admin',
     validate({ app }) {
       return app.$acl.can('create', 'Usuario');

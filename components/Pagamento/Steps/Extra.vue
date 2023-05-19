@@ -47,7 +47,6 @@
 import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-  name: 'Extra',
   data() {
     return {
       validation: {
