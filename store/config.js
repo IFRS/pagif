@@ -1,5 +1,5 @@
-import { useFetch } from 'nuxt/app';
 import { defineStore } from 'pinia';
+import { useFetch } from 'nuxt/app';
 
 export const useConfigStore = defineStore('config', {
   state: () => ({
