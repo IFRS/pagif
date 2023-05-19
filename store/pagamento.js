@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
-import { useMainStore } from '.';
 import dayjs from 'dayjs';
+import { useMainStore } from '.';
+import { useFetch } from 'nuxt/app';
 
 export const usePagamentoStore = defineStore('pagamento', {
   state: () => ({
@@ -32,7 +33,7 @@ export const usePagamentoStore = defineStore('pagamento', {
   }),
 
   getters: {
-    valor() {
+    getValor() {
       if (!this.valor) {
         return this.valorPrincipal - this.valorDescontos - this.valorOutrasDeducoes + this.valorMulta + this.valorJuros + this.valorOutrosAcrescimos;
       }
@@ -44,48 +45,42 @@ export const usePagamentoStore = defineStore('pagamento', {
   actions: {
     async save_public(recaptcha) {
       this.vencimento = dayjs().add(1, 'day').format('YYYY-MM-DD');
-      return await this.$axios.post('/api/public/pagamentos', { ...this.$state, recaptcha })
-      .then(function(response) {
-        this.replace = response.data;
-      });
+      const response = useFetch('/api/public/pagamentos', { method: 'POST', body: { ...this.$state, recaptcha } })
+      if (response.data) this.$patch(response.data);
+      return response;
     },
     async save() {
-      return await this.$axios.post('/api/pagamentos', this.$state)
-      .then((response) => {
-        this.$state = response.data;
-      });
+      const response = useFetch('/api/pagamentos', { method: 'POST', body: this.$state })
+      if (response.data) this.$patch(response.data);
+      return response;
     },
     async update() {
-      return await this.$axios.put('/api/pagamentos/' + this._id, this.$state)
-      .then(() => {
-        this.$reset();
-      });
+      const response = useFetch(`/api/pagamentos/${this._id}`, { method: 'PUT', body: this.$state })
+      if (response.data) this.$reset();
+      return response;
     },
     async delete() {
-      return await this.$axios.delete('/api/pagamentos/' + this._id)
-      .then((response) => {
+      const response = useFetch(`/api/pagamentos/${this._id}`, { method: 'DELETE' })
+      if (response.data) {
         this.$reset();
         useMainStore().removePagamento(response.data);
-      });
+      }
+      return response;
     },
     async show_public(id) {
-      return await this.$axios.get('/api/public/pagamentos/' + id)
-      .then((response) => {
-        this.$state = response.data;
-      });
+      const response = useFetch(`/api/public/pagamentos/${id}`)
+      if (response.data) this.$patch(response.data);
+      return response;
     },
     async show(id) {
-      return await this.$axios.get('/api/pagamentos/' + id)
-      .then((response) => {
-        this.$state = response.data;
-      });
+      const response = useFetch(`/api/public/pagamentos/${id}`)
+      if (response.data) this.$patch(response.data);
+      return response;
     },
-    async consulta(payload) {
-      return await this.$axios.put('/api/pagamentos/update', {idPagamento: payload})
-      .then((response) => {
-        useMainStore().updatePagamento(response.data);
-        return response.status;
-      });
+    async consulta(id) {
+      const response = useFetch('/api/pagamentos/update', { method: 'PUT', body: { idPagamento: id } })
+      if (response.data) useMainStore().updatePagamento(response.data);
+      return response;
     },
   },
 })

@@ -1,3 +1,4 @@
+import { useFetch } from 'nuxt/app';
 import { defineStore } from 'pinia';
 
 export const useMainStore = defineStore('main', {
@@ -19,10 +20,9 @@ export const useMainStore = defineStore('main', {
       });
     },
     async fetchUnidades(isPublic = false) {
-      return await this.$axios.get(isPublic ? '/api/public/unidades' : '/api/unidades')
-      .then((response) => {
-        this.unidades = response.data;
-      });
+      const response = await useFetch(isPublic ? '/api/public/unidades' : '/api/unidades');
+      if (response.data) this.unidades = response.data;
+      return response;
     },
 
     /* Serviços */
@@ -36,10 +36,9 @@ export const useMainStore = defineStore('main', {
     },
     async fetchServicos(payload) {
       const query = (payload?.unidade) ? { unidade: payload.unidade } : { populate: 'unidade', populate_fields: 'nome' };
-      return await this.$axios.get(payload?.isPublic ? '/api/public/servicos' : '/api/servicos', { params: query })
-      .then((response) => {
-        this.servicos = response.data;
-      });
+      const response = useFetch(payload?.isPublic ? '/api/public/servicos' : '/api/servicos', { params: query });
+      if (response.data) this.servicos = response.data;
+      return response;
     },
 
     /* Pagamentos */
@@ -61,10 +60,9 @@ export const useMainStore = defineStore('main', {
       });
     },
     async fetchPagamentos(payload) {
-      return await this.$axios.get('/api/pagamentos', { params: payload })
-      .then((response) => {
-        this.pagamentos = response.data;
-      });
+      const response = useFetch('/api/pagamentos', { params: payload })
+      if (response.data) this.pagamentos = response.data;
+      return response;
     },
 
     /* Usuários */
@@ -77,10 +75,9 @@ export const useMainStore = defineStore('main', {
       });
     },
     async fetchUsuarios() {
-      return await this.$axios.get('/api/usuarios')
-      .then((response) => {
-        this.usuarios = response.data;
-      });
+      const response = useFetch('/api/usuarios');
+      if (response.data) this.usuarios = response.data;
+      return response;
     },
 
     /* Server Store Population */
