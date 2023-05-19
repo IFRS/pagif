@@ -202,8 +202,12 @@
 
 <script>
   import { mapGetters, mapMutations } from 'vuex';
+  import { vDataTable } from 'vuetify/labs'
 
   export default {
+    components: {
+      vDataTable,
+    },
     layout: 'admin',
     validate({ app }) {
       return app.$acl.can('read', 'Pagamento');
