@@ -7,36 +7,36 @@
         cols="12"
         md="3"
       >
-        <AdminCount
+        <AdminInfoCount
           :num="numUnidades"
           icon="mdi-office-building-marker"
         >
           Unidades
-        </AdminCount>
+        </AdminInfoCount>
       </v-col>
       <v-col
         v-if="numServicos"
         cols="12"
         md="3"
       >
-        <AdminCount
+        <AdminInfoCount
           :num="numServicos"
           icon="mdi-basket"
         >
           Serviços
-        </AdminCount>
+        </AdminInfoCount>
       </v-col>
       <v-col
         v-if="numPagamentos"
         cols="12"
         md="3"
       >
-        <AdminCount
+        <AdminInfoCount
           :num="numPagamentos"
           icon="mdi-credit-card-outline"
         >
           Pagamentos
-        </AdminCount>
+        </AdminInfoCount>
       </v-col>
     </v-row>
   </v-container>
