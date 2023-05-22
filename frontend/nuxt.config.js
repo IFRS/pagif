@@ -1,9 +1,10 @@
 import { defineNuxtConfig } from 'nuxt/config';
-import viteVuetify from 'vite-plugin-vuetify'
+import vuetify from 'vite-plugin-vuetify';
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { pt } from 'vuetify/locale'
-// import '@mdi/font/css/materialdesignicons.css'
-// import 'vuetify/styles'
+import { createResolver } from '@nuxt/kit'
+
+const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
   app: {
@@ -35,8 +36,6 @@ export default defineNuxtConfig({
   },
 
   css: [
-    'vuetify/styles',
-    '@mdi/font/css/materialdesignicons.css',
     '@fontsource/roboto/latin.css',
     '@fontsource/roboto/latin-100-italic.css',
     '@fontsource/roboto/latin-100.css',
@@ -50,18 +49,21 @@ export default defineNuxtConfig({
     '@fontsource/roboto/latin-700.css',
     '@fontsource/roboto/latin-900-italic.css',
     '@fontsource/roboto/latin-900.css',
+    'vuetify/styles',
+    '@mdi/font/css/materialdesignicons.css',
     '~/assets/transitions.scss',
     '~/assets/vuetify-required.scss',
   ],
 
-  styleResources: {
-    scss: [
-      '~/assets/_functions.scss',
-    ]
-  },
+  // styleResources: {
+  //   scss: [
+  //     '~/assets/_functions.scss',
+  //   ]
+  // },
 
   modules: [
     '@nuxt/devtools',
+    '@pinia/nuxt',
     '@invictus.codes/nuxt-vuetify',
     // '@nuxtjs/style-resources',
     // '@nuxtjs/axios',
@@ -72,7 +74,6 @@ export default defineNuxtConfig({
     //     version: 2,        // Version
     //     size: 'normal'     // Size: 'compact', 'normal', 'invisible' (v2)
     // }],
-    '@pinia/nuxt',
     // ['cookie-universal-nuxt', { alias: 'cookies' }],
     // ['v-currency-field/nuxt-treeshaking', {
     //   locale: 'pt-BR',
@@ -84,11 +85,6 @@ export default defineNuxtConfig({
     //   allowNegative: false,
     //   valueAsInteger: true,
     // }],
-    async (options, nuxt) => {
-      nuxt.hooks.hook('vite:extendConfig', config => config.plugins.push(
-        viteVuetify()
-      ))
-    },
   ],
 
   // serverMiddleware: [
@@ -103,13 +99,9 @@ export default defineNuxtConfig({
   // },
 
   runtimeConfig: {
-    // axios: {
-    //   baseURL: 'http://localhost:3000/',
-    // },
+    baseURL: 'http://localhost:3000/',
     public: {
-      // axios: {
-      //   baseURL: '/',
-      // },
+      baseURL: '/',
       recaptcha: {
         siteKey: '',
       },
@@ -195,5 +187,12 @@ export default defineNuxtConfig({
         },
       });
     },
+    'vite:extendConfig': (config) => {
+      config.plugins.push(
+        vuetify({
+          styles: { configFile: resolve('./assets/settings.scss') },
+        })
+      )
+    }
   },
 })
