@@ -153,6 +153,7 @@
         </v-card-actions>
       </template>
     </template>
+    <!-- eslint-disable-next-line vuetify/no-deprecated-components -->
     <v-skeleton-loader
       v-else
       type="card-heading, list-item-two-line@3, list-item, list-item-two-line, actions"

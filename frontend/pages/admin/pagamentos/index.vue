@@ -24,6 +24,7 @@
           <FilterSituacoes />
           <FilterDatas />
         </FilterPainel>
+        <!-- eslint-disable-next-line vuetify/no-deprecated-components -->
         <v-data-table
           class="pagamentos"
           :loading="$fetchState.pending"

@@ -7,6 +7,7 @@
     </v-row>
     <v-row>
       <v-col>
+        <!-- eslint-disable-next-line vuetify/no-deprecated-components -->
         <v-data-table
           :loading="$fetchState.pending"
           :headers="tableHeaders"
