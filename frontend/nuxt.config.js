@@ -1,10 +1,7 @@
-import { defineNuxtConfig } from 'nuxt/config';
-import vuetify from 'vite-plugin-vuetify';
+import { defineNuxtConfig } from 'nuxt/config'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { pt } from 'vuetify/locale'
-import { createResolver } from '@nuxt/kit'
-
-const { resolve } = createResolver(import.meta.url)
+// import 'vuetify/styles'
 
 export default defineNuxtConfig({
   app: {
@@ -49,9 +46,8 @@ export default defineNuxtConfig({
     '@fontsource/roboto/latin-700.css',
     '@fontsource/roboto/latin-900-italic.css',
     '@fontsource/roboto/latin-900.css',
-    // 'vuetify/styles',
     '@mdi/font/css/materialdesignicons.css',
-    '~/assets/settings.scss',
+    // 'vuetify/styles',
     '~/assets/transitions.scss',
     '~/assets/vuetify-required.scss',
   ],
@@ -67,7 +63,6 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@invictus.codes/nuxt-vuetify',
     // '@nuxtjs/style-resources',
-    // '@nuxtjs/axios',
     // ['@nuxtjs/recaptcha', {
     //     hideBadge: false,  // Hide badge element (v3 & v2 via size=invisible)
     //     language: 'pt-BR', // Recaptcha language (v2)
@@ -88,17 +83,6 @@ export default defineNuxtConfig({
     // }],
   ],
 
-  // serverMiddleware: [
-  //   '~/api/index.js',
-  // ],
-  // serverMiddleware: [
-  //   { path: "/api", handler: "~/api/index.js" },
-  // ],
-
-  // axios: {
-  //   baseURL: '/',
-  // },
-
   runtimeConfig: {
     apiBaseURL: 'http://localhost:3030/',
     public: {
@@ -110,12 +94,6 @@ export default defineNuxtConfig({
     },
   },
 
-  // vuetify: {
-  //   treeShake: true,
-  //   defaultAssets: false,
-  //   customVariables: ['~/assets/variables.scss'],
-  //   optionsPath: '~/vuetify.config.js',
-  // },
   vuetify: {
     vuetifyOptions: {
       ssr: true,
@@ -164,16 +142,14 @@ export default defineNuxtConfig({
     moduleOptions: {
       treeshaking: true,
       useIconCDN: false,
+      // styles: 'sass',
+      styles: { configFile: './assets/settings.scss' },
       autoImport: true,
     },
   },
 
   build: {
     devtools: true,
-    // watch: [
-    //   '~/db/**/*',
-    //   '~/api/**/*',
-    // ],
     transpile: ['vuetify'],
   },
 
@@ -187,12 +163,15 @@ export default defineNuxtConfig({
         },
       });
     },
-    'vite:extendConfig': (config) => {
-      config.plugins.push(
-        vuetify(/* {
-          styles: { configFile: resolve('./assets/settings.scss') },
-        } */)
-      )
-    }
+    // 'vite:extendConfig': (config) => {
+    //   config.plugins.push(
+    //     vuetify({
+    //       autoImport: true,
+    //       styles: {
+    //         configFile: resolve('./assets/settings.scss'),
+    //       },
+    //     }),
+    //   )
+    // },
   },
 })
