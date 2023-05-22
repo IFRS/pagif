@@ -49,8 +49,9 @@ export default defineNuxtConfig({
     '@fontsource/roboto/latin-700.css',
     '@fontsource/roboto/latin-900-italic.css',
     '@fontsource/roboto/latin-900.css',
-    'vuetify/styles',
+    // 'vuetify/styles',
     '@mdi/font/css/materialdesignicons.css',
+    '~/assets/settings.scss',
     '~/assets/transitions.scss',
     '~/assets/vuetify-required.scss',
   ],
@@ -188,9 +189,9 @@ export default defineNuxtConfig({
     },
     'vite:extendConfig': (config) => {
       config.plugins.push(
-        vuetify({
+        vuetify(/* {
           styles: { configFile: resolve('./assets/settings.scss') },
-        })
+        } */)
       )
     }
   },
