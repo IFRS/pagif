@@ -1,15 +1,22 @@
 services:
-  pagif:
-    container_name: pagif
-    image: ifrs/pagif:latest
-    build: .
+  backend:
+    container_name: pagif-backend
+    image: ifrs/pagif-backend:latest
+    build: ./backend/
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - log:/home/node/app/log
+  frontend:
+    container_name: pagif-frontend
+    image: ifrs/pagif-frontend:latest
+    build: ./frontend/
     restart: unless-stopped
     environment:
       - NODE_ENV=production
       - NITRO_HOST=0.0.0.0
     ports:
       - "${DOCKER_PORT}:3000"
-    volumes:
-      - log:/home/node/app/log
 volumes:
   log:
