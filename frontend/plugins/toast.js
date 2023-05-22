@@ -1,4 +1,4 @@
-import { defineNuxtPlugin } from 'nuxt'
+import { defineNuxtPlugin } from '#app'
 import { useSnackbarStore } from '~/store/snackbar';
 
 export default defineNuxtPlugin((nuxtApp) => {

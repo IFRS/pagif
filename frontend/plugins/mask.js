@@ -1,4 +1,6 @@
-import Vue from 'vue'
+import { defineNuxtPlugin } from '#app';
 import VueMask from 'v-mask'
 
-Vue.use(VueMask);
+export default defineNuxtPlugin(async (nuxtApp) => {
+  nuxtApp.vueApp.use(VueMask);
+})
