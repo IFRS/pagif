@@ -132,7 +132,6 @@
 
 <script>
   import { mapGetters, mapMutations } from 'vuex';
-  import all_abilities from '~/db/abilities';
 
   export default {
     props: {
@@ -151,7 +150,36 @@
             v => !!v || v.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/) || 'E-mail precisa ser válido.',
           ],
         },
-        all_abilities: all_abilities,
+        all_abilities: {
+          geral: {
+            'Usuario': [
+              'create',
+              'read',
+              'update',
+              'delete',
+            ],
+            'Unidade': [
+              'create',
+              'read',
+              'update',
+              'delete',
+            ],
+          },
+          porUnidade: {
+            'Servico': [
+              'create',
+              'read',
+              'update',
+              'delete',
+            ],
+            'Pagamento': [
+              'create',
+              'read',
+              'update',
+              'delete',
+            ],
+          },
+        },
       }
     },
     async fetch() {
