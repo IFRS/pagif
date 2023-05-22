@@ -7,7 +7,8 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-stepper v-model="currentStep">
+        <!-- TODO substituir componente -->
+        <!-- <v-stepper v-model="currentStep">
           <v-stepper-header>
             <template
               v-for="(step, index) in steps"
@@ -80,7 +81,7 @@
               </v-toolbar>
             </v-stepper-content>
           </v-stepper-items>
-        </v-stepper>
+        </v-stepper> -->
       </v-col>
     </v-row>
     <v-dialog

@@ -72,12 +72,13 @@
                 v-on="on"
               />
             </template>
-            <v-date-picker
+            <!-- TODO substituir componente -->
+            <!-- <v-date-picker
               v-model="competencia"
               type="month"
               no-title
               scrollable
-            />
+            /> -->
           </v-menu>
         </v-col>
         <v-col>
@@ -101,11 +102,12 @@
                 v-on="on"
               />
             </template>
-            <v-date-picker
+            <!-- TODO substituir componente -->
+            <!-- <v-date-picker
               v-model="vencimento"
               no-title
               scrollable
-            />
+            /> -->
           </v-menu>
         </v-col>
       </v-row>

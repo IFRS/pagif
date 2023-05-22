@@ -33,12 +33,13 @@
           v-on="on"
         />
       </template>
-      <v-date-picker
+      <!-- TODO substituir componente -->
+      <!-- <v-date-picker
         v-model="competencia"
         type="month"
         no-title
         scrollable
-      />
+      /> -->
     </v-menu>
   </v-form>
 </template>

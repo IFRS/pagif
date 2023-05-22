@@ -30,14 +30,15 @@
                 v-on="on"
               />
             </template>
-            <v-date-picker
+            <!-- TODO substituir componente -->
+            <!-- <v-date-picker
               v-model="datas"
               :max="$dayjs().toISOString()"
               range
               show-adjacent-months
               no-title
               scrollable
-            />
+            /> -->
           </v-menu>
         </v-col>
       </v-row>
