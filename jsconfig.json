@@ -1,16 +1,19 @@
 {
   "vueCompilerOptions": {
-    "target": 2.7,
+    "target": 3,
   },
   "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "ES6",
+    "target": "ES6",
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./*"],
-      "@/*": ["./*"],
+      "~/*": ["./frontend/*"],
+      "@/*": ["./frontend/*"],
       "~~/*": ["./*"],
-      "@@/*": ["./*"]
+      "@@/*": ["./*"],
     }
   },
   "include": ["**/*"],
-  "exclude": ["node_modules", ".nuxt", "dist"],
+  "exclude": ["node_modules", ".nuxt", "dist", "public"],
 }
