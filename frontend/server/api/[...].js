@@ -1,5 +1,6 @@
-import { createError, useBody, appendHeader } from 'h3'
-import { defineEventHandler, useRuntimeConfig, $fetch } from 'nuxt';
+// import { createError, useBody, appendHeader } from 'h3'
+import { proxyRequest } from 'h3'
+import { defineEventHandler, useRuntimeConfig } from '#imports'
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
@@ -8,32 +9,34 @@ export default defineEventHandler(async (event) => {
     throw new Error('Missing `runtimeConfig.apiBaseURL` configuration.');
   }
 
-  const { method, url, headers } = event.req;
-  const body = method !== 'GET' && method !== 'HEAD' ? await useBody(event) : undefined;
+  return proxyRequest(event, config.apiBaseURL);
 
-  try {
-    const response = await $fetch.raw(url, {
-      method,
-      baseURL: config.apiBaseURL,
-      headers: {
-        'content-type': 'application/json',
-        cookie: headers.cookie,
-      },
-      body,
-    });
+  // const { method, url, headers } = event.req;
+  // const body = method !== 'GET' && method !== 'HEAD' ? await useBody(event) : undefined;
 
-    for (const header of ['set-cookie', 'cache-control']) {
-      if (response.headers.has(header)) {
-        appendHeader(event, header, response.headers.get(header));
-      }
-    }
+  // try {
+  //   const response = await $fetch.raw(url, {
+  //     method,
+  //     baseURL: config.apiBaseURL,
+  //     headers: {
+  //       'content-type': 'application/json',
+  //       cookie: headers.cookie,
+  //     },
+  //     body,
+  //   });
 
-    return response._data;
-  } catch (error) {
-    return createError({
-      statusCode: error.response.status,
-      statusMessage: error.message,
-      data: error.data,
-    });
-  }
+  //   for (const header of ['set-cookie', 'cache-control']) {
+  //     if (response.headers.has(header)) {
+  //       appendHeader(event, header, response.headers.get(header));
+  //     }
+  //   }
+
+  //   return response._data;
+  // } catch (error) {
+  //   return createError({
+  //     statusCode: error.response.status,
+  //     statusMessage: error.message,
+  //     data: error.data,
+  //   });
+  // }
 });
