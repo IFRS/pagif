@@ -214,7 +214,7 @@ export default {
   font-weight: 400;
 }
 
-.contato::v-deep {
+:deep(.contato) {
   a {
     color: inherit;
   }

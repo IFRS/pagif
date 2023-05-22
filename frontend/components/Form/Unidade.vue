@@ -326,7 +326,7 @@
 </script>
 
 <style lang="scss" scoped>
-.tiptap-vuetify-editor::v-deep {
+:deep(.tiptap-vuetify-editor) {
    .ProseMirror {
     min-height: 200px;
   }
