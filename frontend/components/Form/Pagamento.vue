@@ -125,7 +125,7 @@
           <!-- CPF / CNPJ -->
           <v-text-field
             v-model="cnpjCpfFormatted"
-            v-mask="cnpjCpfMask"
+            v-maska="cnpjCpfMask"
             prepend-icon="mdi-card-account-details"
             label="CPF / CNPJ"
             :rules="validation.cnpjCpf"
