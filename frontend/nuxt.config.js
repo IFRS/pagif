@@ -84,7 +84,7 @@ export default defineNuxtConfig({
   ],
 
   runtimeConfig: {
-    apiBaseURL: 'http://localhost:3030/',
+    apiBaseURL: 'http://pagif-backend:3030/',
     public: {
       recaptcha: {
         siteKey: '',
