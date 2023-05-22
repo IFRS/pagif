@@ -38,7 +38,7 @@
     </v-navigation-drawer>
     <v-app-bar elevation="1">
       <v-img
-        :src="$store.getters['config/darkMode'] ? '/img/govbr-white.svg' : '/img/govbr.svg'"
+        :src="darkMode ? '/img/govbr-white.svg' : '/img/govbr.svg'"
         :max-width="120"
         aspect-ratio="4/1"
         class="d-none d-md-block govbr"
@@ -69,7 +69,7 @@
 
       <v-spacer />
 
-      <template v-if="$vuetify.breakpoint.smAndDown">
+      <template v-if="smAndDown">
         <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       </template>
       <template v-else>
@@ -166,37 +166,31 @@
   </v-app>
 </template>
 
-<script>
-import { mapGetters, mapMutations } from 'vuex';
+<script setup>
+import { definePageMeta } from '#app'
+import { storeToRefs } from 'pinia';
+import { ref, nextTick } from 'vue';
+import { onMounted } from 'vue';
+import { useConfigStore } from '~/store/config';
+import { useDisplay } from 'vuetify';
 
-export default {
-  middleware: "dark-mode",
-  data() {
-    return {
-      loaded: false,
-      drawer: false,
-    }
-  },
-  computed: {
-    sigla: {
-      ...mapGetters({ get: "config/sigla" }),
-      ...mapMutations({ set: "config/sigla" }),
-    },
-    orgao: {
-      ...mapGetters({ get: "config/orgao" }),
-      ...mapMutations({ set: "config/orgao" }),
-    },
-    unidade: {
-      ...mapGetters({ get: "config/unidade" }),
-      ...mapMutations({ set: "config/unidade" }),
-    },
-  },
-  mounted() {
-    this.$nextTick(function () {
-      this.loaded = true;
-    });
-  },
-}
+definePageMeta({
+  middleware: 'dark-mode',
+})
+
+const store = useConfigStore();
+const { sigla, orgao, unidade } = storeToRefs(store);
+
+const loaded = ref(false);
+const drawer = ref(false);
+
+onMounted(() => {
+  nextTick(function () {
+    loaded.value = true;
+  });
+})
+
+const { smAndDown } = useDisplay();
 </script>
 
 <style lang="scss" scoped>
