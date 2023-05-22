@@ -94,22 +94,22 @@ export default defineNuxtConfig({
   // serverMiddleware: [
   //   '~/api/index.js',
   // ],
-  serverMiddleware: [
-    { path: "/api", handler: "~/api/index.js" },
-  ],
+  // serverMiddleware: [
+  //   { path: "/api", handler: "~/api/index.js" },
+  // ],
 
-  axios: {
-    baseURL: '/',
-  },
+  // axios: {
+  //   baseURL: '/',
+  // },
 
   runtimeConfig: {
-    axios: {
-      baseURL: 'http://localhost:3000/',
-    },
+    // axios: {
+    //   baseURL: 'http://localhost:3000/',
+    // },
     public: {
-      axios: {
-        baseURL: '/',
-      },
+      // axios: {
+      //   baseURL: '/',
+      // },
       recaptcha: {
         siteKey: '',
       },
@@ -178,11 +178,11 @@ export default defineNuxtConfig({
 
   build: {
     devtools: true,
-    watch: [
-      '~/db/**/*',
-      '~/api/**/*',
-    ],
-    transpile: ['vuetify/lib', "tiptap-vuetify"],
+    // watch: [
+    //   '~/db/**/*',
+    //   '~/api/**/*',
+    // ],
+    transpile: ['vuetify'],
   },
 
   hooks: {
