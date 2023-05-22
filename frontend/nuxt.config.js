@@ -99,9 +99,8 @@ export default defineNuxtConfig({
   // },
 
   runtimeConfig: {
-    baseURL: 'http://localhost:3000/',
+    apiBaseURL: 'http://localhost:3030/',
     public: {
-      baseURL: '/',
       recaptcha: {
         siteKey: '',
       },
