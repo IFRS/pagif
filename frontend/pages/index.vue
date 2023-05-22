@@ -9,7 +9,7 @@
           <div class="intro">
             <v-img
               class="intro__marca"
-              :src="($store.getters['config/darkMode']) ? '/img/logo-white.png' : '/img/logo.png'"
+              :src="(darkMode) ? '/img/logo-white.png' : '/img/logo.png'"
             />
             <div
               v-if="intro"
@@ -77,14 +77,15 @@
 
 <script setup>
 import { onBeforeMount } from 'vue';
-import { useRoute, useRouter } from 'nuxt/app';
+import { useRoute, useRouter } from '#app';
 import { storeToRefs } from 'pinia';
 import { useMainStore } from '~/store';
 import { useConfigStore } from '~/store/config';
+import { useDisplay } from 'vuetify';
 
 const mainStore = useMainStore();
 const configStore = useConfigStore();
-const { intro } = storeToRefs(configStore);
+const { intro, darkMode } = storeToRefs(configStore);
 
 const route = useRoute();
 const router = useRouter();
@@ -99,6 +100,8 @@ onBeforeMount(() => {
       router.replace({ 'query': null });
     }
 });
+
+const { smAndDown } = useDisplay();
 </script>
 
 <style lang="scss" scoped>
@@ -114,6 +117,10 @@ onBeforeMount(() => {
   //   flex-direction: column;
   // }
 
+  @if (v-bind(smAndDown)) {
+    flex-direction: column;
+  }
+
   &__marca {
     flex: 0 1 160px;
   }
@@ -124,6 +131,10 @@ onBeforeMount(() => {
     // @media #{map-get($display-breakpoints, 'sm-and-down')} {
     //   flex-basis: auto;
     // }
+
+    @if (v-bind(smAndDown)) {
+      flex-basis: auto;
+    }
   }
 }
 </style>
