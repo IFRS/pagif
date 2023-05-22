@@ -1,5 +1,5 @@
 import { createError, useBody, appendHeader } from 'h3'
-import { defineEventHandler, useRuntimeConfig, $fetch } from '#app';
+import { defineEventHandler, useRuntimeConfig, $fetch } from 'nuxt';
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();

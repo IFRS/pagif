@@ -1,4 +1,4 @@
-import { defineNuxtPlugin } from 'nuxt'
+import { defineNuxtPlugin } from '#app'
 import { useConfigStore } from '~/store/config';
 
 export default defineNuxtPlugin(async (nuxtApp) => {

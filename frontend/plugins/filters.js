@@ -1,4 +1,4 @@
-import { defineNuxtPlugin } from 'nuxt'
+import { defineNuxtPlugin } from '#app'
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.config.globalProperties.$filters = {

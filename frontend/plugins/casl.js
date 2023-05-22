@@ -1,6 +1,5 @@
 import { createMongoAbility } from "@casl/ability";
-import { defineNuxtPlugin } from 'nuxt'
-import { useFetch } from "nuxt/app";
+import { defineNuxtPlugin, useFetch } from "#app";
 import { useAuthStore } from "~/store/auth";
 
 export default defineNuxtPlugin(async (nuxtApp) => {
