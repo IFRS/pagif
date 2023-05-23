@@ -24,7 +24,7 @@
     <v-list v-model:selected="selectedUnidade">
       <v-list-subheader>Unidade Gestora</v-list-subheader>
       <v-list-item
-        v-for="(u, i) in $store.getters['unidades']"
+        v-for="(u, i) in $store.unidades"
         :key="i"
         :value="selectedUnidade"
         mandatory
@@ -40,14 +40,14 @@
 import { navigateTo, useNuxtApp } from '#app';
 import { computed, onUnmounted } from 'vue';
 
-const { $store, $configStore } = useNuxtApp()
+const { $store, $configStore, $toast } = useNuxtApp()
 
-const pending = null;
+let pending = null;
 
 try {
   pending = { pending } = await $store.fetchUnidades(true);
 } catch (error) {
-  this.$toast.error('Ocorreu um erro ao carregar a lista de Unidades: ' + error.message);
+  $toast.error('Ocorreu um erro ao carregar a lista de Unidades: ' + error.message);
   console.error(error);
 }
 

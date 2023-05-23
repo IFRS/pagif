@@ -162,7 +162,7 @@ export default defineNuxtConfig({
         vuetify({
           autoImport: true,
           // styles: {
-          //   configFile: './assets/settings.scss',
+          //   configFile: 'assets/settings.scss',
           // },
         }),
       )
@@ -178,7 +178,7 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '@import "@/assets/_functions.scss";',
+          additionalData: '@import "assets/_functions.scss";',
         },
       },
     },
