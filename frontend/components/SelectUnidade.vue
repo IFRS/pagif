@@ -8,11 +8,11 @@
             color="primary"
             variant="text"
             :loading="pending"
-            :disabled="!configStore.unidade"
+            :disabled="!$configStore.unidade"
             v-bind="attrs"
             v-on="{ ...tooltip, ...menu }"
           >
-            {{ configStore.unidade?.nome || 'Selecione uma Unidade' }}
+            {{ $configStore.unidade?.nome || 'Selecione uma Unidade' }}
             <v-icon end>
               mdi-menu-down
             </v-icon>
@@ -37,17 +37,15 @@
 </template>
 
 <script setup>
-import { navigateTo } from 'nuxt/app';
-import { onUnmounted } from 'vue';
-import { computed } from 'vue';
-import { useMainStore } from '~/store';
-import { useConfigStore } from '~/store/config';
+import { navigateTo, useNuxtApp } from '#app';
+import { computed, onUnmounted } from 'vue';
 
-const store = useMainStore();
-const configStore = useConfigStore();
+const { $store, $configStore } = useNuxtApp()
+
+const pending = null;
 
 try {
-  const { pending } = await store.fetchUnidades(true);
+  pending = { pending } = await $store.fetchUnidades(true);
 } catch (error) {
   this.$toast.error('Ocorreu um erro ao carregar a lista de Unidades: ' + error.message);
   console.error(error);
@@ -55,12 +53,12 @@ try {
 
 const selectedUnidade = computed({
   get() {
-    return store.unidades.findIndex((item) => {
-      return item._id === configStore.unidade?._id;
+    return $store.unidades.findIndex((item) => {
+      return item._id === $configStore.unidade?._id;
     });
   },
   set(index) {
-    configStore.unidade = store.unidades[index];
+    $configStore.unidade = $store.unidades[index];
 
     setTimeout(() => {
       navigateTo({ name: 'index' });
@@ -69,6 +67,6 @@ const selectedUnidade = computed({
 })
 
 onUnmounted(() => {
-  store.clearUnidades();
+  $store.clearUnidades();
 })
 </script>
