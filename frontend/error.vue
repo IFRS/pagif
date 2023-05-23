@@ -13,13 +13,12 @@
         v-else
         elevation="5"
         prominent
-        type="warning"
+        type="danger"
       >
         Ocorreu um erro inesperado.
       </v-alert>
-      <div>
-        {{ props }}
-      </div>
+      <div v-html="error.message" />
+      <div v-html="error.stack" />
       <v-bnt @click="handleError">
         Ir para a P&aacute;gina Inicial
       </v-bnt>
@@ -28,7 +27,7 @@
 </template>
 
 <script setup>
-  const props = defineProps({
+  defineProps({
     error: {
       type: Object,
       default: null,
