@@ -1,6 +1,6 @@
 {
   "vueCompilerOptions": {
-    "target": 3,
+    "target": 3
   },
   "compilerOptions": {
     "moduleResolution": "node",
@@ -11,9 +11,9 @@
       "~/*": ["./frontend/*"],
       "@/*": ["./frontend/*"],
       "~~/*": ["./*"],
-      "@@/*": ["./*"],
+      "@@/*": ["./*"]
     }
   },
   "include": ["**/*"],
-  "exclude": ["node_modules", ".nuxt", "dist", "public"],
+  "exclude": ["node_modules", ".nuxt", "dist", "public"]
 }
