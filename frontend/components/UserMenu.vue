@@ -41,7 +41,7 @@
         <v-divider />
 
         <v-list-item
-          v-if="props.admin"
+          v-if="admin"
           :to="{ path: '/' }"
         >
           <v-list-item-title>Site</v-list-item-title>
@@ -70,7 +70,7 @@
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '~/store/auth';
 
-const props = defineProps({
+defineProps({
   admin: {
     type: Boolean,
     default: false,
