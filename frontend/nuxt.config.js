@@ -1,6 +1,7 @@
 import { defineNuxtConfig } from 'nuxt/config'
-import { aliases, mdi } from 'vuetify/iconsets/mdi'
-import { pt } from 'vuetify/locale'
+import vuetify from 'vite-plugin-vuetify'
+// import { aliases, mdi } from 'vuetify/iconsets/mdi'
+// import { pt } from 'vuetify/locale'
 // import 'vuetify/styles'
 
 export default defineNuxtConfig({
@@ -47,22 +48,15 @@ export default defineNuxtConfig({
     '@fontsource/roboto/latin-900-italic.css',
     '@fontsource/roboto/latin-900.css',
     '@mdi/font/css/materialdesignicons.css',
-    // 'vuetify/styles',
+    'vuetify/styles',
     '~/assets/transitions.scss',
     '~/assets/vuetify-required.scss',
   ],
 
-  // styleResources: {
-  //   scss: [
-  //     '~/assets/_functions.scss',
-  //   ]
-  // },
-
   modules: [
     '@nuxt/devtools',
     '@pinia/nuxt',
-    '@invictus.codes/nuxt-vuetify',
-    // '@nuxtjs/style-resources',
+    // '@invictus.codes/nuxt-vuetify',
     // ['@nuxtjs/recaptcha', {
     //     hideBadge: false,  // Hide badge element (v3 & v2 via size=invisible)
     //     language: 'pt-BR', // Recaptcha language (v2)
@@ -94,63 +88,63 @@ export default defineNuxtConfig({
     },
   },
 
-  vuetify: {
-    vuetifyOptions: {
-      ssr: true,
-      icons: {
-        defaultSet: 'mdi',
-        aliases,
-        sets: {
-          mdi,
-        },
-      },
-      locale: {
-        locale: 'pt',
-        messages: {
-          pt,
-        },
-      },
-      theme: {
-        defaultTheme: 'light',
-        options: {
-          customProperties: true
-        },
-        themes: {
-          light: {
-            primary: '#1351B4',
-            secondary: '#636363',
-            accent: '#1351B4',
-            error: '#E52207',
-            info: '#155BCB',
-            success: '#168821',
-            warning: '#B38C00',
-            footer: '#0C326F',
-          },
-          dark: {
-            primary: '#5992ED',
-            secondary: '#565C65',
-            accent: '#1351B4',
-            error: '#FD8BA0',
-            info: '#345D96',
-            success: '#4d8055',
-            warning: '#E6C74C',
-            footer: '#071D41',
-          },
-        },
-      },
-    },
-    moduleOptions: {
-      treeshaking: true,
-      useIconCDN: false,
-      // styles: 'sass',
-      styles: { configFile: './assets/settings.scss' },
-      autoImport: true,
-    },
-  },
+  // vuetify: {
+  //   vuetifyOptions: {
+  //     ssr: true,
+  //     icons: {
+  //       defaultSet: 'mdi',
+  //       aliases,
+  //       sets: {
+  //         mdi,
+  //       },
+  //     },
+  //     locale: {
+  //       locale: 'pt',
+  //       messages: {
+  //         pt,
+  //       },
+  //     },
+  //     theme: {
+  //       defaultTheme: 'light',
+  //       options: {
+  //         customProperties: true
+  //       },
+  //       themes: {
+  //         light: {
+  //           primary: '#1351B4',
+  //           secondary: '#636363',
+  //           accent: '#1351B4',
+  //           error: '#E52207',
+  //           info: '#155BCB',
+  //           success: '#168821',
+  //           warning: '#B38C00',
+  //           footer: '#0C326F',
+  //         },
+  //         dark: {
+  //           primary: '#5992ED',
+  //           secondary: '#565C65',
+  //           accent: '#1351B4',
+  //           error: '#FD8BA0',
+  //           info: '#345D96',
+  //           success: '#4d8055',
+  //           warning: '#E6C74C',
+  //           footer: '#071D41',
+  //         },
+  //       },
+  //     },
+  //   },
+  //   moduleOptions: {
+  //     treeshaking: true,
+  //     useIconCDN: false,
+  //     // styles: 'sass',
+  //     styles: { configFile: './assets/settings.scss' },
+  //     autoImport: true,
+  //   },
+  // },
 
-  build: {
-    devtools: true,
-    transpile: ['vuetify'],
+  sourcemap: {
+    server: false,
+    client: false,
   },
 
   hooks: {
@@ -163,15 +157,30 @@ export default defineNuxtConfig({
         },
       });
     },
-    // 'vite:extendConfig': (config) => {
-    //   config.plugins.push(
-    //     vuetify({
-    //       autoImport: true,
-    //       styles: {
-    //         configFile: resolve('./assets/settings.scss'),
-    //       },
-    //     }),
-    //   )
-    // },
+    'vite:extendConfig': (config) => {
+      config.plugins.push(
+        vuetify({
+          autoImport: true,
+          // styles: {
+          //   configFile: './assets/settings.scss',
+          // },
+        }),
+      )
+    },
+  },
+
+  build: {
+    devtools: true,
+    transpile: ['vuetify'],
+  },
+
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@import "@/assets/_functions.scss";',
+        },
+      },
+    },
   },
 })
