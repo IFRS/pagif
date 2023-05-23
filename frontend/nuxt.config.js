@@ -111,10 +111,10 @@ export default defineNuxtConfig({
         },
       },
       theme: {
+        defaultTheme: 'light',
         options: {
           customProperties: true
         },
-        dark: false,
         themes: {
           light: {
             primary: '#1351B4',
