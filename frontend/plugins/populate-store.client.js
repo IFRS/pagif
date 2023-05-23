@@ -1,4 +1,5 @@
 import { defineNuxtPlugin } from '#app'
+import { useCookie } from 'nuxt/app';
 import { useConfigStore } from '~/store/config';
 
 export default defineNuxtPlugin(async (nuxtApp) => {
@@ -9,7 +10,9 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     console.error(error);
   });
 
-  const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches || nuxtApp.$cookies.get('darkMode');
+  let cookie = useCookie('darkMode');
+
+  const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches || cookie;
   if (darkMode) {
     store.darkMode = darkMode;
   }
@@ -24,7 +27,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   }
 
   store.$subscribe((mutation, state) => {
-    nuxtApp.$cookies.set('darkMode', state.darkMode);
+    cookie = state.darkMode;
     localStorage.setItem('unidade', state.unidade._id);
   });
 })

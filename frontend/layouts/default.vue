@@ -167,15 +167,10 @@
 </template>
 
 <script setup>
-import { definePageMeta } from '#app'
 import { storeToRefs } from 'pinia';
 import { ref, nextTick } from 'vue';
 import { useConfigStore } from '~/store/config';
 import { useDisplay } from 'vuetify';
-
-definePageMeta({
-  middleware: 'dark-mode',
-})
 
 const store = useConfigStore();
 const { sigla, orgao, unidade } = storeToRefs(store);

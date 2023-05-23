@@ -21,6 +21,7 @@
 </template>
 
 <script setup>
+import { useCookie } from 'nuxt/app';
 import { storeToRefs } from 'pinia';
 import { watch, onMounted } from 'vue';
 import { useTheme } from 'vuetify';
@@ -31,8 +32,15 @@ const { darkMode } = storeToRefs(store);
 
 const theme = useTheme();
 
+const cookie = useCookie('darkMode');
+
+const isDarkMode = process.server ? cookie : store.darkMode;
+
+theme.global.name.value = isDarkMode ? 'dark': 'light';
+
 watch(darkMode, (newValue) => {
   theme.global.name.value = newValue ? 'dark': 'light';
+  cookie = newValue;
 })
 
 onMounted(() => {

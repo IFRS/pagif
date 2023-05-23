@@ -3,13 +3,13 @@
     ref="snackbar"
     v-model="snackbarShow"
     :timeout="5000"
-    :color="$store.state.snackbar.color"
+    :color="store.color"
     :multi-line="true"
   >
     <v-icon start>
-      {{ $store.state.snackbar.icon }}
+      {{ store.icon }}
     </v-icon>
-    {{ $store.state.snackbar.text }}
+    {{ store.text }}
     <template #actions="{ attrs }">
       <v-btn
         color="white"

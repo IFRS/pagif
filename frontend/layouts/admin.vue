@@ -85,7 +85,7 @@
 
 <script>
 export default {
-  middleware: ['auth', 'dark-mode'],
+  middleware: ['auth'],
   data () {
     return {
       loaded: false,

@@ -7,12 +7,12 @@
             class="mr-3"
             color="primary"
             variant="text"
-            :loading="$fetchState.pending"
-            :disabled="!unidade"
+            :loading="pending"
+            :disabled="!configStore.unidade"
             v-bind="attrs"
             v-on="{ ...tooltip, ...menu }"
           >
-            {{ unidade?.nome || 'Selecione uma Unidade' }}
+            {{ configStore.unidade?.nome || 'Selecione uma Unidade' }}
             <v-icon end>
               mdi-menu-down
             </v-icon>
@@ -47,7 +47,7 @@ const store = useMainStore();
 const configStore = useConfigStore();
 
 try {
-  await store.fetchUnidades(true);
+  const { pending } = await store.fetchUnidades(true);
 } catch (error) {
   this.$toast.error('Ocorreu um erro ao carregar a lista de Unidades: ' + error.message);
   console.error(error);
