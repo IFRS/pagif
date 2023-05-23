@@ -1,14 +1,14 @@
 <template>
-  <component
+  <Component
     :is="tag"
     class="mb-5"
   >
     <slot />
-  </component>
+  </Component>
 </template>
 
 <script setup>
-import { defineProps, computed } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps({
   level: {
