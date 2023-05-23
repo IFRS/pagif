@@ -41,7 +41,7 @@
         <v-divider />
 
         <v-list-item
-          v-if="admin"
+          v-if="props.admin"
           :to="{ path: '/' }"
         >
           <v-list-item-title>Site</v-list-item-title>
@@ -66,20 +66,17 @@
   </v-menu>
 </template>
 
-<script>
-import { mapGetters } from 'vuex';
+<script setup>
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '~/store/auth';
 
-export default {
-  props: {
-    admin: {
-      type: Boolean,
-      default: false,
-    },
+const props = defineProps({
+  admin: {
+    type: Boolean,
+    default: false,
   },
-  computed: {
-    usuario: {
-      ...mapGetters({ get: 'auth/user' }),
-    },
-  }
-}
+})
+
+const store = useAuthStore();
+const { usuario } = storeToRefs(store);
 </script>

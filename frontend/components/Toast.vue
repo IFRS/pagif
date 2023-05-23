@@ -23,17 +23,18 @@
   </v-snackbar>
 </template>
 
-<script>
-export default {
-  computed: {
-    snackbarShow: {
-      get() {
-        return this.$store.state.snackbar.show;
-      },
-      set(value) {
-        this.$store.commit('snackbar/updateShow', value);
-      }
-    },
+<script setup>
+import { computed } from 'vue';
+import { useSnackbarStore } from '~/store/snackbar';
+
+const store = useSnackbarStore();
+
+const snackbarShow = computed({
+  get() {
+    return store.show;
   },
-}
+  set(value) {
+    store.updateShow(value);
+  }
+})
 </script>

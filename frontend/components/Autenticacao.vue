@@ -1,5 +1,5 @@
 <template>
-  <UserMenu v-if="$store.getters['auth/user']" />
+  <UserMenu v-if="store.user" />
 
   <v-btn
     v-else
@@ -11,3 +11,8 @@
     Entrar com&nbsp;<strong>Google</strong>
   </v-btn>
 </template>
+
+<script setup>
+import { useAuthStore } from '~/store/auth';
+const store = useAuthStore();
+</script>

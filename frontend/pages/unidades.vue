@@ -21,23 +21,26 @@
   </v-container>
 </template>
 
-<script>
-export default {
-  async fetch () {
-    await this.$store.dispatch('fetchUnidades', true)
-    .catch((error) => {
-      this.$toast.error('Ocorreu um erro ao carregar as Unidades: ' + error.message);
-      console.error(error);
-    });
-  },
-  head: {
-    title: 'Escolha uma Unidade',
-  },
-  methods: {
-    escolha(unidade) {
-      this.$store.commit('config/unidade', unidade);
-      this.$router.push({ path: this.$route.query.returnPath || '/' });
-    },
-  },
+<script setup>
+import { definePageMeta, navigateTo } from '#app';
+import { useMainStore } from '~/store';
+import { useConfigStore } from '~/store/config';
+
+definePageMeta({
+  title: 'Escolha uma Unidade',
+});
+
+const store = useMainStore();
+
+try {
+  await store.fetchUnidades();
+} catch (error) {
+  this.$toast.error('Ocorreu um erro ao carregar as Unidades: ' + error.message);
+  console.error(error);
+}
+
+function escolha(unidade) {
+  useConfigStore().unidade = unidade;
+  navigateTo({ path: this.$route.query.returnPath || '/' });
 }
 </script>

@@ -36,42 +36,39 @@
   </v-menu>
 </template>
 
-<script>
-import { mapGetters, mapMutations } from 'vuex';
+<script setup>
+import { navigateTo } from 'nuxt/app';
+import { onUnmounted } from 'vue';
+import { computed } from 'vue';
+import { useMainStore } from '~/store';
+import { useConfigStore } from '~/store/config';
 
-export default {
-  async fetch() {
-    await this.$store.dispatch('fetchUnidades', true)
-    .catch((error) => {
-      this.$toast.error('Ocorreu um erro ao carregar a lista de Unidades: ' + error.message);
-      console.error(error);
+const store = useMainStore();
+const configStore = useConfigStore();
+
+try {
+  await store.fetchUnidades(true);
+} catch (error) {
+  this.$toast.error('Ocorreu um erro ao carregar a lista de Unidades: ' + error.message);
+  console.error(error);
+}
+
+const selectedUnidade = computed({
+  get() {
+    return store.unidades.findIndex((item) => {
+      return item._id === configStore.unidade?._id;
     });
   },
-  computed: {
-    selectedUnidade: {
-      get() {
-        return this.$store.state.unidades.findIndex((item) => {
-          return item._id === this.$store.getters['config/unidade']?._id;
-        });
-      },
-      set(index) {
-        this.$nuxt.$loading.start();
+  set(index) {
+    configStore.unidade = store.unidades[index];
 
-        this.$store.commit('config/unidade', this.$store.state.unidades[index]);
+    setTimeout(() => {
+      navigateTo({ name: 'index' });
+    }, 250);
+  }
+})
 
-        setTimeout(() => {
-          this.$nuxt.$loading.finish();
-          this.$router.push({ name: 'index' });
-        }, 250);
-      }
-    },
-    unidade: {
-      ...mapGetters({ get: 'config/unidade' }),
-      ...mapMutations({ set: 'config/unidade' }),
-    },
-  },
-  unmounted() {
-    this.$store.commit('clearUnidades');
-  },
-}
+onUnmounted(() => {
+  store.clearUnidades();
+})
 </script>

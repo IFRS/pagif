@@ -20,25 +20,24 @@
   </v-tooltip>
 </template>
 
-<script>
-import { mapGetters, mapMutations } from 'vuex';
+<script setup>
+import { storeToRefs } from 'pinia';
+import { watch, onMounted } from 'vue';
+import { useTheme } from 'vuetify';
+import { useConfigStore } from '~/store/config';
 
-export default {
-  computed: {
-    darkMode: {
-      ...mapGetters({ get: 'config/darkMode' }),
-      ...mapMutations({ set: 'config/darkMode' }),
-    },
-  },
-  watch: {
-    darkMode(newValue) {
-      this.$vuetify.theme.dark = newValue;
-    }
-  },
-  mounted() {
-    setTimeout(() => {
-      this.$vuetify.theme.dark = this.$store.getters['config/darkMode'];
-    }, 0);
-  },
-}
+const store = useConfigStore();
+const { darkMode } = storeToRefs(store);
+
+const theme = useTheme();
+
+watch(darkMode, (newValue) => {
+  theme.global.name.value = newValue ? 'dark': 'light';
+})
+
+onMounted(() => {
+  setTimeout(() => {
+    theme.global.name.value = darkMode ? 'dark' : 'light';
+  }, 0);
+});
 </script>
