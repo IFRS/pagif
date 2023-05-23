@@ -13,7 +13,7 @@
         v-else
         elevation="5"
         prominent
-        type="danger"
+        type="warning"
       >
         Ocorreu um erro inesperado.
       </v-alert>
@@ -27,11 +27,19 @@
 </template>
 
 <script setup>
-  defineProps({
+  const props = defineProps({
     error: {
       type: Object,
       default: null,
     },
   })
+
+  const { $authStore } = useNuxtApp()
+
+  if (props.error.statusCode === 401) {
+    $authStore.$reset();
+    clearError({ redirect: '/' })
+  }
+
   const handleError = () => clearError({ redirect: '/' })
 </script>
