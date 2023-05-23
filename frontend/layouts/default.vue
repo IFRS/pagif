@@ -170,7 +170,6 @@
 import { definePageMeta } from '#app'
 import { storeToRefs } from 'pinia';
 import { ref, nextTick } from 'vue';
-import { onMounted } from 'vue';
 import { useConfigStore } from '~/store/config';
 import { useDisplay } from 'vuetify';
 
@@ -184,13 +183,11 @@ const { sigla, orgao, unidade } = storeToRefs(store);
 const loaded = ref(false);
 const drawer = ref(false);
 
-onMounted(() => {
-  nextTick(function () {
-    loaded.value = true;
-  });
-})
-
 const { smAndDown } = useDisplay();
+
+await nextTick(function () {
+  loaded.value = true;
+});
 </script>
 
 <style lang="scss" scoped>
