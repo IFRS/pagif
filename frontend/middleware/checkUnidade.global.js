@@ -1,8 +1,9 @@
-import { defineNuxtRouteMiddleware, navigateTo } from "nuxt/app";
+import { defineNuxtRouteMiddleware, navigateTo } from "#app";
 import { useConfigStore } from "~/store/config";
 
 export default defineNuxtRouteMiddleware((to) => {
   const store = useConfigStore()
+
   if (
     process.client
     && to.name !== 'index'
@@ -13,5 +14,6 @@ export default defineNuxtRouteMiddleware((to) => {
   ) {
     return navigateTo({ name: 'unidades', query: { returnPath: to.path } })
   }
+
   return
 })
