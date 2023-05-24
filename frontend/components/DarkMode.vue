@@ -21,20 +21,19 @@
 </template>
 
 <script setup>
-import { useCookie } from 'nuxt/app';
+import { useCookie, useNuxtApp } from '#app';
 import { storeToRefs } from 'pinia';
 import { watch, onMounted } from 'vue';
 import { useTheme } from 'vuetify';
-import { useConfigStore } from '~/store/config';
 
-const store = useConfigStore();
-const { darkMode } = storeToRefs(store);
+const { $configStore } = useNuxtApp();
+const { darkMode } = storeToRefs($configStore);
 
 const theme = useTheme();
 
 const cookie = useCookie('darkMode');
 
-const isDarkMode = process.server ? cookie : store.darkMode;
+const isDarkMode = process.server ? cookie : darkMode;
 
 theme.global.name.value = isDarkMode ? 'dark': 'light';
 
