@@ -77,23 +77,21 @@
 
 <script setup>
 import { onBeforeMount } from 'vue';
-import { useRoute, useRouter } from '#app';
+import { useNuxtApp, useRoute, useRouter } from '#app';
 import { storeToRefs } from 'pinia';
-import { useMainStore } from '~/store';
-import { useConfigStore } from '~/store/config';
 import { useDisplay } from 'vuetify';
 
-const mainStore = useMainStore();
-const configStore = useConfigStore();
-const { intro, darkMode } = storeToRefs(configStore);
+const { $store, $configStore } = useNuxtApp();
+
+const { intro, darkMode } = storeToRefs($configStore);
 
 const route = useRoute();
 const router = useRouter();
 onBeforeMount(() => {
   if (route.query.unidade) {
-      const unidade = mainStore.unidades.find(unidade => (unidade.slug && unidade.slug === route.query.unidade));
+      const unidade = $store.unidades.find(unidade => (unidade.slug && unidade.slug === route.query.unidade));
       if (unidade) {
-        configStore.unidade = unidade;
+        $configStore.unidade = unidade;
         this.$toast.success(`Unidade definida para "${unidade.nome}".`);
       }
 

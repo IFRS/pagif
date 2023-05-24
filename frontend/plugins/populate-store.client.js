@@ -1,10 +1,9 @@
-import { defineNuxtPlugin } from '#app'
-import { useCookie } from 'nuxt/app';
-import { useConfigStore } from '~/store/config';
+import { defineNuxtPlugin, useCookie } from '#app'
+// import { useConfigStore } from '~/store/config';
 
 export default defineNuxtPlugin(async (nuxtApp) => {
-  const store = useConfigStore()
-  await store.populateConfig()
+  // const store = useConfigStore()
+  await nuxtApp.$configStore.populateConfig()
   .catch((error) => {
     nuxtApp.$toast.error('Ocorreu um erro ao carregar as Configurações do Sistema: ' + error.message);
     console.error(error);
@@ -14,19 +13,19 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
   const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches || cookie;
   if (darkMode) {
-    store.darkMode = darkMode;
+    nuxtApp.$configStore.darkMode = darkMode;
   }
 
   const unidade_id = localStorage.getItem('unidade');
   if (unidade_id) {
-    await store.populateUnidade(unidade_id)
+    await nuxtApp.$configStore.populateUnidade(unidade_id)
     .catch((error) => {
       nuxtApp.$toast.error('Ocorreu um erro ao carregar a Unidade previamente selecionada: ' + error.message);
       console.error(error);
     });
   }
 
-  store.$subscribe((mutation, state) => {
+  nuxtApp.$configStore.$subscribe((mutation, state) => {
     cookie = state.darkMode;
     localStorage.setItem('unidade', state.unidade._id);
   });
