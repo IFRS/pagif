@@ -56,6 +56,8 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/devtools',
     '@pinia/nuxt',
+    // 'nuxt-proxy-request',
+    'nuxt-proxy',
     // '@invictus.codes/nuxt-vuetify',
     // ['@nuxtjs/recaptcha', {
     //     hideBadge: false,  // Hide badge element (v3 & v2 via size=invisible)
@@ -76,6 +78,18 @@ export default defineNuxtConfig({
     //   valueAsInteger: true,
     // }],
   ],
+
+  proxy: {
+    options: [
+      {
+        target: 'http://localhost:3030',
+        pathFilter: ['/api/**'],
+        pathRewrite: {
+          '^/api': '',
+        },
+      },
+    ],
+  },
 
   runtimeConfig: {
     apiBaseURL: 'http://localhost:3030/',
