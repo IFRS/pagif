@@ -24,6 +24,10 @@ export const useConfigStore = defineStore('config', {
       }
     },
   },
+
+  // hydrate(state, initialState) {
+  //   state = initialState;
+  // }
 })
 
 if (import.meta.hot) {
