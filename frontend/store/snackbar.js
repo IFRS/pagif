@@ -35,8 +35,8 @@ export const useSnackbarStore = defineStore('snackbar', {
           break;
       }
     },
-    updateShow(payload) {
-      this.show = payload;
+    hide() {
+      this.$reset();
     },
   },
 })

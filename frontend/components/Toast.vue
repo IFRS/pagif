@@ -1,21 +1,21 @@
 <template>
   <v-snackbar
     ref="snackbar"
-    v-model="snackbarShow"
+    v-model="show"
     :timeout="5000"
-    :color="snackbarStore.color"
+    :color="color"
     :multi-line="true"
   >
     <v-icon start>
-      {{ snackbarStore.icon }}
+      {{ icon }}
     </v-icon>
-    {{ snackbarStore.text }}
+    {{ text }}
     <template #actions="{ attrs }">
       <v-btn
         color="white"
         variant="text"
         v-bind="attrs"
-        @click="snackbarShow = false"
+        @click="snackbarStore.hide()"
       >
         Fechar
       </v-btn>
@@ -24,17 +24,9 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useSnackbarStore } from '~/store/snackbar';
 
 const snackbarStore = useSnackbarStore();
-
-const snackbarShow = computed({
-  get() {
-    return snackbarStore.show;
-  },
-  set(value) {
-    snackbarStore.updateShow(value);
-  }
-})
+const { show, color, icon, text } = storeToRefs(snackbarStore);
 </script>
