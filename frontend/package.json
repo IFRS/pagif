@@ -32,7 +32,6 @@
   },
   "devDependencies": {
     "@invictus.codes/nuxt-vuetify": "^0.2.20",
-    "@nuxt/devtools": "^0.5.0",
     "@nuxt/eslint-config": "^0.1.1",
     "@nuxt/vite-builder": "^3.5.1",
     "@nuxtjs/eslint-module": "^4.0.2",

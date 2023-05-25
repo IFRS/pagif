@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    DNT: {{ dnt }}
     <v-row
       class="my-5"
       align="center"
@@ -87,7 +86,7 @@ import { useConfigStore } from '~/store/config';
 const store = useMainStore();
 const configStore = useConfigStore();
 
-const { intro, darkMode, dnt } = storeToRefs(configStore);
+const { intro, darkMode } = storeToRefs(configStore);
 
 const route = useRoute();
 const router = useRouter();
