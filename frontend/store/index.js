@@ -1,4 +1,3 @@
-import { useFetch } from 'nuxt/app';
 import { defineStore } from 'pinia';
 
 export const useMainStore = defineStore('main', {
@@ -20,9 +19,8 @@ export const useMainStore = defineStore('main', {
       });
     },
     async fetchUnidades(isPublic = false) {
-      const response = await useFetch(isPublic ? '/api/public/unidades' : '/api/unidades');
-      if (response.data) this.unidades = response.data;
-      return response;
+      const data = await $fetch(isPublic ? '/api/public/unidades' : '/api/unidades');
+      if (data) this.unidades = data;
     },
 
     /* Serviços */
@@ -36,9 +34,8 @@ export const useMainStore = defineStore('main', {
     },
     async fetchServicos(payload) {
       const query = (payload?.unidade) ? { unidade: payload.unidade } : { populate: 'unidade', populate_fields: 'nome' };
-      const response = useFetch(payload?.isPublic ? '/api/public/servicos' : '/api/servicos', { params: query });
-      if (response.data) this.servicos = response.data;
-      return response;
+      const data = $fetch(payload?.isPublic ? '/api/public/servicos' : '/api/servicos', { query: query });
+      if (data) this.servicos = data;
     },
 
     /* Pagamentos */
@@ -60,9 +57,8 @@ export const useMainStore = defineStore('main', {
       });
     },
     async fetchPagamentos(payload) {
-      const response = useFetch('/api/pagamentos', { params: payload })
-      if (response.data) this.pagamentos = response.data;
-      return response;
+      const data = $fetch('/api/pagamentos', { query: payload })
+      if (data) this.pagamentos = data;
     },
 
     /* Usuários */
@@ -75,21 +71,8 @@ export const useMainStore = defineStore('main', {
       });
     },
     async fetchUsuarios() {
-      const response = useFetch('/api/usuarios');
-      if (response.data) this.usuarios = response.data;
-      return response;
-    },
-
-    /* Server Store Population */
-    // TODO transformar em um plugin
-    async nuxtServerInit({ commit }, { app, req }) {
-      await app.$axios.get('/api/auth/me')
-      .then(response => {
-        commit('auth/user', response.data);
-      });
-      if (req.headers['dnt'] == 1) {
-        commit('config/dnt', true);
-      }
+      const data = $fetch('/api/usuarios');
+      if (data) this.usuarios = data;
     },
   },
 })

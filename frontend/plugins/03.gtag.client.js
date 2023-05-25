@@ -4,7 +4,7 @@ import VueGtag from 'vue-gtag'
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   const config = useRuntimeConfig();
-  const store = useConfigStore();
+  const store = useConfigStore(nuxtApp.$pinia);
 
   if (config.GA) {
     nuxtApp.vueApp.use(VueGtag, {

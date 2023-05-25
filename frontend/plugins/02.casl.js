@@ -1,13 +1,13 @@
-import { createMongoAbility } from "@casl/ability";
-import { defineNuxtPlugin, useFetch } from "#app";
+import { defineNuxtPlugin } from "#app";
 import { useAuthStore } from "~/store/auth";
+import { createMongoAbility } from "@casl/ability";
 
 export default defineNuxtPlugin(async (nuxtApp) => {
-  const store = useAuthStore();
+  const store = useAuthStore(nuxtApp.$pinia);
   let user = null;
 
   if (process.server) {
-    user = await useFetch('/api/auth/me');
+    user = await $fetch('/api/auth/me');
   }
 
   if (process.client) {

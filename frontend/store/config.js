@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { useFetch } from 'nuxt/app';
 
 export const useConfigStore = defineStore('config', {
   state: () => ({
@@ -13,18 +12,16 @@ export const useConfigStore = defineStore('config', {
 
   actions: {
     async populateUnidade(id) {
-      const response = await useFetch(`/api/public/unidades/${id}`);
-      if (response.data) this.unidade = response.data;
-      return response;
+      const data = await $fetch(`/api/public/unidades/${id}`);
+      if (data) this.unidade = data;
     },
     async populateConfig() {
-      const response = await useFetch('/api/public/settings');
-      if (response.data) {
-        this.sigla = response.data.sigla;
-        this.orgao = response.data.orgao;
-        this.intro = response.data.intro;
+      const data = await $fetch('/api/public/settings');
+      if (data) {
+        this.sigla = data.sigla;
+        this.orgao = data.orgao;
+        this.intro = data.intro;
       }
-      return response;
     },
   },
 })

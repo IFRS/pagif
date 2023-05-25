@@ -7,7 +7,7 @@
             class="mr-3"
             color="primary"
             variant="text"
-            :loading="pending"
+            :loading="!$store.unidades"
             :disabled="!$configStore.unidade"
             v-bind="attrs"
             v-on="{ ...tooltip, ...menu }"
@@ -42,10 +42,8 @@ import { computed, onUnmounted } from 'vue';
 
 const { $store, $configStore, $toast } = useNuxtApp()
 
-let pending = null;
-
 try {
-  pending = { pending } = await $store.fetchUnidades(true);
+  await $store.fetchUnidades(true);
 } catch (error) {
   $toast.error('Ocorreu um erro ao carregar a lista de Unidades: ' + error.message);
   console.error(error);
