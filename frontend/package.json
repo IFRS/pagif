@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@casl/ability": "^6.3.2",
-    "@fontsource/roboto": "^4.5.8",
     "@mdi/font": "^7.2.96",
     "@nuxtjs/recaptcha": "^1.1.1",
     "@nuxtjs/style-resources": "^1.2.1",
@@ -31,6 +30,7 @@
     "vuetify": "^3.2.5"
   },
   "devDependencies": {
+    "@fontsource/roboto": "^5.0.1",
     "@invictus.codes/nuxt-vuetify": "^0.2.20",
     "@nuxt/eslint-config": "^0.1.1",
     "@nuxt/vite-builder": "^3.5.1",
