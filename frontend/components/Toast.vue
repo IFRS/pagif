@@ -3,13 +3,13 @@
     ref="snackbar"
     v-model="snackbarShow"
     :timeout="5000"
-    :color="$snackbarStore.color"
+    :color="snackbarStore.color"
     :multi-line="true"
   >
     <v-icon start>
-      {{ $snackbarStore.icon }}
+      {{ snackbarStore.icon }}
     </v-icon>
-    {{ $snackbarStore.text }}
+    {{ snackbarStore.text }}
     <template #actions="{ attrs }">
       <v-btn
         color="white"
@@ -25,16 +25,16 @@
 
 <script setup>
 import { computed } from 'vue';
-import { useNuxtApp } from '#app';
+import { useSnackbarStore } from '~/store/snackbar';
 
-const { $snackbarStore } = useNuxtApp();
+const snackbarStore = useSnackbarStore();
 
 const snackbarShow = computed({
   get() {
-    return $snackbarStore.show;
+    return snackbarStore.show;
   },
   set(value) {
-    $snackbarStore.updateShow(value);
+    snackbarStore.updateShow(value);
   }
 })
 </script>

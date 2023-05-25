@@ -2,12 +2,12 @@ import { defineNuxtPlugin, useRuntimeConfig } from '#app';
 import { useConfigStore } from '../store/config'
 import VueGtag from 'vue-gtag'
 
-export default defineNuxtPlugin(async (nuxtApp) => {
+export default defineNuxtPlugin(async ({ $pinia, vueApp, router }) => {
   const config = useRuntimeConfig();
-  const store = useConfigStore(nuxtApp.$pinia);
+  const store = useConfigStore($pinia);
 
   if (config.GA) {
-    nuxtApp.vueApp.use(VueGtag, {
+    vueApp.use(VueGtag, {
       enabled: !store.dnt,
       config: {
         id: config.GA,
@@ -17,6 +17,6 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       },
       appName: 'PagIF - Sistema de Pagamentos',
       pageTrackerScreenviewEnabled: true,
-    }, nuxtApp.router);
+    }, router);
   }
 })

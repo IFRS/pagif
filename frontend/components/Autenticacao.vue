@@ -1,5 +1,5 @@
 <template>
-  <UserMenu v-if="$store.user" />
+  <UserMenu v-if="authStore.user" />
 
   <v-btn
     v-else
@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { useNuxtApp } from '#app';
+import { useAuthStore } from '~/store/auth';
 
-const { $store } = useNuxtApp();
+const authStore = useAuthStore();
 </script>

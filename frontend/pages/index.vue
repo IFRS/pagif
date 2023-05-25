@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    DNT: {{ dnt }}
     <v-row
       class="my-5"
       align="center"
@@ -77,19 +78,22 @@
 
 <script setup>
 import { onBeforeMount } from 'vue';
-import { useNuxtApp, useRoute, useRouter } from '#app';
+import { useRoute, useRouter } from '#app';
 import { storeToRefs } from 'pinia';
 import { useDisplay } from 'vuetify';
+import { useMainStore } from '~/store';
+import { useConfigStore } from '~/store/config';
 
-const { $store, $configStore } = useNuxtApp();
+const store = useMainStore();
+const configStore = useConfigStore();
 
-const { intro, darkMode } = storeToRefs($configStore);
+const { intro, darkMode, dnt } = storeToRefs(configStore);
 
 const route = useRoute();
 const router = useRouter();
 onBeforeMount(() => {
   if (route.query.unidade) {
-    const unidade = $store.unidades.find(unidade => (unidade.slug && unidade.slug === route.query.unidade));
+    const unidade = store.unidades.find(unidade => (unidade.slug && unidade.slug === route.query.unidade));
     if (unidade) {
       $configStore.unidade = unidade;
       this.$toast.success(`Unidade definida para "${unidade.nome}".`);

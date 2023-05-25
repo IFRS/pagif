@@ -5,7 +5,7 @@ import * as directives from 'vuetify/directives'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { pt } from 'vuetify/locale'
 
-export default defineNuxtPlugin(nuxtApp => {
+export default defineNuxtPlugin(({ vueApp }) => {
   const vuetify = createVuetify({
     components,
     directives,
@@ -59,5 +59,5 @@ export default defineNuxtPlugin(nuxtApp => {
     },
   })
 
-  nuxtApp.vueApp.use(vuetify)
+  vueApp.use(vuetify)
 })

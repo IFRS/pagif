@@ -1,7 +1,7 @@
 import { defineNuxtPlugin } from '#app'
 
-export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.vueApp.config.globalProperties.$filters = {
+export default defineNuxtPlugin(({ vueApp }) => {
+  vueApp.config.globalProperties.$filters = {
     real_to_int(valor) {
       if (!valor) return 0;
 

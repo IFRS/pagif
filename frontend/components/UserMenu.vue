@@ -67,8 +67,8 @@
 </template>
 
 <script setup>
-import { useNuxtApp } from '#app';
 import { storeToRefs } from 'pinia';
+import { useAuthStore } from '~/store/auth';
 
 defineProps({
   admin: {
@@ -77,6 +77,7 @@ defineProps({
   },
 })
 
-const { $authStore } = useNuxtApp();
-const { usuario } = storeToRefs($authStore);
+const authStore = useAuthStore();
+
+const { usuario } = storeToRefs(authStore);
 </script>

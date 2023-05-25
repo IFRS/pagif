@@ -167,13 +167,13 @@
 </template>
 
 <script setup>
-import { useNuxtApp } from '#app';
 import { storeToRefs } from 'pinia';
 import { ref, nextTick } from 'vue';
 import { useDisplay } from 'vuetify';
+import { useConfigStore } from '~/store/config';
 
-const { $configStore } = useNuxtApp();
-const { sigla, orgao, unidade, darkMode } = storeToRefs($configStore);
+const configStore = useConfigStore();
+const { sigla, orgao, unidade, darkMode } = storeToRefs(configStore);
 
 const loaded = ref(false);
 const drawer = ref(false);
