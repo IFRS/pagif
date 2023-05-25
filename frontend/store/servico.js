@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia';
+import { acceptHMRUpdate, defineStore } from 'pinia';
 import { useMainStore } from '.';
 
 export const useServicoStore = defineStore('servico', {
@@ -42,3 +42,7 @@ export const useServicoStore = defineStore('servico', {
     },
   },
 })
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useServicoStore, import.meta.hot))
+}

@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia';
+import { acceptHMRUpdate, defineStore } from 'pinia';
 import dayjs from 'dayjs';
 import { useMainStore } from '.';
 import { useFetch } from 'nuxt/app';
@@ -84,3 +84,7 @@ export const usePagamentoStore = defineStore('pagamento', {
     },
   },
 })
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(usePagamentoStore, import.meta.hot))
+}

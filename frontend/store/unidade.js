@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia';
+import { acceptHMRUpdate, defineStore } from 'pinia';
 import { useMainStore } from '.';
 
 export const useUnidadeStore = defineStore('unidade', {
@@ -43,3 +43,7 @@ export const useUnidadeStore = defineStore('unidade', {
     },
   },
 })
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useUnidadeStore, import.meta.hot))
+}
