@@ -4,6 +4,7 @@
   <v-btn
     v-else
     color="primary"
+    variant="elevated"
     size="small"
     class="text-none"
     href="/api/auth/google"

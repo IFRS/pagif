@@ -1,10 +1,9 @@
 <template>
   <v-tooltip location="bottom">
-    <template #activator="{ on, attrs }">
+    <template #activator="{ props }">
       <div
-        v-bind="attrs"
-        style="width: min-content;"
-        v-on="on"
+        v-bind="props"
+        class="me-3"
       >
         <v-switch
           v-model="darkMode"
@@ -13,6 +12,7 @@
           hide-details
           color="primary"
           prepend-icon="mdi-theme-light-dark"
+          v-bind="props"
         />
       </div>
     </template>
