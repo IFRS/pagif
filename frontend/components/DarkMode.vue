@@ -32,7 +32,7 @@ const { darkMode } = storeToRefs(configStore);
 
 const theme = useTheme();
 
-const cookie = useCookie('darkMode');
+let cookie = useCookie('darkMode');
 
 const isDarkMode = process.server ? cookie : darkMode;
 
@@ -45,7 +45,7 @@ watch(darkMode, (newValue) => {
 
 onMounted(() => {
   setTimeout(() => {
-    theme.global.name.value = darkMode ? 'dark' : 'light';
+    theme.global.name.value = isDarkMode ? 'dark' : 'light';
   }, 0);
 });
 </script>
