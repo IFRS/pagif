@@ -108,34 +108,18 @@ const { smAndDown } = useDisplay();
 <style lang="scss" scoped>
 .intro {
   display: flex;
-  flex-direction: row;
+  flex-direction: v-bind('smAndDown ? "column" : "row"');
   flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
   gap: 1rem;
-
-  // @media #{map-get($display-breakpoints, 'sm-and-down')} {
-  //   flex-direction: column;
-  // }
-
-  @if (v-bind(smAndDown)) {
-    flex-direction: column;
-  }
 
   &__marca {
     flex: 0 1 160px;
   }
 
   &__text {
-    flex: 0 1 80ch;
-
-    // @media #{map-get($display-breakpoints, 'sm-and-down')} {
-    //   flex-basis: auto;
-    // }
-
-    @if (v-bind(smAndDown)) {
-      flex-basis: auto;
-    }
+    flex: 0 1 v-bind('smAndDown ? "auto" : "80ch"');
   }
 }
 </style>
