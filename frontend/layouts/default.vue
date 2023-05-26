@@ -51,8 +51,7 @@
 
       <NuxtLink
         :to="{ name: 'index' }"
-        class="text-decoration-none"
-        color="primary"
+        class="text-decoration-none text-primary"
       >
         <client-only>
           <h1 class="titulo">
