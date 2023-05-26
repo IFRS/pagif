@@ -1,11 +1,12 @@
 import { acceptHMRUpdate, defineStore } from 'pinia';
+import { useFetch } from '#app';
 
 export const useMainStore = defineStore('main', {
   state: () => ({
-    unidades: [],
-    servicos: [],
-    pagamentos: [],
-    usuarios: [],
+    unidades: null,
+    servicos: null,
+    pagamentos: null,
+    usuarios: null,
   }),
 
   actions: {
@@ -19,8 +20,9 @@ export const useMainStore = defineStore('main', {
       });
     },
     async fetchUnidades(isPublic = false) {
-      const data = await $fetch(isPublic ? '/api/public/unidades' : '/api/unidades');
-      if (data) this.unidades = data;
+      const { data, pending, error } = await useFetch(isPublic ? '/api/public/unidades' : '/api/unidades');
+      if (data.value) this.unidades = data.value;
+      return { pending, error };
     },
 
     /* Serviços */

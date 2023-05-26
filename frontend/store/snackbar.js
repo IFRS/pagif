@@ -2,7 +2,7 @@ import { acceptHMRUpdate, defineStore } from 'pinia';
 
 export const useSnackbarStore = defineStore('snackbar', {
   state: () => ({
-    show: false,
+    showing: false,
     text: '',
     color: '',
     icon: '',
@@ -10,7 +10,7 @@ export const useSnackbarStore = defineStore('snackbar', {
 
   actions: {
     show(payload) {
-      this.show = true;
+      this.showing = true;
       this.text = payload.text;
       switch (payload.type) {
         case 'info':
@@ -37,6 +37,18 @@ export const useSnackbarStore = defineStore('snackbar', {
     },
     hide() {
       this.$reset();
+    },
+    info (text) {
+      this.show({ text, type: 'info' });
+    },
+    success (text) {
+      this.show({ text, type: 'success' });
+    },
+    warning (text) {
+      this.show({ text, type: 'warning' });
+    },
+    error (text) {
+      this.show({ text, type: 'error' });
     },
   },
 })

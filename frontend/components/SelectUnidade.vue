@@ -1,16 +1,15 @@
 <template>
   <v-menu>
-    <template #activator="{ on: menu, attrs }">
+    <template #activator="{ props: menu }">
       <v-tooltip location="left">
-        <template #activator="{ on: tooltip }">
+        <template #activator="{ props: tooltip }">
           <v-btn
             class="mr-3"
             color="primary"
             variant="text"
-            :loading="!store.unidades"
+            :loading="pending"
             :disabled="!configStore.unidade"
-            v-bind="attrs"
-            v-on="{ ...tooltip, ...menu }"
+            v-bind="mergeProps(menu, tooltip)"
           >
             {{ configStore.unidade?.nome || 'Selecione uma Unidade' }}
             <v-icon end>
@@ -26,7 +25,7 @@
       <v-list-item
         v-for="(u, i) in store.unidades"
         :key="i"
-        :value="selectedUnidade"
+        :value="i"
         mandatory
         color="primary"
       >
@@ -37,26 +36,26 @@
 </template>
 
 <script setup>
-import { navigateTo, useNuxtApp } from '#app';
-import { computed, onUnmounted } from 'vue';
+import { navigateTo } from '#app';
+import { mergeProps, computed, onUnmounted } from 'vue';
 import { useMainStore } from '~/store';
 import { useConfigStore } from '~/store/config';
+import { useSnackbarStore } from '~/store/snackbar';
 
-const { $toast } = useNuxtApp()
 const store = useMainStore();
 const configStore = useConfigStore();
+const toast = useSnackbarStore();
 
-try {
-  await store.fetchUnidades(true);
-} catch (error) {
-  $toast.error('Ocorreu um erro ao carregar a lista de Unidades: ' + error.message);
+const { pending, error } = await store.fetchUnidades(true);
+if (error.value) {
+  toast.error('Ocorreu um erro ao carregar a lista de Unidades.');
   console.error(error);
 }
 
 const selectedUnidade = computed({
   get() {
-    return store.unidades.findIndex((item) => {
-      return item._id === configStore.unidade?._id;
+    return store.unidades.findIndex((unidade) => {
+      return unidade._id === configStore.unidade?._id;
     });
   },
   set(index) {

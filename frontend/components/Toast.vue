@@ -1,7 +1,6 @@
 <template>
   <v-snackbar
-    ref="snackbar"
-    v-model="show"
+    v-model="showing"
     :timeout="5000"
     :color="color"
     :multi-line="true"
@@ -10,11 +9,10 @@
       {{ icon }}
     </v-icon>
     {{ text }}
-    <template #actions="{ attrs }">
+    <template #actions>
       <v-btn
         color="white"
         variant="text"
-        v-bind="attrs"
         @click="snackbarStore.hide()"
       >
         Fechar
@@ -28,5 +26,5 @@ import { storeToRefs } from 'pinia';
 import { useSnackbarStore } from '~/store/snackbar';
 
 const snackbarStore = useSnackbarStore();
-const { show, color, icon, text } = storeToRefs(snackbarStore);
+const { showing, color, icon, text } = storeToRefs(snackbarStore);
 </script>
