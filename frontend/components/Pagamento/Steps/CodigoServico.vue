@@ -11,16 +11,14 @@
     />
 
     <v-autocomplete
-      v-model="servico"
+      v-model="selectedServico"
       prepend-icon="mdi-basket"
       label="Serviço"
       no-data-text="Nenhum Serviço encontrado na Unidade atual."
       :rules="validation"
       :loading="pending"
       :disabled="pending"
-      :items="store.servicos"
-      :item-title="item => `${item.nome} (${item.codigo})`"
-      :item-value="item => ({ codigo: item.codigo, nome: item.nome })"
+      :items="servicos"
       required
       class="required"
     />
@@ -29,34 +27,43 @@
 
 <script setup>
 import { storeToRefs } from 'pinia';
+import { watch } from 'vue';
 import { computed } from 'vue';
 import { useMainStore } from '~/store';
 import { useConfigStore } from '~/store/config';
 import { usePagamentoStore } from '~/store/pagamento';
 
-
 const validation = [
   v => !!v || 'Selecione um Serviço.',
-  v => (v === Object(v) && !!v.codigo && !!v.nome) || 'Selecione um Serviço.',
 ]
 
-const store = useMainStore();
+const store = useMainStore()
 const configStore = useConfigStore()
-const { pending, error } = await store.fetchServicos({ isPublic: true, unidade: this.$store.getters['config/unidade']?._id })
+const { pending, error } = await store.fetchServicos({ isPublic: true, unidade: configStore.unidade?._id })
 if (error.value) {
-  useToast().error('Ocorreu um erro ao carregar os Serviços.');
-  console.error(error);
+  useToast().error('Ocorreu um erro ao carregar os Serviços.')
+  console.error(error)
 }
 
-const { codigoServico, nomeServico } = storeToRefs(usePagamentoStore())
+const pagamentoStore = usePagamentoStore();
+const { codigoServico, nomeServico } = storeToRefs(pagamentoStore)
 
-const servico = computed({
-  get() {
-    return { codigo: codigoServico, nome: nomeServico };
-  },
-  set(value) {
-    codigoServico = value?.codigo;
-    nomeServico = value?.nome;
-  }
+const servicos = computed(() => {
+  return store.servicos.map((item) => {
+    return {
+      title: `${item.nome} (${item.codigo})`,
+      value: item._id
+    }
+  })
+})
+
+const selectedServico = ref(null)
+
+watch(selectedServico, (newServico) => {
+  const servico = store.servicos.find((servico) => {
+    return servico._id = newServico
+  })
+  codigoServico.value = servico?.codigo
+  nomeServico.value = servico?.nome
 })
 </script>
