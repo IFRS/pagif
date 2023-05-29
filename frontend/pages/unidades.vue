@@ -7,7 +7,7 @@
     </v-row>
     <v-row class="text-center">
       <v-col
-        v-for="(unidade, i) in $store.getters['unidades']"
+        v-for="(unidade, i) in store.unidades"
         :key="i"
       >
         <v-btn
@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import { definePageMeta, navigateTo } from '#app';
+import { navigateTo } from '#app';
 import { useMainStore } from '~/store';
 import { useConfigStore } from '~/store/config';
 
@@ -31,16 +31,17 @@ definePageMeta({
 });
 
 const store = useMainStore();
+const configStore = useConfigStore();
 
-try {
-  await store.fetchUnidades();
-} catch (error) {
-  this.$toast.error('Ocorreu um erro ao carregar as Unidades: ' + error.message);
+const { error } = await store.fetchUnidades(true);
+if (error.value) {
+  useToast().error('Ocorreu um erro ao carregar as Unidades.');
   console.error(error);
 }
 
+const route = useRoute();
 function escolha(unidade) {
-  useConfigStore().unidade = unidade;
-  navigateTo({ path: this.$route.query.returnPath || '/' });
+  configStore.unidade = unidade;
+  navigateTo({ path: route.query.returnPath || '/' });
 }
 </script>

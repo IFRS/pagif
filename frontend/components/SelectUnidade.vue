@@ -40,15 +40,13 @@ import { navigateTo } from '#app';
 import { mergeProps, computed, onUnmounted } from 'vue';
 import { useMainStore } from '~/store';
 import { useConfigStore } from '~/store/config';
-import { useSnackbarStore } from '~/store/snackbar';
 
 const store = useMainStore();
 const configStore = useConfigStore();
-const toast = useSnackbarStore();
 
 const { pending, error } = await store.fetchUnidades(true);
 if (error.value) {
-  toast.error('Ocorreu um erro ao carregar a lista de Unidades.');
+  useToast().error('Ocorreu um erro ao carregar a lista de Unidades.');
   console.error(error);
 }
 

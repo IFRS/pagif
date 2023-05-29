@@ -92,12 +92,13 @@ const { intro, darkMode } = storeToRefs(configStore);
 
 const route = useRoute();
 const router = useRouter();
+
 onBeforeMount(() => {
   if (route.query.unidade) {
     const unidade = store.unidades.find(unidade => (unidade.slug && unidade.slug === route.query.unidade));
     if (unidade) {
-      $configStore.unidade = unidade;
-      this.$toast.success(`Unidade definida para "${unidade.nome}".`);
+      configStore.unidade = unidade;
+      useToast().success(`Unidade definida para "${unidade.nome}".`);
     }
 
     router.replace({ 'query': null });
