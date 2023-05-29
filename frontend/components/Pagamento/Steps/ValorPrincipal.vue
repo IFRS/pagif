@@ -15,22 +15,13 @@
   </v-form>
 </template>
 
-<script>
-import { mapGetters, mapMutations } from 'vuex';
+<script setup>
+import { storeToRefs } from 'pinia';
+import { usePagamentoStore } from '~/store/pagamento';
 
-export default {
-  data() {
-    return {
-      validation: [
-        v => !!v || 'Valor é obrigatório.',
-      ],
-    }
-  },
-  computed: {
-    valorPrincipal: {
-      ...mapGetters({ get: 'pagamento/valorPrincipal' }),
-      ...mapMutations({ set: 'pagamento/valorPrincipal' }),
-    },
-  },
-}
+const validation = [
+  v => !!v || 'Valor é obrigatório.',
+]
+
+const { valorPrincipal } = storeToRefs(usePagamentoStore())
 </script>

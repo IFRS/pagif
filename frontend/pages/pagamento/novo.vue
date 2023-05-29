@@ -2,11 +2,74 @@
   <v-container>
     <v-row>
       <v-col>
-        <PageTitle>Novo Pagamento para {{ $store.getters['config/unidade']?.nome }}</PageTitle>
+        <PageTitle>Novo Pagamento para {{ configStore.unidade?.nome }}</PageTitle>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
+        <h3>
+          {{ steps[currentStep]?.title }}
+          <v-badge
+            color="primary"
+            :content="currentStep"
+            inline
+          />
+        </h3>
+        <v-window v-model="step">
+          <v-window-item
+            v-for="(step, index) in steps"
+            :key="index"
+            :value="index"
+          >
+            <component
+              :is="step.component"
+              :ref="'step' + index"
+              class="mb-6"
+              @submit.prevent="nextStep()"
+              @recaptcha="handleRecaptcha"
+            />
+            <v-toolbar
+              color="transparent"
+              flat
+            >
+              <v-btn
+                v-if="currentStep === 1"
+                variant="text"
+                @click="navigateTo({ name: 'pagamento' })"
+              >
+                Voltar
+              </v-btn>
+              <v-btn
+                v-else
+                variant="text"
+                :disabled="criandoPagamento"
+                @click="previousStep()"
+              >
+                Anterior
+              </v-btn>
+
+              <v-spacer />
+
+              <v-btn
+                v-if="currentStep < numberOfSteps"
+                color="primary"
+                @click="nextStep()"
+              >
+                Pr&oacute;ximo
+              </v-btn>
+
+              <v-btn
+                v-else-if="currentStep == numberOfSteps"
+                color="success"
+                :disabled="!enablePagamento"
+                :loading="criandoPagamento"
+                @click="criarPagamento()"
+              >
+                Concluir
+              </v-btn>
+            </v-toolbar>
+          </v-window-item>
+        </v-window>
         <!-- TODO substituir componente -->
         <!-- <v-stepper v-model="currentStep">
           <v-stepper-header>
@@ -145,104 +208,105 @@
   </v-container>
 </template>
 
-<script>
-import copy from 'copy-to-clipboard';
+<script setup>
+import copy from 'copy-to-clipboard'
+import { navigateTo } from 'nuxt/app'
+import { computed, onUnmounted } from 'vue'
+import { useMainStore } from '~/store'
+import { useConfigStore } from '~/store/config'
+import { usePagamentoStore } from '~/store/pagamento'
 
-export default {
-  data() {
-    return {
-      enablePagamento: false,
-      criandoPagamento: false,
-      currentStep: 1,
-      steps: {
-        1: {
-          component: 'PagamentoStepsCodigoServico',
-          title: 'Serviço',
-        },
-        2: {
-          component: 'PagamentoStepsIdentificacao',
-          title: 'Identificação',
-        },
-        3: {
-          component: 'PagamentoStepsExtra',
-          title: 'Informações Extras',
-        },
-        4: {
-          component: 'PagamentoStepsValorPrincipal',
-          title: 'Valor',
-        },
-        5: {
-          component: 'PagamentoStepsResumo',
-          title: 'Resumo',
-        },
-      },
-      pagamentoConcluido: false,
-    }
+definePageMeta({ title: 'Novo Pagamento' })
+
+const store = useMainStore()
+const configStore = useConfigStore()
+const pagamentoStore = usePagamentoStore()
+
+const enablePagamento = ref(false)
+const criandoPagamento = ref(false)
+const currentStep = ref(1)
+const steps = {
+  1: {
+    component: resolveComponent('PagamentoStepsCodigoServico'),
+    title: 'Serviço',
   },
-  head: {
-    title: 'Novo Pagamento',
+  2: {
+    component: resolveComponent('PagamentoStepsIdentificacao'),
+    title: 'Identificação',
   },
-  computed: {
-    numberOfSteps() {
-      return Object.keys(this.steps).length;
-    }
+  3: {
+    component: resolveComponent('PagamentoStepsExtra'),
+    title: 'Informações Extras',
   },
-  unmounted () {
-    this.$store.commit('clearServicos');
-    this.$store.commit('pagamento/clear');
+  4: {
+    component: resolveComponent('PagamentoStepsValorPrincipal'),
+    title: 'Valor',
   },
-  methods: {
-    previousStep() {
-      this.currentStep = this.currentStep - 1;
-    },
-    nextStep() {
-      if (this.$refs['step' + this.currentStep][0].$refs.form.validate()) {
-        this.currentStep = this.currentStep + 1;
-      }
-    },
-    handleRecaptcha(status) {
-      this.enablePagamento = status;
-    },
-    async criarPagamento() {
-      this.criandoPagamento = true;
-
-      const recaptcha = await this.$recaptcha.getResponse();
-
-      await this.$store.dispatch('pagamento/save_public', recaptcha)
-      .then(() => {
-        this.pagamentoConcluido = true;
-      })
-      .catch((error) => {
-        this.$toast.error('Ocorreu um erro ao criar o Pagamento. ' + error.message);
-        console.error(error);
-      })
-      .finally(() => {
-        this.criandoPagamento = false;
-      });
-
-      await this.$recaptcha.reset();
-    },
-    async toClipboard(text) {
-      let copiou = false;
-      if (Navigator.clipboard) {
-        await Navigator.clipboard.writeText(text)
-        .then(() => {
-          copiou = true;
-        }, () => {
-          copiou = false;
-        });
-      } else if (copy(text, { format: 'text/plain' })) {
-        copiou = true;
-      } else {
-        copiou = false;
-      }
-
-      if (copiou) {
-        this.$toast.success('Código do Pagamento copiado para a área de transferência!');
-      } else {
-        this.$toast.info('Seu navegador não suporta esse recurso. Por favor, copie manualmente.');
-      }
-    },
+  5: {
+    component: resolveComponent('PagamentoStepsResumo'),
+    title: 'Resumo',
   },
 }
+const pagamentoConcluido = ref(false)
+
+const numberOfSteps = computed(() => {
+  return Object.keys(steps).length
+})
+
+function previousStep() {
+  currentStep = currentStep - 1;
+}
+
+function nextStep() {
+  if (this.$refs['step' + this.currentStep][0].$refs.form.validate()) {
+    currentStep = currentStep + 1;
+  }
+}
+
+function handleRecaptcha(status) {
+  enablePagamento = status
+}
+
+async function criarPagamento() {
+  criandoPagamento = true
+
+  const recaptcha = await this.$recaptcha.getResponse()
+
+  const { error } = await pagamentoStore.save_public(recaptcha)
+  pagamentoConcluido = true
+  if (error) {
+    useToast().error('Ocorreu um erro ao criar o Pagamento.')
+    console.error(error)
+  }
+  criandoPagamento = false
+
+  await this.$recaptcha.reset()
+}
+
+async function toClipboard(text) {
+  let copiou = false
+  if (Navigator.clipboard) {
+    await Navigator.clipboard.writeText(text)
+    .then(() => {
+      copiou = true
+    }, () => {
+      copiou = false
+    });
+  } else if (copy(text, { format: 'text/plain' })) {
+    copiou = true
+  } else {
+    copiou = false
+  }
+
+  if (copiou) {
+    useToast().success('Código do Pagamento copiado para a área de transferência!')
+  } else {
+    useToast().info('Seu navegador não suporta esse recurso. Por favor, copie manualmente.')
+  }
+}
+
+onUnmounted(() => {
+  store.clearServicos()
+  pagamentoStore.$reset()
+})
 </script>

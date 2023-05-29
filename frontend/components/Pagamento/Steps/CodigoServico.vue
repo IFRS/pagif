@@ -7,7 +7,7 @@
       prepend-icon="mdi-office-building-marker"
       label="Unidade"
       disabled
-      :model-value="$store.getters['config/unidade']?.nome"
+      :model-value="configStore.unidade?.nome"
     />
 
     <v-autocomplete
@@ -16,9 +16,9 @@
       label="Serviço"
       no-data-text="Nenhum Serviço encontrado na Unidade atual."
       :rules="validation"
-      :loading="$fetchState.pending"
-      :disabled="$fetchState.pending"
-      :items="$store.getters['servicos']"
+      :loading="pending"
+      :disabled="pending"
+      :items="store.servicos"
       :item-title="item => `${item.nome} (${item.codigo})`"
       :item-value="item => ({ codigo: item.codigo, nome: item.nome })"
       required
@@ -27,43 +27,36 @@
   </v-form>
 </template>
 
-<script>
-import { mapGetters, mapMutations } from 'vuex';
+<script setup>
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useMainStore } from '~/store';
+import { useConfigStore } from '~/store/config';
+import { usePagamentoStore } from '~/store/pagamento';
 
-export default {
-  data() {
-    return {
-      validation: [
-        v => !!v || 'Selecione um Serviço.',
-        v => (v === Object(v) && !!v.codigo && !!v.nome) || 'Selecione um Serviço.',
-      ],
-    }
-  },
-  async fetch() {
-    await this.$store.dispatch('fetchServicos', { isPublic: true, unidade: this.$store.getters['config/unidade']?._id })
-    .catch((error) => {
-      this.$toast.error('Ocorreu um erro ao carregar os Serviços: ' + error.message);
-      console.error(error);
-    });
-  },
-  computed: {
-    servico: {
-      get() {
-        return { codigo: this.codigoServico, nome: this.nomeServico };
-      },
-      set(value) {
-        this.codigoServico = value?.codigo;
-        this.nomeServico = value?.nome;
-      }
-    },
-    codigoServico: {
-      ...mapGetters({ get: 'pagamento/codigoServico' }),
-      ...mapMutations({ set: 'pagamento/codigoServico' }),
-    },
-    nomeServico: {
-      ...mapGetters({ get: 'pagamento/nomeServico' }),
-      ...mapMutations({ set: 'pagamento/nomeServico' }),
-    },
-  },
+
+const validation = [
+  v => !!v || 'Selecione um Serviço.',
+  v => (v === Object(v) && !!v.codigo && !!v.nome) || 'Selecione um Serviço.',
+]
+
+const store = useMainStore();
+const configStore = useConfigStore()
+const { pending, error } = await store.fetchServicos({ isPublic: true, unidade: this.$store.getters['config/unidade']?._id })
+if (error.value) {
+  useToast().error('Ocorreu um erro ao carregar os Serviços.');
+  console.error(error);
 }
+
+const { codigoServico, nomeServico } = storeToRefs(usePagamentoStore())
+
+const servico = computed({
+  get() {
+    return { codigo: codigoServico, nome: nomeServico };
+  },
+  set(value) {
+    codigoServico = value?.codigo;
+    nomeServico = value?.nome;
+  }
+})
 </script>

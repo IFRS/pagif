@@ -8,7 +8,7 @@
     <v-row>
       <v-col cols="auto">
         <p>
-          Voc&ecirc; pagar&aacute; a quantia de <strong>R$ {{ $filters.int_to_real(valorPrincipal) }}</strong> para <strong>{{ unidade?.nome }}</strong> pelo servi&ccedil;o <strong>{{ nomeServico }} ({{ codigoServico }})</strong>.
+          Voc&ecirc; pagar&aacute; a quantia de <strong>R$ {{ $filters.int_to_real(valorPrincipal) }}</strong> para <strong>{{ configStore.unidade?.nome }}</strong> pelo servi&ccedil;o <strong>{{ nomeServico }} ({{ codigoServico }})</strong>.
         </p>
         <p>
           O pagamento <template v-if="competencia">
@@ -32,52 +32,70 @@
                 v-on="on"
               ><strong>1h</strong></span>
             </template>
-            <span>Devido a um problema no PagTesouro os pagamentos estão sendo cancelados após 1 hora, caso não tenham sido iniciados. No futuro esse tempo voltará a ser de 24 horas.</span>
+            <span>Caso o pagamento n&atilde;o tenha sido iniciado, ser&aacute; cancelado ap&oacute;s 1h.</span>
           </v-tooltip>
           para realiz&aacute;-lo.
         </v-alert>
       </v-col>
       <v-col class="d-flex justify-center align-center">
-        <recaptcha
-          @success="$emit('recaptcha', true)"
-          @error="$emit('recaptcha', false)"
-          @expired="$emit('recaptcha', false)"
-        />
+        <!-- TODO: adicionar novamente o ReCaptcha -->
+        <form
+          action="?"
+          method="POST"
+        >
+          <div
+            class="g-recaptcha"
+            :data-sitekey="v2SiteKey"
+            :data-theme="configStore.darkMode ? 'dark' : 'light'"
+          />
+          <br>
+          <input
+            type="submit"
+            value="Submit"
+          >
+        </form>
+
+        <!-- <RecaptchaCheckbox
+          v-model="response"
+          :theme="darkMode ? 'dark' : 'light'"
+        /> -->
       </v-col>
     </v-row>
   </v-container>
 </template>
 
-<script>
-import { mapGetters } from 'vuex';
+<script setup>
+import { useRuntimeConfig } from 'nuxt/app'
+import { storeToRefs } from 'pinia'
+import { watch } from 'vue'
+import { useConfigStore } from '~/store/config'
+import { usePagamentoStore } from '~/store/pagamento'
 
-export default {
-  emits: ['recaptcha'],
-  computed: {
-    unidade: {
-      ...mapGetters({ get: 'config/unidade' }),
-    },
-    valorPrincipal: {
-      ...mapGetters({ get: 'pagamento/valorPrincipal' }),
-    },
-    nomeServico: {
-      ...mapGetters({ get: 'pagamento/nomeServico' }),
-    },
-    codigoServico: {
-      ...mapGetters({ get: 'pagamento/codigoServico' }),
-    },
-    nomeContribuinte: {
-      ...mapGetters({ get: 'pagamento/nomeContribuinte' }),
-    },
-    competencia: {
-      ...mapGetters({ get: 'pagamento/competencia' }),
-    },
-    cnpjCpf: {
-      ...mapGetters({ get: 'pagamento/cnpjCpf' }),
-    },
-    referencia: {
-      ...mapGetters({ get: 'pagamento/referencia' }),
-    },
-  },
-}
+useHeadSafe({
+  script: [
+    { src: 'https://www.google.com/recaptcha/api.js' }
+  ]
+}, { mode: 'client' })
+
+const emit = defineEmits(['recaptcha'])
+
+const { public: { recaptcha: { v2SiteKey } } } = useRuntimeConfig()
+const response = ref(false)
+
+const configStore = useConfigStore()
+const pagamentoStore = usePagamentoStore()
+
+const {
+  valorPrincipal,
+  nomeServico,
+  codigoServico,
+  nomeContribuinte,
+  competencia,
+  cnpjCpf,
+  referencia,
+} = storeToRefs(pagamentoStore)
+
+watch(response, (newResponse) => {
+  emit('recaptcha', newResponse)
+})
 </script>

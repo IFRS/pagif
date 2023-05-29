@@ -15,7 +15,8 @@
 
     <v-text-field
       v-model="cnpjCpfFormatted"
-      v-maska="cnpjCpfMask"
+      v-maska
+      :data-maska="cnpjCpfMask"
       prepend-icon="mdi-card-account-details"
       label="CPF / CNPJ"
       :rules="validation.cnpjCpf"
@@ -26,50 +27,47 @@
   </v-form>
 </template>
 
-<script>
-import { mapGetters, mapMutations } from 'vuex';
+<script setup>
+import { Mask } from "maska"
+import { useNuxtApp } from '#app'
+import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
+import { usePagamentoStore } from '~/store/pagamento'
 
-export default {
-  data() {
-    return {
-      validation: {
-        nome: [
-          v => !!v || 'O Nome do Contribuinte é obrigatório.',
-          v => (v?.length >= 2 && v?.length <= 45) || 'Nome do Contribuinte precisa ter entre 2 e 45 caracteres.',
-        ],
-        cnpjCpf: [
-          v => !!v || 'CPF / CNPJ é obrigatório.',
-          v => !v || (this.$validation.CPF(v) || this.$validation.CNPJ(v)) || 'CPF / CNPJ deve ser válido.',
-        ],
-      },
-    }
-  },
-  computed: {
-    nomeContribuinte: {
-      ...mapGetters({ get: 'pagamento/nomeContribuinte' }),
-      ...mapMutations({ set: 'pagamento/nomeContribuinte' }),
-    },
-    cnpjCpf: {
-      ...mapGetters({ get: 'pagamento/cnpjCpf' }),
-      ...mapMutations({ set: 'pagamento/cnpjCpf' }),
-    },
-    cnpjCpfFormatted: {
-      get() {
-        if (this.cnpjCpf) return this.$options.filters.VMask(this.cnpjCpf, this.cnpjCpfMask);
-        return '';
-      },
-      set(value) {
-        value = String(value);
-        value = value.replace(/\D/g, '');
-        this.cnpjCpf = value;
-      }
-    },
-    cnpjCpfMask() {
-      if (this.cnpjCpf && this.cnpjCpf.length > 11) {
-        return '##.###.###/####-##';
-      }
-      return '###.###.###-##';
-    },
-  },
+const { isCPF, isCNPJ } = useNuxtApp()
+
+const validation = {
+  nome: [
+    v => !!v || 'O Nome do Contribuinte é obrigatório.',
+    v => (v?.length >= 2 && v?.length <= 45) || 'Nome do Contribuinte precisa ter entre 2 e 45 caracteres.',
+  ],
+  cnpjCpf: [
+    v => !!v || 'CPF / CNPJ é obrigatório.',
+    v => !v || (isCPF(v) || isCNPJ(v)) || 'CPF / CNPJ deve ser válido.',
+  ],
 }
+
+const { nomeContribuinte, cnpjCpf } = storeToRefs(usePagamentoStore())
+
+const cnpjCpfFormatted = computed({
+  get() {
+    if (cnpjCpf) {
+      const mask = new Mask({ mask: cnpjCpfMask() })
+      return mask.masked(cnpjCpf);
+    }
+    return '';
+  },
+  set(value) {
+    value = String(value);
+    value = value.replace(/\D/g, '');
+    cnpjCpf = value;
+  }
+})
+
+const cnpjCpfMask = computed(() => {
+  if (cnpjCpf && cnpjCpf.length > 11) {
+    return '##.###.###/####-##';
+  }
+  return '###.###.###-##';
+})
 </script>

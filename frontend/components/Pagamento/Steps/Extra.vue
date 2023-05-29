@@ -44,34 +44,23 @@
   </v-form>
 </template>
 
-<script>
-import { mapGetters, mapMutations } from 'vuex';
+<script setup>
+import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
+import { usePagamentoStore } from '~/store/pagamento'
 
-export default {
-  data() {
-    return {
-      validation: {
-        referencia: [
-          v => !v || (/^\d+$/).test(v) || 'Número de Referência precisa ser um número.',
-          v => !v || v?.length <= 20 || 'Número de Referência deve ter no máximo 20 dígitos.',
-        ],
-      },
-    }
-  },
-  computed: {
-    referencia: {
-      ...mapGetters({ get: 'pagamento/referencia' }),
-      ...mapMutations({ set: 'pagamento/referencia' }),
-    },
-    competencia: {
-      ...mapGetters({ get: 'pagamento/competencia' }),
-      ...mapMutations({ set: 'pagamento/competencia' }),
-    },
-    competenciaFormatted() {
-      if (!this.competencia) return null;
-
-      return this.$dayjs(this.competencia).format('MM/YYYY');
-    },
-  },
+const validation = {
+  referencia: [
+    v => !v || (/^\d+$/).test(v) || 'Número de Referência precisa ser um número.',
+    v => !v || v?.length <= 20 || 'Número de Referência deve ter no máximo 20 dígitos.',
+  ],
 }
+
+const { referencia, competencia } = storeToRefs(usePagamentoStore())
+
+const competenciaFormatted = computed(() => {
+  if (!competencia) return null;
+
+  return $dayjs(competencia).format('MM/YYYY');
+})
 </script>
