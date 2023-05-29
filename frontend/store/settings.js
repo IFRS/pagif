@@ -1,4 +1,5 @@
-import { acceptHMRUpdate, defineStore } from 'pinia';
+import { useFetch } from '#app'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 
 export const useSettingsStore = defineStore('settings', {
   state: () => ({
@@ -9,16 +10,14 @@ export const useSettingsStore = defineStore('settings', {
 
   actions: {
     async show() {
-      return await this.$axios.get('/api/settings')
-      .then((response) => {
-        this.$state = response.data;
-      });
+      const response = await useFetch('/api/settings')
+      if (response.data.valeu) this.$state = response.data.valeu
+      return response
     },
     async save() {
-      return await this.$axios.post('/api/settings', this.$state)
-      .then((response) => {
-        this.$state = response.data;
-      });
+      const response = await useFetch('/api/settings', { method: 'POST', body: this.$state })
+      if (response.data.value) this.$state = response.data.value
+      return response
     },
   },
 })

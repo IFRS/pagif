@@ -1,5 +1,6 @@
-import { acceptHMRUpdate, defineStore } from 'pinia';
-import { useMainStore } from '.';
+import { acceptHMRUpdate, defineStore } from 'pinia'
+import { useMainStore } from '.'
+import { useFetch } from '#app'
 
 export const useUnidadeStore = defineStore('unidade', {
   state: () => ({
@@ -17,29 +18,26 @@ export const useUnidadeStore = defineStore('unidade', {
 
   actions: {
     async save() {
-      return await this.$axios.post('/api/unidades', this.$state)
-      .then(() => {
-        this.$reset();
-      });
+      const response = await useFetch('/api/unidades', { method: 'POST', body: this.$state })
+      this.$reset()
+      return response
     },
     async update() {
-      return await this.$axios.put('/api/unidades/' + this._id, this.$state)
-      .then(() => {
-        this.$reset();
-      });
+      const response = await useFetch(`/api/unidades/${this._id}`, { method: 'PUT', body: this.$state })
+      this.$reset()
+      return response
     },
     async delete() {
-      return await this.$axios.delete('/api/unidades/' + this._id)
-      .then((response) => {
-        this.$reset();
-        useMainStore().removeUnidade(response.data);
-      });
+      const response = await useFetch(`/api/unidades/${this._id}`, { method: 'DELETE' })
+      this.$reset()
+      useMainStore().removeUnidade(response.data.value)
+      return response
     },
-    async fetchToken( payload) {
-      const id = payload || this._id;
-      return await this.$axios.get(`/api/unidades/token/${id}`).then((response) => {
-        this.token = response.data;
-      });
+    async fetchToken(payload) {
+      const id = payload || this._id
+      const response = await useFetch(`/api/unidades/token/${id}`)
+      if (response.data.value) this.token = response.data.value
+      return response
     },
   },
 })

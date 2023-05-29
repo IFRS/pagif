@@ -1,7 +1,7 @@
-import { acceptHMRUpdate, defineStore } from 'pinia';
-import dayjs from 'dayjs';
-import { useMainStore } from '.';
-import { useFetch } from 'nuxt/app';
+import { acceptHMRUpdate, defineStore } from 'pinia'
+import dayjs from 'dayjs'
+import { useMainStore } from '.'
+import { useFetch } from '#app'
 
 export const usePagamentoStore = defineStore('pagamento', {
   state: () => ({

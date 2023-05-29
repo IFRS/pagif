@@ -1,5 +1,6 @@
-import { acceptHMRUpdate, defineStore } from 'pinia';
-import { useMainStore } from '.';
+import { acceptHMRUpdate, defineStore } from 'pinia'
+import { useMainStore } from '.'
+import { useFetch } from '#app'
 
 export const useServicoStore = defineStore('servico', {
   state: () => ({
@@ -17,28 +18,25 @@ export const useServicoStore = defineStore('servico', {
       let servico = {
         ...this.$state,
         unidade: (Object.prototype.hasOwnProperty.call(this.unidade, '_id')) ? this.unidade._id : this.unidade
-      };
-      return await this.$axios.post('/api/servicos', servico)
-      .then(() => {
-        this.$reset();
-      });
+      }
+      const response = await useFetch('/api/servicos', { method: 'POST', body: servico })
+      this.$reset()
+      return response
     },
     async update() {
       let servico = {
         ...this.$state,
         unidade: (Object.prototype.hasOwnProperty.call(this.unidade, '_id')) ? this.unidade._id : this.unidade
-      };
-      return await this.$axios.put('/api/servicos/' + this._id, servico)
-      .then(() => {
-        this.$reset();
-      });
+      }
+      const response = await useFetch(`/api/servicos/${this._id}`, { method: 'PUT', body: servico })
+      this.$reset()
+      return response
     },
     async delete() {
-      return await this.$axios.delete('/api/servicos/' + this._id)
-      .then((response) => {
-        this.$reset();
-        useMainStore().removeServico(response.data);
-      });
+      const response = await useFetch(`/api/servicos/${this._id}`, { method: 'DELETE' })
+      this.$reset()
+      useMainStore().removeServico(response.data.value)
+      return response
     },
   },
 })

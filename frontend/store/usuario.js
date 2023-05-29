@@ -1,5 +1,6 @@
-import { acceptHMRUpdate, defineStore } from 'pinia';
-import { useMainStore } from '.';
+import { acceptHMRUpdate, defineStore } from 'pinia'
+import { useMainStore } from '.'
+import { useFetch } from '#app'
 
 export const useUsuarioStore = defineStore('usuario', {
   state: () => ({
@@ -15,35 +16,32 @@ export const useUsuarioStore = defineStore('usuario', {
   getters: {
     getAbilities: state => {
       return state.abilities.map((ability) => {
-        return JSON.stringify(ability);
-      });
+        return JSON.stringify(ability)
+      })
     },
   },
 
   actions: {
     setAbilities(payload) {
       this.abilities = payload.map((ability) => {
-        return JSON.parse(ability);
-      });
+        return JSON.parse(ability)
+      })
     },
     async save() {
-      return await this.$axios.post('/api/usuarios', this.$state)
-      .then(() => {
-        this.$reset();
-      });
+      const response = await useFetch('/api/usuarios', { method: 'POST', body: this.$state })
+      this.$reset()
+      return response
     },
     async update() {
-      return await this.$axios.put('/api/usuarios/' + this._id, this.$state)
-      .then(() => {
-        this.$reset();
-      });
+      const response = await useFetch(`/api/usuarios/${this._id}`, { method: 'PUT', body: this.$state })
+      this.$reset()
+      return response
     },
     async delete() {
-      return await this.$axios.delete('/api/usuarios/' + this._id)
-      .then((response) => {
-        this.$reset();
-        useMainStore().removeUsuario(response.data);
-      });
+      const response = await useFetch(`/api/usuarios/${this._id}`, { method: 'DELETE' })
+      this.$reset()
+      useMainStore().removeUsuario(response.data.value)
+      return response
     },
   },
 })

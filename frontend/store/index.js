@@ -1,5 +1,5 @@
-import { acceptHMRUpdate, defineStore } from 'pinia';
-import { useFetch } from '#app';
+import { acceptHMRUpdate, defineStore } from 'pinia'
+import { useFetch } from '#app'
 
 export const useMainStore = defineStore('main', {
   state: () => ({
@@ -12,70 +12,70 @@ export const useMainStore = defineStore('main', {
   actions: {
     /* Unidades */
     clearUnidades() {
-      this.unidades = [];
+      this.unidades = []
     },
     removeUnidade(payload) {
       this.unidades = this.unidades.filter((value) => {
-        return value._id !== payload._id;
-      });
+        return value._id !== payload._id
+      })
     },
     async fetchUnidades(isPublic = false) {
-      const response = await useFetch(isPublic ? '/api/public/unidades' : '/api/unidades');
-      if (response.data.value) this.unidades = response.data.value;
-      return response;
+      const response = await useFetch(isPublic ? '/api/public/unidades' : '/api/unidades')
+      if (response.data.value) this.unidades = response.data.value
+      return response
     },
 
     /* Serviços */
     clearServicos() {
-      this.servicos = [];
+      this.servicos = []
     },
     removeServico(payload) {
       this.servicos = this.servicos.filter((value) => {
-        return value._id !== payload._id;
-      });
+        return value._id !== payload._id
+      })
     },
     async fetchServicos(payload) {
-      const query = (payload?.unidade) ? { unidade: payload.unidade } : { populate: 'unidade', populate_fields: 'nome' };
-      const response = useFetch(payload?.isPublic ? '/api/public/servicos' : '/api/servicos', { query: query });
-      if (response.data.value) this.servicos = response.data.value;
-      return response;
+      const query = (payload?.unidade) ? { unidade: payload.unidade } : { populate: 'unidade', populate_fields: 'nome' }
+      const response = useFetch(payload?.isPublic ? '/api/public/servicos' : '/api/servicos', { query: query })
+      if (response.data.value) this.servicos = response.data.value
+      return response
     },
 
     /* Pagamentos */
     clearPagamentos() {
-      this.pagamentos = [];
+      this.pagamentos = []
     },
     updatePagamento(payload) {
       this.pagamentos = this.pagamentos.map((pagamento) => {
         if (pagamento.idPagamento === payload.idPagamento) {
-          return payload;
+          return payload
         } else {
-          return pagamento;
+          return pagamento
         }
-      });
+      })
     },
     removePagamento(payload) {
       this.pagamentos = this.pagamentos.filter((value) => {
-        return value._id !== payload._id;
-      });
+        return value._id !== payload._id
+      })
     },
     async fetchPagamentos(payload) {
       const response = useFetch('/api/pagamentos', { query: payload })
-      if (response.data.value) this.pagamentos = response.data.value;
+      if (response.data.value) this.pagamentos = response.data.value
     },
 
     /* Usuários */
     clearUsuarios() {
-      this.usuarios = [];
+      this.usuarios = []
     },
     removeUsuario(payload) {
       this.usuarios = this.usuarios.filter((value) => {
-        return value._id !== payload._id;
-      });
+        return value._id !== payload._id
+      })
     },
     async fetchUsuarios() {
-      const response = useFetch('/api/usuarios');
-      if (response.data.value) this.usuarios = response.data.value;
+      const response = useFetch('/api/usuarios')
+      if (response.data.value) this.usuarios = response.data.value
     },
   },
 })

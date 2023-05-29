@@ -1,4 +1,4 @@
-import { acceptHMRUpdate, defineStore } from 'pinia';
+import { acceptHMRUpdate, defineStore } from 'pinia'
 
 export const useSnackbarStore = defineStore('snackbar', {
   state: () => ({
@@ -10,45 +10,45 @@ export const useSnackbarStore = defineStore('snackbar', {
 
   actions: {
     show(payload) {
-      this.showing = true;
-      this.text = payload.text;
+      this.showing = true
+      this.text = payload.text
       switch (payload.type) {
         case 'info':
-          this.color = 'info';
-          this.icon = 'mdi-information';
-          break;
+          this.color = 'info'
+          this.icon = 'mdi-information'
+          break
         case 'success':
-          this.color = 'success';
-          this.icon = 'mdi-check';
-          break;
+          this.color = 'success'
+          this.icon = 'mdi-check'
+          break
         case 'warning':
-          this.color = 'warning';
-          this.icon = 'mdi-alert';
-          break;
+          this.color = 'warning'
+          this.icon = 'mdi-alert'
+          break
         case 'error':
-          this.color = 'error';
-          this.icon = 'mdi-close-circle';
-          break;
+          this.color = 'error'
+          this.icon = 'mdi-close-circle'
+          break
         default:
-          this.color = '';
-          this.icon = '';
-          break;
+          this.color = ''
+          this.icon = ''
+          break
       }
     },
     hide() {
-      this.$reset();
+      this.$reset()
     },
     info (text) {
-      this.show({ text, type: 'info' });
+      this.show({ text, type: 'info' })
     },
     success (text) {
-      this.show({ text, type: 'success' });
+      this.show({ text, type: 'success' })
     },
     warning (text) {
-      this.show({ text, type: 'warning' });
+      this.show({ text, type: 'warning' })
     },
     error (text) {
-      this.show({ text, type: 'error' });
+      this.show({ text, type: 'error' })
     },
   },
 })

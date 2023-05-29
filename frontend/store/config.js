@@ -1,4 +1,5 @@
-import { acceptHMRUpdate, defineStore } from 'pinia';
+import { acceptHMRUpdate, defineStore } from 'pinia'
+import { useFetch } from '#app'
 
 export const useConfigStore = defineStore('config', {
   state: () => ({
@@ -12,22 +13,18 @@ export const useConfigStore = defineStore('config', {
 
   actions: {
     async populateUnidade(id) {
-      const data = await $fetch(`/api/public/unidades/${id}`);
-      if (data) this.unidade = data;
+      const data = await useFetch(`/api/public/unidades/${id}`)
+      if (data.value) this.unidade = data.value
     },
     async populateConfig() {
-      const data = await $fetch('/api/public/settings');
-      if (data) {
-        this.sigla = data.sigla;
-        this.orgao = data.orgao;
-        this.intro = data.intro;
+      const data = await useFetch('/api/public/settings')
+      if (data.value) {
+        this.sigla = data.value.sigla
+        this.orgao = data.value.orgao
+        this.intro = data.value.intro
       }
     },
   },
-
-  // hydrate(state, initialState) {
-  //   state = initialState;
-  // }
 })
 
 if (import.meta.hot) {
