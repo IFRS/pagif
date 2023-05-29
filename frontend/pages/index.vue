@@ -25,18 +25,19 @@
       justify="center"
     >
       <v-col cols="auto">
-        <v-hover v-slot="{ hover }">
+        <v-hover v-slot="{ isHovering, props }">
           <v-card
-            :color="hover ? 'accent' : ''"
+            v-bind="props"
+            :color="isHovering ? 'accent' : ''"
             :to="{ name: 'consulta' }"
           >
             <v-card-text
               class="text-center"
-              :class="hover ? 'white--text' : ''"
+              :class="isHovering ? 'white--text' : ''"
             >
               <v-icon
                 size="x-large"
-                :color="hover ? 'white' : ''"
+                :color="isHovering ? 'white' : ''"
               >
                 mdi-archive-search-outline
               </v-icon>
@@ -49,18 +50,19 @@
       </v-col>
 
       <v-col cols="auto">
-        <v-hover v-slot="{ hover }">
+        <v-hover v-slot="{ isHovering, props }">
           <v-card
-            :color="hover ? 'accent' : ''"
+            v-bind="props"
+            :color="isHovering ? 'accent' : ''"
             :to="{ name: 'pagamento' }"
           >
             <v-card-text
               class="text-center"
-              :class="hover ? 'white--text' : ''"
+              :class="isHovering ? 'white--text' : ''"
             >
               <v-icon
                 size="x-large"
-                :color="hover ? 'white' : ''"
+                :color="isHovering ? 'white' : ''"
               >
                 mdi-cash-plus
               </v-icon>
