@@ -36,7 +36,7 @@ export const useMainStore = defineStore('main', {
     },
     async fetchServicos(payload) {
       const query = (payload?.unidade) ? { unidade: payload.unidade } : { populate: 'unidade', populate_fields: 'nome' }
-      const response = useFetch(payload?.isPublic ? '/api/public/servicos' : '/api/servicos', { query: query })
+      const response = await useFetch(payload?.isPublic ? '/api/public/servicos' : '/api/servicos', { query: query })
       if (response.data.value) this.servicos = response.data.value
       return response
     },
@@ -60,7 +60,7 @@ export const useMainStore = defineStore('main', {
       })
     },
     async fetchPagamentos(payload) {
-      const response = useFetch('/api/pagamentos', { query: payload })
+      const response = await useFetch('/api/pagamentos', { query: payload })
       if (response.data.value) this.pagamentos = response.data.value
     },
 
@@ -74,7 +74,7 @@ export const useMainStore = defineStore('main', {
       })
     },
     async fetchUsuarios() {
-      const response = useFetch('/api/usuarios')
+      const response = await useFetch('/api/usuarios')
       if (response.data.value) this.usuarios = response.data.value
     },
   },
