@@ -20,9 +20,9 @@ export const useMainStore = defineStore('main', {
       });
     },
     async fetchUnidades(isPublic = false) {
-      const { data, pending, error } = await useFetch(isPublic ? '/api/public/unidades' : '/api/unidades');
-      if (data.value) this.unidades = data.value;
-      return { pending, error };
+      const response = await useFetch(isPublic ? '/api/public/unidades' : '/api/unidades');
+      if (response.data.value) this.unidades = response.data.value;
+      return response;
     },
 
     /* Serviços */
@@ -36,8 +36,9 @@ export const useMainStore = defineStore('main', {
     },
     async fetchServicos(payload) {
       const query = (payload?.unidade) ? { unidade: payload.unidade } : { populate: 'unidade', populate_fields: 'nome' };
-      const data = $fetch(payload?.isPublic ? '/api/public/servicos' : '/api/servicos', { query: query });
-      if (data) this.servicos = data;
+      const response = useFetch(payload?.isPublic ? '/api/public/servicos' : '/api/servicos', { query: query });
+      if (response.data.value) this.servicos = response.data.value;
+      return response;
     },
 
     /* Pagamentos */
@@ -59,8 +60,8 @@ export const useMainStore = defineStore('main', {
       });
     },
     async fetchPagamentos(payload) {
-      const data = $fetch('/api/pagamentos', { query: payload })
-      if (data) this.pagamentos = data;
+      const response = useFetch('/api/pagamentos', { query: payload })
+      if (response.data.value) this.pagamentos = response.data.value;
     },
 
     /* Usuários */
@@ -73,8 +74,8 @@ export const useMainStore = defineStore('main', {
       });
     },
     async fetchUsuarios() {
-      const data = $fetch('/api/usuarios');
-      if (data) this.usuarios = data;
+      const response = useFetch('/api/usuarios');
+      if (response.data.value) this.usuarios = response.data.value;
     },
   },
 })
