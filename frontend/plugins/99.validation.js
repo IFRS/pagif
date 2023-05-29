@@ -3,7 +3,7 @@ import { defineNuxtPlugin } from '#app'
 export default defineNuxtPlugin(() => {
   return {
     provide: {
-      CPF: (value) => {
+      isCPF: (value) => {
         let cpf = String(value);
 
         cpf = cpf.replace(/[^\d]+/g, '');
@@ -48,7 +48,7 @@ export default defineNuxtPlugin(() => {
 
         return true;
       },
-      CNPJ: (value) => {
+      isCNPJ: (value) => {
         let cnpj = String(value);
 
         cnpj = cnpj.replace(/[^\d]+/g, '');
