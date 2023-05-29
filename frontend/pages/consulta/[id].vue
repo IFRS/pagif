@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <PagamentoDetalhes :loading="$fetchState.pending">
+    <PagamentoDetalhes :loading="pending">
       <v-btn
         color="primary"
         variant="plain"
@@ -12,17 +12,22 @@
   </v-container>
 </template>
 
-<script>
-export default {
-  async fetch() {
-    await this.$store.dispatch('pagamento/show_public', this.$route.params.id)
-    .catch((error) => {
-      this.$toast.error('Ocorreu um erro ao buscar o Pagamento. ' + error.message);
-      this.$router.push({ name: 'consulta' });
-    })
-  },
-  unmounted() {
-    this.$store.commit('pagamento/clear');
-  },
+<script setup>
+import { onUnmounted } from 'vue';
+import { useRoute, navigateTo } from '#app';
+import { usePagamentoStore } from '~/store/pagamento';
+
+
+const pagamentoStore = usePagamentoStore();
+const route = useRoute();
+const { pending, error } = await pagamentoStore.show_public(route.params.id);
+
+if (error.value) {
+  useToast().error('Ocorreu um erro ao buscar o Pagamento. ' + error.message);
+  navigateTo({ name: 'consulta' });
 }
+
+onUnmounted(() => {
+  pagamentoStore.$reset();
+})
 </script>
