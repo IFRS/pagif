@@ -3,15 +3,15 @@
     <v-row>
       <v-col>
         <v-card
-          :loading="$fetchState.pending"
-          :disabled="$fetchState.pending"
+          :loading="pending"
+          :disabled="pending"
         >
           <v-card-title primary-title>
-            Pagamento {{ $store.getters['pagamento/idPagamento'] }}
+            Pagamento {{ idPagamento }}
           </v-card-title>
           <v-card-text>
             <p>
-              Pagamento no valor de <strong>R$ {{ $filter.int_to_real(valorPrincipal) }}</strong> para <strong>{{ nomeUnidade }}</strong> pelo servi&ccedil;o <strong>{{ nomeServico }} ({{ codigoServico }})</strong>.
+              Pagamento no valor de <strong>R$ {{ $filters.int_to_real(valorPrincipal) }}</strong> para <strong>{{ nomeUnidade }}</strong> pelo servi&ccedil;o <strong>{{ nomeServico }} ({{ codigoServico }})</strong>.
             </p>
             <p>
               O pagamento <template v-if="competencia">
@@ -106,7 +106,7 @@
             v-resize-iframe="{ heightCalculationMethod: 'documentElementOffset' }"
             class="iframe-epag"
             scrolling="no"
-            :src="$store.getters['pagamento/proximaUrl'] + '&btnConcluir=true' + (!$store.getters['config/darkMode'] ? '&tema=tema-light' : '')"
+            :src="proximaUrl + '&btnConcluir=true' + (!configStore.darkMode ? '&tema=tema-light' : '')"
           />
         </v-card>
       </v-col>
@@ -114,94 +114,73 @@
   </v-container>
 </template>
 
-<script>
+<script setup>
 import iFrameResize from 'iframe-resizer/js/iframeResizer';
-import { mapGetters } from 'vuex';
+import { useRoute, navigateTo, useRuntimeConfig } from '#app';
+import { usePagamentoStore } from '~/store/pagamento';
+import { onMounted } from 'vue';
+import { onUnmounted } from 'vue';
+import { useConfigStore } from '~/store/config';
+import { storeToRefs } from 'pinia';
 
-export default {
-  directives: {
-    'resize-iframe': {
-      bind(el, { value = {} }) {
-        el.addEventListener('load', () => iFrameResize(value, el));
-      },
-      unbind: function (el) {
-        el.iFrameResizer.removeListeners();
-      }
-    },
-  },
-  data() {
-    return {
-      mostrarPagamento: false,
-    }
-  },
-  async fetch() {
-    await this.$store.dispatch('pagamento/show_public', this.$route.params.id)
-    .catch((error) => {
-      console.error(error);
-      this.$toast.error('Ocorreu um erro ao buscar o Pagamento. ' + error.message);
-      this.$router.push({ name: 'pagamento' });
-    });
-  },
-  head: {
-    title: 'Pagamento',
-  },
-  computed: {
-    idPagamento: {
-      ...mapGetters({ get: 'pagamento/idPagamento' }),
-    },
-    valorPrincipal: {
-      ...mapGetters({ get: 'pagamento/valorPrincipal' }),
-    },
-    nomeUnidade: {
-      ...mapGetters({ get: 'pagamento/nomeUnidade' }),
-    },
-    nomeServico: {
-      ...mapGetters({ get: 'pagamento/nomeServico' }),
-    },
-    codigoServico: {
-      ...mapGetters({ get: 'pagamento/codigoServico' }),
-    },
-    nomeContribuinte: {
-      ...mapGetters({ get: 'pagamento/nomeContribuinte' }),
-    },
-    cnpjCpf: {
-      ...mapGetters({ get: 'pagamento/cnpjCpf' }),
-    },
-    situacao: {
-      ...mapGetters({ get: 'pagamento/situacao' }),
-    },
-    referencia: {
-      ...mapGetters({ get: 'pagamento/referencia' }),
-    },
-    competencia: {
-      ...mapGetters({ get: 'pagamento/competencia' }),
-    },
-    vencimento: {
-      ...mapGetters({ get: 'pagamento/vencimento' }),
-    },
-    dataCriacao: {
-      ...mapGetters({ get: 'pagamento/dataCriacao' }),
-    },
-  },
-  mounted() {
-    window.addEventListener('message', this.retornoPagtesouro, false);
-  },
-  unmounted() {
-    this.$store.commit('pagamento/clear');
-  },
-  methods: {
-    retornoPagtesouro(event) {
-      // Só confiar em eventos oriundos do PagTesouro.
-      if (event.origin !== this.$config.pagtesouroURL) return;
+definePageMeta({ title: 'Pagamento' })
 
-      // Evento disparado pelos botões Fechar/Concluir.
-      if (event.data === "EPAG_FIM") {
-        this.$toast.info('Pagamento finalizado.');
-        this.$router.push({ name: 'index' });
-      }
-    },
-  },
+const mostrarPagamento = ref(false);
+
+const configStore = useConfigStore();
+const pagamentoStore = usePagamentoStore();
+const {
+  idPagamento,
+  valorPrincipal,
+  nomeUnidade,
+  nomeServico,
+  codigoServico,
+  nomeContribuinte,
+  cnpjCpf,
+  situacao,
+  referencia,
+  competencia,
+  vencimento,
+  dataCriacao,
+  proximaUrl,
+} = storeToRefs(pagamentoStore);
+
+const route = useRoute();
+const { pending, error } = await pagamentoStore.show_public(route.params.id);
+
+if (error.value) {
+  console.error(error);
+  useToast().error('Ocorreu um erro ao buscar o Pagamento.');
+  navigateTo({ name: 'pagamento' });
 }
+
+function retornoPagtesouro(event) {
+  // Só confiar em eventos oriundos do PagTesouro.
+  if (event.origin !== useRuntimeConfig().pagtesouroURL) return;
+
+  // Evento disparado pelos botões Fechar/Concluir.
+  if (event.data === "EPAG_FIM") {
+    useToast().info('Pagamento finalizado.');
+    navigateTo({ name: 'index' });
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('message', retornoPagtesouro, false);
+})
+
+const vResizeIframe = {
+  beforeMount(el, { value }) {
+    el.addEventListener('load', () => iFrameResize(value, el));
+  },
+  beforeUnmount(el) {
+    el.iFrameResizer.removeListeners();
+  }
+}
+
+onUnmounted(() => {
+  pagamentoStore.$reset();
+})
 </script>
 
 <style lang="scss" scoped>

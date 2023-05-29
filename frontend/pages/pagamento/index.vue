@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <PageTitle>Pagamento para {{ $store.getters['config/unidade']?.nome }}</PageTitle>
+    <PageTitle>Pagamento para {{ configStore.unidade?.nome }}</PageTitle>
 
     <h3 class="mb-4 text-center">
       J&aacute; tenho o c&oacute;digo para Pagamento
@@ -52,30 +52,29 @@
   </v-container>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      idPagamento: null,
-      validation: [],
-    }
-  },
-  head: {
-    title: 'Pagamento',
-  },
-  methods: {
-    submitPagamento() {
-      this.validation = [
-        v => !!v || 'Código do Pagamento é obrigatório.',
-        v => (/^[A-Za-z0-9]+$/).test(v) || 'Código do Pagamento só pode conter letras e números.',
-      ];
+<script setup>
+import { navigateTo } from '#app';
+import { nextTick } from 'vue';
+import { useConfigStore } from '~/store/config';
 
-      this.$nextTick(() => {
-        if (this.$refs.form.validate()) {
-          this.$router.push({ name: 'pagamento-id', params: { id: this.idPagamento } });
-        }
-      });
-    },
-  },
+definePageMeta({ title: 'Pagamento' })
+
+const configStore = useConfigStore();
+
+const form = ref(null);
+const idPagamento = ref(null);
+let validation = ref([]);
+
+function submitPagamento() {
+  validation = [
+    v => !!v || 'Código do Pagamento é obrigatório.',
+    v => (/^[A-Za-z0-9]+$/).test(v) || 'Código do Pagamento só pode conter letras e números.',
+  ];
+
+  nextTick(() => {
+    if (form.value.validate()) {
+      navigateTo({ name: 'pagamento-id', params: { id: idPagamento.value } });
+    }
+  });
 }
 </script>
