@@ -56,7 +56,6 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     'nuxt-proxy-request',
-    // '@invictus.codes/nuxt-vuetify',
     // ['@nuxtjs/recaptcha', {
     //     hideBadge: false,  // Hide badge element (v3 & v2 via size=invisible)
     //     language: 'pt-BR', // Recaptcha language (v2)
@@ -90,7 +89,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       recaptcha: {
-        siteKey: '',
+        v2SiteKey: '',
       },
       pagtesouroURL: '',
       GA: '',

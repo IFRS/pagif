@@ -16,10 +16,7 @@
   "dependencies": {
     "@casl/ability": "^6.3.2",
     "@mdi/font": "^7.2.96",
-    "@nuxtjs/recaptcha": "^1.1.1",
-    "@nuxtjs/style-resources": "^1.2.1",
     "@pinia/nuxt": "^0.4.11",
-    "cookie-universal-nuxt": "^2.2.1",
     "copy-to-clipboard": "^3.3.2",
     "dayjs": "^1.11.3",
     "iframe-resizer": "^4.3.2",
@@ -43,6 +40,7 @@
     "nuxt": "^3.5.1",
     "nuxt-proxy-request": "^1.1.11",
     "sass": "^1.62.1",
-    "vite-plugin-vuetify": "^1.0.2"
+    "vite-plugin-vuetify": "^1.0.2",
+    "vue-recaptcha": "^3.0.0-alpha.2"
   }
 }
