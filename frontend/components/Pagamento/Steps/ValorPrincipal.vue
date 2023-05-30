@@ -3,7 +3,7 @@
     ref="form"
     v-bind="$attrs"
   >
-    <v-currency-field
+    <v-text-field
       v-model="valorPrincipal"
       prepend-icon="mdi-currency-brl"
       label="Valor"
@@ -18,6 +18,14 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { usePagamentoStore } from '~/store/pagamento';
+
+const form = ref(null)
+async function validateForm() {
+  return await form.value.validate()
+}
+defineExpose({
+  validateForm,
+})
 
 const validation = [
   v => !!v || 'Valor é obrigatório.',

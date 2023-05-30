@@ -7,144 +7,75 @@
     </v-row>
     <v-row>
       <v-col>
-        <h3>
-          {{ steps[currentStep]?.title }}
-          <v-badge
-            color="primary"
-            :content="currentStep"
-            inline
-          />
-        </h3>
-        <v-window v-model="step">
-          <v-window-item
-            v-for="(step, index) in steps"
-            :key="index"
-            :value="index"
-          >
-            <component
-              :is="step.component"
-              :ref="'step' + index"
-              class="mb-6"
-              @submit.prevent="nextStep()"
-              @recaptcha="handleRecaptcha"
+        <v-card class="mx-auto">
+          <v-card-title class="d-inline-flex align-center">
+            <v-badge
+              color="primary"
+              :content="currentStep"
+              inline
             />
-            <v-toolbar
-              color="transparent"
-              flat
-            >
-              <v-btn
-                v-if="currentStep === 1"
-                variant="text"
-                @click="navigateTo({ name: 'pagamento' })"
-              >
-                Voltar
-              </v-btn>
-              <v-btn
-                v-else
-                variant="text"
-                :disabled="criandoPagamento"
-                @click="previousStep()"
-              >
-                Anterior
-              </v-btn>
+            &nbsp;
+            <span>{{ steps[currentStep]?.title }}</span>
+          </v-card-title>
 
-              <v-spacer />
-
-              <v-btn
-                v-if="currentStep < numberOfSteps"
-                color="primary"
-                @click="nextStep()"
-              >
-                Pr&oacute;ximo
-              </v-btn>
-
-              <v-btn
-                v-else-if="currentStep == numberOfSteps"
-                color="success"
-                :disabled="!enablePagamento"
-                :loading="criandoPagamento"
-                @click="criarPagamento()"
-              >
-                Concluir
-              </v-btn>
-            </v-toolbar>
-          </v-window-item>
-        </v-window>
-        <!-- TODO substituir componente -->
-        <!-- <v-stepper v-model="currentStep">
-          <v-stepper-header>
-            <template
+          <v-window v-model="currentStep">
+            <v-window-item
               v-for="(step, index) in steps"
               :key="index"
+              :value="parseInt(index)"
             >
-              <v-stepper-step
-                :complete="currentStep > index"
-                :step="index"
-              >
-                {{ step.title }}
-              </v-stepper-step>
+              <v-card-text>
+                <component
+                  :is="step.component"
+                  :ref="(el) => addForm(el, index)"
+                  class="mb-6"
+                  @submit.prevent="nextStep()"
+                  @recaptcha="handleRecaptcha"
+                />
+              </v-card-text>
+            </v-window-item>
+          </v-window>
 
-              <v-divider v-if="index != numberOfSteps" />
-            </template>
-          </v-stepper-header>
+          <v-divider />
 
-          <v-stepper-items>
-            <v-stepper-content
-              v-for="(step, index) in steps"
-              :key="index"
-              :step="index"
+          <v-card-actions>
+            <v-btn
+              v-if="currentStep === 1"
+              variant="text"
+              @click="navigateTo({ name: 'pagamento' })"
             >
-              <component
-                :is="step.component"
-                :ref="'step' + index"
-                class="mb-6"
-                @submit.prevent="nextStep()"
-                @recaptcha="handleRecaptcha"
-              />
+              Voltar
+            </v-btn>
+            <v-btn
+              v-else
+              variant="text"
+              :disabled="criandoPagamento"
+              @click="previousStep()"
+            >
+              Anterior
+            </v-btn>
 
-              <v-toolbar
-                color="transparent"
-                flat
-              >
-                <v-btn
-                  v-if="currentStep === 1"
-                  variant="text"
-                  @click="$router.push({ name: 'pagamento' })"
-                >
-                  Voltar
-                </v-btn>
-                <v-btn
-                  v-else
-                  variant="text"
-                  :disabled="criandoPagamento"
-                  @click="previousStep()"
-                >
-                  Anterior
-                </v-btn>
+            <v-spacer />
 
-                <v-spacer />
+            <v-btn
+              v-if="currentStep < numberOfSteps"
+              color="primary"
+              @click="nextStep()"
+            >
+              Pr&oacute;ximo
+            </v-btn>
 
-                <v-btn
-                  v-if="currentStep < numberOfSteps"
-                  color="primary"
-                  @click="nextStep()"
-                >
-                  Pr&oacute;ximo
-                </v-btn>
-
-                <v-btn
-                  v-else-if="currentStep == numberOfSteps"
-                  color="success"
-                  :disabled="!enablePagamento"
-                  :loading="criandoPagamento"
-                  @click="criarPagamento()"
-                >
-                  Concluir
-                </v-btn>
-              </v-toolbar>
-            </v-stepper-content>
-          </v-stepper-items>
-        </v-stepper> -->
+            <v-btn
+              v-else-if="currentStep == numberOfSteps"
+              color="success"
+              :disabled="!enablePagamento"
+              :loading="criandoPagamento"
+              @click="criarPagamento()"
+            >
+              Concluir
+            </v-btn>
+          </v-card-actions>
+        </v-card>
       </v-col>
     </v-row>
     <v-dialog
@@ -210,7 +141,7 @@
 
 <script setup>
 import copy from 'copy-to-clipboard'
-import { navigateTo } from 'nuxt/app'
+import { navigateTo } from '#app'
 import { computed, onUnmounted } from 'vue'
 import { useMainStore } from '~/store'
 import { useConfigStore } from '~/store/config'
@@ -224,6 +155,7 @@ const pagamentoStore = usePagamentoStore()
 
 const enablePagamento = ref(false)
 const criandoPagamento = ref(false)
+const pagamentoConcluido = ref(false)
 const currentStep = ref(1)
 const steps = {
   1: {
@@ -247,40 +179,45 @@ const steps = {
     title: 'Resumo',
   },
 }
-const pagamentoConcluido = ref(false)
+const forms = []
+
+function addForm(el, index) {
+  forms[index] = el
+}
 
 const numberOfSteps = computed(() => {
   return Object.keys(steps).length
 })
 
 function previousStep() {
-  currentStep = currentStep - 1;
+  currentStep.value = currentStep.value - 1
 }
 
-function nextStep() {
-  if (this.$refs['step' + this.currentStep][0].$refs.form.validate()) {
-    currentStep = currentStep + 1;
+async function nextStep() {
+  const { valid } = await forms[currentStep.value].validateForm()
+  if (valid) {
+    currentStep.value = currentStep.value + 1
   }
 }
 
 function handleRecaptcha(status) {
-  enablePagamento = status
+  enablePagamento.value = status
 }
 
 async function criarPagamento() {
-  criandoPagamento = true
+  criandoPagamento.value = true
 
-  const recaptcha = await this.$recaptcha.getResponse()
+  // const recaptcha = await this.$recaptcha.getResponse()
 
-  const { error } = await pagamentoStore.save_public(recaptcha)
-  pagamentoConcluido = true
+  const { error } = await pagamentoStore.save_public()
+  pagamentoConcluido.value = true
   if (error) {
     useToast().error('Ocorreu um erro ao criar o Pagamento.')
     console.error(error)
   }
-  criandoPagamento = false
+  criandoPagamento.value = false
 
-  await this.$recaptcha.reset()
+  // await this.$recaptcha.reset()
 }
 
 async function toClipboard(text) {

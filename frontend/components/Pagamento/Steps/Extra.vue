@@ -3,8 +3,8 @@
     ref="form"
     v-bind="$attrs"
   >
-    <p class="text-body-2 text--secondary">
-      As informações abaixo são opcionais.
+    <p class="text-body-2 text--secondary mb-3">
+      As informa&ccedil;&otilde;es abaixo s&atilde;o opcionais.
     </p>
 
     <v-text-field
@@ -23,17 +23,17 @@
       max-width="auto"
       min-width="auto"
     >
-      <template #activator="{ on, attrs }">
+      <template #activator="{ props }">
         <v-text-field
           v-model="competenciaFormatted"
           label="Competência"
           prepend-icon="mdi-calendar-month"
           readonly
-          v-bind="attrs"
-          v-on="on"
+          v-bind="props"
         />
       </template>
       <!-- TODO substituir componente -->
+      <span>Date Picker</span>
       <!-- <v-date-picker
         v-model="competencia"
         type="month"
@@ -48,6 +48,14 @@
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { usePagamentoStore } from '~/store/pagamento'
+
+const form = ref(null)
+async function validateForm() {
+  return await form.value.validate()
+}
+defineExpose({
+  validateForm,
+})
 
 const validation = {
   referencia: [

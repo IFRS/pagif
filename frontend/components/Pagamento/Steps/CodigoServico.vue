@@ -33,6 +33,14 @@ import { useMainStore } from '~/store';
 import { useConfigStore } from '~/store/config';
 import { usePagamentoStore } from '~/store/pagamento';
 
+const form = ref(null)
+async function validateForm() {
+  return await form.value.validate()
+}
+defineExpose({
+  validateForm,
+})
+
 const validation = [
   v => !!v || 'Selecione um Serviço.',
 ]

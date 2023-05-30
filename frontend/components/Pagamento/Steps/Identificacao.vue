@@ -15,8 +15,6 @@
 
     <v-text-field
       v-model="cnpjCpfFormatted"
-      v-maska
-      :data-maska="cnpjCpfMask"
       prepend-icon="mdi-card-account-details"
       label="CPF / CNPJ"
       :rules="validation.cnpjCpf"
@@ -34,7 +32,15 @@ import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { usePagamentoStore } from '~/store/pagamento'
 
-const { isCPF, isCNPJ } = useNuxtApp()
+const form = ref(null)
+async function validateForm() {
+  return await form.value.validate()
+}
+defineExpose({
+  validateForm,
+})
+
+const { $isCPF, $isCNPJ } = useNuxtApp()
 
 const validation = {
   nome: [
@@ -43,7 +49,7 @@ const validation = {
   ],
   cnpjCpf: [
     v => !!v || 'CPF / CNPJ é obrigatório.',
-    v => !v || (isCPF(v) || isCNPJ(v)) || 'CPF / CNPJ deve ser válido.',
+    v => v && ($isCPF(v) || $isCNPJ(v)) || 'CPF / CNPJ deve ser válido.',
   ],
 }
 
@@ -51,21 +57,21 @@ const { nomeContribuinte, cnpjCpf } = storeToRefs(usePagamentoStore())
 
 const cnpjCpfFormatted = computed({
   get() {
-    if (cnpjCpf) {
-      const mask = new Mask({ mask: cnpjCpfMask() })
-      return mask.masked(cnpjCpf);
+    if (cnpjCpf.value) {
+      const mask = new Mask({ mask: cnpjCpfMask.value })
+      return mask.masked(cnpjCpf.value);
     }
     return '';
   },
   set(value) {
     value = String(value);
     value = value.replace(/\D/g, '');
-    cnpjCpf = value;
+    cnpjCpf.value = value;
   }
 })
 
 const cnpjCpfMask = computed(() => {
-  if (cnpjCpf && cnpjCpf.length > 11) {
+  if (cnpjCpf.value && cnpjCpf.value.length > 11) {
     return '##.###.###/####-##';
   }
   return '###.###.###-##';
