@@ -48,6 +48,7 @@
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { usePagamentoStore } from '~/store/pagamento'
+import dayjs from 'dayjs'
 
 const form = ref(null)
 async function validateForm() {
@@ -69,6 +70,6 @@ const { referencia, competencia } = storeToRefs(usePagamentoStore())
 const competenciaFormatted = computed(() => {
   if (!competencia) return null;
 
-  return $dayjs(competencia).format('MM/YYYY');
+  return dayjs(competencia).format('MM/YYYY');
 })
 </script>
