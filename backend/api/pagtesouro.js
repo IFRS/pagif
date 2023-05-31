@@ -16,6 +16,9 @@ function valor_formatter(valor) {
 
 const pagtesouro = axios.create({
   baseURL: process.env.PAGTESOURO_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
   transformRequest: [
     (rawData, headers) => {
       if (!rawData) return rawData;
@@ -43,8 +46,8 @@ const pagtesouro = axios.create({
         return obj;
       }, {});
 
-      data.urlRetorno = process.env.BROWSER_BASE_URL + '/';
-      data.urlNotificacao = process.env.BROWSER_BASE_URL + '/api/notifica';
+      data.urlRetorno = process.env.APP_URL + '/';
+      data.urlNotificacao = process.env.APP_URL + '/api/notifica';
 
       if (Object.prototype.hasOwnProperty.call(data, 'competencia') && data.competencia) {
         let competencia = dayjs(data.competencia).format('MMYYYY');

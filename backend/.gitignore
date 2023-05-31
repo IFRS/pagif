@@ -1,6 +1,10 @@
 ### Node ###
 # Logs
-logs
+node_modules/
+dist/
+build/
+log/
+logs/
 *.log
 npm-debug.log*
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
@@ -9,8 +13,6 @@ pids
 *.seed
 *.pid.lock
 .lock-wscript
-build/Release
-node_modules/
 .npm
 .eslintcache
 .stylelintcache
@@ -21,10 +23,6 @@ node_modules/
 .node_repl_history
 *.tgz
 .env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
+.env.*.local
 .cache
-dist
 .vscode-test
