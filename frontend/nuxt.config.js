@@ -89,7 +89,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       recaptcha: {
-        v2SiteKey: '',
+        siteKey: '',
       },
       pagtesouroURL: '',
       GA: '',

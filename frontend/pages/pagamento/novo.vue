@@ -7,7 +7,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-card class="mx-auto">
+        <v-card :disabled="criandoPagamento">
           <v-card-title class="d-inline-flex align-center">
             <v-badge
               color="primary"
@@ -97,13 +97,13 @@
             <v-list-item-action>
               <v-btn
                 icon
-                @click="toClipboard($store.getters['pagamento/idPagamento'])"
+                @click="toClipboard(pagamentoStore.idPagamento)"
               >
                 <v-icon>mdi-content-copy</v-icon>
               </v-btn>
             </v-list-item-action>
             <v-list-item-title style="user-select: all">
-              {{ $store.getters['pagamento/idPagamento'] }}
+              {{ pagamentoStore.idPagamento }}
             </v-list-item-title>
             <v-list-item-subtitle>Código do Pagamento</v-list-item-subtitle>
           </v-list-item>
@@ -129,7 +129,7 @@
           <v-btn
             variant="text"
             color="primary"
-            :to="{ name: 'pagamento-id', params: { id: $store.getters['pagamento/id'] } }"
+            :to="{ name: 'pagamento-id', params: { id: pagamentoStore.idPagamento } }"
           >
             Pagar
           </v-btn>
@@ -153,7 +153,7 @@ const store = useMainStore()
 const configStore = useConfigStore()
 const pagamentoStore = usePagamentoStore()
 
-const enablePagamento = ref(false)
+const recaptchaResponse = ref(null)
 const criandoPagamento = ref(false)
 const pagamentoConcluido = ref(false)
 const currentStep = ref(1)
@@ -200,24 +200,27 @@ async function nextStep() {
   }
 }
 
-function handleRecaptcha(status) {
-  enablePagamento.value = status
+function handleRecaptcha(response) {
+  recaptchaResponse.value = response
 }
+
+const enablePagamento = computed(() => {
+  return Boolean(recaptchaResponse.value)
+})
 
 async function criarPagamento() {
   criandoPagamento.value = true
 
-  // const recaptcha = await this.$recaptcha.getResponse()
+  const { error } = await pagamentoStore.save_public(recaptchaResponse.value)
 
-  const { error } = await pagamentoStore.save_public()
-  pagamentoConcluido.value = true
-  if (error) {
+  if (error.value) {
     useToast().error('Ocorreu um erro ao criar o Pagamento.')
     console.error(error)
+  } else {
+    pagamentoConcluido.value = true
   }
-  criandoPagamento.value = false
 
-  // await this.$recaptcha.reset()
+  criandoPagamento.value = false
 }
 
 async function toClipboard(text) {

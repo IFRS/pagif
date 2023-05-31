@@ -25,11 +25,10 @@
         >
           Ao clicar em "Concluir" o pagamento ser&aacute; gerado e voc&ecirc; ter&aacute;
           <v-tooltip location="bottom">
-            <template #activator="{ on, attrs }">
+            <template #activator="{ props }">
               <span
-                v-bind="attrs"
+                v-bind="props"
                 class="text-decoration-underline"
-                v-on="on"
               ><strong>1h</strong></span>
             </template>
             <span>Caso o pagamento n&atilde;o tenha sido iniciado, ser&aacute; cancelado ap&oacute;s 1h.</span>
@@ -38,49 +37,35 @@
         </v-alert>
       </v-col>
       <v-col class="d-flex justify-center align-center">
-        <!-- TODO: adicionar novamente o ReCaptcha -->
-        <form
-          action="?"
-          method="POST"
-        >
-          <div
-            class="g-recaptcha"
-            :data-sitekey="v2SiteKey"
-            :data-theme="configStore.darkMode ? 'dark' : 'light'"
-          />
-          <br>
-          <input
-            type="submit"
-            value="Submit"
-          >
-        </form>
-
-        <!-- <RecaptchaCheckbox
-          v-model="response"
-          :theme="darkMode ? 'dark' : 'light'"
-        /> -->
+        <div
+          class="g-recaptcha"
+          :data-sitekey="siteKey"
+          :data-theme="configStore.darkMode ? 'dark' : 'light'"
+          data-callback="responseCallback"
+          data-expired-callback="responseCallback"
+          data-error-callback="responseCallback"
+        />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script setup>
-import { useRuntimeConfig } from 'nuxt/app'
+import { useRuntimeConfig } from '#app'
 import { storeToRefs } from 'pinia'
-import { watch } from 'vue'
+import { onBeforeMount, onUnmounted } from 'vue'
 import { useConfigStore } from '~/store/config'
 import { usePagamentoStore } from '~/store/pagamento'
 
-useHeadSafe({
+useHead({
   script: [
-    { src: 'https://www.google.com/recaptcha/api.js' }
+    { src: 'https://www.google.com/recaptcha/api.js', type: "text/javascript", async: true, defer: true }
   ]
 }, { mode: 'client' })
 
 const emit = defineEmits(['recaptcha'])
 
-const { public: { recaptcha: { v2SiteKey } } } = useRuntimeConfig()
-const response = ref(false)
+const { public: { recaptcha: { siteKey } } } = useRuntimeConfig()
 
 const configStore = useConfigStore()
 const pagamentoStore = usePagamentoStore()
@@ -95,7 +80,17 @@ const {
   referencia,
 } = storeToRefs(pagamentoStore)
 
-watch(response, (newResponse) => {
-  emit('recaptcha', newResponse)
+function responseCallback(response) {
+  console.log(response)
+  emit('recaptcha', response)
+}
+
+onBeforeMount(() => {
+  window.responseCallback = responseCallback
+})
+
+onUnmounted(() => {
+  window.grecaptcha.reset()
+  delete window.responseCallback
 })
 </script>
