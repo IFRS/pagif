@@ -94,14 +94,15 @@
             class="px-0"
             lines="two"
           >
-            <v-list-item-action>
+            <template #prepend>
               <v-btn
+                class="me-3"
                 icon
                 @click="toClipboard(pagamentoStore.idPagamento)"
               >
                 <v-icon>mdi-content-copy</v-icon>
               </v-btn>
-            </v-list-item-action>
+            </template>
             <v-list-item-title style="user-select: all">
               {{ pagamentoStore.idPagamento }}
             </v-list-item-title>
