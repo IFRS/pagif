@@ -13,16 +13,18 @@ export const useConfigStore = defineStore('config', {
 
   actions: {
     async populateUnidade(id) {
-      const data = await useFetch(`/api/public/unidades/${id}`)
-      if (data.value) this.unidade = data.value
+      const response = await useFetch(`/api/public/unidades/${id}`)
+      if (response.data.value) this.unidade = response.data.value
+      return response
     },
     async populateConfig() {
-      const data = await useFetch('/api/public/settings')
-      if (data.value) {
-        this.sigla = data.value.sigla
-        this.orgao = data.value.orgao
-        this.intro = data.value.intro
+      const response = await useFetch('/api/public/settings')
+      if (response.data.value) {
+        this.sigla = response.data.value.sigla
+        this.orgao = response.data.value.orgao
+        this.intro = response.data.value.intro
       }
+      return response
     },
   },
 })

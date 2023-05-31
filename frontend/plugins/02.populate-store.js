@@ -1,25 +1,24 @@
-import { defineNuxtPlugin, useCookie } from '#app'
-import { useAuthStore } from '~/store/auth';
-import { useConfigStore } from '~/store/config';
+import { defineNuxtPlugin, useCookie, useFetch } from '#app'
+import useToast from '~/composables/useToast'
+import { useAuthStore } from '~/store/auth'
+import { useConfigStore } from '~/store/config'
 
-export default defineNuxtPlugin(async ({ $pinia, $toast }) => {
+export default defineNuxtPlugin(async ({ $pinia }) => {
   if (process.server) {
     const authStore = useAuthStore($pinia);
-    try {
-      const data = await $fetch('/api/auth/me')
-      if (data) authStore.user = data;
-    } catch (error) {
-      console.error(error);
+    const { data, error } = await useFetch('/api/auth/me')
+    if (data.value) authStore.user = data.value;
+    if (error.value) {
+      console.error(error.value);
     }
   }
 
   if (process.client) {
     const configStore = useConfigStore($pinia);
-    try {
-      await configStore.populateConfig();
-    } catch (error) {
-      $toast.error('Ocorreu um erro ao carregar as Configurações do Sistema: ' + error.message);
-      console.error(error);
+    const { error } = await configStore.populateConfig();
+    if (error.value) {
+      useToast().error('Ocorreu um erro ao carregar as Configurações do Sistema.');
+      console.error(error.value);
     }
 
     let cookie = useCookie('darkMode');
@@ -31,11 +30,10 @@ export default defineNuxtPlugin(async ({ $pinia, $toast }) => {
 
     const unidade_id = localStorage.getItem('unidade');
     if (unidade_id) {
-      try {
-        await configStore.populateUnidade(unidade_id);
-      } catch (error) {
-        $toast.error('Ocorreu um erro ao carregar a Unidade previamente selecionada: ' + error.message);
-        console.error(error);
+      const { error } = await configStore.populateUnidade(unidade_id);
+      if (error.value) {
+        useToast().error('Ocorreu um erro ao carregar a Unidade previamente selecionada.');
+        console.error(error.value);
       }
     }
 
