@@ -49,14 +49,14 @@ const idPagamento = ref(null);
 const validation = ref([]);
 
 function submitConsulta() {
-  validation = [
+  validation.value = [
     v => !!v || 'Código do Pagamento é obrigatório.',
     v => (/^[A-Za-z0-9]+$/).test(v) || 'Código do Pagamento só pode conter letras e números.',
   ];
 
   nextTick(() => {
-    if (form.validate()) {
-      navigateTo({ name: 'consulta-id', params: { id: this.idPagamento } });
+    if (form.value.validate()) {
+      navigateTo({ name: 'consulta-id', params: { id: idPagamento.value } });
     }
   });
 }

@@ -63,10 +63,10 @@ const configStore = useConfigStore();
 
 const form = ref(null);
 const idPagamento = ref(null);
-let validation = ref([]);
+const validation = ref([]);
 
 function submitPagamento() {
-  validation = [
+  validation.value = [
     v => !!v || 'Código do Pagamento é obrigatório.',
     v => (/^[A-Za-z0-9]+$/).test(v) || 'Código do Pagamento só pode conter letras e números.',
   ];
