@@ -4,19 +4,22 @@
     v-bind="$attrs"
   >
     <v-text-field
-      v-model="valorPrincipal"
+      v-model="valorPrincipalFormatted"
       prepend-icon="mdi-currency-brl"
       label="Valor"
       hint="Valor total do pagamento."
       :rules="validation"
       required
       class="required"
+      inputmode="numeric"
+      maxlength="13"
     />
   </v-form>
 </template>
 
 <script setup>
 import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
 import { usePagamentoStore } from '~/store/pagamento';
 
 const form = ref(null)
@@ -32,4 +35,24 @@ const validation = [
 ]
 
 const { valorPrincipal } = storeToRefs(usePagamentoStore())
+
+const valorPrincipalFormatted = computed({
+  get() {
+    if (valorPrincipal.value) {
+      let value = String(valorPrincipal.value)
+      value = value.replace(/\D/g, '')
+      return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', minimumIntegerDigits: 1, minimumFractionDigits: 2 }).format(
+        parseInt(value) / 100
+      )
+    }
+    return ''
+  },
+  set(value) {
+    value = String(value)
+    value = value.replace(/\D/g, '')
+    value = value.substring(value.length - 8)
+    value = parseInt(value)
+    valorPrincipal.value = value
+  }
+})
 </script>
