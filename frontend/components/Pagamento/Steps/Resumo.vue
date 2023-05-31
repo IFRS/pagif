@@ -81,7 +81,6 @@ const {
 } = storeToRefs(pagamentoStore)
 
 function responseCallback(response) {
-  console.log(response)
   emit('recaptcha', response)
 }
 
