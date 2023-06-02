@@ -5,19 +5,17 @@
       align="center"
     >
       <v-col>
-        <client-only>
-          <div class="intro">
-            <v-img
-              class="intro__marca"
-              :src="(darkMode) ? '/img/logo-white.png' : '/img/logo.png'"
-            />
-            <div
-              v-if="intro"
-              class="intro__text"
-              v-html="intro"
-            />
-          </div>
-        </client-only>
+        <div class="intro">
+          <v-img
+            class="intro__marca"
+            :src="(darkMode) ? '/img/logo-white.png' : '/img/logo.png'"
+          />
+          <div
+            v-if="intro"
+            class="intro__text"
+            v-html="intro"
+          />
+        </div>
       </v-col>
     </v-row>
     <v-row

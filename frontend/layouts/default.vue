@@ -53,17 +53,15 @@
         :to="{ name: 'index' }"
         class="text-decoration-none text-primary"
       >
-        <client-only>
-          <h1 class="titulo">
-            Sistema de Pagamentos
-            <template v-if="orgao && sigla">
-              do <abbr :title="orgao">{{ sigla }}</abbr>
-            </template>
-            <template v-else-if="sigla">
-              do {{ sigla }}
-            </template>
-          </h1>
-        </client-only>
+        <h1 class="titulo">
+          Sistema de Pagamentos
+          <template v-if="orgao && sigla">
+            do <abbr :title="orgao">{{ sigla }}</abbr>
+          </template>
+          <template v-else-if="sigla">
+            do {{ sigla }}
+          </template>
+        </h1>
       </NuxtLink>
 
       <v-spacer />
@@ -93,48 +91,46 @@
         color="footer"
         width="100%"
       >
-        <client-only>
-          <v-card-text>
-            <v-row
-              dense
-              class="align-center"
-            >
-              <v-col v-if="unidade?.imagem">
-                <v-tooltip location="top">
-                  <template #activator="{ on, attrs }">
-                    <a
-                      :href="unidade?.link_url"
-                      style="display: inline-block;"
-                    >
-                      <v-img
-                        v-bind="attrs"
-                        :src="unidade?.imagem"
-                        :max-width="320"
-                        v-on="on"
-                      />
-                    </a>
-                  </template>
-                  <span>{{ unidade?.link_titulo }}</span>
-                </v-tooltip>
-              </v-col>
+        <v-card-text>
+          <v-row
+            dense
+            class="align-center"
+          >
+            <v-col v-if="unidade?.imagem">
+              <v-tooltip location="top">
+                <template #activator="{ on, attrs }">
+                  <a
+                    :href="unidade?.link_url"
+                    style="display: inline-block;"
+                  >
+                    <v-img
+                      v-bind="attrs"
+                      :src="unidade?.imagem"
+                      :max-width="320"
+                      v-on="on"
+                    />
+                  </a>
+                </template>
+                <span>{{ unidade?.link_titulo }}</span>
+              </v-tooltip>
+            </v-col>
 
-              <v-col class="text-white text-right">
-                <p>
-                  <strong>{{ orgao }}</strong>
-                  <template v-if="unidade?.nome">
-                    <br>
-                    {{ unidade.nome }}
-                  </template>
-                </p>
-                <address
-                  v-if="unidade?.contato"
-                  class="contato"
-                  v-html="unidade.contato"
-                />
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </client-only>
+            <v-col class="text-white text-right">
+              <p>
+                <strong>{{ orgao }}</strong>
+                <template v-if="unidade?.nome">
+                  <br>
+                  {{ unidade.nome }}
+                </template>
+              </p>
+              <address
+                v-if="unidade?.contato"
+                class="contato"
+                v-html="unidade.contato"
+              />
+            </v-col>
+          </v-row>
+        </v-card-text>
 
         <v-divider dark />
 
@@ -166,22 +162,22 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia';
-import { ref, nextTick } from 'vue';
-import { useDisplay } from 'vuetify';
-import { useConfigStore } from '~/store/config';
+import { storeToRefs } from 'pinia'
+import { ref, onMounted } from 'vue'
+import { useDisplay } from 'vuetify'
+import { useConfigStore } from '~/store/config'
 
-const configStore = useConfigStore();
-const { sigla, orgao, unidade, darkMode } = storeToRefs(configStore);
+const configStore = useConfigStore()
+const { sigla, orgao, unidade, darkMode } = storeToRefs(configStore)
 
-const loaded = ref(false);
-const drawer = ref(false);
+const loaded = ref(false)
+const drawer = ref(false)
 
-const { smAndDown, mdAndUp } = useDisplay();
+const { smAndDown, mdAndUp } = useDisplay()
 
-await nextTick(function () {
-  loaded.value = true;
-});
+onMounted(() => {
+  loaded.value = true
+})
 </script>
 
 <style lang="scss" scoped>

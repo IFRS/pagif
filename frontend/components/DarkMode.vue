@@ -21,9 +21,8 @@
 </template>
 
 <script setup>
-import { useCookie } from '#app';
 import { storeToRefs } from 'pinia';
-import { watch, onMounted } from 'vue';
+import { watch } from 'vue';
 import { useTheme } from 'vuetify';
 import { useConfigStore } from '~/store/config';
 
@@ -32,20 +31,7 @@ const { darkMode } = storeToRefs(configStore);
 
 const theme = useTheme();
 
-let cookie = useCookie('darkMode');
-
-const isDarkMode = process.server ? cookie : darkMode;
-
-theme.global.name.value = isDarkMode ? 'dark': 'light';
-
 watch(darkMode, (newValue) => {
   theme.global.name.value = newValue ? 'dark': 'light';
-  cookie = newValue;
 })
-
-onMounted(() => {
-  setTimeout(() => {
-    theme.global.name.value = isDarkMode ? 'dark' : 'light';
-  }, 0);
-});
 </script>

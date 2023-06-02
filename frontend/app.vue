@@ -6,6 +6,20 @@
 </template>
 
 <script setup>
+import { storeToRefs } from 'pinia';
+import { useTheme } from 'vuetify';
+import { useConfigStore } from './store/config';
+
+const configStore = useConfigStore();
+const { darkMode } = storeToRefs(configStore);
+
+const theme = useTheme();
+
+const cookie = useCookie('darkMode');
+
+const isDarkMode = process.server ? cookie.value : darkMode.value;
+
+theme.global.name.value = isDarkMode ? 'dark': 'light';
 </script>
 
 <style>
