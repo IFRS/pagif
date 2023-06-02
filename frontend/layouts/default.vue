@@ -200,7 +200,7 @@ await nextTick(function () {
   font-weight: 400;
 }
 
-:deep(.contato) {
+.contato {
   a {
     color: inherit;
   }
