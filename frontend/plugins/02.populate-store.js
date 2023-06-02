@@ -13,20 +13,19 @@ export default defineNuxtPlugin(async ({ $pinia }) => {
     }
   }
 
-  if (process.client) {
-    const configStore = useConfigStore($pinia);
+  const configStore = useConfigStore($pinia);
+  const cookie = useCookie('darkMode');
 
-    const cookie = useCookie('darkMode');
-
-    const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches || cookie.value;
-    if (darkMode) {
-      configStore.darkMode = darkMode;
-    }
-
-    const { error } = await configStore.populateConfig();
+  const { error } = await configStore.populateConfig();
     if (error.value) {
       useToast().error('Ocorreu um erro ao carregar as Configurações do Sistema.');
       console.error(error.value);
+    }
+
+  if (process.client) {
+    const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches || cookie.value;
+    if (darkMode) {
+      configStore.darkMode = darkMode;
     }
 
     const unidade_id = localStorage.getItem('unidade');
@@ -37,10 +36,10 @@ export default defineNuxtPlugin(async ({ $pinia }) => {
         console.error(error.value);
       }
     }
-
-    configStore.$subscribe((mutation, state) => {
-      cookie.value = state.darkMode;
-      localStorage.setItem('unidade', state.unidade._id);
-    }, { detached: true });
   }
+
+  configStore.$subscribe((mutation, state) => {
+    cookie.value = state.darkMode;
+    localStorage.setItem('unidade', state.unidade._id);
+  }, { detached: true });
 })

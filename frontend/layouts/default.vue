@@ -152,32 +152,20 @@
         </v-card-text>
       </v-card>
     </v-footer>
-    <v-overlay :model-value="!loaded">
-      <v-progress-circular
-        indeterminate
-        size="64"
-      />
-    </v-overlay>
   </v-app>
 </template>
 
 <script setup>
 import { storeToRefs } from 'pinia'
-import { ref, onMounted } from 'vue'
 import { useDisplay } from 'vuetify'
 import { useConfigStore } from '~/store/config'
 
 const configStore = useConfigStore()
 const { sigla, orgao, unidade, darkMode } = storeToRefs(configStore)
 
-const loaded = ref(false)
 const drawer = ref(false)
 
 const { smAndDown, mdAndUp } = useDisplay()
-
-onMounted(() => {
-  loaded.value = true
-})
 </script>
 
 <style lang="scss" scoped>
