@@ -49,31 +49,12 @@ export default defineNuxtConfig({
     '@fontsource/roboto/latin-900.css',
     '@mdi/font/css/materialdesignicons.css',
     'vuetify/styles',
-    '~/assets/transitions.scss',
     '~/assets/vuetify-required.scss',
   ],
 
   modules: [
     '@pinia/nuxt',
     'nuxt-proxy-request',
-    // ['@nuxtjs/recaptcha', {
-    //     hideBadge: false,  // Hide badge element (v3 & v2 via size=invisible)
-    //     language: 'pt-BR', // Recaptcha language (v2)
-    //     mode: 'base',      // Mode: 'base', 'enterprise'
-    //     version: 2,        // Version
-    //     size: 'normal'     // Size: 'compact', 'normal', 'invisible' (v2)
-    // }],
-    // ['cookie-universal-nuxt', { alias: 'cookies' }],
-    // ['v-currency-field/nuxt-treeshaking', {
-    //   locale: 'pt-BR',
-    //   autoDecimalMode: true,
-    //   decimalLength: 2,
-    //   min: undefined,
-    //   max: undefined,
-    //   defaultValue: null,
-    //   allowNegative: false,
-    //   valueAsInteger: true,
-    // }],
   ],
 
   proxy: {
@@ -131,7 +112,7 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '@import "assets/_functions.scss";',
+          additionalData: '@import "assets/utils/utils.scss";',
         },
       },
     },
