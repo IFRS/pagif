@@ -8,7 +8,7 @@ passport.use(new GoogleStrategy(
   {
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.BROWSER_BASE_URL + "/api/auth/google/callback",
+    callbackURL: process.env.APP_URL + "/api/auth/google/callback",
   },
   function(accessToken, refreshToken, profile, cb) {
     let emails = profile.emails.map((email) => {
