@@ -37,16 +37,16 @@
       </template>
     </v-navigation-drawer>
     <v-app-bar elevation="1">
-      <v-img
+      <img
+        v-if="mdAndUp"
         :src="darkMode ? '/img/govbr-white.svg' : '/img/govbr.svg'"
-        :max-width="120"
-        aspect-ratio="4/1"
-        class="d-none d-md-block govbr"
-      />
+        class="govbr"
+      >
 
       <v-divider
+        v-if="mdAndUp"
         vertical
-        class="d-none d-md-block separador"
+        class="separador"
       />
 
       <NuxtLink
@@ -177,7 +177,7 @@ const { sigla, orgao, unidade, darkMode } = storeToRefs(configStore);
 const loaded = ref(false);
 const drawer = ref(false);
 
-const { smAndDown } = useDisplay();
+const { smAndDown, mdAndUp } = useDisplay();
 
 await nextTick(function () {
   loaded.value = true;
@@ -186,7 +186,8 @@ await nextTick(function () {
 
 <style lang="scss" scoped>
 .govbr {
-  flex: 0 0 200px;
+  margin-inline-start: 0.5rem;
+  max-width: 120px;
 }
 
 .separador {
