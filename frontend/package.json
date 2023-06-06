@@ -41,6 +41,7 @@
     "nuxt-proxy-request": "^1.1.11",
     "sass": "^1.62.1",
     "vite-plugin-vuetify": "^1.0.2",
-    "vue-recaptcha": "^3.0.0-alpha.2"
+    "vue-recaptcha": "^3.0.0-alpha.2",
+    "vue3-google-login": "^2.0.15"
   }
 }
