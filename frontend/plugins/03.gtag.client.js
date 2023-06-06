@@ -6,11 +6,11 @@ export default defineNuxtPlugin(async ({ $pinia, vueApp, router }) => {
   const config = useRuntimeConfig();
   const store = useConfigStore($pinia);
 
-  if (config.GA) {
+  if (config.public.GA) {
     vueApp.use(VueGtag, {
       enabled: !store.dnt,
       config: {
-        id: config.GA,
+        id: config.public.GA,
         params: {
           send_page_view: false
         }
