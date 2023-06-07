@@ -15,7 +15,9 @@ const notifica = require('./routes/notifica');
 const usuarios = require('./routes/usuarios');
 const settings = require('./routes/settings');
 
+const me = require('./auth/me');
 const google = require('./auth/google');
+
 const { logger } = require('../logger');
 
 const app = express();
@@ -50,6 +52,7 @@ app.use(session({
   saveUninitialized: true,
 }));
 
+app.use(me);
 app.use(google);
 
 // Add development latency

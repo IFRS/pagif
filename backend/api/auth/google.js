@@ -35,10 +35,6 @@ router.post('/auth/google/login', async function(req, res) {
   }
 });
 
-router.get('/auth/me', function(req, res) {
-  return res.json(req.session.user || null);
-});
-
 router.get('/auth/google/logout', function(req, res) {
   if (req.session) {
     return req.session.destroy(function(err) {
