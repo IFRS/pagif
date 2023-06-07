@@ -1,4 +1,4 @@
-import { defineNuxtPlugin, useCookie, useFetch } from '#app'
+import { defineNuxtPlugin, useFetch, useCookie } from '#app'
 import useToast from '~/composables/useToast'
 import { useAuthStore } from '~/store/auth'
 import { useConfigStore } from '~/store/config'
@@ -36,10 +36,10 @@ export default defineNuxtPlugin(async ({ $pinia }) => {
         console.error(error.value);
       }
     }
-  }
 
-  configStore.$subscribe((mutation, state) => {
-    cookie.value = state.darkMode;
-    localStorage.setItem('unidade', state.unidade._id);
-  }, { detached: true });
+    configStore.$subscribe((mutation, state) => {
+      cookie.value = state.darkMode;
+      localStorage.setItem('unidade', state.unidade._id);
+    }, { detached: true });
+  }
 })

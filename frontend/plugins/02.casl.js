@@ -3,19 +3,10 @@ import { useAuthStore } from "~/store/auth";
 import { createMongoAbility } from "@casl/ability";
 
 export default defineNuxtPlugin(async ({ $pinia, vueApp }) => {
-  const store = useAuthStore($pinia);
-  let user = null;
+  const authStore = useAuthStore($pinia);
 
-  if (process.server) {
-    user = await $fetch('/api/auth/me');
-  }
-
-  if (process.client) {
-    user = store.user;
-  }
-
-  if (user) {
-    const ability = createMongoAbility(user.abilities);
+  if (authStore.user) {
+    const ability = createMongoAbility(authStore.user.abilities);
     vueApp.config.globalProperties.$acl = ability;
   }
 })
