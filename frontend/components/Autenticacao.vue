@@ -1,6 +1,13 @@
 <template>
   <UserMenu v-if="authStore.user" />
 
+  <v-progress-circular
+    v-else-if="loading"
+    color="primary"
+    indeterminate
+    :size="48"
+  />
+
   <GoogleLogin
     v-else
     :client-id="config.public.googleClientId"
@@ -24,8 +31,18 @@ import { useAuthStore } from '~/store/auth'
 const authStore = useAuthStore()
 const config = useRuntimeConfig()
 
-const handleGoogle = (response) => {
-  console.log(response)
+const loading = ref(false)
+
+async function handleGoogle(response) {
+  loading.value = true
+  const { pending, data, error } = await useFetch('/api/auth/google/login', { method: 'POST', body: { ...response } })
+  loading.value = pending
+  if (error.value) {
+    useToast().error('Ocorreu um erro ao logar com o Google.')
+    console.error(error.value)
+  }
+  authStore.user = data.value;
+  navigateTo('/')
 }
 </script>
 

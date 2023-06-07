@@ -2,12 +2,11 @@
   <v-menu
     :close-on-content-click="false"
   >
-    <template #activator="{ on, attrs }">
+    <template #activator="{ props }">
       <v-btn
         class="mr-3"
         icon
-        v-bind="attrs"
-        v-on="on"
+        v-bind="props"
       >
         <v-avatar
           dark
@@ -15,15 +14,12 @@
           size="38"
         >
           <img
-            v-if="usuario.foto"
-            :src="usuario.foto"
-            :alt="'Foto de ' + usuario.nome"
+            v-if="user.foto"
+            :src="user.foto"
+            :alt="'Foto de ' + user.nome"
             referrerpolicy="no-referrer"
           >
-          <v-icon
-            v-else
-            dark
-          >
+          <v-icon v-else>
             mdi-account-circle
           </v-icon>
         </v-avatar>
@@ -33,9 +29,9 @@
       <v-list>
         <v-list-item>
           <v-list-item-title class="text-h6">
-            {{ usuario.nome }}
+            {{ user.nome }}
           </v-list-item-title>
-          <v-list-item-subtitle>{{ usuario.email }}</v-list-item-subtitle>
+          <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
         </v-list-item>
 
         <v-divider />
@@ -57,7 +53,7 @@
         <v-divider />
 
         <v-list-item
-          href="/api/auth/logout"
+          @click="logout()"
         >
           <v-list-item-title>Sair</v-list-item-title>
         </v-list-item>
@@ -68,6 +64,7 @@
 
 <script setup>
 import { storeToRefs } from 'pinia';
+import useToast from '~/composables/useToast';
 import { useAuthStore } from '~/store/auth';
 
 defineProps({
@@ -79,5 +76,16 @@ defineProps({
 
 const authStore = useAuthStore();
 
-const { usuario } = storeToRefs(authStore);
+const { user } = storeToRefs(authStore);
+
+const logout = async () => {
+  const { error } = await useFetch('/api/auth/google/logout')
+  if (error.value) {
+    useToast().error('Erro ao tentar deslogar.')
+    console.error(error.value)
+  } else {
+    user = null
+    navigateTo('/')
+  }
+}
 </script>
