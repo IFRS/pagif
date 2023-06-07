@@ -9,16 +9,15 @@
         v-bind="props"
       >
         <v-avatar
-          dark
           color="primary"
           size="38"
         >
-          <img
+          <v-img
             v-if="user.foto"
             :src="user.foto"
             :alt="'Foto de ' + user.nome"
             referrerpolicy="no-referrer"
-          >
+          />
           <v-icon v-else>
             mdi-account-circle
           </v-icon>
@@ -64,7 +63,6 @@
 
 <script setup>
 import { storeToRefs } from 'pinia';
-import useToast from '~/composables/useToast';
 import { useAuthStore } from '~/store/auth';
 
 defineProps({
@@ -84,8 +82,9 @@ const logout = async () => {
     useToast().error('Erro ao tentar deslogar.')
     console.error(error.value)
   } else {
-    user = null
-    navigateTo('/')
+    user.value = null
+    useToast().info('Você saiu com sucesso!')
+    navigateTo('/', { replace: true })
   }
 }
 </script>

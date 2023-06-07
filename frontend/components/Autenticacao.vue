@@ -5,7 +5,7 @@
     v-else-if="loading"
     color="primary"
     indeterminate
-    :size="48"
+    :size="38"
   />
 
   <GoogleLogin
@@ -35,14 +35,14 @@ const loading = ref(false)
 
 async function handleGoogle(response) {
   loading.value = true
-  const { pending, data, error } = await useFetch('/api/auth/google/login', { method: 'POST', body: { ...response } })
-  loading.value = pending
+  const { data, error } = await useFetch('/api/auth/google/login', { method: 'POST', body: response })
   if (error.value) {
     useToast().error('Ocorreu um erro ao logar com o Google.')
     console.error(error.value)
   }
   authStore.user = data.value;
-  navigateTo('/')
+  loading.value = false
+  navigateTo('/', { replace: true })
 }
 </script>
 
