@@ -5,7 +5,6 @@ const cors = require('cors');
 const helmet = require('helmet');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
-const passport = require('passport');
 
 const health = require('./routes/health');
 const info = require('./routes/info');
@@ -50,7 +49,6 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
 }));
-app.use(passport.session());
 
 app.use(google);
 
