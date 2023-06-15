@@ -15,40 +15,41 @@
       :counter="20"
     />
 
-    <v-menu
-      :persistent="!(true)"
-      :close-on-content-click="true"
-      :model-value="competencia"
-      transition="scale-transition"
-      max-width="auto"
-      min-width="auto"
+    <VueDatePicker
+      v-model="competencia"
+      model-type="yyyy-MM"
+      locale="pt-BR"
+      month-picker
+      auto-apply
+      :teleport="true"
+      placeholder="Selecione um mês"
+      text-input
     >
-      <template #activator="{ props }">
+      <template #dp-input="{ value, onInput, onEnter, onTab, onClear, onBlur, onKeypress, isMenuOpen }">
         <v-text-field
-          v-model="competenciaFormatted"
-          label="Competência"
           prepend-icon="mdi-calendar-month"
+          label="Compentência"
+          hide-details
           readonly
-          v-bind="props"
+          :active="isMenuOpen"
+          :model-value="value"
+          @update:model-value="onInput"
+          @keydown.enter="onEnter"
+          @keydown.tab="onTab"
+          @blur="onBlur"
+          @keydown="onKeypress"
+          @click:clear="onClear"
         />
       </template>
-      <!-- TODO substituir componente -->
-      <span>Date Picker</span>
-      <!-- <v-date-picker
-        v-model="competencia"
-        type="month"
-        no-title
-        scrollable
-      /> -->
-    </v-menu>
+    </VueDatePicker>
   </v-form>
 </template>
 
 <script setup>
 import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
 import { usePagamentoStore } from '~/store/pagamento'
-import dayjs from 'dayjs'
+import VueDatePicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
 
 const form = ref(null)
 async function validateForm() {
@@ -66,10 +67,10 @@ const validation = {
 }
 
 const { referencia, competencia } = storeToRefs(usePagamentoStore())
-
-const competenciaFormatted = computed(() => {
-  if (!competencia) return null;
-
-  return dayjs(competencia).format('MM/YYYY');
-})
 </script>
+
+<style lang="scss" scoped>
+:deep(.dp__input_wrap) {
+  box-sizing: border-box;
+}
+</style>
