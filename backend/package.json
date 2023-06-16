@@ -7,9 +7,9 @@
   },
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon --verbose ./index.js",
+    "dev": "cross-env NODE_ENV=development nodemon --verbose --trace-warnings --throw-deprecation ./index.js",
     "start": "NODE_ENV=production node ./index.js",
-    "lint": "eslint .",
+    "lint": "eslint . --fix",
     "superadmin": "node ./db/scripts/superadmin.js"
   },
   "dependencies": {
