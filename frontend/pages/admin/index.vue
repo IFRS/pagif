@@ -42,30 +42,24 @@
   </v-container>
 </template>
 
-<script>
-export default {
+<script setup>
+definePageMeta({
   layout: 'admin',
-  data() {
-    return {
-      numUnidades: null,
-      numServicos: null,
-      numPagamentos: null,
-    }
-  },
-  async fetch() {
-    await this.$axios.get('/api/info/count')
-    .then(response => {
-      this.numUnidades = response.data.unidades || null;
-      this.numServicos = response.data.servicos || null;
-      this.numPagamentos = response.data.pagamentos || null;
-    })
-    .catch(error => {
-      this.$toast.error('Ocorreu um erro ao carregar as informações sobre o sistema: ' + error.message);
-      console.error(error);
-    });
-  },
-  head: {
-    title: 'Área Administrativa',
-  },
+  title: 'Área Administrativa',
+})
+
+const numUnidades = ref()
+const numServicos = ref()
+const numPagamentos = ref()
+
+const { data, error } = await useFetch('/api/info/count')
+
+if (error.value) {
+  useToast().error('Ocorreu um erro ao carregar as informações sobre o sistema: ' + error.message)
+  console.error(error)
 }
+
+numUnidades.value = data.value.unidades
+numServicos.value = data.value.servicos
+numPagamentos.value = data.value.pagamentos
 </script>
