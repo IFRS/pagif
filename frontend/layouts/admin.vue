@@ -1,10 +1,19 @@
 <template>
-  <v-app dark>
+  <v-app>
+    <v-app-bar elevation="1">
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-toolbar-title>Administração do Sistema de Pagamentos</v-toolbar-title>
+
+      <v-spacer />
+
+      <DarkMode />
+      <UserMenu admin />
+    </v-app-bar>
     <v-navigation-drawer
       v-model="drawer"
       :rail="miniVariant"
     >
-      <v-list>
+      <v-list nav>
         <v-list-item
           v-for="(item, i) in itemsEnabled"
           :key="i"
@@ -17,7 +26,7 @@
         </v-list-item>
       </v-list>
       <template #append>
-        <v-list density="compact">
+        <v-list>
           <v-list-item
             density="compact"
             :prepend-icon="(miniVariant) ? 'mdi-chevron-double-right' : 'mdi-chevron-double-left'"
@@ -28,18 +37,27 @@
         </v-list>
       </template>
     </v-navigation-drawer>
-    <v-app-bar>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title>Administração do Sistema de Pagamentos</v-toolbar-title>
-
-      <v-spacer />
-
-      <DarkMode />
-      <UserMenu admin />
-    </v-app-bar>
     <v-main>
       <slot />
       <Toast />
+      <v-snackbar
+        v-if="loaded"
+        :model-value="useACL().can('manage', 'Settings') && (!sigla || !orgao)"
+        :timeout="-1"
+        location="top"
+        multi-line
+        vertical
+        color="error"
+      >
+        A <em>sigla</em> e o <em>nome</em> do órgão ainda não foram preenchidos.
+        <br>
+        Por favor, vá até o menu <NuxtLink
+          :to="{ name: 'admin-config' }"
+          class="text-white font-weight-bold"
+        >
+          Configurações
+        </NuxtLink> para definir esses valores.
+      </v-snackbar>
     </v-main>
     <v-footer
       app
@@ -48,50 +66,33 @@
       <span><a
         href="https://www.gov.br/tesouronacional/pt-br/gru-e-pag-tesouro/pagtesouro"
         class="text-decoration-none text-grey"
-        :class="{ 'text--darken-2': !$store.getters['config/darkMode'] }"
+        :class="{ 'text--darken-2': !darkMode }"
       >PagIF - Sistema de Pagamentos integrado ao PagTesouro</a></span>
       <span><a
         href="https://ifrs.edu.br/"
         class="text-decoration-none text-grey"
-        :class="{ 'text--darken-2': !$store.getters['config/darkMode'] }"
+        :class="{ 'text--darken-2': !darkMode }"
       >Desenvolvido por Instituto Federal do Rio Grande do Sul</a></span>
     </v-footer>
-    <v-snackbar
-      v-if="loaded"
-      :model-value="$acl.can('manage', 'Settings') && (!$store.getters['config/sigla'] || !$store.getters['config/orgao'])"
-      :timeout="-1"
-      location="top"
-      multi-line
-      vertical
-      color="error"
-    >
-      A <em>sigla</em> e o <em>nome</em> do órgão ainda não foram preenchidos.
-      <br>
-      Por favor, vá até o menu <NuxtLink
-        :to="{ name: 'admin-config' }"
-        class="text-white font-weight-bold"
-      >
-        Configurações
-      </NuxtLink> para definir esses valores.
-    </v-snackbar>
-    <v-overlay :model-value="!loaded">
+    <!-- <v-overlay :model-value="!loaded">
       <v-progress-circular
         indeterminate
         size="64"
       />
-    </v-overlay>
+    </v-overlay> -->
   </v-app>
 </template>
 
 <script setup>
+import { storeToRefs } from 'pinia'
 import { computed, onMounted, onUnmounted } from 'vue'
 import { useMainStore } from '~/store'
-
-definePageMeta({
-  middleware: ['auth']
-})
+import { useConfigStore } from '~/store/config'
 
 const store = useMainStore()
+const configStore = useConfigStore()
+
+const { darkMode, sigla, orgao } = storeToRefs(configStore)
 
 const loaded = ref(false)
 const drawer = ref(true)
@@ -109,31 +110,31 @@ const items = [
     icon: 'mdi-office-building-marker',
     title: 'Unidades',
     to: '/admin/unidades',
-    enabled: this.$acl.can('read', 'Unidade'),
+    enabled: useACL().can('read', 'Unidade'),
   },
   {
     icon: 'mdi-basket',
     title: 'Serviços',
     to: '/admin/servicos',
-    enabled: this.$acl.can('read', 'Servico'),
+    enabled: useACL().can('read', 'Servico'),
   },
   {
     icon: 'mdi-credit-card-outline',
     title: 'Pagamentos',
     to: '/admin/pagamentos',
-    enabled: this.$acl.can('read', 'Pagamento'),
+    enabled: useACL().can('read', 'Pagamento'),
   },
   {
     icon: 'mdi-account-multiple',
     title: 'Usuários',
     to: '/admin/usuarios',
-    enabled: this.$acl.can('read', 'Usuario'),
+    enabled: useACL().can('read', 'Usuario'),
   },
   {
     icon: 'mdi-cog',
     title: 'Configurações',
     to: '/admin/config',
-    enabled: this.$acl.can('manage', 'Config'),
+    enabled: useACL().can('manage', 'Config'),
   },
 ]
 
