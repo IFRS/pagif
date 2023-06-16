@@ -83,70 +83,71 @@
   </v-app>
 </template>
 
-<script>
-export default {
-  middleware: ['auth'],
-  data () {
-    return {
-      loaded: false,
-      drawer: true,
-      miniVariant: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Início',
-          to: '/admin',
-          exact: true,
-          enabled: true,
-        },
-        {
-          icon: 'mdi-office-building-marker',
-          title: 'Unidades',
-          to: '/admin/unidades',
-          enabled: this.$acl.can('read', 'Unidade'),
-        },
-        {
-          icon: 'mdi-basket',
-          title: 'Serviços',
-          to: '/admin/servicos',
-          enabled: this.$acl.can('read', 'Servico'),
-        },
-        {
-          icon: 'mdi-credit-card-outline',
-          title: 'Pagamentos',
-          to: '/admin/pagamentos',
-          enabled: this.$acl.can('read', 'Pagamento'),
-        },
-        {
-          icon: 'mdi-account-multiple',
-          title: 'Usuários',
-          to: '/admin/usuarios',
-          enabled: this.$acl.can('read', 'Usuario'),
-        },
-        {
-          icon: 'mdi-cog',
-          title: 'Configurações',
-          to: '/admin/config',
-          enabled: this.$acl.can('manage', 'Config'),
-        },
-      ],
-    }
+<script setup>
+import { computed, onMounted, onUnmounted } from 'vue'
+import { useMainStore } from '~/store'
+
+definePageMeta({
+  middleware: ['auth']
+})
+
+const store = useMainStore()
+
+const loaded = ref(false)
+const drawer = ref(true)
+const miniVariant = ref(false)
+
+const items = [
+  {
+    icon: 'mdi-apps',
+    title: 'Início',
+    to: '/admin',
+    exact: true,
+    enabled: true,
   },
-  computed: {
-    itemsEnabled() {
-      return this.items.filter((item) => {
-        return item.enabled;
-      })
-    },
+  {
+    icon: 'mdi-office-building-marker',
+    title: 'Unidades',
+    to: '/admin/unidades',
+    enabled: this.$acl.can('read', 'Unidade'),
   },
-  mounted () {
-    this.loaded = true;
+  {
+    icon: 'mdi-basket',
+    title: 'Serviços',
+    to: '/admin/servicos',
+    enabled: this.$acl.can('read', 'Servico'),
   },
-  unmounted () {
-    this.$store.commit('clearUnidades');
-    this.$store.commit('clearServicos');
-    this.$store.commit('clearPagamentos');
-    this.$store.commit('clearUsuarios');
+  {
+    icon: 'mdi-credit-card-outline',
+    title: 'Pagamentos',
+    to: '/admin/pagamentos',
+    enabled: this.$acl.can('read', 'Pagamento'),
   },
-};
+  {
+    icon: 'mdi-account-multiple',
+    title: 'Usuários',
+    to: '/admin/usuarios',
+    enabled: this.$acl.can('read', 'Usuario'),
+  },
+  {
+    icon: 'mdi-cog',
+    title: 'Configurações',
+    to: '/admin/config',
+    enabled: this.$acl.can('manage', 'Config'),
+  },
+]
+
+const itemsEnabled = computed(() => {
+  return items.filter((item) => {
+    return item.enabled
+  })
+})
+
+onMounted(() => {
+  loaded.value = true
+})
+
+onUnmounted(() => {
+  store.$reset()
+})
 </script>
