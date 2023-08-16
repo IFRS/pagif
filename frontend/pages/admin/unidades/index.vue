@@ -216,9 +216,9 @@ async function showTokenDialog(item) {
   tokenLoading.value = false
 }
 
-function editUnidade(unidade) {
+async function editUnidade(unidade) {
   unidadeStore.$patch(unidade)
-  navigateTo('/admin/unidades/editar')
+  await navigateTo({ path: '/admin/unidades/editar' })
 }
 
 const confirmDialog = ref(false)
