@@ -39,7 +39,7 @@ export default defineNuxtPlugin(async ({ $pinia }) => {
 
     configStore.$subscribe((mutation, state) => {
       cookie.value = state.darkMode;
-      localStorage.setItem('unidade', state.unidade._id);
+      localStorage.setItem('unidade', state.unidade?._id);
     }, { detached: true });
   }
 })
