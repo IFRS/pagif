@@ -167,7 +167,6 @@
 </template>
 
 <script setup>
-import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 import { storeToRefs } from 'pinia'
 import { usePagamentoStore } from '~/store/pagamento'
 

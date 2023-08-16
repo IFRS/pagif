@@ -1,13 +1,17 @@
 import { defineNuxtPlugin } from '#app'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
+import * as labsComponents from 'vuetify/labs/components'
 import * as directives from 'vuetify/directives'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { pt } from 'vuetify/locale'
 
 export default defineNuxtPlugin(({ vueApp }) => {
   const vuetify = createVuetify({
-    components,
+    components: {
+      ...components,
+      ...labsComponents,
+    },
     directives,
     ssr: true,
     icons: {
@@ -55,6 +59,13 @@ export default defineNuxtPlugin(({ vueApp }) => {
             footer: '#071D41',
           },
         },
+      },
+    },
+    defaults: {
+      VBtn: {
+        color: 'primary',
+        variant: 'elevated',
+        rounded: true,
       },
     },
   })

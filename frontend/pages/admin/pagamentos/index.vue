@@ -203,7 +203,6 @@
 
 <script>
   import { mapGetters, mapMutations } from 'vuex';
-  import { vDataTable } from 'vuetify/labs'
 
   export default {
     components: {
