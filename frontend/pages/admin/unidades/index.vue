@@ -7,40 +7,45 @@
     </v-row>
     <v-row>
       <v-col>
-        <!-- eslint-disable-next-line vuetify/no-deprecated-components -->
         <v-data-table
-          :loading="$fetchState.pending"
+          :loading="pending"
           :headers="tableHeaders"
-          :items="$store.getters['unidades']"
+          :items="unidades"
           :items-per-page="10"
           :search="busca"
         >
           <template #top>
-            <v-toolbar flat>
+            <v-toolbar
+              flat
+              color="transparent"
+            >
               <v-text-field
                 v-model="busca"
-                append-icon="mdi-magnify"
+                prepend-inner-icon="mdi-magnify"
                 label="Buscar"
                 single-line
                 hide-details
+                variant="underlined"
               />
               <v-spacer />
-              <v-btn
-                class="mr-2"
-                color="secondary"
-                :loading="$fetchState.pending"
-                @click="$fetch()"
-              >
-                <v-icon>mdi-refresh</v-icon>
-              </v-btn>
-              <v-btn
-                v-if="$acl.can('create', 'Unidade')"
-                color="primary"
-                to="/admin/unidades/nova"
-              >
-                <v-icon>mdi-plus</v-icon>
-                Nova Unidade
-              </v-btn>
+              <v-toolbar-items>
+                <v-btn
+                  class="mr-2"
+                  color="secondary"
+                  :loading="pending"
+                  @click="refresh()"
+                >
+                  <v-icon>mdi-refresh</v-icon>
+                </v-btn>
+                <v-btn
+                  v-if="useACL().can('create', 'Unidade')"
+                  color="primary"
+                  to="/admin/unidades/nova"
+                >
+                  <v-icon>mdi-plus</v-icon>
+                  Nova Unidade
+                </v-btn>
+              </v-toolbar-items>
             </v-toolbar>
           </template>
           <template #item.actions="{ item }">
@@ -48,12 +53,12 @@
               location="bottom"
               :close-on-content-click="false"
             >
-              <template #activator="{ on, attrs }">
+              <template #activator="{ props }">
                 <v-btn
-                  v-bind="attrs"
+                  v-bind="props"
                   icon
-                  :disabled="$acl.cannot('update', 'Unidade') || $acl.cannot('delete', 'Unidade')"
-                  v-on="on"
+                  variant="text"
+                  :disabled="useACL().cannot('update', 'Unidade') || useACL().cannot('delete', 'Unidade')"
                 >
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
@@ -61,12 +66,12 @@
 
               <v-list density="compact">
                 <v-list-item
-                  :loading="tokenLoading === item._id"
-                  @click="showTokenDialog(item)"
+                  :loading="tokenLoading === item.raw._id"
+                  @click="showTokenDialog(item.raw)"
                 >
                   <template #prepend>
                     <v-progress-circular
-                      v-if="tokenLoading === item._id"
+                      v-if="tokenLoading === item.raw._id"
                       indeterminate
                       :size="20"
                       :width="2"
@@ -75,23 +80,23 @@
                       mdi-key
                     </v-icon>
                   </template>
-                  <v-list-item-title>Ver Token de {{ item.nome }}</v-list-item-title>
+                  <v-list-item-title>Ver Token de {{ item.raw.nome }}</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item
-                  v-if="$acl.can('update', 'Unidade')"
+                  v-if="useACL().can('update', 'Unidade')"
                   prepend-icon="mdi-pencil"
-                  @click="editUnidade(item)"
+                  @click="editUnidade(item.raw)"
                 >
-                  <v-list-item-title>Editar {{ item.nome }}</v-list-item-title>
+                  <v-list-item-title>Editar {{ item.raw.nome }}</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item
-                  v-if="$acl.can('delete', 'Unidade')"
+                  v-if="useACL().can('delete', 'Unidade')"
                   prepend-icon="mdi-delete"
-                  @click="confirmDelete(item)"
+                  @click="confirmDelete(item.raw)"
                 >
-                  <v-list-item-title>Deletar {{ item.nome }}</v-list-item-title>
+                  <v-list-item-title>Deletar {{ item.raw.nome }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -111,28 +116,26 @@
     <v-dialog
       v-model="tokenDialog"
       max-width="500"
-      @click:outside="hideTokenDialog()"
     >
       <v-card>
         <v-card-title>
           Token PagTesouro
         </v-card-title>
         <v-card-subtitle>
-          {{ $store.getters['unidade/nome'] }}
+          {{ unidadeStore.nome }}
         </v-card-subtitle>
         <v-card-text>
-          {{ $store.getters['unidade/token'] }}
+          {{ unidadeStore.token }}
         </v-card-text>
       </v-card>
     </v-dialog>
     <v-dialog
       v-model="confirmDialog"
       max-width="400"
-      @click:outside="closeDelete()"
     >
       <v-card>
         <v-card-title class="text-h5">
-          Deletar a Unidade "{{ $store.getters['unidade/nome'] }}"?
+          Deletar a Unidade "{{ unidadeStore.nome }}"?
         </v-card-title>
         <v-card-actions>
           <v-spacer />
@@ -156,85 +159,85 @@
   </v-container>
 </template>
 
-<script>
-  import { vDataTable } from 'vuetify/labs'
+<script setup>
+import { storeToRefs } from 'pinia';
+import { useMainStore } from '~/store'
+import { useUnidadeStore } from '~/store/unidade'
 
-  export default {
-    components: {
-      vDataTable,
-    },
-    layout: 'admin',
-    validate({ app }) {
-      return app.$acl.can('read', 'Unidade');
-    },
-    data() {
-      return {
-        tokenDialog: false,
-        tokenLoading: false,
-        confirmDialog: false,
-        busca: '',
-        tableHeaders: [
-          { text: 'Nome', value: 'nome' },
-          { text: 'Slug', value: 'slug' },
-          { text: 'Ações', value: 'actions', sortable: false, align: 'center', width: 80 },
-        ],
-      }
-    },
-    async fetch() {
-      await this.$store.dispatch('fetchUnidades')
-      .catch((error) => {
-        this.$toast.error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.message);
-        console.error(error);
-      });
-    },
-    head: {
-      title: 'Lista de Unidades',
-    },
-    methods: {
-      async showTokenDialog(item) {
-        this.tokenLoading = item._id;
+definePageMeta({
+  layout: 'admin',
+  title: 'Lista de Unidades',
+  validate: async () => {
+    return useACL().can('read', 'Unidade');
+  }
+})
 
-        this.$store.commit('unidade/replace', item);
+const tokenDialog = ref(false)
+const tokenLoading = ref(false)
+const confirmDialog = ref(false)
+const busca = ref('')
 
-        await this.$store.dispatch('unidade/fetchToken', item._id)
-        .catch((error) => {
-          this.$toast.error('Ocorreu um erro ao buscar o Token da Unidade Gestora: ' + error.message);
-          console.error(error);
-        });
+const tableHeaders = [
+  { title: 'Nome', key: 'nome' },
+  { title: 'Slug', key: 'slug' },
+  { title: 'Ações', key: 'actions', sortable: false, align: 'center', width: 80 },
+]
 
-        this.tokenDialog = true;
+const store = useMainStore()
+const { unidades } = storeToRefs(store)
 
-        this.tokenLoading = false;
-      },
-      hideTokenDialog() {
-        this.$store.commit('unidade/clear');
-        this.tokenDialog = false;
-      },
-      editUnidade(unidade) {
-        this.$store.commit('unidade/replace', unidade);
-        this.$router.push({
-          path: '/admin/unidades/editar'
-        });
-      },
-      confirmDelete(unidade) {
-        this.$store.commit('unidade/replace', unidade);
-        this.confirmDialog = true;
-      },
-      closeDelete() {
-        this.$store.commit('unidade/clear');
-        this.confirmDialog = false;
-      },
-      async deleteUnidade() {
-        this.confirmDialog = false;
-        await this.$store.dispatch('unidade/delete')
-        .then(() => {
-          this.$toast.success('Unidade Gestora removida com sucesso!');
-        })
-        .catch((error) => {
-          console.error(error);
-          this.$toast.error('Erro ao tentar deletar a Unidade Gestora. ' + error.message);
-        });
-      },
-    },
-  };
+const { pending, refresh, error } = await store.fetchUnidades()
+if (error.value) {
+  useToast().error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.message)
+  console.error(error)
+}
+
+const unidadeStore = useUnidadeStore()
+
+async function showTokenDialog(item) {
+  tokenLoading.value = item._id
+
+  unidadeStore.$patch(item)
+
+  const { error } = await unidadeStore.fetchToken(item._id)
+  if (error.value) {
+    useToast().error('Ocorreu um erro ao buscar o Token da Unidade Gestora: ' + error.message)
+    console.error(error)
+  }
+
+  tokenDialog.value = true
+
+  tokenLoading.value = false
+}
+
+function hideTokenDialog() {
+  unidadeStore.$reset()
+  tokenDialog.value = false
+}
+
+function editUnidade(unidade) {
+  unidadeStore.$patch(unidade)
+  navigateTo('/admin/unidades/editar')
+}
+
+function confirmDelete(unidade) {
+  unidadeStore.$patch(unidade)
+  confirmDialog.value = true
+}
+
+function closeDelete() {
+  unidadeStore.$reset()
+  confirmDialog.value = false
+}
+
+async function deleteUnidade() {
+  confirmDialog.value = false
+  const { error } = await unidadeStore.delete()
+  if (error.value) {
+    useToast().error('Erro ao tentar deletar a Unidade Gestora. ' + error.message)
+    console.error(error)
+  } else {
+    useToast().success('Unidade Gestora removida com sucesso!')
+  }
+}
 </script>
