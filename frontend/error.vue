@@ -19,9 +19,9 @@
       </v-alert>
       <div v-html="error.message" />
       <div v-html="error.stack" />
-      <v-bnt @click="handleError">
+      <v-btn @click="handleError">
         Ir para a P&aacute;gina Inicial
-      </v-bnt>
+      </v-btn>
     </v-container>
   </v-app>
 </template>
