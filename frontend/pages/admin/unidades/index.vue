@@ -172,9 +172,6 @@ definePageMeta({
   }
 })
 
-const tokenDialog = ref(false)
-const tokenLoading = ref(false)
-const confirmDialog = ref(false)
 const busca = ref('')
 
 const tableHeaders = [
@@ -194,6 +191,15 @@ if (error.value) {
 
 const unidadeStore = useUnidadeStore()
 
+const tokenLoading = ref(false)
+const tokenDialog = ref(false)
+
+watch(tokenDialog, async (newValue) => {
+  if (newValue === false) {
+    unidadeStore.$reset()
+  }
+})
+
 async function showTokenDialog(item) {
   tokenLoading.value = item._id
 
@@ -210,15 +216,12 @@ async function showTokenDialog(item) {
   tokenLoading.value = false
 }
 
-function hideTokenDialog() {
-  unidadeStore.$reset()
-  tokenDialog.value = false
-}
-
 function editUnidade(unidade) {
   unidadeStore.$patch(unidade)
   navigateTo('/admin/unidades/editar')
 }
+
+const confirmDialog = ref(false)
 
 function confirmDelete(unidade) {
   unidadeStore.$patch(unidade)
