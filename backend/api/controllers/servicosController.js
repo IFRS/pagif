@@ -26,7 +26,7 @@ module.exports.listPublic = function(req, res) {
 };
 
 module.exports.list = function(req, res) {
-  const ability = createMongoAbility(req.user.abilities);
+  const ability = createMongoAbility(req.session.user.abilities);
   const unidade_id = req.query.unidade;
 
   const populate = req.query.populate;

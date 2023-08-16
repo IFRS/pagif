@@ -36,7 +36,7 @@ module.exports.showPublic = function(req, res) {
 };
 
 module.exports.list = function(req, res) {
-  const ability = createMongoAbility(req.user.abilities);
+  const ability = createMongoAbility(req.session.user.abilities);
   const query = Pagamento.find({}).accessibleBy(ability).select('-token').sort('-dataCriacao');
 
   if (req.query) {
