@@ -2,13 +2,13 @@
   <v-container>
     <v-row>
       <v-col>
-        <PageTitle>Editar Unidade Gestora "{{ $store.getters['unidade/nome'] }}"</PageTitle>
+        <PageTitle>Editar Unidade Gestora "{{ nome }}"</PageTitle>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
         <FormUnidade
-          :token-loading="$fetchState.pending"
+          :token-loading="pending"
           :submitting="submitting"
           @ok="handleSubmit"
           @cancel="handleCancel"
@@ -18,54 +18,53 @@
   </v-container>
 </template>
 
-<script>
-  export default {
-    layout: 'admin',
-    validate({ app }) {
-      return app.$acl.can('update', 'Unidade');
-    },
-    data() {
-      return {
-        submitting: false,
-      }
-    },
-    async fetch() {
-      await this.$store.dispatch('unidade/fetchToken')
-      .catch((error) => {
-        this.$toast.error('Ocorreu um erro ao buscar o Token da Unidade: ' + error.message);
-        console.error(error);
-      });
-    },
-    head: {
-      title: 'Edição de Unidade',
-    },
-    unmounted () {
-      this.$store.commit('unidade/clear');
-    },
-    methods: {
-      async handleSubmit() {
-        this.submitting = true;
-        await this.$store.dispatch('unidade/update')
-        .then(() => {
-          this.$toast.success('Unidade Gestora atualizada com sucesso!');
-          this.$router.push({
-            path: '/admin/unidades',
-          });
-        })
-        .catch((error) => {
-          this.$toast.error('Ocorreu um erro ao atualizar a Unidade Gestora. ' + error.message);
-          console.error(error);
-        })
-        .finally(() => {
-          this.submitting = false;
-        });
-      },
-      handleCancel() {
-        this.$toast.info('Edição da Unidade Gestora cancelada.');
-        this.$router.push({
-          path: '/admin/unidades',
-        });
-      },
-    },
+<script setup>
+import { storeToRefs } from 'pinia'
+import { onUnmounted } from 'vue'
+import { useUnidadeStore } from '~/store/unidade'
+
+definePageMeta({
+  layout: 'admin',
+  title: 'Edição de Unidade',
+  validate: async () => {
+    return useACL().can('update', 'Unidade')
   }
+})
+
+const unidadeStore = useUnidadeStore()
+
+const { nome } = storeToRefs(unidadeStore)
+
+const submitting = ref(false)
+
+const { error, pending } = await unidadeStore.fetchToken()
+if (error.value) {
+  useToast().error('Ocorreu um erro ao buscar o Token da Unidade: ' + error.message)
+  console.error(error)
+}
+
+async function handleSubmit() {
+  submitting.value = true
+
+  const { error } = await unidadeStore.update()
+
+  if (error.value) {
+    useToast().error('Ocorreu um erro ao atualizar a Unidade Gestora. ' + error.message)
+    console.error(error)
+  } else {
+    useToast().success('Unidade Gestora atualizada com sucesso!')
+    navigateTo({ path: '/admin/unidades' })
+  }
+
+  submitting.value = false
+}
+
+function handleCancel() {
+  useToast().info('Edição da Unidade Gestora cancelada.')
+  navigateTo({ path: '/admin/unidades' })
+}
+
+onUnmounted(() => {
+  unidadeStore.$reset()
+})
 </script>

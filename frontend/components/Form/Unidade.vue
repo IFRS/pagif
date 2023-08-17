@@ -1,6 +1,6 @@
 <template>
   <v-form
-    ref="form"
+    ref="formEl"
     @submit.prevent="handleSubmit()"
   >
     <v-container>
@@ -14,45 +14,50 @@
             required
             @blur="slugify()"
           />
-          <v-row
-            no-gutters
-            align="center"
+        </v-col>
+      </v-row>
+      <v-row
+        no-gutters
+        align="center"
+      >
+        <v-col>
+          <v-text-field
+            ref="slugEl"
+            v-model="slug"
+            :disabled="!isEditSlug"
+            label="Slug"
+            hint="O slug é gerado automaticamente usando o nome da Unidade. Se preferir, é possível editá-lo no botão ao lado do campo."
+            persistent-hint
+            :rules="validation.slug"
+            required
+          />
+        </v-col>
+        <v-col
+          cols="1"
+          sm="auto"
+        >
+          <v-btn
+            v-if="!isEditSlug"
+            color="secondary"
+            variant="text"
+            icon
+            @click="editSlug()"
           >
-            <v-col>
-              <v-text-field
-                ref="slug"
-                v-model="slug"
-                :disabled="!isEditSlug"
-                label="Slug"
-                hint="O slug é gerado automaticamente usando o nome da Unidade. Se preferir, é possível editá-lo no botão ao lado do campo."
-                persistent-hint
-                :rules="validation.slug"
-                required
-              />
-            </v-col>
-            <v-col
-              cols="1"
-              sm="auto"
-            >
-              <v-btn
-                v-if="!isEditSlug"
-                color="secondary"
-                icon
-                @click="editSlug()"
-              >
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
-              <v-btn
-                v-else
-                color="success"
-                size="small"
-                variant="text"
-                @click="slugify()"
-              >
-                Ok
-              </v-btn>
-            </v-col>
-          </v-row>
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+          <v-btn
+            v-else
+            color="success"
+            size="small"
+            variant="text"
+            @click="slugify()"
+          >
+            Ok
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
           <v-textarea
             v-model="token"
             label="Token do PagTesouro"
@@ -75,24 +80,24 @@
           <p class="text-caption text-center">
             Pré-visualização da imagem no site.
           </p>
-          <v-hover v-slot="{ hover }">
+          <v-hover v-slot="{ isHovering, props }">
             <v-card
-              :elevation="hover ? 1 : 0"
+              v-bind="props"
+              :elevation="isHovering ? 1 : 0"
               rounded="0"
               color="footer"
               class="pa-5"
             >
               <v-img :src="imagem" />
               <v-overlay
-                absolute
-                :model-value="hover"
+                :model-value="isHovering"
+                contained
+                class="align-center justify-center"
               >
                 <v-btn
-                  v-show="hover"
-                  icon
-                  min-width="100%"
-                  min-height="100%"
                   color="transparent"
+                  icon
+                  block
                   @click="imagem = null"
                 >
                   <v-icon
@@ -108,7 +113,7 @@
         </v-col>
         <v-col v-else>
           <v-file-input
-            ref="upload"
+            ref="uploadEl"
             :model-value="arquivo"
             label="Imagem"
             hint="Marca ou Logo da Unidade. Máximo de 1MB."
@@ -117,7 +122,7 @@
             accept="image/*"
             show-size
             variant="filled"
-            @change="handleUpload"
+            @update:model-value="handleUpload"
           />
         </v-col>
       </v-row>
@@ -141,25 +146,30 @@
       </v-row>
       <v-row>
         <v-col>
-          <tiptap-vuetify
-            v-model="contato"
-            :extensions="tiptapExtensions"
-            :toolbar-attributes="{ dark: $store.getters['config/darkMode'], color: ($store.getters['config/darkMode']) ? 'dark' : 'grey lighten-4' }"
-            :card-props="{ dark: $store.getters['config/darkMode'] }"
-            placeholder="Informações de Contato"
-          />
+          <ClientOnly>
+            <VuetifyTiptap
+              v-model="contato"
+              title="Informações de Contato"
+              class="mb-3"
+            />
+          </ClientOnly>
         </v-col>
       </v-row>
-      <v-row>
-        <v-col>
+      <v-row
+        justify="start"
+        dense
+      >
+        <v-col cols="auto">
           <v-btn
             color="primary"
             type="submit"
             :loading="submitting"
             :disabled="submitting"
           >
-            {{ submitText }}
+            {{ id ? 'Atualizar' : 'Salvar' }}
           </v-btn>
+        </v-col>
+        <v-col cols="auto">
           <v-btn
             color="secondary"
             :disabled="submitting"
@@ -173,156 +183,103 @@
   </v-form>
 </template>
 
-<script>
-  import { mapGetters, mapMutations } from 'vuex';
-  const slug = require('slug');
-  import {
-    TiptapVuetify,
-    Heading,
-    Bold,
-    Italic,
-    Underline,
-    Paragraph,
-    BulletList,
-    OrderedList,
-    ListItem,
-    Link,
-    Blockquote,
-    History
-  } from 'tiptap-vuetify';
+<script setup>
+import * as libSlug from 'slug'
+import { storeToRefs } from 'pinia'
+import { useUnidadeStore } from '~/store/unidade';
 
-  export default {
-    components: {
-      TiptapVuetify,
-    },
-    props: {
-      tokenLoading: {
-        type: Boolean,
-        default: false,
-      },
-      submitting: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    emits: ['ok', 'cancel'],
-    data() {
-      return {
-        arquivo: null,
-        submitText: this.$store.getters['unidade/id'] ? 'Atualizar' : 'Salvar',
-        isEditSlug: false,
-        validation: {
-          nome: [
-            v => !!v || 'Nome é obrigatório.',
-            v => !(/^\d/).test(v) || 'Nome não pode iniciar com um número.'
-          ],
-          token: [
-            v => !!v || 'Token é obrigatório.',
-            v => !(/\s/).test(v) || 'Token não pode conter espaços.',
-          ],
-          link_url: [
-            // v => !v || (/^(https?:\/\/){1}([\da-z\.-]+\.[a-z\.]{2,6}|[\d\.]+)([\/:?=&#]{1}[\da-z\.-]+)*[\/\?]?$/igm).test(v) || 'O endereço precisa ser uma URL válida, iniciando com http:// ou https://',
-            v => !v || (/^(https?:\/\/){1}([\da-z.-]+\.[a-z.]{2,6}|[\d.]+)([/:?=&#]{1}[\da-z.-]+)*[/?]?$/igm).test(v) || 'O endereço precisa ser uma URL válida, iniciando com http:// ou https://',
-          ],
-        },
-        tiptapExtensions: [
-          History,
-          Paragraph,
-          [
-            Heading,
-            {
-              options: {
-                levels: [3, 4, 5],
-              }
-            },
-          ],
-          Bold,
-          Italic,
-          Underline,
-          Link,
-          Blockquote,
-          ListItem,
-          BulletList,
-          OrderedList,
-        ],
-      }
-    },
-    computed: {
-      id: {
-        ...mapGetters({ get: 'unidade/id' }),
-        ...mapMutations({ set: 'unidade/id' }),
-      },
-      nome: {
-        ...mapGetters({ get: 'unidade/nome' }),
-        ...mapMutations({ set: 'unidade/nome' }),
-      },
-      slug: {
-        ...mapGetters({ get: 'unidade/slug' }),
-        ...mapMutations({ set: 'unidade/slug' }),
-      },
-      token: {
-        ...mapGetters({ get: 'unidade/token' }),
-        ...mapMutations({ set: 'unidade/token' }),
-      },
-      imagem: {
-        ...mapGetters({ get: 'unidade/imagem' }),
-        ...mapMutations({ set: 'unidade/imagem' }),
-      },
-      link_url: {
-        ...mapGetters({ get: 'unidade/link_url' }),
-        ...mapMutations({ set: 'unidade/link_url' }),
-      },
-      link_titulo: {
-        ...mapGetters({ get: 'unidade/link_titulo' }),
-        ...mapMutations({ set: 'unidade/link_titulo' }),
-      },
-      contato: {
-        ...mapGetters({ get: 'unidade/contato' }),
-        ...mapMutations({ set: 'unidade/contato' }),
-      },
-    },
-    methods: {
-      handleUpload(fileObject) {
-        if (fileObject) {
-          if (fileObject.size > 1000000) {
-            this.$refs.upload.reset();
-            this.$toast.error('Arquivo excedeu o limite de 1MB de tamanho.');
-            return;
-          }
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            this.imagem = e.target.result;
-            this.$refs.upload.reset();
-          };
-          reader.readAsDataURL(fileObject);
-        }
-      },
-      editSlug() {
-        this.isEditSlug = true;
-        setTimeout(() => {
-          this.$refs.slug.$refs.input.focus();
-        }, 100);
-      },
-      slugify() {
-        if (this.slug === undefined || this.slug === '') {
-          this.slug = slug(this.nome || '');
-        } else {
-          this.slug = slug(this.slug);
-        }
-        this.isEditSlug = false;
-      },
-      handleSubmit() {
-        this.slugify();
-        if (this.$refs.form.validate()) {
-          this.$emit('ok');
-        }
-      },
-      handleCancel() {
-        this.$refs.form.reset();
-        this.$emit('cancel');
-      },
-    },
+defineProps({
+  tokenLoading: {
+    type: Boolean,
+    default: false,
+  },
+  submitting: {
+    type: Boolean,
+    default: false,
+  },
+})
+
+const emit = defineEmits(['ok', 'cancel'])
+
+const formEl = ref(null)
+const slugEl = ref(null)
+const uploadEl = ref(null)
+
+const unidadeStore = useUnidadeStore()
+
+const {
+  id,
+  nome,
+  slug,
+  token,
+  imagem,
+  link_url,
+  link_titulo,
+  contato,
+} = storeToRefs(unidadeStore)
+
+const arquivo = ref(null)
+const isEditSlug = ref(false)
+const validation = {
+  nome: [
+    v => !!v || 'Nome é obrigatório.',
+    v => !(/^\d/).test(v) || 'Nome não pode iniciar com um número.'
+  ],
+  token: [
+    v => !!v || 'Token é obrigatório.',
+    v => !(/\s/).test(v) || 'Token não pode conter espaços.',
+  ],
+  link_url: [
+    v => !v || (/^(https?:\/\/){1}([\da-z.-]+\.[a-z.]{2,6}|[\d.]+)([/:?=&#]{1}[\da-z.-]+)*[/?]?$/igm).test(v) || 'O endereço precisa ser uma URL válida, iniciando com http:// ou https://',
+  ],
+}
+
+function handleUpload(fileObject) {
+  if (fileObject[0]) {
+    if (fileObject[0].size > 1000000) {
+      uploadEl.value.reset();
+      useToast().error('Arquivo excedeu o limite de 1MB de tamanho.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      imagem.value = e.target.result;
+      uploadEl.value.reset();
+    };
+    reader.readAsDataURL(fileObject[0]);
   }
+}
+
+function editSlug() {
+  isEditSlug.value = true;
+
+  setTimeout(() => {
+    slugEl.value.focus();
+  }, 100);
+}
+
+function slugify() {
+  if (slug.value === undefined || slug.value === '') {
+    slug.value = libSlug(nome.value || '');
+  } else {
+    slug.value = libSlug(slug.value);
+  }
+
+  isEditSlug.value = false;
+}
+
+function handleSubmit() {
+  this.slugify();
+
+  if (formEl.value.validate()) {
+    emit('ok');
+  }
+}
+
+function handleCancel() {
+  formEl.value.reset();
+  emit('cancel');
+}
 </script>
 
 <style lang="scss" scoped>

@@ -17,47 +17,44 @@
   </v-container>
 </template>
 
-<script>
-  export default {
-    layout: 'admin',
-    validate({ app }) {
-      return app.$acl.can('create', 'Unidade');
-    },
-    data() {
-      return {
-        submitting: false,
-      }
-    },
-    head: {
-      title: 'Cadastro de Nova Unidade',
-    },
-    unmounted () {
-      this.$store.commit('unidade/clear');
-    },
-    methods: {
-      async handleSubmit() {
-        this.submitting = true;
-        await this.$store.dispatch('unidade/save')
-        .then(() => {
-          this.$toast.success('Unidade Gestora cadastrada com sucesso!');
-          this.$router.push({
-            path: '/admin/unidades',
-          });
-        })
-        .catch((error) => {
-          this.$toast.error('Ocorreu um erro ao cadastrar a Unidade Gestora. ' + error.message);
-          console.error(error);
-        })
-        .finally(() => {
-          this.submitting = false;
-        });
-      },
-      handleCancel() {
-        this.$toast.info('Cadastro de Unidade Gestora cancelado.');
-        this.$router.push({
-          path: '/admin/unidades',
-        });
-      },
-    },
+<script setup>
+import { onUnmounted } from 'vue'
+import { useUnidadeStore } from '~/store/unidade'
+
+definePageMeta({
+  layout: 'admin',
+  title: 'Cadastro de Nova Unidade',
+  validate: async () => {
+    return useACL().can('create', 'Unidade')
   }
+})
+
+const unidadeStore = useUnidadeStore()
+
+const submitting = ref(false)
+
+async function handleSubmit() {
+  submitting.value = true
+
+  const { error } = await unidadeStore.save()
+
+  submitting.value = false;
+
+  if (error.value) {
+    useToast().error('Ocorreu um erro ao cadastrar a Unidade Gestora. ' + error.message)
+    console.error(error)
+  } else {
+    useToast().success('Unidade Gestora cadastrada com sucesso!')
+    await navigateTo({ path: '/admin/unidades' })
+  }
+}
+
+async function handleCancel() {
+  useToast().info('Cadastro de Unidade Gestora cancelado.')
+  await navigateTo({ path: '/admin/unidades' })
+}
+
+onUnmounted(() => {
+  unidadeStore.$reset()
+})
 </script>

@@ -24,7 +24,8 @@
     "slug": "^8.0.0",
     "vue": "^3.3.2",
     "vue-gtag": "^2.0.1",
-    "vuetify": "^3.2.5"
+    "vuetify": "^3.2.5",
+    "vuetify-pro-tiptap": "^2.1.0"
   },
   "devDependencies": {
     "@fontsource/roboto": "^5.0.1",
