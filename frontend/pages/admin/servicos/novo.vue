@@ -17,47 +17,45 @@
   </v-container>
 </template>
 
-<script>
-  export default {
-    layout: 'admin',
-    validate({ app }) {
-      return app.$acl.can('create', 'Servico');
-    },
-    data() {
-      return {
-        submitting: false,
-      }
-    },
-    head: {
-      title: 'Cadastro de Novo Serviço',
-    },
-    unmounted () {
-      this.$store.commit('servico/clear');
-    },
-    methods: {
-      async handleSubmit() {
-        this.submitting = true;
-        await this.$store.dispatch('servico/save')
-        .then(() => {
-          this.$toast.success('Serviço cadastrado com sucesso!');
-          this.$router.push({
-            path: '/admin/servicos',
-          });
-        })
-        .catch((error) => {
-          this.$toast.error('Ocorreu um erro ao cadastrar o Serviço. ' + error.message);
-          console.error(error);
-        })
-        .finally(() => {
-          this.submitting = false;
-        });
-      },
-      handleCancel() {
-        this.$toast.info('Cadastro de Serviço cancelado.');
-        this.$router.push({
-          path: '/admin/servicos',
-        });
-      },
-    },
+<script setup>
+import { onUnmounted } from 'vue'
+import useToast from '~/composables/useToast'
+import { useServicoStore } from '~/store/servico'
+
+definePageMeta({
+  layout: 'admin',
+  title: 'Cadastro de Novo Serviço',
+  validate: async () => {
+    return useACL().can('create', 'Servico')
   }
+})
+
+const servicoStore = useServicoStore()
+
+const submitting = ref(false)
+
+async function handleSubmit() {
+  submitting.value = true
+
+  const { error } = await servicoStore.save()
+
+  submitting.value = false;
+
+  if (error.value) {
+    useToast().error('Ocorreu um erro ao cadastrar o Serviço. ' + error.message)
+    console.error(error)
+  } else {
+    useToast().success('Serviço cadastrado com sucesso!')
+    navigateTo({ path: '/admin/servicos' })
+  }
+}
+
+function handleCancel() {
+  useToast().info('Cadastro de Serviço cancelado.')
+  navigateTo({ path: '/admin/servicos' })
+}
+
+onUnmounted(() => {
+  servicoStore.$reset()
+})
 </script>

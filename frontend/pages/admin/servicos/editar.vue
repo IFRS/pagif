@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <PageTitle>Editar Servi&ccedil;o "{{ $store.getters['servico/nome'] }}"</PageTitle>
+        <PageTitle>Editar Servi&ccedil;o "{{ nome }}"</PageTitle>
       </v-col>
     </v-row>
     <v-row>
@@ -17,47 +17,47 @@
   </v-container>
 </template>
 
-<script>
-  export default {
-    layout: 'admin',
-    validate({ app }) {
-      return app.$acl.can('update', 'Servico');
-    },
-    data() {
-      return {
-        submitting: false,
-      }
-    },
-    head: {
-      title: 'Edição de Serviço',
-    },
-    unmounted () {
-      this.$store.commit('servico/clear');
-    },
-    methods: {
-      async handleSubmit() {
-        this.submitting = true,
-        await this.$store.dispatch('servico/update')
-        .then(() => {
-          this.$toast.success('Serviço atualizado com sucesso!');
-          this.$router.push({
-            path: '/admin/servicos',
-          });
-        })
-        .catch((error) => {
-          this.$toast.error('Ocorreu um erro ao atualizar o Serviço. ' + error.message);
-          console.error(error);
-        })
-        .finally(() => {
-          this.submitting = false;
-        });
-      },
-      handleCancel() {
-        this.$toast.info('Edição do Serviço cancelada.');
-        this.$router.push({
-          path: '/admin/servicos',
-        });
-      },
-    },
+<script setup>
+import { storeToRefs } from 'pinia'
+import { onUnmounted } from 'vue'
+import useToast from '~/composables/useToast'
+import { useServicoStore } from '~/store/servico'
+
+definePageMeta({
+  layout: 'admin',
+  title: 'Edição de Serviço',
+  validate: async () => {
+    return useACL().can('update', 'Servico')
   }
+})
+
+const servicoStore = useServicoStore()
+
+const { nome } = storeToRefs(servicoStore)
+
+const submitting = ref(false)
+
+async function handleSubmit() {
+  submitting.value = true
+
+  const { error } = await servicoStore.update()
+  if (error.value) {
+    useToast().error('Ocorreu um erro ao atualizar o Serviço. ' + error.message)
+    console.error(error)
+  } else {
+    useToast().success('Serviço atualizado com sucesso!')
+    navigateTo({ path: '/admin/servicos' })
+  }
+
+  submitting.value = false
+}
+
+function handleCancel() {
+  useToast().info('Edição do Serviço cancelada.')
+  navigateTo({ path: '/admin/servicos' })
+}
+
+onUnmounted(() => {
+  unidadeStore.$reset()
+})
 </script>

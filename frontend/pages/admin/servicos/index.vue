@@ -2,39 +2,42 @@
   <v-container>
     <v-row>
       <v-col>
-        <PageTitle>Serviços</PageTitle>
+        <PageTitle>Servi&ccedil;os</PageTitle>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <!-- eslint-disable-next-line vuetify/no-deprecated-components -->
         <v-data-table
-          :loading="$fetchState.pending"
+          :loading="pending"
           :headers="tableHeaders"
-          :items="$store.getters['servicos']"
+          :items="servicos"
           :items-per-page="10"
           :search="busca"
         >
           <template #top>
-            <v-toolbar flat>
+            <v-toolbar
+              flat
+              color="transparent"
+            >
               <v-text-field
                 v-model="busca"
-                append-icon="mdi-magnify"
+                prepend-inner-icon="mdi-magnify"
                 label="Buscar"
                 single-line
                 hide-details
+                variant="underlined"
               />
               <v-spacer />
               <v-btn
-                class="mr-2"
                 color="secondary"
-                :loading="$fetchState.pending"
-                @click="$fetch()"
+                :loading="pending"
+                class="mr-2"
+                @click="refresh()"
               >
                 <v-icon>mdi-refresh</v-icon>
               </v-btn>
               <v-btn
-                v-if="$acl.can('create', 'Servico')"
+                v-if="useACL().can('create', 'Servico')"
                 color="primary"
                 to="/admin/servicos/novo"
               >
@@ -48,12 +51,12 @@
               location="bottom"
               :close-on-content-click="false"
             >
-              <template #activator="{ on, attrs }">
+              <template #activator="{ props }">
                 <v-btn
-                  v-bind="attrs"
+                  v-bind="props"
                   icon
-                  :disabled="$acl.cannot('update', 'Servico') || $acl.cannot('delete', 'Servico')"
-                  v-on="on"
+                  variant="text"
+                  :disabled="useACL().cannot('update', 'Servico') || useACL().cannot('delete', 'Servico')"
                 >
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
@@ -61,19 +64,19 @@
 
               <v-list density="compact">
                 <v-list-item
-                  v-if="$acl.can('update', 'Servico')"
+                  v-if="useACL().can('update', 'Servico')"
                   prepend-icon="mdi-pencil"
-                  @click="editServico(item)"
+                  @click="editServico(item.raw)"
                 >
-                  <v-list-item-title>Editar {{ item.nome }}</v-list-item-title>
+                  <v-list-item-title>Editar {{ item.raw.nome }}</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item
-                  v-if="$acl.can('delete', 'Servico')"
+                  v-if="useACL().can('delete', 'Servico')"
                   prepend-icon="mdi-delete"
-                  @click.stop="confirmDelete(item)"
+                  @click.stop="confirmDelete(item.raw)"
                 >
-                  <v-list-item-title>Deletar {{ item.nome }}</v-list-item-title>
+                  <v-list-item-title>Deletar {{ item.raw.nome }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -93,11 +96,10 @@
     <v-dialog
       v-model="confirmDialog"
       max-width="400"
-      @click:outside="closeDelete()"
     >
       <v-card>
         <v-card-title class="text-h5">
-          Deletar o Servi&ccedil;o "{{ $store.getters['servico/nome'] }}"?
+          Deletar o Servi&ccedil;o "{{ servicoStore.nome }}"?
         </v-card-title>
         <v-card-actions>
           <v-spacer />
@@ -121,63 +123,65 @@
   </v-container>
 </template>
 
-<script>
-  export default {
-    components: {
-      vDataTable,
-    },
-    layout: 'admin',
-    validate({ app }) {
-      return app.$acl.can('read', 'Servico');
-    },
-    data() {
-      return {
-        confirmDialog: false,
-        busca: '',
-        tableHeaders: [
-          { text: 'Unidade', value: 'unidade.nome' },
-          { text: 'Código', value: 'codigo' },
-          { text: 'Nome', value: 'nome' },
-          { text: 'Ações', value: 'actions', sortable: false, align: 'center', width: 80 },
-        ],
-      }
-    },
-    async fetch() {
-      await this.$store.dispatch('fetchServicos')
-      .catch((error) => {
-        this.$toast.error('Ocorreu um erro ao carregar os Serviços: ' + error.message);
-        console.error(error);
-      });
-    },
-    head: {
-      title: 'Lista de Serviços',
-    },
-    methods: {
-      editServico(servico) {
-        this.$store.commit('servico/replace', servico);
-        this.$router.push({
-          path: '/admin/servicos/editar'
-        });
-      },
-      confirmDelete(servico) {
-        this.$store.commit('servico/replace', servico);
-        this.confirmDialog = true;
-      },
-      closeDelete() {
-        this.$store.commit('servico/clear');
-        this.confirmDialog = false;
-      },
-      async deleteServico() {
-        this.confirmDialog = false;
-        await this.$store.dispatch('servico/delete')
-        .then(() => {
-          this.$toast.success('Serviço removido com sucesso!');
-        })
-        .catch((error) => {
-          console.error(error);
-          this.$toast.error('Erro ao tentar deletar o Serviço. ' + error.message);
-        });
-      },
-    },
-  };
+<script setup>
+import { storeToRefs } from 'pinia'
+import { useMainStore } from '~/store'
+import { useServicoStore } from '~/store/servico'
+
+definePageMeta({
+  layout: 'admin',
+  title: 'Lista de Serviços',
+  validate: async () => {
+    return useACL().can('read', 'Servico')
+  }
+})
+
+const busca = ref('')
+
+const tableHeaders = [
+  { title: 'Unidade', key: 'unidade.nome' },
+  { title: 'Código', key: 'codigo' },
+  { title: 'Nome', key: 'nome' },
+  { title: 'Ações', key: 'actions', sortable: false, align: 'center', width: 80 },
+]
+
+const store = useMainStore()
+const { servicos } = storeToRefs(store)
+
+const { pending, refresh, error } = await store.fetchServicos()
+if (error.value) {
+  useToast().error('Ocorreu um erro ao carregar os Serviços: ' + error.message)
+  console.error(error)
+}
+
+const confirmDialog = ref(false)
+
+const servicoStore = useServicoStore()
+
+function editServico(servico) {
+  servicoStore.$patch(servico)
+  navigateTo({ path: '/admin/servicos/editar' })
+}
+
+function confirmDelete(servico) {
+  servicoStore.$patch(servico)
+  confirmDialog.value = true
+}
+
+function closeDelete() {
+  servicoStore.$reset()
+  confirmDialog.value = false
+}
+
+async function deleteServico() {
+  confirmDialog.value = false
+
+  const { error } = await servicoStore.delete()
+  if (error.value) {
+    useToast().error('Erro ao tentar deletar o Serviço. ' + error.message)
+    console.error(error)
+  } else {
+    useToast().success('Serviço removido com sucesso!')
+  }
+}
 </script>

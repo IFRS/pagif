@@ -1,6 +1,6 @@
 <template>
   <v-form
-    ref="form"
+    ref="formEl"
     @submit.prevent="handleSubmit()"
   >
     <v-container>
@@ -11,9 +11,9 @@
             prepend-icon="mdi-office-building-marker"
             label="Unidade Gestora"
             :rules="validation.unidade"
-            :loading="$fetchState.pending"
-            :disabled="$fetchState.pending"
-            :items="$store.getters['unidades']"
+            :loading="pending"
+            :disabled="pending"
+            :items="store.unidades"
             item-title="nome"
             item-value="_id"
             required
@@ -24,7 +24,7 @@
         <v-col
           cols="12"
           md="4"
-          lg="2"
+          lg="3"
         >
           <v-text-field
             v-model="codigo"
@@ -59,16 +59,21 @@
           />
         </v-col>
       </v-row>
-      <v-row>
-        <v-col>
+      <v-row
+        justify="start"
+        dense
+      >
+        <v-col cols="auto">
           <v-btn
             color="primary"
             type="submit"
             :loading="submitting"
             :disabled="submitting"
           >
-            {{ submitText }}
+            {{ id ? 'Atualizar' : 'Salvar' }}
           </v-btn>
+        </v-col>
+        <v-col cols="auto">
           <v-btn
             color="secondary"
             :disabled="submitting"
@@ -82,77 +87,66 @@
   </v-form>
 </template>
 
-<script>
-  import { mapGetters, mapMutations } from 'vuex';
+<script setup>
+import { storeToRefs } from 'pinia'
+import useToast from '~/composables/useToast'
+import { useMainStore } from '~/store'
+import { useServicoStore } from '~/store/servico'
 
-  export default {
-    props: {
-      submitting: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    emits: ['ok', 'cancel'],
-    data() {
-      return {
-        submitText: this.$store.getters['servico/id'] ? 'Atualizar' : 'Salvar',
-        validation: {
-          unidade: [
-            v => !!v || 'Selecione uma Unidade Gestora.',
-          ],
-          codigo: [
-            v => !!v || 'Código do Serviço é obrigatório.',
-            v => (/^\d+$/).test(v) || 'Código do Serviço precisa ser um número.',
-            v => v?.toString().length <= 5 || 'Código do Serviço deve ter no máximo 5 dígitos.',
-          ],
-          nome: [
-            v => !!v || 'Nome é obrigatório.',
-          ],
-          desc: [
-            v => (!v || v?.length <= 999) || 'Descrição deve ter até 999 caracteres.',
-          ],
-        },
-      }
-    },
-    async fetch() {
-      await this.$store.dispatch('fetchUnidades')
-      .catch((error) => {
-        this.$toast.error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.message);
-        console.error(error);
-      });
-    },
-    computed: {
-      id: {
-        ...mapGetters({ get: 'servico/id' }),
-        ...mapMutations({ set: 'servico/id' }),
-      },
-      unidade: {
-        ...mapGetters({ get: 'servico/unidade' }),
-        ...mapMutations({ set: 'servico/unidade' }),
-      },
-      codigo: {
-        ...mapGetters({ get: 'servico/codigo' }),
-        ...mapMutations({ set: 'servico/codigo' }),
-      },
-      nome: {
-        ...mapGetters({ get: 'servico/nome' }),
-        ...mapMutations({ set: 'servico/nome' }),
-      },
-      desc: {
-        ...mapGetters({ get: 'servico/desc' }),
-        ...mapMutations({ set: 'servico/desc' }),
-      },
-    },
-    methods: {
-      handleSubmit() {
-        if (this.$refs.form.validate()) {
-          this.$emit('ok');
-        }
-      },
-      handleCancel() {
-        this.$refs.form.reset();
-        this.$emit('cancel');
-      },
-    },
+defineProps({
+  submitting: {
+    type: Boolean,
+    default: false,
+  },
+})
+
+const emit = defineEmits(['ok', 'cancel'])
+
+const formEl = ref(null)
+
+const store = useMainStore()
+const { error, pending } = await store.fetchUnidades()
+if (error.value) {
+  useToast().error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.message);
+  console.error(error);
+}
+
+const servicoStore = useServicoStore()
+const {
+  id,
+  unidade,
+  codigo,
+  nome,
+  desc,
+} = storeToRefs(servicoStore)
+
+const validation = {
+  unidade: [
+    v => !!v || 'Selecione uma Unidade Gestora.',
+  ],
+  codigo: [
+    v => !!v || 'Código do Serviço é obrigatório.',
+    v => (/^\d+$/).test(v) || 'Código do Serviço precisa ser um número.',
+    v => v?.toString().length <= 5 || 'Código do Serviço deve ter no máximo 5 dígitos.',
+  ],
+  nome: [
+    v => !!v || 'Nome é obrigatório.',
+  ],
+  desc: [
+    v => (!v || v?.length <= 999) || 'Descrição deve ter até 999 caracteres.',
+  ],
+}
+
+async function handleSubmit() {
+  const { valid } = await formEl.value.validate()
+
+  if (valid) {
+    emit('ok')
   }
+}
+
+function handleCancel() {
+  formEl.value.reset()
+  emit('cancel')
+}
 </script>
