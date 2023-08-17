@@ -185,8 +185,9 @@
 
 <script setup>
 import * as libSlug from 'slug'
+import { nextTick } from 'vue';
 import { storeToRefs } from 'pinia'
-import { useUnidadeStore } from '~/store/unidade';
+import { useUnidadeStore } from '~/store/unidade'
 
 defineProps({
   tokenLoading: {
@@ -251,35 +252,42 @@ function handleUpload(fileObject) {
 }
 
 function editSlug() {
-  isEditSlug.value = true;
+  isEditSlug.value = true
 
-  setTimeout(() => {
-    slugEl.value.focus();
-  }, 100);
+  nextTick(() => {
+    slugEl.value.focus()
+  })
 }
 
 function slugify() {
-  if (slug.value === undefined || slug.value === '') {
-    slug.value = libSlug(nome.value || '');
-  } else {
-    slug.value = libSlug(slug.value);
-  }
+  return new Promise((resolve, reject) => {
+    try {
+      if (slug.value === undefined || slug.value === '') {
+        slug.value = libSlug(nome.value || '')
+      } else {
+        slug.value = libSlug(slug.value)
+      }
+      resolve(true)
+    } catch (error) {
+      reject(error)
+    }
 
-  isEditSlug.value = false;
+    isEditSlug.value = false;
+  })
 }
 
 async function handleSubmit() {
-  this.slugify();
+  await slugify()
 
   const { valid } = await formEl.value.validate()
 
   if (valid) {
-    emit('ok');
+    emit('ok')
   }
 }
 
 function handleCancel() {
-  formEl.value.reset();
-  emit('cancel');
+  formEl.value.reset()
+  emit('cancel')
 }
 </script>
