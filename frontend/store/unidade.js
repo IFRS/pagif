@@ -1,6 +1,6 @@
+import { useFetch } from '#app'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { useMainStore } from '.'
-import { useFetch } from '#app'
 
 export const useUnidadeStore = defineStore('unidade', {
   state: () => ({
