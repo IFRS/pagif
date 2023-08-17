@@ -1,8 +1,5 @@
 import { defineNuxtConfig } from 'nuxt/config'
 import vuetify from 'vite-plugin-vuetify'
-// import { aliases, mdi } from 'vuetify/iconsets/mdi'
-// import { pt } from 'vuetify/locale'
-// import 'vuetify/styles'
 
 export default defineNuxtConfig({
   app: {
@@ -122,4 +119,8 @@ export default defineNuxtConfig({
   typescript: {
     shim: false,
   },
+
+  // devtools: {
+  //   enabled: true,
+  // },
 })
