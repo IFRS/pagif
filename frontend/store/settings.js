@@ -11,12 +11,12 @@ export const useSettingsStore = defineStore('settings', {
   actions: {
     async show() {
       const response = await useFetch('/api/settings')
-      if (response.data.valeu) this.$state = response.data.valeu
+      if (response.data.value) this.$patch(response.data.value)
       return response
     },
     async save() {
-      const response = await useFetch('/api/settings', { method: 'POST', body: this.$state })
-      if (response.data.value) this.$state = response.data.value
+      const response = await useFetch('/api/settings', { method: 'POST', body: { ...this.$state } })
+      if (response.data.value) this.$patch(response.data.value)
       return response
     },
   },

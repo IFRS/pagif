@@ -18,12 +18,12 @@ export const useUnidadeStore = defineStore('unidade', {
 
   actions: {
     async save() {
-      const response = await useFetch('/api/unidades', { method: 'POST', body: this.$state })
+      const response = await useFetch('/api/unidades', { method: 'POST', body: { ...this.$state } })
       this.$reset()
       return response
     },
     async update() {
-      const response = await useFetch(`/api/unidades/${this._id}`, { method: 'PUT', body: this.$state })
+      const response = await useFetch(`/api/unidades/${this._id}`, { method: 'PUT', body: { ...this.$state } })
       this.$reset()
       return response
     },

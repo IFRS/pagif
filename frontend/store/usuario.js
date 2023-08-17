@@ -28,12 +28,12 @@ export const useUsuarioStore = defineStore('usuario', {
       })
     },
     async save() {
-      const response = await useFetch('/api/usuarios', { method: 'POST', body: this.$state })
+      const response = await useFetch('/api/usuarios', { method: 'POST', body: { ...this.$state } })
       this.$reset()
       return response
     },
     async update() {
-      const response = await useFetch(`/api/usuarios/${this._id}`, { method: 'PUT', body: this.$state })
+      const response = await useFetch(`/api/usuarios/${this._id}`, { method: 'PUT', body: { ...this.$state } })
       this.$reset()
       return response
     },

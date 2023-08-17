@@ -50,12 +50,12 @@ export const usePagamentoStore = defineStore('pagamento', {
       return response;
     },
     async save() {
-      const response = await useFetch('/api/pagamentos', { method: 'POST', body: this.$state })
+      const response = await useFetch('/api/pagamentos', { method: 'POST', body: { ...this.$state } })
       if (response.data.value) this.$patch(response.data.value);
       return response;
     },
     async update() {
-      const response = await useFetch(`/api/pagamentos/${this._id}`, { method: 'PUT', body: this.$state })
+      const response = await useFetch(`/api/pagamentos/${this._id}`, { method: 'PUT', body: { ...this.$state } })
       if (response.data.value) this.$reset();
       return response;
     },
