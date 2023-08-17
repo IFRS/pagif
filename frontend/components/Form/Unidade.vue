@@ -271,7 +271,9 @@ function slugify() {
 function handleSubmit() {
   this.slugify();
 
-  if (formEl.value.validate()) {
+  const { valid } = formEl.value.validate()
+
+  if (valid) {
     emit('ok');
   }
 }
@@ -281,11 +283,3 @@ function handleCancel() {
   emit('cancel');
 }
 </script>
-
-<style lang="scss" scoped>
-:deep(.tiptap-vuetify-editor) {
-   .ProseMirror {
-    min-height: 200px;
-  }
-}
-</style>
