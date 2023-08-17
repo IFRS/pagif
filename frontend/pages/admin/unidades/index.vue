@@ -28,24 +28,22 @@
                 variant="underlined"
               />
               <v-spacer />
-              <v-toolbar-items>
-                <v-btn
-                  class="mr-2"
-                  color="secondary"
-                  :loading="pending"
-                  @click="refresh()"
-                >
-                  <v-icon>mdi-refresh</v-icon>
-                </v-btn>
-                <v-btn
-                  v-if="useACL().can('create', 'Unidade')"
-                  color="primary"
-                  to="/admin/unidades/nova"
-                >
-                  <v-icon>mdi-plus</v-icon>
-                  Nova Unidade
-                </v-btn>
-              </v-toolbar-items>
+              <v-btn
+                color="secondary"
+                :loading="pending"
+                class="mr-2"
+                @click="refresh()"
+              >
+                <v-icon>mdi-refresh</v-icon>
+              </v-btn>
+              <v-btn
+                v-if="useACL().can('create', 'Unidade')"
+                color="primary"
+                to="/admin/unidades/nova"
+              >
+                <v-icon>mdi-plus</v-icon>
+                Nova Unidade
+              </v-btn>
             </v-toolbar>
           </template>
           <template #item.actions="{ item }">
