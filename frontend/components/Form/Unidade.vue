@@ -268,10 +268,10 @@ function slugify() {
   isEditSlug.value = false;
 }
 
-function handleSubmit() {
+async function handleSubmit() {
   this.slugify();
 
-  const { valid } = formEl.value.validate()
+  const { valid } = await formEl.value.validate()
 
   if (valid) {
     emit('ok');
