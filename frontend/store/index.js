@@ -62,6 +62,7 @@ export const useMainStore = defineStore('main', {
     async fetchPagamentos(payload) {
       const response = await useFetch('/api/pagamentos', { query: payload })
       if (response.data.value) this.pagamentos = response.data.value
+      return response
     },
 
     /* Usuários */
