@@ -5,6 +5,8 @@ import * as labsComponents from 'vuetify/labs/components'
 import * as directives from 'vuetify/directives'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { pt } from 'vuetify/locale'
+import DayJsAdapter from '@date-io/dayjs'
+import pt_BR from 'dayjs/locale/pt-br'
 
 export default defineNuxtPlugin(({ vueApp }) => {
   const vuetify = createVuetify({
@@ -14,17 +16,23 @@ export default defineNuxtPlugin(({ vueApp }) => {
     },
     directives,
     ssr: true,
+    locale: {
+      locale: 'pt',
+      messages: {
+        pt,
+      },
+    },
+    date: {
+      adapter: DayJsAdapter,
+      locale: {
+        pt: pt_BR,
+      }
+    },
     icons: {
       defaultSet: 'mdi',
       aliases,
       sets: {
         mdi,
-      },
-    },
-    locale: {
-      locale: 'pt',
-      messages: {
-        pt,
       },
     },
     theme: {
