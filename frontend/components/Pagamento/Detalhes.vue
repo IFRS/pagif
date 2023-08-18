@@ -29,17 +29,17 @@
             <v-col md="6">
               <v-list-item>
                 <v-list-item-title>Compet&ecirc;ncia</v-list-item-title>
-                <v-list-item-subtitle>{{ $dayjs(competencia).isValid() ? $dayjs(competencia).format('MM/YYYY') : '-' }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ dayjs(competencia).isValid() ? dayjs(competencia).format('MM/YYYY') : '-' }}</v-list-item-subtitle>
               </v-list-item>
 
               <v-list-item>
                 <v-list-item-title>Vencimento</v-list-item-title>
-                <v-list-item-subtitle>{{ $dayjs(vencimento).isValid() ? $dayjs(vencimento).format('DD/MM/YYYY') : '-' }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ dayjs(vencimento).isValid() ? dayjs(vencimento).format('DD/MM/YYYY') : '-' }}</v-list-item-subtitle>
               </v-list-item>
 
               <v-list-item>
                 <v-list-item-title>Data de Cria&ccedil;&atilde;o</v-list-item-title>
-                <v-list-item-subtitle>{{ $dayjs(dataCriacao).isValid() ? $dayjs(dataCriacao).format('DD/MM/YYYY [às] HH:mm:ss') : '-' }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ dayjs(dataCriacao).isValid() ? dayjs(dataCriacao).format('DD/MM/YYYY [às] HH:mm:ss') : '-' }}</v-list-item-subtitle>
               </v-list-item>
             </v-col>
           </v-row>
@@ -120,7 +120,7 @@
                 <v-list-item-subtitle>
                   <PagamentoSituacao :situacao="situacao?.codigo || ''" />
                   &thinsp;
-                  <small v-if="situacao?.data">({{ 'atualizado em ' + $dayjs(situacao.data).format('DD/MM/YYYY [às] HH:mm:ss') }})</small>
+                  <small v-if="situacao?.data">({{ 'atualizado em ' + dayjs(situacao.data).format('DD/MM/YYYY [às] HH:mm:ss') }})</small>
                 </v-list-item-subtitle>
               </v-list-item>
             </v-col>
@@ -180,6 +180,8 @@ defineProps({
     default: false,
   },
 })
+
+const dayjs = useDayjs()
 
 const pagamentoStore = usePagamentoStore()
 

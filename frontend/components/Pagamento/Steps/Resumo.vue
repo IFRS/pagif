@@ -12,7 +12,7 @@
         </p>
         <p>
           O pagamento <template v-if="competencia">
-            referente ao m&ecirc;s <strong>{{ $dayjs(competencia, 'YYYY-MM').format('MM/YYYY') }}</strong>&nbsp;
+            referente ao m&ecirc;s <strong>{{ dayjs(competencia, 'YYYY-MM').format('MM/YYYY') }}</strong>&nbsp;
           </template>ser&aacute; em nome de <strong>{{ nomeContribuinte }}<template v-if="cnpjCpf">&nbsp;({{ $filters.cnpj_cpf(cnpjCpf) }})</template></strong>.
         </p>
         <p v-if="referencia">
@@ -64,6 +64,8 @@ useHead({
 }, { mode: 'client' })
 
 const emit = defineEmits(['recaptcha'])
+
+const dayjs = useDayjs()
 
 const { public: { recaptcha: { siteKey } } } = useRuntimeConfig()
 

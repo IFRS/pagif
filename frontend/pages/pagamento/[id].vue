@@ -15,7 +15,7 @@
             </p>
             <p>
               O pagamento <template v-if="competencia">
-                referente ao m&ecirc;s <strong>{{ $dayjs(competencia, 'YYYY-MM').format('MM/YYYY') }}</strong>&nbsp;
+                referente ao m&ecirc;s <strong>{{ dayjs(competencia, 'YYYY-MM').format('MM/YYYY') }}</strong>&nbsp;
               </template>est&aacute; em nome de <strong>{{ nomeContribuinte }}<template v-if="cnpjCpf">&nbsp;({{ $filters.cnpj_cpf(cnpjCpf) }})</template></strong>.
             </p>
             <p v-if="referencia">
@@ -25,10 +25,10 @@
               Vencimento em
               <strong>
                 <template v-if="vencimento">
-                  {{ $dayjs(vencimento).format('DD/MM/YYYY') }}
+                  {{ dayjs(vencimento).format('DD/MM/YYYY') }}
                 </template>
                 <template v-else>
-                  {{ $dayjs(dataCriacao).add(1, 'day').format('DD/MM/YYYY') }}
+                  {{ dayjs(dataCriacao).add(1, 'day').format('DD/MM/YYYY') }}
                 </template>
               </strong>.
             </p>
@@ -124,6 +124,8 @@ import { useConfigStore } from '~/store/config';
 import { storeToRefs } from 'pinia';
 
 definePageMeta({ title: 'Pagamento' })
+
+const dayjs = useDayjs()
 
 const mostrarPagamento = ref(false);
 
