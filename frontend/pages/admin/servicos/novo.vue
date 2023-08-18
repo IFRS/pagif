@@ -19,7 +19,6 @@
 
 <script setup>
 import { onUnmounted } from 'vue'
-import useToast from '~/composables/useToast'
 import { useServicoStore } from '~/store/servico'
 
 definePageMeta({

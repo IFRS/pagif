@@ -11,9 +11,8 @@
         <v-col>
           <!-- Datas -->
           <v-menu
-            :persistent="!(true)"
-            :close-on-content-click="false"
             :model-value="datas"
+            :close-on-content-click="false"
             transition="scale-transition"
             max-width="auto"
             min-width="auto"
