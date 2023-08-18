@@ -7,10 +7,13 @@
           <small
             v-if="!filtros || !filtros.datas || filtros.datas.length === 0"
             class="text-info text-caption float-md-right d-block d-md-inline-block"
-          ><v-icon
-            color="info"
-            size="small"
-          >mdi-information-outline</v-icon> Exibindo Pagamentos dos &uacute;ltimos <strong>30 dias</strong>. Para alterar esse comportamento, utilize os Filtros.</small>
+          >
+            <v-icon
+              color="info"
+              size="small"
+            >mdi-information-outline</v-icon>
+            Exibindo Pagamentos dos &uacute;ltimos <strong>30 dias</strong>. Para alterar esse comportamento, utilize os Filtros.
+          </small>
         </PageTitle>
       </v-col>
     </v-row>
@@ -24,10 +27,9 @@
           <FilterSituacoes />
           <FilterDatas />
         </FilterPainel>
-        <!-- eslint-disable-next-line vuetify/no-deprecated-components -->
         <v-data-table
           class="pagamentos"
-          :loading="$fetchState.pending"
+          :loading="pending"
           :headers="tableHeaders"
           :items="pagamentos"
           :items-per-page="25"
@@ -36,13 +38,17 @@
           @click:row="showPagamento"
         >
           <template #top>
-            <v-toolbar flat>
+            <v-toolbar
+              flat
+              color="transparent"
+            >
               <v-text-field
                 v-model="busca"
-                append-icon="mdi-magnify"
+                prepend-inner-icon="mdi-magnify"
                 label="Buscar Pagamentos"
                 single-line
                 hide-details
+                variant="underlined"
                 class="mr-5"
               />
               <v-btn
@@ -57,13 +63,13 @@
               <v-btn
                 class="mr-2"
                 color="secondary"
-                :loading="$fetchState.pending"
-                @click="$fetch()"
+                :loading="pending"
+                @click="refresh()"
               >
                 <v-icon>mdi-refresh</v-icon>
               </v-btn>
               <v-btn
-                v-if="$acl.can('create', 'Pagamento')"
+                v-if="useACL().can('create', 'Pagamento')"
                 color="primary"
                 to="/admin/pagamentos/novo"
               >
@@ -73,7 +79,7 @@
             </v-toolbar>
           </template>
           <template #item.nomeServico="{ item }">
-            {{ item.nomeServico }} ({{ item.codigoServico }})
+            {{ item.raw.nomeServico }} ({{ item.raw.codigoServico }})
           </template>
           <template #item.cnpjCpf="{ value }">
             {{ $filters.cnpj_cpf(value) }}
@@ -81,7 +87,7 @@
           <template #item.valor="{ item }">
             <v-icon size="small">
               mdi-currency-brl
-            </v-icon> {{ handleValor(item) || '-' }}
+            </v-icon> {{ handleValor(item.raw) || '-' }}
           </template>
           <template #item.situacao="{ value }">
             <pagamento-situacao
@@ -90,12 +96,12 @@
             />
             <template v-if="value.data">
               <br>
-              <small>{{ $dayjs(value.data).format('DD/MM/YYYY HH:mm') }}</small>
+              <small>{{ dayjs(value.data).format('DD/MM/YYYY HH:mm') }}</small>
             </template>
           </template>
           <template #item.actions="{ item }">
             <v-progress-circular
-              v-if="item.idPagamento === loadingPagamento"
+              v-if="item.raw.idPagamento === loadingPagamento"
               indeterminate
               :size="20"
               :width="2"
@@ -105,12 +111,11 @@
               location="bottom"
               :close-on-content-click="true"
             >
-              <template #activator="{ on, attrs }">
+              <template #activator="{ props }">
                 <v-btn
-                  v-bind="attrs"
+                  v-bind="props"
                   icon
-                  :disabled="$acl.cannot('update', 'Pagamento') || $acl.cannot('delete', 'Pagamento')"
-                  v-on="on"
+                  :disabled="useACL().cannot('update', 'Pagamento') || useACL().cannot('delete', 'Pagamento')"
                 >
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
@@ -118,19 +123,19 @@
 
               <v-list density="compact">
                 <v-list-item
-                  v-if="$acl.can('update', 'Pagamento')"
+                  v-if="useACL().can('update', 'Pagamento')"
                   prepend-icon="mdi-cloud-refresh"
-                  :disabled="(item.tipoPagamentoEscolhido === 'BOLETO') || ['CONCLUIDO', 'REJEITADO', 'CANCELADO'].includes(item.situacao.codigo)"
-                  @click.stop="consultaPagamento(item)"
+                  :disabled="(item.raw.tipoPagamentoEscolhido === 'BOLETO') || ['CONCLUIDO', 'REJEITADO', 'CANCELADO'].includes(item.raw.situacao.codigo)"
+                  @click.stop="consultaPagamento(item.raw)"
                 >
                   <v-list-item-title>Consulta Pagtesouro</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item
-                  v-if="$acl.can('delete', 'Pagamento')"
+                  v-if="useACL().can('delete', 'Pagamento')"
                   prepend-icon="mdi-delete"
-                  :disabled="item.situacao.codigo !== 'CRIADO'"
-                  @click.stop="confirmDelete(item)"
+                  :disabled="item.raw.situacao.codigo !== 'CRIADO'"
+                  @click.stop="confirmDelete(item.raw)"
                 >
                   <v-list-item-title>Deletar Pagamento</v-list-item-title>
                 </v-list-item>
@@ -156,11 +161,10 @@
     <v-dialog
       v-model="confirmDialog"
       max-width="400"
-      @click:outside="closeDelete()"
     >
       <v-card>
         <v-card-title class="text-h5">
-          Deletar o Pagamento "{{ $store.getters['pagamento/id'] }}"?
+          Deletar o Pagamento "{{ id }}"?
         </v-card-title>
         <v-card-actions>
           <v-spacer />
@@ -184,9 +188,8 @@
     <v-dialog
       v-model="pagamentoDialog"
       scrollable
-      :fullscreen="$vuetify.breakpoint.xsOnly"
+      :fullscreen="xs"
       max-width="800"
-      @click:outside="hidePagamento"
     >
       <pagamento-detalhes privado>
         <v-btn
@@ -201,132 +204,140 @@
   </v-container>
 </template>
 
-<script>
-  import { mapGetters, mapMutations } from 'vuex';
+<script setup>
+import { storeToRefs } from 'pinia'
+import { watch } from 'vue'
+import { useDisplay } from 'vuetify/lib/framework.mjs'
+import useToast from '~/composables/useToast'
+import { useMainStore } from '~/store'
+import { usePagamentoStore } from '~/store/pagamento'
 
-  export default {
-    components: {
-      vDataTable,
-    },
-    layout: 'admin',
-    validate({ app }) {
-      return app.$acl.can('read', 'Pagamento');
-    },
-    data() {
-      return {
-        confirmDialog: false,
-        pagamentoDialog: false,
-        loadingPagamento: false,
-        busca: '',
-        tableHeaders: [
-          { text: 'ID', value: 'idPagamento' },
-          { text: 'Unidade', value: 'nomeUnidade' },
-          { text: 'Serviço', value: 'nomeServico' },
-          { text: 'Contribuinte', value: 'nomeContribuinte' },
-          { text: 'CPF / CNPJ', value: 'cnpjCpf' },
-          { text: 'Valor', value: 'valor' },
-          { text: 'Situação', value: 'situacao' },
-          { text: 'Ações', value: 'actions', sortable: false, align: 'center', width: 80 },
-        ],
-        tableFooterProps: {
-          'items-per-page-text': 'Pagamentos por página:',
-          'items-per-page-options': [
-            10, 25, 50, -1
-          ],
-        },
-        showFiltros: false,
-        filtros: {},
-      }
-    },
-    async fetch() {
-      await this.$store.dispatch('fetchPagamentos', this.filtros)
-      .catch((error) => {
-        this.$toast.error('Ocorreu um erro ao carregar os Pagamentos: ' + error.message);
-        console.error(error);
-      });
-    },
-    head: {
-      title: 'Lista de Pagamentos',
-    },
-    computed: {
-      pagamentos: {
-        ...mapGetters({ get: 'pagamentos' }),
-        ...mapMutations({ set: 'setPagamentos' }),
-      },
-    },
-    watch: {
-      pagamentoDialog(newValue) {
-        if (newValue === false) {
-          this.$store.commit('pagamento/clear');
-        }
-      }
-    },
-    methods: {
-      handleValor(item) {
-        if (!item.valor) {
-          const valor = item.valorPrincipal
-            - (item.valorDescontos || 0)
-            - (item.valorOutrasDeducoes || 0)
-            + (item.valorMulta || 0)
-            + (item.valorJuros || 0)
-            + (item.valorOutrosAcrescimos || 0);
-          return this.$root.$options.filters.int_to_real(valor);
-        }
+definePageMeta({
+  layout: 'admin',
+  title: 'Lista de Pagamentos',
+  validate: async () => {
+    return useACL().can('read', 'Pagamento')
+  }
+})
 
-        return this.$root.$options.filters.int_to_real(item.valor);
-      },
-      showPagamento(item) {
-        if (item) {
-          this.$store.commit('pagamento/replace', item);
-          this.pagamentoDialog = true;
-        }
-      },
-      hidePagamento() {
-        this.pagamentoDialog = false;
-      },
-      confirmDelete(pagamento) {
-        this.$store.commit('pagamento/replace', pagamento);
-        this.confirmDialog = true;
-      },
-      closeDelete() {
-        this.$store.commit('pagamento/clear');
-        this.confirmDialog = false;
-      },
-      async handleFiltrar(filtros) {
-        this.filtros = filtros;
-        this.$fetch();
-      },
-      async consultaPagamento(item) {
-        this.loadingPagamento = item.idPagamento;
-        await this.$store.dispatch('pagamento/consulta', item.idPagamento)
-        .then((status) => {
-          if (status === 204) {
-            this.$toast.info(`Pagamento ${item.idPagamento} sem atualizações!`);
-          } else {
-            this.$toast.success(`Pagamento ${item.idPagamento} atualizado!`);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-          this.$toast.error('Erro ao tentar consultar o Pagamento. ' + error.message);
-        })
-        .finally(() => {
-          this.loadingPagamento = false;
-        });
-      },
-      async deletePagamento() {
-        this.confirmDialog = false;
-        await this.$store.dispatch('pagamento/delete')
-        .then(() => {
-          this.$toast.success('Pagamento removido com sucesso!');
-        })
-        .catch((error) => {
-          console.error(error);
-          this.$toast.error('Erro ao tentar deletar o Pagamento. ' + error.message);
-        });
-      },
-    },
-  };
+const dayjs = useDayjs()
+
+const { xs } = useDisplay()
+
+const tableHeaders = [
+  { title: 'ID', key: 'idPagamento' },
+  { title: 'Unidade', key: 'nomeUnidade' },
+  { title: 'Serviço', key: 'nomeServico' },
+  { title: 'Contribuinte', key: 'nomeContribuinte' },
+  { title: 'CPF / CNPJ', key: 'cnpjCpf' },
+  { title: 'Valor', key: 'valor' },
+  { title: 'Situação', key: 'situacao' },
+  { title: 'Ações', key: 'actions', sortable: false, align: 'center', width: 80 },
+]
+
+const tableFooterProps = {
+  'items-per-page-text': 'Pagamentos por página:',
+  'items-per-page-options': [
+    10, 25, 50, -1
+  ],
+}
+
+const busca = ref('')
+const showFiltros = ref(false)
+const filtros = ref({})
+
+const store = useMainStore()
+const { pagamentos } = storeToRefs(store)
+
+const pagamentoStore = usePagamentoStore()
+
+const { error, pending, refresh } = await store.fetchPagamentos()
+if (error.value) {
+  useToast().error('Ocorreu um erro ao carregar os Pagamentos: ' + error.message)
+  console.error(error)
+}
+
+const confirmDialog = ref(false)
+const pagamentoDialog = ref(false)
+watch(pagamentoDialog, (newValue) => {
+  if (newValue === false) {
+    pagamentoStore.$reset()
+  }
+})
+
+const loadingPagamento = ref(false)
+
+function handleValor(item) {
+  if (!item.valor) {
+    const valor = item.valorPrincipal
+      - (item.valorDescontos || 0)
+      - (item.valorOutrasDeducoes || 0)
+      + (item.valorMulta || 0)
+      + (item.valorJuros || 0)
+      + (item.valorOutrosAcrescimos || 0)
+    return $filters.int_to_real(valor)
+  }
+
+  return $filters.int_to_real(item.valor)
+}
+
+function showPagamento(item) {
+  if (item) {
+    pagamentoStore.$patch(item)
+    pagamentoDialog.value = true
+  }
+}
+
+function hidePagamento() {
+  pagamentoDialog.value = false
+}
+
+function confirmDelete(pagamento) {
+  pagamentoStore.$patch(pagamento)
+  confirmDialog.value = true
+}
+
+function closeDelete() {
+  pagamentoStore.$reset()
+  confirmDialog.value = false
+}
+
+async function handleFiltrar(filtros) {
+  filtros.value = filtros
+  refresh()
+}
+
+async function consultaPagamento(item) {
+  loadingPagamento.value = item.idPagamento
+
+  const { error, status } = await pagamentoStore.consulta(item.idPagamento)
+
+  if (error.value) {
+    useToast().error('Erro ao tentar consultar o Pagamento. ' + error.message)
+    console.error(error)
+  } else {
+    if (status === 204) {
+      useToast().info(`Pagamento ${item.idPagamento} sem atualizações!`)
+    } else {
+      useToast().success(`Pagamento ${item.idPagamento} atualizado!`)
+    }
+  }
+
+  loadingPagamento.value = false
+}
+
+async function deletePagamento() {
+  confirmDialog.value = false
+
+  const { error } = await pagamentoStore.delete()
+
+  if (error.value) {
+    useToast().error('Erro ao tentar deletar o Pagamento. ' + error.message)
+    console.error(error)
+  } else {
+    useToast().success('Pagamento removido com sucesso!')
+  }
+}
 </script>
 
 <style lang="scss" scoped>
