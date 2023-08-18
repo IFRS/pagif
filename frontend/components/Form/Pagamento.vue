@@ -1,6 +1,6 @@
 <template>
   <v-form
-    ref="form"
+    ref="formNode"
     @submit.prevent="handleSubmit"
   >
     <v-container>
@@ -11,9 +11,9 @@
             prepend-icon="mdi-office-building-marker"
             label="Unidade Gestora"
             :rules="validation.unidade"
-            :loading="$fetchState.pending"
-            :disabled="$fetchState.pending"
-            :items="$store.getters['unidades']"
+            :loading="pending"
+            :disabled="pending"
+            :items="unidades"
             item-title="nome"
             item-value="_id"
             required
@@ -29,14 +29,17 @@
             validate-on="blur"
             :rules="validation.codigoServico"
             :loading="loadingServicos"
-            :disabled="loadingServicos || $store.getters['servicos'].length === 0"
-            :items="$store.getters['servicos']"
+            :disabled="loadingServicos || servicos.length === 0"
+            :items="servicos"
             item-title="nome"
             item-value="codigo"
             required
           >
-            <template #item="{ item }">
-              <v-list-item-title>{{ item.codigo }} - {{ item.nome }}</v-list-item-title>
+            <template #item="{ props, item }">
+              <v-list-item
+                v-bind="props"
+                :title="item.raw.codigo + ' - ' + item.raw.nome"
+              />
             </template>
           </v-autocomplete>
         </v-col>
@@ -55,59 +58,53 @@
         <v-col>
           <!-- Competência -->
           <v-menu
-            :persistent="!(true)"
-            :close-on-content-click="true"
             :model-value="competencia"
+            :close-on-content-click="true"
             transition="scale-transition"
             max-width="auto"
             min-width="auto"
           >
-            <template #activator="{ on, attrs }">
+            <template #activator="{ props }">
               <v-text-field
                 v-model="competenciaFormatted"
+                v-bind="props"
                 label="Competência"
                 prepend-icon="mdi-calendar-month"
                 readonly
-                v-bind="attrs"
-                v-on="on"
               />
             </template>
-            <!-- TODO substituir componente -->
-            <!-- <v-date-picker
+            <v-date-picker
               v-model="competencia"
               type="month"
               no-title
               scrollable
-            /> -->
+            />
           </v-menu>
         </v-col>
         <v-col>
           <!-- Vencimento -->
           <v-menu
-            :persistent="!(true)"
-            :close-on-content-click="true"
             :model-value="vencimento"
+            :close-on-content-click="true"
             transition="scale-transition"
             max-width="auto"
             min-width="auto"
           >
-            <template #activator="{ on, attrs }">
+            <template #activator="{ props }">
               <v-text-field
                 v-model="vencimentoFormatted"
+                v-bind="props"
                 label="Vencimento"
                 prepend-icon="mdi-calendar"
                 readonly
-                v-bind="attrs"
                 :rules="validation.vencimento"
-                v-on="on"
               />
             </template>
-            <!-- TODO substituir componente -->
-            <!-- <v-date-picker
+            <v-date-picker
               v-model="vencimento"
               no-title
               scrollable
-            /> -->
+            />
           </v-menu>
         </v-col>
       </v-row>
@@ -127,7 +124,6 @@
           <!-- CPF / CNPJ -->
           <v-text-field
             v-model="cnpjCpfFormatted"
-            v-maska="cnpjCpfMask"
             prepend-icon="mdi-card-account-details"
             label="CPF / CNPJ"
             :rules="validation.cnpjCpf"
@@ -139,8 +135,16 @@
       <v-row>
         <v-col>
           <!-- Valor Principal -->
-          <v-currency-field
+          <!-- <v-currency-field
             v-model="valorPrincipal"
+            prepend-icon="mdi-currency-brl"
+            label="Valor Principal"
+            hint="Valor do pagamento."
+            :rules="validation.valorPrincipal"
+            required
+          /> -->
+          <v-text-field
+            v-model="valorPrincipalFormatted"
             prepend-icon="mdi-currency-brl"
             label="Valor Principal"
             hint="Valor do pagamento."
@@ -209,8 +213,11 @@
           />
         </v-col>
       </v-row>
-      <v-row>
-        <v-col>
+      <v-row
+        justify="start"
+        dense
+      >
+        <v-col cols="auto">
           <v-btn
             color="primary"
             type="submit"
@@ -219,6 +226,8 @@
           >
             Salvar
           </v-btn>
+        </v-col>
+        <v-col cols="auto">
           <v-btn
             color="secondary"
             :disabled="submitting"
@@ -232,171 +241,166 @@
   </v-form>
 </template>
 
-<script>
-  import { mapGetters, mapMutations } from 'vuex';
-  const customParseFormat = require('dayjs/plugin/customParseFormat');
-  const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
+<script setup>
+import { storeToRefs } from 'pinia'
+import { useMainStore } from '~/store'
+import { usePagamentoStore } from '~/store/pagamento'
+import { Mask } from "maska"
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
+import { computed } from 'vue'
 
-  export default {
-    props: {
-      submitting: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    emits: ['ok', 'cancel'],
-    data() {
-      return {
-        validation: {
-          unidade: [
-            v => !!v || 'Selecione uma Unidade.',
-          ],
-          codigoServico: [
-            v => !!v || 'Selecione um Serviço.',
-          ],
-          referencia: [
-            v => !v || (/^\d+$/).test(v) || 'Número de Referência precisa ser um número.',
-            v => !v || v?.length <= 20 || 'Número de Referência deve ter no máximo 20 dígitos.',
-          ],
-          vencimento: [
-            v => {
-              if (!v) return true;
+const dayjs = useDayjs(customParseFormat, isSameOrAfter)
 
-              const hoje = this.$dayjs();
-              const vencimento = this.$dayjs(v, 'DD/MM/YYYY');
+defineProps({
+  submitting: {
+    type: Boolean,
+    default: false,
+  },
+})
 
-              if (vencimento.isSameOrAfter(hoje, 'day')) {
-                return true;
-              }
+const emit = defineEmits(['ok', 'cancel'])
 
-              return 'O Vencimento precisa ser em data posterior à data de hoje.';
-            },
-          ],
-          nomeContribuinte: [
-            v => !!v || 'O Nome do Contribuinte é obrigatório.',
-            v => (v?.length >= 2 && v?.length <= 45) || 'Nome do Contribuinte precisa ter entre 2 e 45 caracteres.',
-          ],
-          cnpjCpf: [
-            v => !!v || 'CPF / CNPJ é obrigatório.',
-            v => !v || (this.$validation.CPF(v) || this.$validation.CNPJ(v)) || 'CPF / CNPJ deve ser válido.',
-          ],
-          valorPrincipal: [
-            v => !!v || 'Valor Principal é obrigatório.',
-          ],
-        },
-        loadingServicos: false,
+const formNode = ref(null)
+
+const { $isCPF, $isCNPJ } = useNuxtApp()
+
+const validation = {
+  unidade: [
+    v => !!v || 'Selecione uma Unidade.',
+  ],
+  codigoServico: [
+    v => !!v || 'Selecione um Serviço.',
+  ],
+  referencia: [
+    v => !v || (/^\d+$/).test(v) || 'Número de Referência precisa ser um número.',
+    v => !v || v?.length <= 20 || 'Número de Referência deve ter no máximo 20 dígitos.',
+  ],
+  vencimento: [
+    v => {
+      if (!v) return true;
+
+      const hoje = dayjs();
+      const vencimento = dayjs(v, 'DD/MM/YYYY');
+
+      if (vencimento.isSameOrAfter(hoje, 'day')) {
+        return true;
       }
-    },
-    async fetch() {
-      await this.$store.dispatch('fetchUnidades')
-      .catch((error) => {
-        this.$toast.error('Ocorreu um erro ao carregar as Unidades: ' + error.message);
-        console.error(error);
-      });
-    },
-    computed: {
-      codigoServico: {
-        ...mapGetters({ get: 'pagamento/codigoServico' }),
-        ...mapMutations({ set: 'pagamento/codigoServico' }),
-      },
-      referencia: {
-        ...mapGetters({ get: 'pagamento/referencia' }),
-        ...mapMutations({ set: 'pagamento/referencia' }),
-      },
-      competencia: {
-        ...mapGetters({ get: 'pagamento/competencia' }),
-        ...mapMutations({ set: 'pagamento/competencia' }),
-      },
-      competenciaFormatted() {
-        if (!this.competencia) return null;
 
-        return this.$dayjs(this.competencia).format('MM/YYYY');
-      },
-      vencimento: {
-        ...mapGetters({ get: 'pagamento/vencimento' }),
-        ...mapMutations({ set: 'pagamento/vencimento' }),
-      },
-      vencimentoFormatted() {
-        if (!this.vencimento) return null;
+      return 'O Vencimento precisa ser em data posterior à data de hoje.';
+    },
+  ],
+  nomeContribuinte: [
+    v => !!v || 'O Nome do Contribuinte é obrigatório.',
+    v => (v?.length >= 2 && v?.length <= 45) || 'Nome do Contribuinte precisa ter entre 2 e 45 caracteres.',
+  ],
+  cnpjCpf: [
+    v => !!v || 'CPF / CNPJ é obrigatório.',
+    v => !v || ($isCPF(v) || $isCNPJ(v)) || 'CPF / CNPJ deve ser válido.',
+  ],
+  valorPrincipal: [
+    v => !!v || 'Valor Principal é obrigatório.',
+  ],
+}
 
-        return this.$dayjs(this.vencimento).format('DD/MM/YYYY');
-      },
-      nomeContribuinte: {
-        ...mapGetters({ get: 'pagamento/nomeContribuinte' }),
-        ...mapMutations({ set: 'pagamento/nomeContribuinte' }),
-      },
-      cnpjCpf: {
-        ...mapGetters({ get: 'pagamento/cnpjCpf' }),
-        ...mapMutations({ set: 'pagamento/cnpjCpf' }),
-      },
-      cnpjCpfFormatted: {
-        get() {
-          if (this.cnpjCpf) return this.$options.filters.VMask(this.cnpjCpf, this.cnpjCpfMask);
-          return '';
-        },
-        set(value) {
-          value = String(value);
-          value = value.replace(/\D/g, '');
-          this.cnpjCpf = value;
-        }
-      },
-      cnpjCpfMask() {
-        if (this.cnpjCpf && this.cnpjCpf.length > 11) {
-          return '##.###.###/####-##';
-        }
-        return '###.###.###-##';
-      },
-      valorPrincipal: {
-        ...mapGetters({ get: 'pagamento/valorPrincipal' }),
-        ...mapMutations({ set: 'pagamento/valorPrincipal' }),
-      },
-      valorDescontos: {
-        ...mapGetters({ get: 'pagamento/valorDescontos' }),
-        ...mapMutations({ set: 'pagamento/valorDescontos' }),
-      },
-      valorOutrasDeducoes: {
-        ...mapGetters({ get: 'pagamento/valorOutrasDeducoes' }),
-        ...mapMutations({ set: 'pagamento/valorOutrasDeducoes' }),
-      },
-      valorMulta: {
-        ...mapGetters({ get: 'pagamento/valorMulta' }),
-        ...mapMutations({ set: 'pagamento/valorMulta' }),
-      },
-      valorJuros: {
-        ...mapGetters({ get: 'pagamento/valorJuros' }),
-        ...mapMutations({ set: 'pagamento/valorJuros' }),
-      },
-      valorOutrosAcrescimos: {
-        ...mapGetters({ get: 'pagamento/valorOutrosAcrescimos' }),
-        ...mapMutations({ set: 'pagamento/valorOutrosAcrescimos' }),
-      },
-    },
-    created () {
-      this.$dayjs.extend(customParseFormat);
-      this.$dayjs.extend(isSameOrAfter);
-    },
-    methods: {
-      async fetchServicos(unidade_id) {
-        this.loadingServicos = true;
-        this.$store.commit('pagamento/codigoServico', null);
-        await this.$store.dispatch('fetchServicos', {unidade: unidade_id})
-        .catch((error) => {
-          this.$toast.error('Ocorreu um erro ao carregar os Serviços: ' + error.message);
-          console.error(error);
-        })
-        .finally(() => {
-          this.loadingServicos = false;
-        });
-      },
-      handleSubmit() {
-        if (this.$refs.form.validate()) {
-          this.$emit('ok');
-        }
-      },
-      handleCancel() {
-        this.$refs.form.reset();
-        this.$emit('cancel');
-      },
-    },
+const store = useMainStore()
+const { unidades, servicos } = storeToRefs(store)
+
+const { error, pending } = await store.fetchUnidades()
+if (error.value) {
+  useToast().error('Ocorreu um erro ao carregar as Unidades: ' + error.message)
+  console.error(error)
+}
+
+const pagamentoStore = usePagamentoStore()
+const {
+  codigoServico,
+  referencia,
+  competencia,
+  vencimento,
+  nomeContribuinte,
+  cnpjCpf,
+  valorPrincipal,
+  valorDescontos,
+  valorOutrasDeducoes,
+  valorMulta,
+  valorJuros,
+  valorOutrosAcrescimos,
+} = storeToRefs(pagamentoStore)
+
+const competenciaFormatted = computed(() => {
+  if (!competencia.value) return null
+
+  return dayjs(competencia.value).format('MM/YYYY')
+})
+
+const vencimentoFormatted = computed(() => {
+  if (!vencimento.value) return null
+
+  return dayjs(vencimento.value).format('DD/MM/YYYY')
+})
+
+const cnpjCpfMask = computed(() => {
+  if (cnpjCpf.value && cnpjCpf.value.length > 11) {
+    return '##.###.###/####-##'
   }
+  return '###.###.###-##'
+})
+
+const cnpjCpfFormatted = computed({
+  get() {
+    if (cnpjCpf.value) {
+      const mask = new Mask({ mask: cnpjCpfMask.value })
+      return mask.masked(cnpjCpf.value);
+    }
+    return '';
+  },
+  set(value) {
+    value = String(value)
+    value = value.replace(/\D/g, '')
+    cnpjCpf.value = value
+  }
+})
+
+const valorPrincipalFormatted = computed({
+  get() {
+    if (valorPrincipal.value) {
+      const mask = new Mask({ mask: '9.99#,##', tokens: { 9: { pattern: '[0-9]', repeated: true } }, reversed: true })
+      return mask.masked(String(valorPrincipal.value));
+    }
+
+    return null;
+  },
+  set(value) {
+    valorPrincipal.value = useFilters().real_to_int(value) ?? null
+  }
+})
+
+const loadingServicos = ref(false)
+
+async function fetchServicos(unidade_id) {
+  loadingServicos.value = true
+
+  codigoServico.value = null
+
+  const { error } = await store.fetchServicos({ unidade: unidade_id })
+  if (error.value) {
+    useToast().error('Ocorreu um erro ao carregar os Serviços: ' + error.message)
+    console.error(error)
+  }
+  loadingServicos.value = false
+}
+
+async function handleSubmit() {
+  const { valid } = await formNode.validate()
+
+  if (valid) {
+    emit('ok')
+  }
+}
+
+function handleCancel() {
+  formNode.reset()
+  emit('cancel')
+}
 </script>

@@ -17,48 +17,44 @@
   </v-container>
 </template>
 
-<script>
-  export default {
-    layout: 'admin',
-    validate({ app }) {
-      return app.$acl.can('create', 'Pagamento');
-    },
-    data() {
-      return {
-        submitting: false,
-      }
-    },
-    head: {
-      title: 'Nova Cobrança',
-    },
-    unmounted () {
-      this.$store.commit('pagamento/clear');
-    },
-    methods: {
-      async handleSubmit() {
-        this.submitting = true;
-        await this.$store.dispatch('pagamento/save')
-        .then(() => {
-          this.$toast.success('Cobrança cadastrada com sucesso!');
-          this.$store.commit('pagamento/clear');
-          this.$router.push({
-            path: '/admin/pagamentos',
-          });
-        })
-        .catch((error) => {
-          this.$toast.error('Ocorreu um erro ao cadastrar a Cobrança. ' + error.message);
-          console.error(error);
-        })
-        .finally(() => {
-          this.submitting = false;
-        });
-      },
-      handleCancel() {
-        this.$toast.info('Cadastro de Cobrança cancelado.');
-        this.$router.push({
-          path: '/admin/pagamentos',
-        });
-      },
-    },
+<script setup>
+import { onUnmounted } from 'vue'
+import { usePagamentoStore } from '~/store/pagamento'
+
+definePageMeta({
+  layout: 'admin',
+  title: 'Nova Cobrança',
+  validate: async () => {
+    return useACL().can('create', 'Pagamento')
   }
+})
+
+const submitting = ref(false)
+
+const pagamentoStore = usePagamentoStore()
+
+async function handleSubmit() {
+  submitting.value = true
+
+  const { error } = await pagamentoStore.save()
+  if (error.value) {
+    useToast().error('Ocorreu um erro ao cadastrar a Cobrança. ' + error.message)
+    console.error(error)
+  } else {
+    useToast().success('Cobrança cadastrada com sucesso!')
+    pagamentoStore.$reset()
+    navigateTo({ path: '/admin/pagamentos' })
+  }
+
+  submitting.value = false
+}
+
+function handleCancel() {
+  useToast().info('Cadastro de Cobrança cancelado.')
+  navigateTo({ path: '/admin/pagamentos' })
+}
+
+onUnmounted(() => {
+  pagamentoStore.$reset()
+})
 </script>
