@@ -81,22 +81,22 @@
           <template #item.nomeServico="{ item }">
             {{ item.raw.nomeServico }} ({{ item.raw.codigoServico }})
           </template>
-          <template #item.cnpjCpf="{ value }">
-            {{ $filters.cnpj_cpf(value) }}
+          <template #item.cnpjCpf="{ item }">
+            {{ useFilters().cnpj_cpf(item.raw.cnpjCpf) }}
           </template>
           <template #item.valor="{ item }">
             <v-icon size="small">
               mdi-currency-brl
             </v-icon> {{ handleValor(item.raw) || '-' }}
           </template>
-          <template #item.situacao="{ value }">
+          <template #item.situacao="{ item }">
             <pagamento-situacao
-              :situacao="value.codigo"
+              :situacao="item.raw.situacao?.codigo"
               class="mt-1"
             />
-            <template v-if="value.data">
+            <template v-if="item.raw.situacao.data">
               <br>
-              <small>{{ dayjs(value.data).format('DD/MM/YYYY HH:mm') }}</small>
+              <small>{{ dayjs(item.raw.situacao.data).format('DD/MM/YYYY HH:mm') }}</small>
             </template>
           </template>
           <template #item.actions="{ item }">
@@ -115,6 +115,7 @@
                 <v-btn
                   v-bind="props"
                   icon
+                  variant="text"
                   :disabled="useACL().cannot('update', 'Pagamento') || useACL().cannot('delete', 'Pagamento')"
                 >
                   <v-icon>mdi-dots-vertical</v-icon>
@@ -275,13 +276,13 @@ function handleValor(item) {
       + (item.valorMulta || 0)
       + (item.valorJuros || 0)
       + (item.valorOutrosAcrescimos || 0)
-    return $filters.int_to_real(valor)
+    return useFilters().int_to_real(valor)
   }
 
-  return $filters.int_to_real(item.valor)
+  return useFilters().int_to_real(item.valor)
 }
 
-function showPagamento(item) {
+function showPagamento(event, item) {
   if (item) {
     pagamentoStore.$patch(item)
     pagamentoDialog.value = true

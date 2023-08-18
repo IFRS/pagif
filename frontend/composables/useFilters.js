@@ -1,7 +1,5 @@
-import { defineNuxtPlugin } from '#app'
-
-export default defineNuxtPlugin(({ vueApp }) => {
-  vueApp.config.globalProperties.$filters = {
+export default function() {
+  return {
     real_to_int(valor) {
       if (!valor) return 0;
 
@@ -43,4 +41,4 @@ export default defineNuxtPlugin(({ vueApp }) => {
       return cnpjCpf;
     },
   }
-})
+}

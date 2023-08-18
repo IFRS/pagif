@@ -18,7 +18,7 @@
 
               <v-list-item>
                 <v-list-item-title>CPF / CNPJ</v-list-item-title>
-                <v-list-item-subtitle>{{ $filters.cnpj_cpf(cnpjCpf) || '-' }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ useFilters().cnpj_cpf(cnpjCpf) || '-' }}</v-list-item-subtitle>
               </v-list-item>
 
               <v-list-item>
@@ -50,40 +50,40 @@
             <template #activator="{ props }">
               <v-list-item v-bind="props">
                 <v-list-item-title>Valor Total</v-list-item-title>
-                <v-list-item-subtitle>{{ $filters.int_to_real(valor, true) || '-' }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{ useFilters().int_to_real(valor, true) || '-' }}</v-list-item-subtitle>
               </v-list-item>
             </template>
             <v-row dense>
               <v-col md="6">
                 <v-list-item>
                   <v-list-item-title>Valor Principal</v-list-item-title>
-                  <v-list-item-subtitle>{{ $filters.int_to_real(valorPrincipal, true) }}</v-list-item-subtitle>
+                  <v-list-item-subtitle>{{ useFilters().int_to_real(valorPrincipal, true) }}</v-list-item-subtitle>
                 </v-list-item>
 
                 <v-list-item>
                   <v-list-item-title>Descontos</v-list-item-title>
-                  <v-list-item-subtitle>{{ $filters.int_to_real(valorDescontos, true) || '-' }}</v-list-item-subtitle>
+                  <v-list-item-subtitle>{{ useFilters().int_to_real(valorDescontos, true) || '-' }}</v-list-item-subtitle>
                 </v-list-item>
 
                 <v-list-item>
                   <v-list-item-title>Outras Dedu&ccedil;&otilde;es</v-list-item-title>
-                  <v-list-item-subtitle>{{ $filters.int_to_real(valorOutrasDeducoes, true) || '-' }}</v-list-item-subtitle>
+                  <v-list-item-subtitle>{{ useFilters().int_to_real(valorOutrasDeducoes, true) || '-' }}</v-list-item-subtitle>
                 </v-list-item>
               </v-col>
               <v-col md="6">
                 <v-list-item>
                   <v-list-item-title>Multa</v-list-item-title>
-                  <v-list-item-subtitle>{{ $filters.int_to_real(valorMulta, true) || '-' }}</v-list-item-subtitle>
+                  <v-list-item-subtitle>{{ useFilters().int_to_real(valorMulta, true) || '-' }}</v-list-item-subtitle>
                 </v-list-item>
 
                 <v-list-item>
                   <v-list-item-title>Juros</v-list-item-title>
-                  <v-list-item-subtitle>{{ $filters.int_to_real(valorJuros, true) || '-' }}</v-list-item-subtitle>
+                  <v-list-item-subtitle>{{ useFilters().int_to_real(valorJuros, true) || '-' }}</v-list-item-subtitle>
                 </v-list-item>
 
                 <v-list-item>
                   <v-list-item-title>Outros Acr&eacute;scimos</v-list-item-title>
-                  <v-list-item-subtitle>{{ $filters.int_to_real(valorOutrosAcrescimos, true) || '-' }}</v-list-item-subtitle>
+                  <v-list-item-subtitle>{{ useFilters().int_to_real(valorOutrosAcrescimos, true) || '-' }}</v-list-item-subtitle>
                 </v-list-item>
               </v-col>
             </v-row>
