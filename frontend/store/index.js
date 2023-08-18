@@ -3,10 +3,10 @@ import { useFetch } from '#app'
 
 export const useMainStore = defineStore('main', {
   state: () => ({
-    unidades: null,
-    servicos: null,
-    pagamentos: null,
-    usuarios: null,
+    unidades: [],
+    servicos: [],
+    pagamentos: [],
+    usuarios: [],
   }),
 
   actions: {
