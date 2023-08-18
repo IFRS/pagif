@@ -75,6 +75,12 @@ export default defineNuxtPlugin(({ vueApp }) => {
         variant: 'elevated',
         rounded: true,
       },
+      VAutocomplete: {
+        variant: 'underlined',
+      },
+      VTextField: {
+        variant: 'underlined',
+      },
     },
   })
 
