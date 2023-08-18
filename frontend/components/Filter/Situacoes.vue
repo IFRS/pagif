@@ -20,18 +20,13 @@
   </v-card>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      situacoes: ['CRIADO', 'INICIADO', 'SUBMETIDO', 'CONCLUIDO', 'REJEITADO', 'CANCELADO'],
-      situacoesSelected: [],
-    }
-  },
-  watch: {
-    situacoesSelected(newValue) {
-      this.$parent.$emit('filtro', { situacoes: newValue });
-    }
-  },
-}
+<script setup>
+import { watch } from 'vue'
+
+const situacoes = ['CRIADO', 'INICIADO', 'SUBMETIDO', 'CONCLUIDO', 'REJEITADO', 'CANCELADO']
+
+const situacoesSelected = ref([])
+watch(situacoesSelected, (newValue) => {
+  $parent.emit('filtro', { situacoes: newValue })
+})
 </script>

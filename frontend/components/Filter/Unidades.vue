@@ -3,7 +3,7 @@
     <v-card-text>
       <v-autocomplete
         v-model="unidadesSelected"
-        :loading="$fetchState.pending"
+        :loading="pending"
         :items="unidades"
         density="compact"
         multiple
@@ -17,27 +17,18 @@
   </v-card>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      unidades: null,
-      unidadesSelected: [],
-    }
-  },
-  async fetch() {
-    await this.$axios.get('/api/unidades')
-    .then((response) => {
-      this.unidades = response.data;
-    })
-    .catch((error) => {
-      this.$toast.error('Ocorreu um erro obter a lista de Unidades. ' + error.message);
-    })
-  },
-  watch: {
-    unidadesSelected(newValue) {
-      this.$parent.$emit('filtro', { unidades: newValue });
-    }
-  },
+<script setup>
+import { watch } from 'vue';
+
+const { data: unidades, error, pending } = useFetch('/api/unidades')
+
+if (error.value) {
+  useToast().error('Ocorreu um erro obter a lista de Unidades. ' + error.message);
 }
+
+const unidadesSelected = ref([])
+
+watch(unidadesSelected, (newValue) => {
+  $parent.emit('filtro', { unidades: newValue })
+})
 </script>

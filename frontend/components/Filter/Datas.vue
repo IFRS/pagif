@@ -18,27 +18,23 @@
             max-width="auto"
             min-width="auto"
           >
-            <template #activator="{ on, attrs }">
+            <template #activator="{ props }">
               <v-text-field
                 v-model="datasFormatted"
+                v-bind="props"
                 label="Selecione um intervalo de datas"
                 prepend-icon="mdi-calendar"
                 readonly
                 clearable
-                v-bind="attrs"
                 :rules="validation.datas"
-                v-on="on"
               />
             </template>
-            <!-- TODO substituir componente -->
-            <!-- <v-date-picker
+            <v-date-picker
               v-model="datas"
-              :max="$dayjs().toISOString()"
+              :max="dayjs().toISOString()"
               range
               show-adjacent-months
-              no-title
-              scrollable
-            /> -->
+            />
           </v-menu>
         </v-col>
       </v-row>
@@ -46,66 +42,57 @@
   </v-card>
 </template>
 
-<script>
-const customParseFormat = require('dayjs/plugin/customParseFormat');
-const isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
+<script setup>
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 
-export default {
-  data() {
-    return {
-      datas: [],
-      validation: {
-        datas: [
-          v => {
-            if (!v) return true;
+const dayjs = useDayjs(customParseFormat, isSameOrBefore)
 
-            const hoje = this.$dayjs();
-            const datas = v.split(' ~ ');
+const validation = {
+  datas: [
+    v => {
+      if (!v) return true
 
-            const datas_sao_anteriores = datas.every((data) => {
-              data = this.$dayjs(data, 'DD/MM/YYYY');
-              return data.isSameOrBefore(hoje, 'day');
-            });
+      const hoje = dayjs()
+      const datas = v.split(' ~ ')
 
-            if (datas_sao_anteriores) return true;
+      const datas_sao_anteriores = datas.every((data) => {
+        data = dayjs(data, 'DD/MM/YYYY')
+        return data.isSameOrBefore(hoje, 'day')
+      })
 
-            return 'A Data precisa ser anterior à data de hoje.';
-          },
-        ],
-      },
-    }
-  },
-  computed: {
-    datasFormatted: {
-      get() {
-        if (!this.datas || this.datas.length === 0) return null;
+      if (datas_sao_anteriores) return true
 
-        const formatted = this.datas.map((data) => {
-          return this.$dayjs(data).format('DD/MM/YYYY');
-        });
-
-        return formatted.join(' ~ ');
-      },
-      set(value) {
-        this.datas = value?.split(' ~ ') ?? [];
-      }
+      return 'A Data precisa ser anterior à data de hoje.'
     },
-  },
-  watch: {
-    datas(newDatas) {
-      if (newDatas.length === 2) {
-        const dataInicial = this.$dayjs(newDatas[0]);
-        const dataFinal = this.$dayjs(newDatas[1]);
-
-        if (dataFinal.isBefore(dataInicial, 'day')) newDatas.reverse();
-      }
-
-      this.$parent.$emit('filtro', { datas: newDatas });
-    }
-  },
-  created () {
-    this.$dayjs.extend(customParseFormat);
-    this.$dayjs.extend(isSameOrBefore);
-  },
+  ],
 }
+
+const datas = ref([])
+
+watch(datas, (newDatas) => {
+  if (newDatas.length === 2) {
+      const dataInicial = dayjs(newDatas[0])
+      const dataFinal = dayjs(newDatas[1])
+
+      if (dataFinal.isBefore(dataInicial, 'day')) newDatas.reverse()
+    }
+
+    $parent.emit('filtro', { datas: newDatas })
+})
+
+const datasFormatted = computed({
+  get() {
+    if (!datas.value || datas.value.length === 0) return null
+
+    const formatted = datas.value.map((data) => {
+      return dayjs(data).format('DD/MM/YYYY')
+    });
+
+    return formatted.join(' ~ ')
+  },
+  set(value) {
+    datas.value = value?.split(' ~ ') ?? []
+  }
+})
 </script>
