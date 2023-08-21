@@ -46,14 +46,13 @@
                 v-model="busca"
                 prepend-inner-icon="mdi-magnify"
                 label="Buscar Pagamentos"
-                single-line
                 hide-details
                 variant="underlined"
                 class="mr-5"
               />
               <v-btn
                 variant="text"
-                :color="(Object.values(filtros).length > 0) ? 'accent' : ''"
+                :color="(Object.values(filtros).length > 0) ? 'success' : ''"
                 @click="showFiltros = !showFiltros"
               >
                 <v-icon>mdi-filter-variant</v-icon>
