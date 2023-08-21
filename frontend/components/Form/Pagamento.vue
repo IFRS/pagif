@@ -132,17 +132,9 @@
           />
         </v-col>
       </v-row>
-      <v-row>
+      <v-row align="center">
         <v-col>
           <!-- Valor Principal -->
-          <!-- <v-currency-field
-            v-model="valorPrincipal"
-            prepend-icon="mdi-currency-brl"
-            label="Valor Principal"
-            hint="Valor do pagamento."
-            :rules="validation.valorPrincipal"
-            required
-          /> -->
           <v-text-field
             v-model="valorPrincipalFormatted"
             prepend-icon="mdi-currency-brl"
@@ -157,8 +149,8 @@
         </v-icon>
         <v-col>
           <!-- Valor Descontos -->
-          <v-currency-field
-            v-model="valorDescontos"
+          <v-text-field
+            v-model="valorDescontosFormatted"
             prepend-icon="mdi-currency-brl"
             label="Valor Descontos"
             hint="Valor dos descontos."
@@ -169,8 +161,8 @@
         </v-icon>
         <v-col>
           <!-- Valor Deduções -->
-          <v-currency-field
-            v-model="valorOutrasDeducoes"
+          <v-text-field
+            v-model="valorOutrasDeducoesFormatted"
             prepend-icon="mdi-currency-brl"
             label="Valor Deduções"
             hint="Valor de outras deduções."
@@ -181,8 +173,8 @@
         </v-icon>
         <v-col>
           <!-- Valor Multa -->
-          <v-currency-field
-            v-model="valorMulta"
+          <v-text-field
+            v-model="valorMultaFormatted"
             prepend-icon="mdi-currency-brl"
             label="Valor Multa"
             hint="Valor da multa."
@@ -193,8 +185,8 @@
         </v-icon>
         <v-col>
           <!-- Valor Juros -->
-          <v-currency-field
-            v-model="valorJuros"
+          <v-text-field
+            v-model="valorJurosFormatted"
             prepend-icon="mdi-currency-brl"
             label="Valor Juros"
             hint="Valor dos juros."
@@ -205,8 +197,8 @@
         </v-icon>
         <v-col>
           <!-- Valor Acréscimos -->
-          <v-currency-field
-            v-model="valorOutrosAcrescimos"
+          <v-text-field
+            v-model="valorOutrosAcrescimosFormatted"
             prepend-icon="mdi-currency-brl"
             label="Valor Acréscimos"
             hint="Valor de outros acréscimos."
@@ -248,7 +240,6 @@ import { usePagamentoStore } from '~/store/pagamento'
 import { Mask } from "maska"
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
-import { computed } from 'vue'
 
 const dayjs = useDayjs(customParseFormat, isSameOrAfter)
 
@@ -351,9 +342,9 @@ const cnpjCpfFormatted = computed({
   get() {
     if (cnpjCpf.value) {
       const mask = new Mask({ mask: cnpjCpfMask.value })
-      return mask.masked(cnpjCpf.value);
+      return mask.masked(cnpjCpf.value)
     }
-    return '';
+    return ''
   },
   set(value) {
     value = String(value)
@@ -362,19 +353,12 @@ const cnpjCpfFormatted = computed({
   }
 })
 
-const valorPrincipalFormatted = computed({
-  get() {
-    if (valorPrincipal.value) {
-      const mask = new Mask({ mask: '9.99#,##', tokens: { 9: { pattern: '[0-9]', repeated: true } }, reversed: true })
-      return mask.masked(String(valorPrincipal.value));
-    }
-
-    return null;
-  },
-  set(value) {
-    valorPrincipal.value = useFilters().real_to_int(value) ?? null
-  }
-})
+const valorPrincipalFormatted = computed(useComputedMaskedCurrency(valorPrincipal))
+const valorDescontosFormatted = computed(useComputedMaskedCurrency(valorDescontos))
+const valorOutrasDeducoesFormatted = computed(useComputedMaskedCurrency(valorOutrasDeducoes))
+const valorMultaFormatted = computed(useComputedMaskedCurrency(valorMulta))
+const valorJurosFormatted = computed(useComputedMaskedCurrency(valorJuros))
+const valorOutrosAcrescimosFormatted = computed(useComputedMaskedCurrency(valorOutrosAcrescimos))
 
 const loadingServicos = ref(false)
 
