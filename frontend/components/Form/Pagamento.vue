@@ -237,7 +237,7 @@
 import { storeToRefs } from 'pinia'
 import { useMainStore } from '~/store'
 import { usePagamentoStore } from '~/store/pagamento'
-import { Mask } from "maska"
+
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 
@@ -331,27 +331,7 @@ const vencimentoFormatted = computed(() => {
   return dayjs(vencimento.value).format('DD/MM/YYYY')
 })
 
-const cnpjCpfMask = computed(() => {
-  if (cnpjCpf.value && cnpjCpf.value.length > 11) {
-    return '##.###.###/####-##'
-  }
-  return '###.###.###-##'
-})
-
-const cnpjCpfFormatted = computed({
-  get() {
-    if (cnpjCpf.value) {
-      const mask = new Mask({ mask: cnpjCpfMask.value })
-      return mask.masked(cnpjCpf.value)
-    }
-    return ''
-  },
-  set(value) {
-    value = String(value)
-    value = value.replace(/\D/g, '')
-    cnpjCpf.value = value
-  }
-})
+const cnpjCpfFormatted = computed(useComputedMaskedCnpjCpf(cnpjCpf))
 
 const valorPrincipalFormatted = computed(useComputedMaskedCurrency(valorPrincipal))
 const valorDescontosFormatted = computed(useComputedMaskedCurrency(valorDescontos))
@@ -376,7 +356,7 @@ async function fetchServicos(unidade_id) {
 }
 
 async function handleSubmit() {
-  const { valid } = await formNode.validate()
+  const { valid } = await formNode.value.validate()
 
   if (valid) {
     emit('ok')
@@ -384,7 +364,7 @@ async function handleSubmit() {
 }
 
 function handleCancel() {
-  formNode.reset()
+  formNode.value.reset()
   emit('cancel')
 }
 </script>

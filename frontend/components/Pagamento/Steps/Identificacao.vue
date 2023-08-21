@@ -26,7 +26,6 @@
 </template>
 
 <script setup>
-import { Mask } from "maska"
 import { useNuxtApp } from '#app'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
@@ -55,25 +54,5 @@ const validation = {
 
 const { nomeContribuinte, cnpjCpf } = storeToRefs(usePagamentoStore())
 
-const cnpjCpfFormatted = computed({
-  get() {
-    if (cnpjCpf.value) {
-      const mask = new Mask({ mask: cnpjCpfMask.value })
-      return mask.masked(cnpjCpf.value);
-    }
-    return '';
-  },
-  set(value) {
-    value = String(value);
-    value = value.replace(/\D/g, '');
-    cnpjCpf.value = value;
-  }
-})
-
-const cnpjCpfMask = computed(() => {
-  if (cnpjCpf.value && cnpjCpf.value.length > 11) {
-    return '##.###.###/####-##';
-  }
-  return '###.###.###-##';
-})
+const cnpjCpfFormatted = computed(useComputedMaskedCnpjCpf(cnpjCpf))
 </script>
