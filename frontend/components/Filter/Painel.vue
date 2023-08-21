@@ -1,99 +1,97 @@
 <template>
-  <v-sheet>
-    <slot
-      name="activator"
-      :on="{ click: handleActivator }"
-    />
-    <v-navigation-drawer
-      v-bind="$attrs"
-      location="right"
-      absolute
-      temporary
-      class="pa-3"
-      :width="drawerWidth"
-    >
-      <template #prepend>
-        <v-toolbar
-          dense
-          flat
-        >
-          <v-toolbar-title>Filtros</v-toolbar-title>
-          <v-spacer />
-          <v-btn
-            icon
-            @click="emit('input', false)"
-          >
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-toolbar>
-      </template>
-      <v-form
-        ref="formNode"
-        @submit.prevent="filtrar()"
-        @filtro="addFiltro"
+  <v-navigation-drawer
+    :model-value="modelValue"
+    v-bind="$attrs"
+    location="right"
+    absolute
+    temporary
+    :width="drawerWidth"
+    @update:model-value="emit('update:modelValue', $event)"
+  >
+    <template #prepend>
+      <v-toolbar
+        dense
+        flat
+        color="transparent"
       >
-        <slot />
+        <v-toolbar-title tag="h3">
+          Filtros
+        </v-toolbar-title>
+        <v-spacer />
         <v-btn
-          color="primary"
-          type="submit"
+          icon
+          variant="plain"
+          @click="emit('update:modelValue', false)"
         >
-          Filtrar
+          <v-icon>mdi-close</v-icon>
         </v-btn>
-        <v-btn
-          color="secondary"
-          @click="limpar()"
-        >
-          Limpar
-        </v-btn>
-      </v-form>
-    </v-navigation-drawer>
-  </v-sheet>
+      </v-toolbar>
+    </template>
+    <v-form
+      ref="formNode"
+      class="pa-3"
+      @submit.prevent="filtrar()"
+      @filtro="addFiltro"
+    >
+      <slot />
+      <v-btn
+        color="primary"
+        type="submit"
+        class="mr-3"
+      >
+        Filtrar
+      </v-btn>
+      <v-btn
+        color="secondary"
+        @click="limpar()"
+      >
+        Limpar
+      </v-btn>
+    </v-form>
+  </v-navigation-drawer>
 </template>
 
 <script setup>
 import { nextTick } from 'vue';
-import { computed } from 'vue';
-import { useDisplay } from 'vuetify/lib/framework.mjs';
+import { useDisplay } from 'vuetify';
 
-const emit = defineEmits(['input', 'filtrar'])
+defineProps({
+  'modelValue': Boolean,
+})
+
+const emit = defineEmits(['update:modelValue', 'filtrar'])
 
 const formNode = ref(null)
 
 const filtros = ref({})
 
-const name = useDisplay()
+const { name } = useDisplay()
 
 const drawerWidth = computed(() => {
   switch (name) {
-    case 'xl': return '30%';
-    case 'lg': return '30%';
-    case 'md': return '50%';
-    case 'sm': return 'auto';
-    case 'xs': return 'auto';
-    default: return 'auto';
+    case 'xl': return '30%'
+    case 'lg': return '30%'
+    case 'md': return '50%'
+    case 'sm': return 'auto'
+    case 'xs': return 'auto'
+    default: return 'auto'
   }
 })
 
-function handleActivator() {
-  emit('input', $attrs.value);
-}
-
 function addFiltro(filtro) {
-  Object.assign(filtros.value, filtro);
+  Object.assign(filtros.value, filtro)
 }
 
 function filtrar() {
-  emit('filtrar', filtros.value);
-  emit('input', false);
+  emit('filtrar', filtros.value)
+  emit('update:modelValue', false)
 }
 
 function limpar() {
-  formNode.reset()
+  formNode.value.reset()
   nextTick(() => {
     filtros.value = new Object()
     filtrar()
   })
 }
-
-defineExpose({ emit })
 </script>

@@ -45,6 +45,8 @@
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 
+const emit = defineEmits(['filtro'])
+
 const dayjs = useDayjs(customParseFormat, isSameOrBefore)
 
 const validation = {
@@ -77,7 +79,7 @@ watch(datas, (newDatas) => {
       if (dataFinal.isBefore(dataInicial, 'day')) newDatas.reverse()
     }
 
-    $parent.emit('filtro', { datas: newDatas })
+    emit('filtro', { datas: newDatas })
 })
 
 const datasFormatted = computed({

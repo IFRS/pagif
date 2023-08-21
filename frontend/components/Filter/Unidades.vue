@@ -20,6 +20,8 @@
 <script setup>
 import { watch } from 'vue';
 
+const emit = defineEmits(['filtro'])
+
 const { data: unidades, error, pending } = useFetch('/api/unidades')
 
 if (error.value) {
@@ -29,6 +31,6 @@ if (error.value) {
 const unidadesSelected = ref([])
 
 watch(unidadesSelected, (newValue) => {
-  $parent.emit('filtro', { unidades: newValue })
+  emit('filtro', { unidades: newValue })
 })
 </script>

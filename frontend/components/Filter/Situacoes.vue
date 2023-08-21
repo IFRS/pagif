@@ -23,10 +23,12 @@
 <script setup>
 import { watch } from 'vue'
 
+const emit = defineEmits(['filtro'])
+
 const situacoes = ['CRIADO', 'INICIADO', 'SUBMETIDO', 'CONCLUIDO', 'REJEITADO', 'CANCELADO']
 
 const situacoesSelected = ref([])
 watch(situacoesSelected, (newValue) => {
-  $parent.emit('filtro', { situacoes: newValue })
+  emit('filtro', { situacoes: newValue })
 })
 </script>
