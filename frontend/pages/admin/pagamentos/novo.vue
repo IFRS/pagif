@@ -43,15 +43,15 @@ async function handleSubmit() {
   } else {
     useToast().success('Cobrança cadastrada com sucesso!')
     pagamentoStore.$reset()
-    navigateTo({ path: '/admin/pagamentos' })
+    await navigateTo({ path: '/admin/pagamentos' })
   }
 
   submitting.value = false
 }
 
-function handleCancel() {
+async function handleCancel() {
   useToast().info('Cadastro de Cobrança cancelado.')
-  navigateTo({ path: '/admin/pagamentos' })
+  await navigateTo({ path: '/admin/pagamentos' })
 }
 
 onUnmounted(() => {

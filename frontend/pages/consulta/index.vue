@@ -54,9 +54,9 @@ function submitConsulta() {
     v => (/^[A-Za-z0-9]+$/).test(v) || 'Código do Pagamento só pode conter letras e números.',
   ];
 
-  nextTick(() => {
+  nextTick(async () => {
     if (form.value.validate()) {
-      navigateTo({ name: 'consulta-id', params: { id: idPagamento.value } });
+      await navigateTo({ name: 'consulta-id', params: { id: idPagamento.value } });
     }
   });
 }

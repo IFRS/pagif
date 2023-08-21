@@ -153,17 +153,17 @@ const { pending, error } = await pagamentoStore.show_public(route.params.id);
 if (error.value) {
   console.error(error);
   useToast().error('Ocorreu um erro ao buscar o Pagamento.');
-  navigateTo({ name: 'pagamento' });
+  await navigateTo({ name: 'pagamento' });
 }
 
-function retornoPagtesouro(event) {
+async function retornoPagtesouro(event) {
   // Só confiar em eventos oriundos do PagTesouro.
   if (event.origin !== useRuntimeConfig().public.pagtesouroURL) return;
 
   // Evento disparado pelos botões Fechar/Concluir.
   if (event.data === "EPAG_FIM") {
     useToast().info('Pagamento finalizado.');
-    navigateTo({ name: 'index' });
+    await navigateTo({ name: 'index' });
   }
 }
 

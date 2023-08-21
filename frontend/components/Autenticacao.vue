@@ -42,7 +42,7 @@ async function handleGoogle(response) {
   }
   authStore.user = data.value;
   loading.value = false
-  navigateTo('/', { replace: true })
+  await navigateTo('/', { replace: true })
 }
 </script>
 

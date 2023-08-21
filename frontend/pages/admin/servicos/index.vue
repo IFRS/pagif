@@ -158,9 +158,9 @@ const confirmDialog = ref(false)
 
 const servicoStore = useServicoStore()
 
-function editServico(servico) {
+async function editServico(servico) {
   servicoStore.$patch(servico)
-  navigateTo({ path: '/admin/servicos/editar' })
+  await navigateTo({ path: '/admin/servicos/editar' })
 }
 
 function confirmDelete(servico) {

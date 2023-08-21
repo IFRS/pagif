@@ -84,7 +84,7 @@ const logout = async () => {
   } else {
     user.value = null
     useToast().info('Você saiu com sucesso!')
-    navigateTo('/', { replace: true })
+    await navigateTo('/', { replace: true })
   }
 }
 </script>

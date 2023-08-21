@@ -40,8 +40,8 @@ if (error.value) {
 }
 
 const route = useRoute();
-function escolha(unidade) {
+async function escolha(unidade) {
   configStore.unidade = unidade;
-  navigateTo({ path: route.query.returnPath || '/' });
+  await navigateTo({ path: route.query.returnPath || '/' });
 }
 </script>

@@ -46,15 +46,15 @@ async function handleSubmit() {
     console.error(error)
   } else {
     useToast().success('Serviço atualizado com sucesso!')
-    navigateTo({ path: '/admin/servicos' })
+    await navigateTo({ path: '/admin/servicos' })
   }
 
   submitting.value = false
 }
 
-function handleCancel() {
+async function handleCancel() {
   useToast().info('Edição do Serviço cancelada.')
-  navigateTo({ path: '/admin/servicos' })
+  await navigateTo({ path: '/admin/servicos' })
 }
 
 onUnmounted(() => {

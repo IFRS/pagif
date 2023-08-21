@@ -45,13 +45,13 @@ async function handleSubmit() {
     console.error(error)
   } else {
     useToast().success('Serviço cadastrado com sucesso!')
-    navigateTo({ path: '/admin/servicos' })
+    await navigateTo({ path: '/admin/servicos' })
   }
 }
 
-function handleCancel() {
+async function handleCancel() {
   useToast().info('Cadastro de Serviço cancelado.')
-  navigateTo({ path: '/admin/servicos' })
+  await navigateTo({ path: '/admin/servicos' })
 }
 
 onUnmounted(() => {

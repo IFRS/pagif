@@ -53,15 +53,15 @@ async function handleSubmit() {
     console.error(error)
   } else {
     useToast().success('Unidade Gestora atualizada com sucesso!')
-    navigateTo({ path: '/admin/unidades' })
+    await navigateTo({ path: '/admin/unidades' })
   }
 
   submitting.value = false
 }
 
-function handleCancel() {
+async function handleCancel() {
   useToast().info('Edição da Unidade Gestora cancelada.')
-  navigateTo({ path: '/admin/unidades' })
+  await navigateTo({ path: '/admin/unidades' })
 }
 
 onUnmounted(() => {

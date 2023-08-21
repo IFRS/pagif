@@ -25,7 +25,7 @@ const { pending, error } = await pagamentoStore.show_public(route.params.id);
 if (error.value) {
   useToast().error('Ocorreu um erro ao buscar o Pagamento.');
   console.error(error.value);
-  navigateTo({ name: 'consulta' });
+  await navigateTo({ name: 'consulta' });
 }
 
 onUnmounted(() => {
