@@ -20,12 +20,13 @@
     <v-row>
       <v-col>
         <FilterPainel
+          v-slot="{ addFiltro }"
           v-model="showFiltros"
           @filtrar="handleFiltrar"
         >
-          <FilterUnidades />
-          <FilterSituacoes />
-          <FilterDatas />
+          <FilterUnidades @filtro="addFiltro" />
+          <FilterSituacoes @filtro="addFiltro" />
+          <FilterDatas @filtro="addFiltro" />
         </FilterPainel>
         <v-data-table
           class="pagamentos"
@@ -206,9 +207,7 @@
 
 <script setup>
 import { storeToRefs } from 'pinia'
-import { watch } from 'vue'
-import { useDisplay } from 'vuetify/lib/framework.mjs'
-import useToast from '~/composables/useToast'
+import { useDisplay } from 'vuetify'
 import { useMainStore } from '~/store'
 import { usePagamentoStore } from '~/store/pagamento'
 
@@ -251,13 +250,14 @@ const { pagamentos } = storeToRefs(store)
 
 const pagamentoStore = usePagamentoStore()
 
-const { error, pending, refresh } = await store.fetchPagamentos()
+const { error, pending, refresh } = await store.fetchPagamentos(filtros)
 if (error.value) {
   useToast().error('Ocorreu um erro ao carregar os Pagamentos: ' + error.message)
   console.error(error)
 }
 
 const confirmDialog = ref(false)
+
 const pagamentoDialog = ref(false)
 watch(pagamentoDialog, (newValue) => {
   if (newValue === false) {
@@ -302,9 +302,8 @@ function closeDelete() {
   confirmDialog.value = false
 }
 
-async function handleFiltrar(filtros) {
-  filtros.value = filtros
-  refresh()
+async function handleFiltrar(selectedFiltros) {
+  filtros.value = toRaw(selectedFiltros)
 }
 
 async function consultaPagamento(item) {
