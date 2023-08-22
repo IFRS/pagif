@@ -31,9 +31,8 @@
       ref="formNode"
       class="pa-3"
       @submit.prevent="filtrar()"
-      @filtro="addFiltro"
     >
-      <slot />
+      <slot :add-filtro="addFiltro" />
       <v-btn
         color="primary"
         type="submit"
@@ -89,6 +88,7 @@ function filtrar() {
 
 function limpar() {
   formNode.value.reset()
+
   nextTick(() => {
     filtros.value = new Object()
     filtrar()

@@ -30,7 +30,7 @@ if (error.value) {
 
 const unidadesSelected = ref([])
 
-watch(unidadesSelected, (newValue) => {
-  emit('filtro', { unidades: newValue })
-})
+watch(unidadesSelected, (newUnidades) => {
+  emit('filtro', { unidades: toRaw(newUnidades) })
+}, { deep: true })
 </script>

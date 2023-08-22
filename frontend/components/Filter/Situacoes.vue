@@ -28,7 +28,8 @@ const emit = defineEmits(['filtro'])
 const situacoes = ['CRIADO', 'INICIADO', 'SUBMETIDO', 'CONCLUIDO', 'REJEITADO', 'CANCELADO']
 
 const situacoesSelected = ref([])
-watch(situacoesSelected, (newValue) => {
-  emit('filtro', { situacoes: newValue })
-})
+
+watch(situacoesSelected, (newSituacoes) => {
+  emit('filtro', { situacoes: toRaw(newSituacoes) })
+}, { deep: true })
 </script>

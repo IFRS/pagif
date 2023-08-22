@@ -11,7 +11,7 @@
         <v-col>
           <!-- Datas -->
           <v-menu
-            :model-value="datas"
+            v-model="showDatas"
             :close-on-content-click="false"
             transition="scale-transition"
             max-width="auto"
@@ -31,8 +31,11 @@
             <v-date-picker
               v-model="datas"
               :max="dayjs().toISOString()"
-              range
               show-adjacent-months
+              multiple
+              range
+              @click:cancel="showDatas = false"
+              @click:save="showDatas = false"
             />
           </v-menu>
         </v-col>
@@ -69,18 +72,22 @@ const validation = {
   ],
 }
 
+const showDatas = ref(false)
+
 const datas = ref([])
 
-watch(datas, (newDatas) => {
+watch(datas, (newValue) => {
+  const newDatas = toRaw(newValue)
+
   if (newDatas.length === 2) {
-      const dataInicial = dayjs(newDatas[0])
-      const dataFinal = dayjs(newDatas[1])
+    const dataInicial = dayjs(newDatas[0])
+    const dataFinal = dayjs(newDatas[1])
 
-      if (dataFinal.isBefore(dataInicial, 'day')) newDatas.reverse()
-    }
+    if (dataFinal.isBefore(dataInicial, 'day')) newDatas.reverse()
+  }
 
-    emit('filtro', { datas: newDatas })
-})
+  emit('filtro', { datas: newDatas })
+}, { deep: true })
 
 const datasFormatted = computed({
   get() {
