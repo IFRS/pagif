@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <PageTitle>Configurações</PageTitle>
+    <PageTitle>Configura&ccedil;&otilde;es</PageTitle>
     <FormSettings
       :submitting="submitting"
       @ok="handleSubmit"
@@ -9,42 +9,41 @@
   </v-container>
 </template>
 
-<script>
-export default {
+<script setup>
+import { useSettingsStore } from '~/store/settings'
+
+definePageMeta({
   layout: 'admin',
-  validate({ app }) {
-    return app.$acl.can('edit', 'Settings');
-  },
-  data() {
-    return {
-      submitting: false,
-    }
-  },
-  head: {
-    title: 'Configurações',
-  },
-  unmounted () {
-    this.$store.commit('settings/clear');
-  },
-  methods: {
-    async handleSubmit() {
-      this.submitting = true;
-      await this.$store.dispatch('settings/save')
-      .then(() => {
-        this.$toast.success('Configurações salvas com sucesso!');
-      })
-      .catch((error) => {
-        this.$toast.error('Ocorreu um erro ao salvar as Configurações. ' + error.message);
-        console.error(error);
-      })
-      .finally(() => {
-        this.submitting = false;
-      });
-    },
-    handleCancel() {
-      this.$toast.info('Edição das Configurações cancelada.');
-      this.$router.push({ path: '/admin' });
-    },
-  },
+  title: 'Configurações',
+  validate: async () => {
+    return useACL().can('edit', 'Settings')
+  }
+})
+
+const submitting = ref(false)
+
+const settingsStore = useSettingsStore()
+
+async function handleSubmit() {
+  submitting.value = true
+
+  const { error } = await settingsStore.save()
+  if (error.value) {
+    useToast().error('Ocorreu um erro ao salvar as Configurações. ' + error.message)
+    console.error(error)
+  } else {
+    useToast().success('Configurações salvas com sucesso!')
+  }
+
+  submitting.value = false
 }
+
+async function handleCancel() {
+  useToast().info('Edição das Configurações cancelada.')
+  await navigateTo({ path: '/admin' })
+}
+
+onUnmounted(() => {
+  settingsStore.$reset()
+})
 </script>
