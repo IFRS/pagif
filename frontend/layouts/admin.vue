@@ -74,12 +74,6 @@
         :class="{ 'text--darken-2': !darkMode }"
       >Desenvolvido por Instituto Federal do Rio Grande do Sul</a></span>
     </v-footer>
-    <!-- <v-overlay :model-value="!loaded">
-      <v-progress-circular
-        indeterminate
-        size="64"
-      />
-    </v-overlay> -->
   </v-app>
 </template>
 
