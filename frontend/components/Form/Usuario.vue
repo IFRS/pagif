@@ -1,6 +1,6 @@
 <template>
   <v-form
-    ref="form"
+    ref="formNode"
     @submit.prevent="handleSubmit()"
   >
     <v-container>
@@ -35,13 +35,14 @@
             </v-card-title>
             <v-card-text>
               <v-row>
-                <v-col v-if="$acl.can('manage', 'all')">
+                <v-col v-if="useACL().can('manage', 'all')">
                   <strong>Administra&ccedil;&atilde;o</strong>
                   <v-switch
                     v-model="abilities"
                     label="super admin"
                     :value="JSON.stringify({ action: 'manage', subject: 'all' })"
                     :disabled="user_is_me"
+                    color="success"
                   />
                 </v-col>
                 <v-col
@@ -56,6 +57,7 @@
                     :label="action"
                     :value="JSON.stringify({ action: action, subject: subject })"
                     :disabled="user_is_me"
+                    color="accent"
                   />
                 </v-col>
               </v-row>
@@ -64,59 +66,74 @@
         </v-col>
       </v-row>
 
-      <h3 class="mt-6">
+      <h3 class="mt-6 mb-3">
         Permiss&otilde;es por Unidade Gestora
       </h3>
 
-      <v-row>
-        <v-col
-          v-for="(unidade, i) in $store.getters['unidades']"
+      <v-progress-linear
+        v-if="pending"
+        indeterminate
+        color="primary"
+      />
+
+      <v-expansion-panels
+        v-else
+        variant="accordion"
+        class="mb-6"
+      >
+        <v-expansion-panel
+          v-for="(unidade, i) in store.unidades"
           :key="i"
-          cols="auto"
-          md="6"
-          lg="4"
-          xl="3"
         >
-          <v-card tag="fieldset">
-            <v-card-title tag="legend">
-              {{ unidade.nome }}
-            </v-card-title>
-            <v-card-text>
-              <v-switch
-                v-model="abilities"
-                label="read"
-                :value="JSON.stringify({ action: 'read', subject: 'Unidade', conditions: { '_id': unidade._id } })"
-                :disabled="user_is_me"
-              />
+          <v-expansion-panel-title>
+            <h4>{{ unidade.nome }}</h4>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <v-switch
+              v-model="abilities"
+              label="read"
+              :value="JSON.stringify({ action: 'read', subject: 'Unidade', conditions: { '_id': unidade._id } })"
+              :disabled="user_is_me"
+              color="primary"
+            />
+            <v-row>
               <template
                 v-for="(actions, subject) in all_abilities.porUnidade"
                 :key="subject"
               >
-                <strong>{{ subject }}</strong>
-                <v-switch
-                  v-for="(action, a) in actions"
-                  :key="subject + '_' + i + '_' + a"
-                  v-model="abilities"
-                  :label="action"
-                  :value="JSON.stringify({ action: action, subject: subject, conditions: { 'unidade': unidade._id } })"
-                  :disabled="user_is_me"
-                />
+                <v-col>
+                  <strong>{{ subject }}</strong>
+                  <v-switch
+                    v-for="(action, a) in actions"
+                    :key="subject + '_' + i + '_' + a"
+                    v-model="abilities"
+                    :label="action"
+                    :value="JSON.stringify({ action: action, subject: subject, conditions: { 'unidade': unidade._id } })"
+                    :disabled="user_is_me"
+                    color="primary"
+                  />
+                </v-col>
               </template>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
+            </v-row>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
 
-      <v-row>
-        <v-col>
+      <v-row
+        justify="start"
+        dense
+      >
+        <v-col cols="auto">
           <v-btn
             color="primary"
             type="submit"
             :loading="submitting"
             :disabled="submitting"
           >
-            {{ submitText }}
+            {{ id ? 'Atualizar' : 'Salvar' }}
           </v-btn>
+        </v-col>
+        <v-col cols="auto">
           <v-btn
             color="secondary"
             :disabled="submitting"
@@ -130,92 +147,89 @@
   </v-form>
 </template>
 
-<script>
-  import { mapGetters, mapMutations } from 'vuex';
+<script setup>
+import { storeToRefs } from 'pinia'
+import { useMainStore } from '~/store'
+import { useAuthStore } from '~/store/auth'
+import { useUsuarioStore } from '~/store/usuario'
 
-  export default {
-    props: {
-      submitting: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    emits: ['ok', 'cancel'],
-    data() {
-      return {
-        submitText: this.$store.getters['usuario/id'] ? 'Atualizar' : 'Salvar',
-        validation: {
-          email: [
-            v => !!v || 'E-mail é obrigatório.',
-            v => !!v || v.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/) || 'E-mail precisa ser válido.',
-          ],
-        },
-        all_abilities: {
-          geral: {
-            'Usuario': [
-              'create',
-              'read',
-              'update',
-              'delete',
-            ],
-            'Unidade': [
-              'create',
-              'read',
-              'update',
-              'delete',
-            ],
-          },
-          porUnidade: {
-            'Servico': [
-              'create',
-              'read',
-              'update',
-              'delete',
-            ],
-            'Pagamento': [
-              'create',
-              'read',
-              'update',
-              'delete',
-            ],
-          },
-        },
-      }
-    },
-    async fetch() {
-      await this.$store.dispatch('fetchUnidades')
-      .catch((error) => {
-        this.$toast.error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.message);
-        console.error(error);
-      });
-    },
-    computed: {
-      user_is_me() {
-        return this.id === this.$store.getters['auth/user']?._id;
-      },
-      id: {
-        ...mapGetters({ get: 'usuario/id' }),
-        ...mapMutations({ set: 'usuario/id' }),
-      },
-      email: {
-        ...mapGetters({ get: 'usuario/email' }),
-        ...mapMutations({ set: 'usuario/email' }),
-      },
-      abilities: {
-        ...mapGetters({ get: 'usuario/abilities' }),
-        ...mapMutations({ set: 'usuario/abilities' }),
-      },
-    },
-    methods: {
-      handleSubmit() {
-        if (this.$refs.form.validate()) {
-          this.$emit('ok');
-        }
-      },
-      handleCancel() {
-        this.$refs.form.reset();
-        this.$emit('cancel');
-      },
-    },
+defineProps({
+  submitting: {
+    type: Boolean,
+    default: false,
+  },
+})
+
+const emit = defineEmits(['ok', 'cancel'])
+
+const formNode = ref(null)
+
+const validation = {
+  email: [
+    v => !!v || 'E-mail é obrigatório.',
+    v => !!v || v.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/) || 'E-mail precisa ser válido.',
+  ],
+}
+
+const all_abilities = {
+  geral: {
+    'Usuario': [
+      'create',
+      'read',
+      'update',
+      'delete',
+    ],
+    'Unidade': [
+      'create',
+      'read',
+      'update',
+      'delete',
+    ],
+  },
+  porUnidade: {
+    'Servico': [
+      'create',
+      'read',
+      'update',
+      'delete',
+    ],
+    'Pagamento': [
+      'create',
+      'read',
+      'update',
+      'delete',
+    ],
+  },
+}
+
+const store = useMainStore()
+const authStore = useAuthStore()
+const usuarioStore = useUsuarioStore()
+
+const {
+  id,
+  email,
+  abilities,
+} = storeToRefs(usuarioStore)
+
+const { error, pending } = await store.fetchUnidades()
+if (error.value) {
+  useToast().error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.message)
+  console.error(error)
+}
+
+const user_is_me = computed(() => (id === authStore.user?.id))
+
+async function handleSubmit() {
+  const { valid } = await formNode.value.validate()
+
+  if (valid) {
+    emit('ok')
   }
+}
+
+function handleCancel() {
+  formNode.value.reset()
+  emit('cancel')
+}
 </script>

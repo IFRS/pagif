@@ -17,47 +17,42 @@
   </v-container>
 </template>
 
-<script>
-  export default {
-    layout: 'admin',
-    validate({ app }) {
-      return app.$acl.can('update', 'Usuario');
-    },
-    data() {
-      return {
-        submitting: false,
-      }
-    },
-    head: {
-      title: 'Edição de Usuário',
-    },
-    unmounted () {
-      this.$store.commit('usuario/clear');
-    },
-    methods: {
-      async handleSubmit() {
-        this.submitting = true;
-        await this.$store.dispatch('usuario/update')
-        .then(() => {
-          this.$toast.success('Usuário atualizado com sucesso!');
-          this.$router.push({
-            path: '/admin/usuarios',
-          });
-        })
-        .catch((error) => {
-          this.$toast.error('Ocorreu um erro ao atualizar o Usuário. ' + error.message);
-          console.error(error);
-        })
-        .finally(() => {
-          this.submitting = false;
-        });
-      },
-      handleCancel() {
-        this.$toast.info('Edição do Usuário cancelada.');
-        this.$router.push({
-          path: '/admin/usuarios',
-        });
-      },
-    },
+<script setup>
+import { useUsuarioStore } from '~/store/usuario'
+
+definePageMeta({
+  layout: 'admin',
+  title: 'Edição de Usuário',
+  validate: async () => {
+    return useACL().can('update', 'Usuario')
   }
+})
+
+const usuarioStore = useUsuarioStore()
+
+const submitting = ref(false)
+
+async function handleSubmit() {
+  submitting.value = true
+
+  const { error } = await usuarioStore.update()
+  if (error.value) {
+    useToast().error('Ocorreu um erro ao atualizar o Usuário. ' + error.message)
+    console.error(error)
+  } else {
+    useToast().success('Usuário atualizado com sucesso!')
+    await navigateTo({ path: '/admin/usuarios' })
+  }
+
+  submitting.value = false
+}
+
+async function handleCancel() {
+  useToast().info('Edição do Usuário cancelada.')
+  await navigateTo({ path: '/admin/usuarios' })
+}
+
+onUnmounted(() => {
+  usuarioStore.$reset()
+})
 </script>

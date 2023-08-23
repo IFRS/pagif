@@ -9,32 +9,35 @@
       <v-col>
         <!-- eslint-disable-next-line vuetify/no-deprecated-components -->
         <v-data-table
-          :loading="$fetchState.pending"
+          :loading="pending"
           :headers="tableHeaders"
-          :items="$store.getters['usuarios']"
+          :items="usuarios"
           :items-per-page="10"
           :search="busca"
         >
           <template #top>
-            <v-toolbar flat>
+            <v-toolbar
+              flat
+              color="transparent"
+            >
               <v-text-field
                 v-model="busca"
                 append-icon="mdi-magnify"
                 label="Buscar Usuários"
-                single-line
                 hide-details
+                variant="underlined"
               />
               <v-spacer />
               <v-btn
                 class="mr-2"
                 color="secondary"
-                :loading="$fetchState.pending"
-                @click="$fetch()"
+                :loading="pending"
+                @click="refresh()"
               >
                 <v-icon>mdi-refresh</v-icon>
               </v-btn>
               <v-btn
-                v-if="$acl.can('create', 'Usuario')"
+                v-if="useACL().can('create', 'Usuario')"
                 color="primary"
                 to="/admin/usuarios/novo"
               >
@@ -48,12 +51,12 @@
               location="bottom"
               :close-on-content-click="false"
             >
-              <template #activator="{ on, attrs }">
+              <template #activator="{ props }">
                 <v-btn
-                  v-bind="attrs"
+                  v-bind="props"
                   icon
-                  :disabled="$acl.cannot('update', 'Usuario') || $acl.cannot('delete', 'Usuario')"
-                  v-on="on"
+                  variant="text"
+                  :disabled="useACL().cannot('update', 'Usuario') || useACL().cannot('delete', 'Usuario')"
                 >
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
@@ -61,19 +64,19 @@
 
               <v-list density="compact">
                 <v-list-item
-                  v-if="$acl.can('update', 'Usuario')"
+                  v-if="useACL().can('update', 'Usuario')"
                   prepend-icon="mdi-pencil"
-                  @click="editUsuario(item)"
+                  @click="editUsuario(item.raw)"
                 >
-                  <v-list-item-title>Editar {{ item.nome || item.email }}</v-list-item-title>
+                  <v-list-item-title>Editar {{ item.raw.nome || item.raw.email }}</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item
-                  v-if="$acl.can('delete', 'Usuario')"
+                  v-if="useACL().can('delete', 'Usuario')"
                   prepend-icon="mdi-delete"
-                  @click.stop="confirmDelete(item)"
+                  @click.stop="confirmDelete(item.raw)"
                 >
-                  <v-list-item-title>Deletar {{ item.nome || item.email }}</v-list-item-title>
+                  <v-list-item-title>Deletar {{ item.raw.nome || item.raw.email }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -93,11 +96,10 @@
     <v-dialog
       v-model="confirmDialog"
       max-width="400"
-      @click:outside="closeDelete()"
     >
       <v-card>
         <v-card-title class="text-h5">
-          Deletar o Usu&aacute;rio "{{ $store.getters['usuario/nome'] || $store.getters['usuario/email'] }}"?
+          Deletar o Usu&aacute;rio "{{ usuarioStore.nome || usuarioStore.email }}"?
         </v-card-title>
         <v-card-actions>
           <v-spacer />
@@ -121,62 +123,62 @@
   </v-container>
 </template>
 
-<script>
-  export default {
-    components: {
-      vDataTable,
-    },
-    layout: 'admin',
-    validate({ app }) {
-      return app.$acl.can('read', 'Usuario');
-    },
-    data() {
-      return {
-        confirmDialog: false,
-        busca: '',
-        tableHeaders: [
-          { text: 'E-mail', value: 'email' },
-          { text: 'Nome', value: 'nome' },
-          { text: 'Ações', value: 'actions', sortable: false, align: 'center', width: 80 },
-        ],
-      }
-    },
-    async fetch() {
-      await this.$store.dispatch('fetchUsuarios')
-      .catch((error) => {
-        this.$toast.error('Ocorreu um erro ao carregar os Usuários: ' + error.message);
-        console.error(error);
-      });
-    },
-    head: {
-      title: 'Lista de Usuários',
-    },
-    methods: {
-      editUsuario(usuario) {
-        this.$store.commit('usuario/replace', usuario);
-        this.$router.push({
-          path: '/admin/usuarios/editar'
-        });
-      },
-      confirmDelete(usuario) {
-        this.$store.commit('usuario/replace', usuario);
-        this.confirmDialog = true;
-      },
-      closeDelete() {
-        this.$store.commit('usuario/clear');
-        this.confirmDialog = false;
-      },
-      async deleteUsuario() {
-        this.confirmDialog = false;
-        await this.$store.dispatch('usuario/delete')
-        .then(() => {
-          this.$toast.success('Usuário removido com sucesso!');
-        })
-        .catch((error) => {
-          console.error(error);
-          this.$toast.error('Erro ao tentar deletar o Usuário. ' + error.message);
-        });
-      },
-    },
-  };
+<script setup>
+import { storeToRefs } from 'pinia';
+import { useMainStore } from '~/store';
+import { useUsuarioStore } from '~/store/usuario';
+
+definePageMeta({
+  layout: 'admin',
+  title: 'Lista de Usuários',
+  validate: async () => {
+    return useACL().can('read', 'Usuario')
+  }
+})
+
+const store = useMainStore()
+const { usuarios } = storeToRefs(store)
+
+const usuarioStore = useUsuarioStore()
+
+const { error, pending, refresh } = await store.fetchUsuarios()
+if (error.value) {
+  useToast().error('Ocorreu um erro ao carregar os Usuários: ' + error.message)
+  console.error(error)
+}
+
+const confirmDialog = ref(false)
+const busca = ref('')
+const tableHeaders = [
+  { title: 'E-mail', key: 'email' },
+  { title: 'Nome', key: 'nome' },
+  { title: 'Ações', key: 'actions', sortable: false, align: 'center', width: 80 },
+]
+
+async function editUsuario(usuario) {
+  usuarioStore.$patch(usuario)
+  await navigateTo({ path: '/admin/usuarios/editar' })
+}
+
+function confirmDelete(usuario) {
+  usuarioStore.$patch(usuario)
+  confirmDialog.value = true
+}
+
+function closeDelete() {
+  usuarioStore.$reset()
+  confirmDialog.value = false
+}
+
+async function deleteUsuario() {
+  confirmDialog.value = false
+
+  const { error } = usuarioStore.delete()
+  if (error.value) {
+    useToast().error('Erro ao tentar deletar o Usuário. ' + error.message)
+    console.error(error)
+  } else {
+    useToast().success('Usuário removido com sucesso!')
+  }
+}
 </script>

@@ -77,6 +77,7 @@ export const useMainStore = defineStore('main', {
     async fetchUsuarios() {
       const response = await useFetch('/api/usuarios')
       if (response.data.value) this.usuarios = response.data.value
+      return response
     },
   },
 })
