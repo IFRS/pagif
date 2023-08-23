@@ -21,17 +21,15 @@
   </v-card>
 </template>
 
-<script>
-export default {
-  props: {
-    icon: {
-      type: String,
-      default: '',
-    },
-    num: {
-      type: Number,
-      default: 0,
-    },
+<script setup>
+defineProps({
+  icon: {
+    type: String,
+    default: '',
   },
-}
+  num: {
+    type: Number,
+    default: 0,
+  },
+})
 </script>
