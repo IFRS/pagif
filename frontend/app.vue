@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout>
     <NuxtLoadingIndicator />
-    <NuxtPage />
+    <NuxtPage :key="$route.fullPath" />
   </NuxtLayout>
 </template>
 
