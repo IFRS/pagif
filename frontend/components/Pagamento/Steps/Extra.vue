@@ -14,42 +14,37 @@
       :rules="validation.referencia"
       :counter="20"
     />
-
-    <VueDatePicker
-      v-model="competencia"
-      model-type="yyyy-MM"
-      locale="pt-BR"
-      month-picker
-      auto-apply
-      :teleport="true"
-      placeholder="Selecione um mês"
-      text-input
+    <v-menu
+      v-model="showCompetencia"
+      :close-on-content-click="false"
+      transition="scale-transition"
+      max-width="auto"
+      min-width="auto"
     >
-      <template #dp-input="{ value, onInput, onEnter, onTab, onClear, onBlur, onKeypress, isMenuOpen }">
+      <template #activator="{ props }">
         <v-text-field
+          v-model="competenciaFormatted"
+          v-bind="props"
+          label="Competência"
           prepend-icon="mdi-calendar-month"
-          label="Compentência"
-          hide-details
           readonly
-          :active="isMenuOpen"
-          :model-value="value"
-          @update:model-value="onInput"
-          @keydown.enter="onEnter"
-          @keydown.tab="onTab"
-          @blur="onBlur"
-          @keydown="onKeypress"
-          @click:clear="onClear"
         />
       </template>
-    </VueDatePicker>
+      <v-date-picker
+        v-model="competencia"
+        show-adjacent-months
+        @click:cancel="showCompetencia = false"
+        @click:save="showCompetencia = false"
+      >
+        <template #header />
+      </v-date-picker>
+    </v-menu>
   </v-form>
 </template>
 
 <script setup>
 import { storeToRefs } from 'pinia'
 import { usePagamentoStore } from '~/store/pagamento'
-import VueDatePicker from '@vuepic/vue-datepicker'
-import '@vuepic/vue-datepicker/dist/main.css'
 
 const form = ref(null)
 async function validateForm() {
@@ -66,7 +61,17 @@ const validation = {
   ],
 }
 
+const showCompetencia = ref(false)
+
 const { referencia, competencia } = storeToRefs(usePagamentoStore())
+
+const dayjs = useDayjs()
+
+const competenciaFormatted = computed(() => {
+  if (!competencia.value) return null
+
+  return dayjs(competencia.value).format('MM/YYYY')
+})
 </script>
 
 <style lang="scss" scoped>

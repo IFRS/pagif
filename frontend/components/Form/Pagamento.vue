@@ -58,53 +58,61 @@
         <v-col>
           <!-- Competência -->
           <v-menu
-            :model-value="competencia"
-            :close-on-content-click="true"
+            v-model="showCompetencia"
+            :close-on-content-click="false"
             transition="scale-transition"
             max-width="auto"
             min-width="auto"
           >
             <template #activator="{ props }">
               <v-text-field
-                v-model="competenciaFormatted"
+                :model-value="competenciaFormatted"
                 v-bind="props"
                 label="Competência"
                 prepend-icon="mdi-calendar-month"
                 readonly
+                clearable
+                @click:clear="competencia = null"
               />
             </template>
             <v-date-picker
               v-model="competencia"
-              type="month"
-              no-title
-              scrollable
-            />
+              @click:cancel="showCompetencia = false"
+              @click:save="showCompetencia = false"
+            >
+              <template #header />
+            </v-date-picker>
           </v-menu>
         </v-col>
         <v-col>
           <!-- Vencimento -->
           <v-menu
-            :model-value="vencimento"
-            :close-on-content-click="true"
+            v-model="showVencimento"
+            :close-on-content-click="false"
             transition="scale-transition"
             max-width="auto"
             min-width="auto"
           >
             <template #activator="{ props }">
               <v-text-field
-                v-model="vencimentoFormatted"
+                :model-value="vencimentoFormatted"
                 v-bind="props"
+                :rules="validation.vencimento"
                 label="Vencimento"
                 prepend-icon="mdi-calendar"
                 readonly
-                :rules="validation.vencimento"
+                clearable
+                @click:clear="vencimento = null"
               />
             </template>
             <v-date-picker
               v-model="vencimento"
-              no-title
-              scrollable
-            />
+              show-adjacent-months
+              @click:cancel="showVencimento = false"
+              @click:save="showVencimento = false"
+            >
+              <template #header />
+            </v-date-picker>
           </v-menu>
         </v-col>
       </v-row>
@@ -318,6 +326,9 @@ const {
   valorJuros,
   valorOutrosAcrescimos,
 } = storeToRefs(pagamentoStore)
+
+const showCompetencia = ref(false)
+const showVencimento = ref(false)
 
 const competenciaFormatted = computed(() => {
   if (!competencia.value) return null

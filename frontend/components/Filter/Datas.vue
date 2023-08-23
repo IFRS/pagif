@@ -21,22 +21,24 @@
               <v-text-field
                 v-model="datasFormatted"
                 v-bind="props"
+                :rules="validation.datas"
                 label="Selecione um intervalo de datas"
                 prepend-icon="mdi-calendar"
                 readonly
                 clearable
-                :rules="validation.datas"
+                @click:clear="datas = []"
               />
             </template>
             <v-date-picker
               v-model="datas"
-              :max="dayjs().toISOString()"
               show-adjacent-months
               multiple
               range
               @click:cancel="showDatas = false"
               @click:save="showDatas = false"
-            />
+            >
+              <template #header />
+            </v-date-picker>
           </v-menu>
         </v-col>
       </v-row>
