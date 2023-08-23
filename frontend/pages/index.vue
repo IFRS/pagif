@@ -153,7 +153,6 @@
 </template>
 
 <script setup>
-import { onBeforeMount } from 'vue';
 import { useRoute, useRouter } from '#app';
 import { storeToRefs } from 'pinia';
 import { useDisplay } from 'vuetify';

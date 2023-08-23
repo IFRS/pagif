@@ -53,7 +53,6 @@
 <script setup>
 import { useRuntimeConfig } from '#app'
 import { storeToRefs } from 'pinia'
-import { onBeforeMount, onUnmounted } from 'vue'
 import { useConfigStore } from '~/store/config'
 import { usePagamentoStore } from '~/store/pagamento'
 

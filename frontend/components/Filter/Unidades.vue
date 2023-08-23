@@ -18,8 +18,6 @@
 </template>
 
 <script setup>
-import { watch } from 'vue';
-
 const emit = defineEmits(['filtro'])
 
 const { data: unidades, error, pending } = useFetch('/api/unidades')

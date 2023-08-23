@@ -185,7 +185,6 @@
 
 <script setup>
 import * as libSlug from 'slug'
-import { nextTick } from 'vue';
 import { storeToRefs } from 'pinia'
 import { useUnidadeStore } from '~/store/unidade'
 

@@ -13,8 +13,7 @@
 </template>
 
 <script setup>
-import { onUnmounted } from 'vue';
-import { useRoute, navigateTo } from '#app';
+import { useRoute } from '#app';
 import { usePagamentoStore } from '~/store/pagamento';
 
 

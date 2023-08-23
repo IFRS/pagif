@@ -19,7 +19,6 @@
 
 <script setup>
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
 import { usePagamentoStore } from '~/store/pagamento';
 
 const form = ref(null)

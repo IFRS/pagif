@@ -85,7 +85,6 @@
 
 <script setup>
 import { storeToRefs } from 'pinia'
-import { computed, onMounted, onUnmounted } from 'vue'
 import { useMainStore } from '~/store'
 import { useConfigStore } from '~/store/config'
 

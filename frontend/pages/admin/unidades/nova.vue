@@ -18,7 +18,6 @@
 </template>
 
 <script setup>
-import { onUnmounted } from 'vue'
 import { useUnidadeStore } from '~/store/unidade'
 
 definePageMeta({

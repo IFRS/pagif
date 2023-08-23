@@ -27,8 +27,6 @@
 
 <script setup>
 import { storeToRefs } from 'pinia';
-import { watch } from 'vue';
-import { computed } from 'vue';
 import { useMainStore } from '~/store';
 import { useConfigStore } from '~/store/config';
 import { usePagamentoStore } from '~/store/pagamento';

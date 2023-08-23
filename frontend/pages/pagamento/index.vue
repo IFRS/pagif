@@ -53,8 +53,6 @@
 </template>
 
 <script setup>
-import { navigateTo } from '#app';
-import { nextTick } from 'vue';
 import { useConfigStore } from '~/store/config';
 
 definePageMeta({ title: 'Pagamento' })

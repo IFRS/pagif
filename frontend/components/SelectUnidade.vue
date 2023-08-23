@@ -36,8 +36,7 @@
 </template>
 
 <script setup>
-import { navigateTo } from '#app';
-import { mergeProps, computed, onUnmounted } from 'vue';
+import { mergeProps } from 'vue';
 import { useMainStore } from '~/store';
 import { useConfigStore } from '~/store/config';
 

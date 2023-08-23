@@ -20,7 +20,6 @@
 
 <script setup>
 import { storeToRefs } from 'pinia'
-import { onUnmounted } from 'vue'
 import { useUnidadeStore } from '~/store/unidade'
 
 definePageMeta({

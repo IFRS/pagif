@@ -51,7 +51,6 @@
 </template>
 
 <script setup>
-import { nextTick } from 'vue';
 import { useDisplay } from 'vuetify';
 
 defineProps({

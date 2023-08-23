@@ -18,7 +18,6 @@
 </template>
 
 <script setup>
-import { onUnmounted } from 'vue'
 import { useServicoStore } from '~/store/servico'
 
 definePageMeta({

@@ -116,12 +116,10 @@
 
 <script setup>
 import iFrameResize from 'iframe-resizer/js/iframeResizer';
-import { useRoute, navigateTo, useRuntimeConfig } from '#app';
-import { usePagamentoStore } from '~/store/pagamento';
-import { onMounted } from 'vue';
-import { onUnmounted } from 'vue';
-import { useConfigStore } from '~/store/config';
+import { useRoute, useRuntimeConfig } from '#app';
 import { storeToRefs } from 'pinia';
+import { useConfigStore } from '~/store/config';
+import { usePagamentoStore } from '~/store/pagamento';
 
 definePageMeta({ title: 'Pagamento' })
 

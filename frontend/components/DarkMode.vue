@@ -22,7 +22,6 @@
 
 <script setup>
 import { storeToRefs } from 'pinia';
-import { watch } from 'vue';
 import { useTheme } from 'vuetify';
 import { useConfigStore } from '~/store/config';
 

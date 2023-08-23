@@ -18,7 +18,6 @@
 </template>
 
 <script setup>
-import { onUnmounted } from 'vue'
 import { usePagamentoStore } from '~/store/pagamento'
 
 definePageMeta({

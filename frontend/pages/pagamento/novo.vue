@@ -142,8 +142,6 @@
 
 <script setup>
 import copy from 'copy-to-clipboard'
-import { navigateTo } from '#app'
-import { computed, onUnmounted } from 'vue'
 import { useMainStore } from '~/store'
 import { useConfigStore } from '~/store/config'
 import { usePagamentoStore } from '~/store/pagamento'

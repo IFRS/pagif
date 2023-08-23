@@ -21,8 +21,6 @@
 </template>
 
 <script setup>
-import { watch } from 'vue'
-
 const emit = defineEmits(['filtro'])
 
 const situacoes = ['CRIADO', 'INICIADO', 'SUBMETIDO', 'CONCLUIDO', 'REJEITADO', 'CANCELADO']
