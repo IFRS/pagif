@@ -59,11 +59,6 @@ export const useMainStore = defineStore('main', {
         return value._id !== payload._id
       })
     },
-    async fetchPagamentos(filtros) {
-      const response = await useFetch('/api/pagamentos', { query: filtros.value, watch: [filtros] })
-      if (response.status.value === 'success') this.pagamentos = response.data.value
-      return response
-    },
 
     /* Usuários */
     clearUsuarios() {

@@ -53,7 +53,7 @@
               />
               <v-btn
                 variant="text"
-                :color="(Object.values(filtros).length > 0) ? 'success' : ''"
+                :color="!filtrosEmpty ? 'success' : ''"
                 @click="showFiltros = !showFiltros"
               >
                 <v-icon>mdi-filter-variant</v-icon>
@@ -94,7 +94,7 @@
               :situacao="item.raw.situacao?.codigo"
               class="mt-1"
             />
-            <template v-if="item.raw.situacao.data">
+            <template v-if="item.raw.situacao?.data">
               <br>
               <small>{{ dayjs(item.raw.situacao.data).format('DD/MM/YYYY HH:mm') }}</small>
             </template>
@@ -116,7 +116,7 @@
                   v-bind="props"
                   icon
                   variant="text"
-                  :disabled="useACL().cannot('update', 'Pagamento') || useACL().cannot('delete', 'Pagamento')"
+                  :disabled="useACL().cannot('update', 'Pagamento') && useACL().cannot('delete', 'Pagamento')"
                 >
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
@@ -126,8 +126,8 @@
                 <v-list-item
                   v-if="useACL().can('update', 'Pagamento')"
                   prepend-icon="mdi-cloud-refresh"
-                  :disabled="(item.raw.tipoPagamentoEscolhido === 'BOLETO') || ['CONCLUIDO', 'REJEITADO', 'CANCELADO'].includes(item.raw.situacao.codigo)"
-                  @click.stop="consultaPagamento(item.raw)"
+                  :disabled="(item.raw.tipoPagamentoEscolhido === 'BOLETO') || ['CONCLUIDO', 'REJEITADO', 'CANCELADO'].includes(item.raw.situacao?.codigo)"
+                  @click.stop="consultaPagamento(item.raw.idPagamento)"
                 >
                   <v-list-item-title>Consulta Pagtesouro</v-list-item-title>
                 </v-list-item>
@@ -135,7 +135,7 @@
                 <v-list-item
                   v-if="useACL().can('delete', 'Pagamento')"
                   prepend-icon="mdi-delete"
-                  :disabled="item.raw.situacao.codigo !== 'CRIADO'"
+                  :disabled="item.raw.situacao?.codigo !== 'CRIADO'"
                   @click.stop="confirmDelete(item.raw)"
                 >
                   <v-list-item-title>Deletar Pagamento</v-list-item-title>
@@ -192,22 +192,22 @@
       :fullscreen="xs"
       max-width="800"
     >
-      <pagamento-detalhes privado>
+      <PagamentoDetalhes privado>
         <v-btn
           variant="text"
           color="primary"
-          @click="hidePagamento"
+          @click="hidePagamento()"
         >
           Fechar
         </v-btn>
-      </pagamento-detalhes>
+      </PagamentoDetalhes>
     </v-dialog>
   </v-container>
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
 import { useDisplay } from 'vuetify'
+import { storeToRefs } from 'pinia'
 import { useMainStore } from '~/store'
 import { usePagamentoStore } from '~/store/pagamento'
 
@@ -245,12 +245,24 @@ const busca = ref('')
 const showFiltros = ref(false)
 const filtros = ref({})
 
+const filtrosEmpty = computed(() => {
+  return Object.values(filtros.value).every((filtro) => {
+    if (Array.isArray(filtro)) return filtro.length === 0
+    else return !filtro
+  })
+})
+
 const store = useMainStore()
 const { pagamentos } = storeToRefs(store)
 
 const pagamentoStore = usePagamentoStore()
 
-const { error, pending, refresh } = await store.fetchPagamentos(filtros)
+const { error, pending, refresh } = await useFetch('/api/pagamentos', {
+  query: filtros,
+  onResponse({ response }) {
+    pagamentos.value = response._data
+  },
+})
 if (error.value) {
   useToast().error('Ocorreu um erro ao carregar os Pagamentos: ' + error.message)
   console.error(error)
@@ -303,22 +315,22 @@ function closeDelete() {
 }
 
 async function handleFiltrar(selectedFiltros) {
-  filtros.value = toRaw(selectedFiltros)
+  filtros.value = { ...selectedFiltros }
 }
 
-async function consultaPagamento(item) {
-  loadingPagamento.value = item.idPagamento
+async function consultaPagamento(idPagamento) {
+  loadingPagamento.value = idPagamento
 
-  const { error, status } = await pagamentoStore.consulta(item.idPagamento)
+  const { error, status } = await pagamentoStore.consulta(idPagamento)
 
   if (error.value) {
     useToast().error('Erro ao tentar consultar o Pagamento. ' + error.message)
     console.error(error)
   } else {
     if (status === 204) {
-      useToast().info(`Pagamento ${item.idPagamento} sem atualizações!`)
+      useToast().info(`Pagamento ${idPagamento} sem atualizações!`)
     } else {
-      useToast().success(`Pagamento ${item.idPagamento} atualizado!`)
+      useToast().success(`Pagamento ${idPagamento} atualizado!`)
     }
   }
 
