@@ -16,7 +16,9 @@ services:
     environment:
       - NODE_ENV=production
       - NITRO_HOST=0.0.0.0
+      - NITRO_PORT=3000
+      - NITRO_SHUTDOWN=true
     ports:
-      - "${DOCKER_PORT}:3000"
+      - "${DOCKER_PORT}:${NITRO_PORT}"
 volumes:
   log:
