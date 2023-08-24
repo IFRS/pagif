@@ -105,4 +105,10 @@ const datasFormatted = computed({
     datas.value = value?.split(' ~ ') ?? []
   }
 })
+
+function limpa() {
+  datas.value = []
+}
+
+defineExpose({limpa})
 </script>

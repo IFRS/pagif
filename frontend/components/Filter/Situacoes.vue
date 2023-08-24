@@ -30,4 +30,10 @@ const situacoesSelected = ref([])
 watch(situacoesSelected, (newSituacoes) => {
   emit('filtro', { situacoes: toRaw(newSituacoes) })
 }, { deep: true })
+
+function limpa() {
+  situacoesSelected.value = []
+}
+
+defineExpose({limpa})
 </script>

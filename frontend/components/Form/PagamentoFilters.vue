@@ -32,7 +32,18 @@
       class="pa-3"
       @submit.prevent="filtrar()"
     >
-      <slot :add-filtro="addFiltro" />
+      <FilterUnidades
+        ref="unidadesNode"
+        @filtro="addFiltro"
+      />
+      <FilterSituacoes
+        ref="situacoesNode"
+        @filtro="addFiltro"
+      />
+      <FilterDatas
+        ref="datasNode"
+        @filtro="addFiltro"
+      />
       <v-row
         justify="start"
         dense
@@ -42,7 +53,7 @@
             color="primary"
             type="submit"
           >
-            Filtrar
+            Filtrar Pagamentos
           </v-btn>
         </v-col>
         <v-col cols="auto">
@@ -50,7 +61,7 @@
             color="secondary"
             @click="limpar()"
           >
-            Limpar
+            Limpar Filtros
           </v-btn>
         </v-col>
       </v-row>
@@ -68,8 +79,9 @@ defineProps({
 const emit = defineEmits(['update:modelValue', 'filtrar'])
 
 const formNode = ref(null)
-
-const filtros = ref({})
+const unidadesNode = ref(null)
+const situacoesNode = ref(null)
+const datasNode = ref(null)
 
 const { name } = useDisplay()
 
@@ -84,6 +96,8 @@ const drawerWidth = computed(() => {
   }
 })
 
+const filtros = ref({})
+
 function addFiltro(filtro) {
   Object.assign(filtros.value, filtro)
 }
@@ -94,7 +108,9 @@ function filtrar() {
 }
 
 function limpar() {
-  formNode.value.reset()
+  unidadesNode.value.limpa()
+  situacoesNode.value.limpa()
+  datasNode.value.limpa()
 
   nextTick(() => {
     filtros.value = new Object()

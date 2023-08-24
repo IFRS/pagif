@@ -19,15 +19,10 @@
     </v-row>
     <v-row>
       <v-col>
-        <FilterPainel
-          v-slot="{ addFiltro }"
+        <FormPagamentoFilters
           v-model="showFiltros"
           @filtrar="handleFiltrar"
-        >
-          <FilterUnidades @filtro="addFiltro" />
-          <FilterSituacoes @filtro="addFiltro" />
-          <FilterDatas @filtro="addFiltro" />
-        </FilterPainel>
+        />
         <v-data-table
           class="pagamentos"
           :loading="pending"
