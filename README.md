@@ -1,5 +1,7 @@
 # PagIF
 
+Sistema de Pagamentos integrado ao [PagTesouro](https://www.gov.br/tesouronacional/pt-br/gru-e-pag-tesouro/pagtesouro).
+
 ## Utilização
 
 ```bash
@@ -16,15 +18,17 @@ $ npm run build
 $ npm run start
 ```
 
-Para mais informações confira a [documentação do Nuxt](https://nuxtjs.org).
+Para mais informações confira a [documentação do Nuxt](https://nuxtjs.com).
 
 ## Criação de Super Administrador
 
-Para criar um usuário super administrador, principalmente pela primeira vez, é necessário usar um script personalizado conforme abaixo:
+Para criar um usuário _super_ administrador, principalmente pela primeira vez, é necessário usar um `script` personalizado conforme abaixo:
 
 ```bash
 $ npm run superadmin <email_do_superadmin>
 ```
+
+**Atenção:** O comando acima deve ser rodado no _console_ do _backend_.
 
 ## Licença
 
