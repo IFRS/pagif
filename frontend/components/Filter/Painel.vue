@@ -33,19 +33,27 @@
       @submit.prevent="filtrar()"
     >
       <slot :add-filtro="addFiltro" />
-      <v-btn
-        color="primary"
-        type="submit"
-        class="mr-3"
+      <v-row
+        justify="start"
+        dense
       >
-        Filtrar
-      </v-btn>
-      <v-btn
-        color="secondary"
-        @click="limpar()"
-      >
-        Limpar
-      </v-btn>
+        <v-col cols="auto">
+          <v-btn
+            color="primary"
+            type="submit"
+          >
+            Filtrar
+          </v-btn>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn
+            color="secondary"
+            @click="limpar()"
+          >
+            Limpar
+          </v-btn>
+        </v-col>
+      </v-row>
     </v-form>
   </v-navigation-drawer>
 </template>
@@ -81,7 +89,7 @@ function addFiltro(filtro) {
 }
 
 function filtrar() {
-  emit('filtrar', filtros.value)
+  emit('filtrar', toRaw(unref(filtros)))
   emit('update:modelValue', false)
 }
 
