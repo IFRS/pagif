@@ -20,7 +20,7 @@
 <script setup>
 const emit = defineEmits(['filtro'])
 
-const { data: unidades, error, pending } = useFetch('/api/unidades')
+const { data: unidades, error, pending } = await useFetch('/api/unidades')
 
 if (error.value) {
   useToast().error('Ocorreu um erro obter a lista de Unidades. ' + error.message);
