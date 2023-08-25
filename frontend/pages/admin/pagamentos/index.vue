@@ -43,7 +43,7 @@
                 prepend-inner-icon="mdi-magnify"
                 label="Buscar Pagamentos"
                 hide-details
-                variant="underlined"
+                variant="outlined"
                 class="mr-5"
               />
               <v-btn
@@ -89,10 +89,8 @@
               :situacao="item.raw.situacao?.codigo"
               class="mt-1"
             />
-            <template v-if="item.raw.situacao?.data">
-              <br>
-              <small>{{ dayjs(item.raw.situacao.data).format('DD/MM/YYYY HH:mm') }}</small>
-            </template>
+            <br>
+            <small>{{ dayjs(item.raw.situacao?.data || item.raw.dataCriacao).format('DD/MM/YYYY HH:mm') }}</small>
           </template>
           <template #item.actions="{ item }">
             <v-progress-circular
@@ -167,7 +165,7 @@
           <v-btn
             color="secondary"
             variant="text"
-            @click="closeDelete()"
+            @click="confirmDialog = false"
           >
             Cancelar
           </v-btn>
@@ -191,7 +189,7 @@
         <v-btn
           variant="text"
           color="primary"
-          @click="hidePagamento()"
+          @click="pagamentoDialog = false"
         >
           Fechar
         </v-btn>
@@ -264,6 +262,11 @@ if (error.value) {
 }
 
 const confirmDialog = ref(false)
+watch(confirmDialog, (newValue) => {
+  if (newValue === false) {
+    pagamentoStore.$reset()
+  }
+})
 
 const pagamentoDialog = ref(false)
 watch(pagamentoDialog, (newValue) => {
@@ -288,25 +291,16 @@ function handleValor(item) {
   return useFilters().int_to_real(item.valor)
 }
 
-function showPagamento(event, item) {
-  if (item) {
-    pagamentoStore.$patch(item)
+function showPagamento(event, linha) {
+  if (linha.item) {
+    pagamentoStore.$patch(toRaw(linha.item.raw))
     pagamentoDialog.value = true
   }
-}
-
-function hidePagamento() {
-  pagamentoDialog.value = false
 }
 
 function confirmDelete(pagamento) {
   pagamentoStore.$patch(pagamento)
   confirmDialog.value = true
-}
-
-function closeDelete() {
-  pagamentoStore.$reset()
-  confirmDialog.value = false
 }
 
 async function handleFiltrar(selectedFiltros) {
