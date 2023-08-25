@@ -51,7 +51,6 @@
 </template>
 
 <script setup>
-import { useRuntimeConfig } from '#app'
 import { storeToRefs } from 'pinia'
 import { useConfigStore } from '~/store/config'
 import { usePagamentoStore } from '~/store/pagamento'
@@ -89,8 +88,11 @@ onBeforeMount(() => {
   window.responseCallback = responseCallback
 })
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
   window.grecaptcha.reset()
+})
+
+onUnmounted(() => {
   delete window.responseCallback
 })
 </script>
