@@ -16,7 +16,6 @@ const configStore = useConfigStore();
 const { darkMode, sigla } = storeToRefs(configStore);
 
 useHead({
-  // titleTemplate: '%s - Sistema de Pagamentos do IFRS',
   titleTemplate: (titleChunk) => {
     return `${titleChunk || route.meta.title} - Sistema de Pagamentos do ${sigla.value}`
   },
