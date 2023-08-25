@@ -10,7 +10,6 @@
       :rules="validation.nome"
       :counter="45"
       required
-      class="required"
     />
 
     <v-text-field
@@ -20,7 +19,6 @@
       :rules="validation.cnpjCpf"
       validate-on="blur"
       required
-      class="required"
     />
   </v-form>
 </template>

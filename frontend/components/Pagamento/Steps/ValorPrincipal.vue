@@ -10,7 +10,6 @@
       hint="Valor total do pagamento."
       :rules="validation"
       required
-      class="required"
       inputmode="numeric"
       maxlength="13"
     />

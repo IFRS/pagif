@@ -20,7 +20,6 @@
       :disabled="pending"
       :items="servicos"
       required
-      class="required"
     />
   </v-form>
 </template>

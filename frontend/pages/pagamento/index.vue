@@ -19,7 +19,6 @@
         variant="filled"
         :rules="validation"
         required
-        class="required"
       >
         <template #append>
           <v-btn

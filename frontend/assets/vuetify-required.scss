@@ -1,5 +1,7 @@
-.required .v-label:not(.v-label--active)::after {
-  content: "*";
-  color: var(--v-error-base, red);
-  margin-inline-start: 0.25rem;
+.v-required {
+  &::after {
+    content: "*";
+    color: var(--v-error-base, red);
+    margin-inline-start: 0.25rem;
+  }
 }
