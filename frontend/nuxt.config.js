@@ -4,8 +4,6 @@ import vuetify from 'vite-plugin-vuetify'
 export default defineNuxtConfig({
   app: {
     head: {
-      titleTemplate: '%s - Sistema de Pagamentos',
-      title: 'Início',
       htmlAttrs: {
         lang: 'pt-BR',
       },

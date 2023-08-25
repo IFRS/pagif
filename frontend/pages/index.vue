@@ -153,11 +153,14 @@
 </template>
 
 <script setup>
-import { useRoute, useRouter } from '#app';
 import { storeToRefs } from 'pinia';
 import { useDisplay } from 'vuetify';
 import { useMainStore } from '~/store';
 import { useConfigStore } from '~/store/config';
+
+definePageMeta({
+  title: 'PagIF',
+});
 
 const store = useMainStore();
 const configStore = useConfigStore();

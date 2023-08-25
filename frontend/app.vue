@@ -7,11 +7,20 @@
 
 <script setup>
 import { storeToRefs } from 'pinia';
-import { useTheme } from 'vuetify';
 import { useConfigStore } from './store/config';
+import { useTheme } from 'vuetify';
+
+const route = useRoute()
 
 const configStore = useConfigStore();
-const { darkMode } = storeToRefs(configStore);
+const { darkMode, sigla } = storeToRefs(configStore);
+
+useHead({
+  // titleTemplate: '%s - Sistema de Pagamentos do IFRS',
+  titleTemplate: (titleChunk) => {
+    return `${titleChunk || route.meta.title} - Sistema de Pagamentos do ${sigla.value}`
+  },
+})
 
 const theme = useTheme();
 
