@@ -41,7 +41,7 @@
           <v-card-actions>
             <v-btn
               v-if="currentStep === 1"
-              variant="text"
+              variant="plain"
               @click="navigateTo({ name: 'pagamento' })"
             >
               Voltar
@@ -59,7 +59,7 @@
 
             <v-btn
               v-if="currentStep < numberOfSteps"
-              color="primary"
+              variant="text"
               @click="nextStep()"
             >
               Pr&oacute;ximo
@@ -68,6 +68,7 @@
             <v-btn
               v-else-if="currentStep == numberOfSteps"
               color="success"
+              variant="flat"
               :disabled="!enablePagamento"
               :loading="criandoPagamento"
               @click="criarPagamento()"
