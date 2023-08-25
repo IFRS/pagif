@@ -52,7 +52,7 @@
         A <em>sigla</em> e o <em>nome</em> do órgão ainda não foram preenchidos.
         <br>
         Por favor, vá até o menu <NuxtLink
-          :to="{ name: 'admin-config' }"
+          :to="{ path: '/admin/config' }"
           class="text-white font-weight-bold"
         >
           Configurações
@@ -61,7 +61,7 @@
     </v-main>
     <v-footer
       app
-      class="text-body-2 justify-space-between"
+      class="bg-grey-lighten-5 text-body-2 justify-space-between"
     >
       <span><a
         href="https://www.gov.br/tesouronacional/pt-br/gru-e-pag-tesouro/pagtesouro"
@@ -88,6 +88,7 @@ const configStore = useConfigStore()
 const { darkMode, sigla, orgao } = storeToRefs(configStore)
 
 const loaded = ref(false)
+
 const drawer = ref(true)
 const miniVariant = ref(false)
 
