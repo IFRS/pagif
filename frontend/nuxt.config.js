@@ -80,7 +80,7 @@ export default defineNuxtConfig({
   },
 
   hooks: {
-    'pages:extend' (routes) {
+    'pages:extend': (routes) => {
       routes.push({
         name: 'unidades-slug',
         path: '/unidades/:slug',
