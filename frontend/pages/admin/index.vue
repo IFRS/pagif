@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <PageTitle>Administração</PageTitle>
+    <PageTitle>Administra&ccedil;&atilde;o</PageTitle>
     <v-row justify="center">
       <v-col
         v-if="numUnidades"
@@ -23,7 +23,7 @@
           :num="numServicos"
           icon="mdi-basket"
         >
-          Serviços
+          Servi&ccedil;os
         </AdminInfoCount>
       </v-col>
       <v-col
@@ -48,9 +48,9 @@ definePageMeta({
   title: 'Área Administrativa',
 })
 
-const numUnidades = ref()
-const numServicos = ref()
-const numPagamentos = ref()
+const numUnidades = ref(0)
+const numServicos = ref(0)
+const numPagamentos = ref(0)
 
 const { data, error } = await useFetch('/api/info/count')
 
