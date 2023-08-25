@@ -1,6 +1,6 @@
 <template>
   <v-menu
-    :close-on-content-click="false"
+    :close-on-content-click="true"
   >
     <template #activator="{ props }">
       <v-btn
@@ -8,20 +8,23 @@
         icon
         v-bind="props"
       >
-        <v-avatar
-          color="primary"
-          size="38"
-        >
-          <v-img
-            v-if="user.foto"
-            :src="user.foto"
-            :alt="'Foto de ' + user.nome"
-            referrerpolicy="no-referrer"
-          />
-          <v-icon v-else>
-            mdi-account-circle
-          </v-icon>
-        </v-avatar>
+        <KeepAlive>
+          <v-avatar
+            color="primary"
+            size="38"
+          >
+            <img
+              v-if="user.foto"
+              :src="user.foto"
+              :alt="'Foto de ' + user.nome"
+              class="w-100 h-auto"
+              referrerpolicy="no-referrer"
+            >
+            <v-icon v-else>
+              mdi-account-circle
+            </v-icon>
+          </v-avatar>
+        </KeepAlive>
       </v-btn>
     </template>
     <v-card>
@@ -37,16 +40,16 @@
 
         <v-list-item
           v-if="admin"
-          :to="{ path: '/' }"
+          @click="navigateTo({ path: '/' }, { external: true })"
         >
           <v-list-item-title>Site</v-list-item-title>
         </v-list-item>
 
         <v-list-item
           v-else
-          :to="{ name: 'admin' }"
+          @click="navigateTo({ path: '/admin' }, { external: true })"
         >
-          <v-list-item-title>Administração</v-list-item-title>
+          <v-list-item-title>Administra&ccedil;&atilde;o</v-list-item-title>
         </v-list-item>
 
         <v-divider />
