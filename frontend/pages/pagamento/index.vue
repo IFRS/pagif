@@ -11,29 +11,27 @@
       lazy-validation
       @submit.prevent="submitPagamento"
     >
-      <v-row dense>
-        <v-col>
-          <v-text-field
-            v-model="idPagamento"
-            label="Código do Pagamento"
-            hint="Insira um código de pagamento já cadastrado."
-            clearable
-            variant="filled"
-            :rules="validation"
-            required
-            class="required"
-          />
-        </v-col>
-        <v-col cols="auto">
+      <v-text-field
+        v-model="idPagamento"
+        label="Código do Pagamento"
+        hint="Insira um código de pagamento já cadastrado."
+        clearable
+        variant="filled"
+        :rules="validation"
+        required
+        class="required"
+      >
+        <template #append>
           <v-btn
             type="submit"
-            icon
             size="x-large"
+            variant="text"
+            icon
           >
             <v-icon>mdi-arrow-right</v-icon>
           </v-btn>
-        </v-col>
-      </v-row>
+        </template>
+      </v-text-field>
     </v-form>
 
     <div class="text-center">
