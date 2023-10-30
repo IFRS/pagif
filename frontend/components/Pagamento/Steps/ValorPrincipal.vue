@@ -34,23 +34,5 @@ const validation = [
 
 const { valorPrincipal } = storeToRefs(usePagamentoStore())
 
-const valorPrincipalFormatted = computed({
-  get() {
-    if (valorPrincipal.value) {
-      let value = String(valorPrincipal.value)
-      value = value.replace(/\D/g, '')
-      return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', minimumIntegerDigits: 1, minimumFractionDigits: 2 }).format(
-        parseInt(value) / 100
-      )
-    }
-    return ''
-  },
-  set(value) {
-    value = String(value)
-    value = value.replace(/\D/g, '')
-    value = value.substring(value.length - 8)
-    value = parseInt(value)
-    valorPrincipal.value = value
-  }
-})
+const valorPrincipalFormatted = computed(useComputedMaskedCurrency(valorPrincipal))
 </script>
