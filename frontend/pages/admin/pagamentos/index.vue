@@ -56,9 +56,10 @@
               </v-btn>
               <v-spacer />
               <v-btn
-                class="mr-2"
+                icon
                 color="secondary"
                 :loading="pending"
+                class="mr-2"
                 @click="refresh()"
               >
                 <v-icon>mdi-refresh</v-icon>
@@ -66,9 +67,9 @@
               <v-btn
                 v-if="useACL().can('create', 'Pagamento')"
                 color="primary"
+                prepend-icon="mdi-plus"
                 to="/admin/pagamentos/novo"
               >
-                <v-icon>mdi-plus</v-icon>
                 Nova Cobran&ccedil;a
               </v-btn>
             </v-toolbar>

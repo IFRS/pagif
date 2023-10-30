@@ -22,16 +22,17 @@
             >
               <v-text-field
                 v-model="busca"
-                append-icon="mdi-magnify"
+                prepend-inner-icon="mdi-magnify"
                 label="Buscar Usuários"
                 hide-details
                 variant="underlined"
               />
               <v-spacer />
               <v-btn
-                class="mr-2"
+                icon
                 color="secondary"
                 :loading="pending"
+                class="mr-2"
                 @click="refresh()"
               >
                 <v-icon>mdi-refresh</v-icon>
@@ -39,9 +40,9 @@
               <v-btn
                 v-if="useACL().can('create', 'Usuario')"
                 color="primary"
+                prepend-icon="mdi-plus"
                 to="/admin/usuarios/novo"
               >
-                <v-icon>mdi-plus</v-icon>
                 Cadastrar Usu&aacute;rio
               </v-btn>
             </v-toolbar>

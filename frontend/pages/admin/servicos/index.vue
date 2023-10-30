@@ -29,6 +29,7 @@
               />
               <v-spacer />
               <v-btn
+                icon
                 color="secondary"
                 :loading="pending"
                 class="mr-2"
@@ -39,9 +40,9 @@
               <v-btn
                 v-if="useACL().can('create', 'Servico')"
                 color="primary"
+                prepend-icon="mdi-plus"
                 to="/admin/servicos/novo"
               >
-                <v-icon>mdi-plus</v-icon>
                 Novo Servi&ccedil;o
               </v-btn>
             </v-toolbar>

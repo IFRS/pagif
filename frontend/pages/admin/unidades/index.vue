@@ -29,6 +29,7 @@
               />
               <v-spacer />
               <v-btn
+                icon
                 color="secondary"
                 :loading="pending"
                 class="mr-2"
@@ -39,9 +40,9 @@
               <v-btn
                 v-if="useACL().can('create', 'Unidade')"
                 color="primary"
+                prepend-icon="mdi-plus"
                 to="/admin/unidades/nova"
               >
-                <v-icon>mdi-plus</v-icon>
                 Nova Unidade
               </v-btn>
             </v-toolbar>
