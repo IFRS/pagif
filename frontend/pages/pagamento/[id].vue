@@ -21,7 +21,7 @@
             <p v-if="referencia">
               O n&uacute;mero de refer&ecirc;ncia atrelado a esse pagamento &eacute; <strong>{{ referencia }}</strong>.
             </p>
-            <p>
+            <p class="mb-3">
               Vencimento em
               <strong>
                 <template v-if="vencimento">
