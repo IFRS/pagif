@@ -16,7 +16,7 @@
         />
       </div>
     </template>
-    <span>Modo Escuro</span>
+    <span>{{ darkMode ? 'Ativar Modo Claro' : 'Ativar Modo Escuro' }}</span>
   </v-tooltip>
 </template>
 
