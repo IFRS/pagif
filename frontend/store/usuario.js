@@ -1,4 +1,3 @@
-import { acceptHMRUpdate, defineStore } from 'pinia'
 import { useMainStore } from '.'
 import { useFetch } from '#app'
 

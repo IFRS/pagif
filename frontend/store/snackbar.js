@@ -1,5 +1,3 @@
-import { acceptHMRUpdate, defineStore } from 'pinia'
-
 export const useSnackbarStore = defineStore('snackbar', {
   state: () => ({
     showing: false,

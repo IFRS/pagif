@@ -1,4 +1,3 @@
-import { acceptHMRUpdate, defineStore } from 'pinia'
 import { useFetch } from '#app'
 
 export const useMainStore = defineStore('main', {

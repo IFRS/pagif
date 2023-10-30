@@ -1,5 +1,4 @@
 import { useFetch } from '#app'
-import { acceptHMRUpdate, defineStore } from 'pinia'
 
 export const useSettingsStore = defineStore('settings', {
   state: () => ({
