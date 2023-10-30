@@ -129,7 +129,6 @@ import { useMainStore } from '~/store';
 import { useUsuarioStore } from '~/store/usuario';
 
 definePageMeta({
-  layout: 'admin',
   title: 'Lista de Usuários',
   validate: async () => {
     return useACL().can('read', 'Usuario')

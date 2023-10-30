@@ -205,7 +205,6 @@ import { useMainStore } from '~/store'
 import { usePagamentoStore } from '~/store/pagamento'
 
 definePageMeta({
-  layout: 'admin',
   title: 'Lista de Pagamentos',
   validate: async () => {
     return useACL().can('read', 'Pagamento')

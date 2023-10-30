@@ -1,5 +1,5 @@
 <template>
-  <NuxtLayout>
+  <NuxtLayout :name="layout">
     <NuxtLoadingIndicator />
     <NuxtPage />
   </NuxtLayout>
@@ -11,6 +11,10 @@ import { useConfigStore } from './store/config';
 import { useTheme } from 'vuetify';
 
 const route = useRoute()
+
+const layout = computed(() => {
+  return route.name.startsWith('admin') ? 'admin' : 'default'
+})
 
 const configStore = useConfigStore();
 const { darkMode, sigla } = storeToRefs(configStore);

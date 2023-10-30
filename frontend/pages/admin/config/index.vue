@@ -13,7 +13,6 @@
 import { useSettingsStore } from '~/store/settings'
 
 definePageMeta({
-  layout: 'admin',
   title: 'Configurações',
   validate: async () => {
     return useACL().can('edit', 'Settings')

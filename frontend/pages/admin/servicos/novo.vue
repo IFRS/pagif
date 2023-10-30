@@ -21,7 +21,6 @@
 import { useServicoStore } from '~/store/servico'
 
 definePageMeta({
-  layout: 'admin',
   title: 'Cadastro de Novo Serviço',
   validate: async () => {
     return useACL().can('create', 'Servico')

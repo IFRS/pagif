@@ -22,7 +22,6 @@ import { storeToRefs } from 'pinia'
 import { useServicoStore } from '~/store/servico'
 
 definePageMeta({
-  layout: 'admin',
   title: 'Edição de Serviço',
   validate: async () => {
     return useACL().can('update', 'Servico')

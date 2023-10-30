@@ -129,7 +129,6 @@ import { useMainStore } from '~/store'
 import { useServicoStore } from '~/store/servico'
 
 definePageMeta({
-  layout: 'admin',
   title: 'Lista de Serviços',
   validate: async () => {
     return useACL().can('read', 'Servico')

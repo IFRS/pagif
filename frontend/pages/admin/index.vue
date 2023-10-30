@@ -44,7 +44,6 @@
 
 <script setup>
 definePageMeta({
-  layout: 'admin',
   title: 'Área Administrativa',
 })
 

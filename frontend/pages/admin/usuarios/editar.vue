@@ -21,7 +21,6 @@
 import { useUsuarioStore } from '~/store/usuario'
 
 definePageMeta({
-  layout: 'admin',
   title: 'Edição de Usuário',
   validate: async () => {
     return useACL().can('update', 'Usuario')

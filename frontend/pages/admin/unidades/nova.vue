@@ -21,7 +21,6 @@
 import { useUnidadeStore } from '~/store/unidade'
 
 definePageMeta({
-  layout: 'admin',
   title: 'Cadastro de Nova Unidade',
   validate: async () => {
     return useACL().can('create', 'Unidade')

@@ -23,7 +23,6 @@ import { storeToRefs } from 'pinia'
 import { useUnidadeStore } from '~/store/unidade'
 
 definePageMeta({
-  layout: 'admin',
   title: 'Edição de Unidade',
   validate: async () => {
     return useACL().can('update', 'Unidade')

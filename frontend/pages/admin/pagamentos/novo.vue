@@ -21,7 +21,6 @@
 import { usePagamentoStore } from '~/store/pagamento'
 
 definePageMeta({
-  layout: 'admin',
   title: 'Nova Cobrança',
   validate: async () => {
     return useACL().can('create', 'Pagamento')
