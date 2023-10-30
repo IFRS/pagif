@@ -65,37 +65,37 @@
 
               <v-list density="compact">
                 <v-list-item
-                  :loading="tokenLoading === item.raw._id"
-                  @click="showTokenDialog(item.raw)"
+                  :disabled="tokenLoading === item._id"
+                  @click="showTokenDialog(item)"
                 >
                   <template #prepend>
-                    <v-progress-circular
-                      v-if="tokenLoading === item.raw._id"
+                    <v-progress-linear
+                      :active="tokenLoading === item._id"
                       indeterminate
-                      :size="20"
-                      :width="2"
+                      absolute
+                      location="bottom"
                     />
-                    <v-icon v-else>
+                    <v-icon>
                       mdi-key
                     </v-icon>
                   </template>
-                  <v-list-item-title>Ver Token de {{ item.raw.nome }}</v-list-item-title>
+                  <v-list-item-title>Ver Token de {{ item.nome }}</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item
                   v-if="useACL().can('update', 'Unidade')"
                   prepend-icon="mdi-pencil"
-                  @click="editUnidade(item.raw)"
+                  @click="editUnidade(item)"
                 >
-                  <v-list-item-title>Editar {{ item.raw.nome }}</v-list-item-title>
+                  <v-list-item-title>Editar {{ item.nome }}</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item
                   v-if="useACL().can('delete', 'Unidade')"
                   prepend-icon="mdi-delete"
-                  @click="confirmDelete(item.raw)"
+                  @click="confirmDelete(item)"
                 >
-                  <v-list-item-title>Deletar {{ item.raw.nome }}</v-list-item-title>
+                  <v-list-item-title>Deletar {{ item.nome }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>

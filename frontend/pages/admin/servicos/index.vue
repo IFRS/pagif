@@ -67,17 +67,17 @@
                 <v-list-item
                   v-if="useACL().can('update', 'Servico')"
                   prepend-icon="mdi-pencil"
-                  @click="editServico(item.raw)"
+                  @click="editServico(item)"
                 >
-                  <v-list-item-title>Editar {{ item.raw.nome }}</v-list-item-title>
+                  <v-list-item-title>Editar {{ item.nome }}</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item
                   v-if="useACL().can('delete', 'Servico')"
                   prepend-icon="mdi-delete"
-                  @click.stop="confirmDelete(item.raw)"
+                  @click.stop="confirmDelete(item)"
                 >
-                  <v-list-item-title>Deletar {{ item.raw.nome }}</v-list-item-title>
+                  <v-list-item-title>Deletar {{ item.nome }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>

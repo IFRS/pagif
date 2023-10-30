@@ -75,27 +75,27 @@
             </v-toolbar>
           </template>
           <template #item.nomeServico="{ item }">
-            {{ item.raw.nomeServico }} ({{ item.raw.codigoServico }})
+            {{ item.nomeServico }} ({{ item.codigoServico }})
           </template>
           <template #item.cnpjCpf="{ item }">
-            {{ useFilters().cnpj_cpf(item.raw.cnpjCpf) }}
+            {{ useFilters().cnpj_cpf(item.cnpjCpf) }}
           </template>
           <template #item.valor="{ item }">
             <v-icon size="small">
               mdi-currency-brl
-            </v-icon> {{ handleValor(item.raw) || '-' }}
+            </v-icon> {{ handleValor(item) || '-' }}
           </template>
           <template #item.situacao="{ item }">
             <pagamento-situacao
-              :situacao="item.raw.situacao?.codigo"
+              :situacao="item.situacao?.codigo"
               class="mt-1"
             />
             <br>
-            <small>{{ dayjs(item.raw.situacao?.data || item.raw.dataCriacao).format('DD/MM/YYYY HH:mm') }}</small>
+            <small>{{ dayjs(item.situacao?.data || item.dataCriacao).format('DD/MM/YYYY HH:mm') }}</small>
           </template>
           <template #item.actions="{ item }">
             <v-progress-circular
-              v-if="item.raw.idPagamento === loadingPagamento"
+              v-if="item.idPagamento === loadingPagamento"
               indeterminate
               :size="20"
               :width="2"
@@ -120,8 +120,8 @@
                 <v-list-item
                   v-if="useACL().can('update', 'Pagamento')"
                   prepend-icon="mdi-cloud-refresh"
-                  :disabled="(item.raw.tipoPagamentoEscolhido === 'BOLETO') || ['CONCLUIDO', 'REJEITADO', 'CANCELADO'].includes(item.raw.situacao?.codigo)"
-                  @click.stop="consultaPagamento(item.raw.idPagamento)"
+                  :disabled="(item.tipoPagamentoEscolhido === 'BOLETO') || ['CONCLUIDO', 'REJEITADO', 'CANCELADO'].includes(item.situacao?.codigo)"
+                  @click.stop="consultaPagamento(item.idPagamento)"
                 >
                   <v-list-item-title>Consulta Pagtesouro</v-list-item-title>
                 </v-list-item>
@@ -129,8 +129,8 @@
                 <v-list-item
                   v-if="useACL().can('delete', 'Pagamento')"
                   prepend-icon="mdi-delete"
-                  :disabled="item.raw.situacao?.codigo !== 'CRIADO'"
-                  @click.stop="confirmDelete(item.raw)"
+                  :disabled="item.situacao?.codigo !== 'CRIADO'"
+                  @click.stop="confirmDelete(item)"
                 >
                   <v-list-item-title>Deletar Pagamento</v-list-item-title>
                 </v-list-item>
@@ -293,7 +293,7 @@ function handleValor(item) {
 
 function showPagamento(event, linha) {
   if (linha.item) {
-    pagamentoStore.$patch(toRaw(linha.item.raw))
+    pagamentoStore.$patch(toRaw(linha.item))
     pagamentoDialog.value = true
   }
 }

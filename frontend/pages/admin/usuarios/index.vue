@@ -7,7 +7,6 @@
     </v-row>
     <v-row>
       <v-col>
-        <!-- eslint-disable-next-line vuetify/no-deprecated-components -->
         <v-data-table
           :loading="pending"
           :headers="tableHeaders"
@@ -67,17 +66,17 @@
                 <v-list-item
                   v-if="useACL().can('update', 'Usuario')"
                   prepend-icon="mdi-pencil"
-                  @click="editUsuario(item.raw)"
+                  @click="editUsuario(item)"
                 >
-                  <v-list-item-title>Editar {{ item.raw.nome || item.raw.email }}</v-list-item-title>
+                  <v-list-item-title>Editar {{ item.nome || item.email }}</v-list-item-title>
                 </v-list-item>
 
                 <v-list-item
                   v-if="useACL().can('delete', 'Usuario')"
                   prepend-icon="mdi-delete"
-                  @click.stop="confirmDelete(item.raw)"
+                  @click.stop="confirmDelete(item)"
                 >
-                  <v-list-item-title>Deletar {{ item.raw.nome || item.raw.email }}</v-list-item-title>
+                  <v-list-item-title>Deletar {{ item.nome || item.email }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
