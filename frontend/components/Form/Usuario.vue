@@ -32,10 +32,10 @@
 
       <v-row>
         <v-col>
+          <h3 class="mb-3">
+            Permiss&otilde;es Gerais
+          </h3>
           <v-card tag="fieldset">
-            <v-card-title tag="legend">
-              Permiss&otilde;es Gerais
-            </v-card-title>
             <v-card-text>
               <v-row>
                 <v-col v-if="useACL().can('manage', 'all')">
