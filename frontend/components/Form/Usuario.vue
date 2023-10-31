@@ -25,7 +25,7 @@
             type="info"
             variant="text"
           >
-            O <strong>nome</strong> e a <strong>foto</strong> do usuário serão recuperados do Google no primeiro login.
+            O <strong>nome</strong> e a <strong>foto</strong> do usuário serão recuperados do <em>Google</em> no primeiro login.
           </v-alert>
         </v-col>
       </v-row>
