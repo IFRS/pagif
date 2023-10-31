@@ -13,13 +13,25 @@
             hint="E-mail da conta Google para acesso."
             :rules="validation.email"
             validate-on="blur"
-            :disabled="!!id"
+            :disabled="!!_id"
             required
           />
         </v-col>
+        <v-col v-if="foto && nome">
+          <v-list-item>
+            <template #prepend>
+              <v-avatar
+                :image="foto"
+              />
+            </template>
+            <v-list-item-title class="font-weight-bold">
+              {{ nome }}
+            </v-list-item-title>
+          </v-list-item>
+        </v-col>
       </v-row>
 
-      <v-row>
+      <v-row v-if="!foto && !nome">
         <v-col>
           <v-alert
             type="info"
@@ -212,6 +224,8 @@ const usuarioStore = useUsuarioStore()
 const {
   _id,
   email,
+  nome,
+  foto
 } = storeToRefs(usuarioStore)
 
 const abilities = computed({
