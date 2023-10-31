@@ -21,7 +21,10 @@
 
       <v-row>
         <v-col>
-          <v-alert type="info">
+          <v-alert
+            type="info"
+            variant="text"
+          >
             O <strong>nome</strong> e a <strong>foto</strong> do usuário serão recuperados do Google no primeiro login.
           </v-alert>
         </v-col>
@@ -207,10 +210,18 @@ const authStore = useAuthStore()
 const usuarioStore = useUsuarioStore()
 
 const {
-  id,
+  _id,
   email,
-  abilities,
 } = storeToRefs(usuarioStore)
+
+const abilities = computed({
+  get() {
+    return usuarioStore.getAbilities
+  },
+  set(value) {
+    usuarioStore.setAbilities(value)
+  }
+})
 
 const { error, pending } = await store.fetchUnidades()
 if (error.value) {
@@ -218,7 +229,7 @@ if (error.value) {
   console.error(error)
 }
 
-const user_is_me = computed(() => (id === authStore.user?.id))
+const user_is_me = computed(() => (_id === authStore.user?.id))
 
 async function handleSubmit() {
   const { valid } = await formNode.value.validate()
