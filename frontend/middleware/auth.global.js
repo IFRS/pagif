@@ -5,7 +5,7 @@ export default defineNuxtRouteMiddleware((to) => {
   const { $pinia } = useNuxtApp()
   const authStore = useAuthStore($pinia)
 
-  if (to.meta.layout === 'admin' && !authStore.user) {
+  if (to.name.startsWith('admin') && !authStore.user) {
     return navigateTo('/')
   }
 
