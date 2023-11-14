@@ -1,5 +1,5 @@
 import { defineNuxtConfig } from 'nuxt/config'
-import vuetify from 'vite-plugin-vuetify'
+import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 
 export default defineNuxtConfig({
   app: {
@@ -111,6 +111,11 @@ export default defineNuxtConfig({
         scss: {
           additionalData: '@import "assets/utils/utils.scss";',
         },
+      },
+    },
+    vue: {
+      template: {
+        transformAssetUrls,
       },
     },
   },
