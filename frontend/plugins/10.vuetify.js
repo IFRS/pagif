@@ -1,7 +1,7 @@
 import { defineNuxtPlugin } from '#app'
 import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components'
-import * as labsComponents from 'vuetify/labs/components'
+// import * as components from 'vuetify/components'
+// import * as labsComponents from 'vuetify/labs/components'
 import * as directives from 'vuetify/directives'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { pt } from 'vuetify/locale'
@@ -10,10 +10,10 @@ import pt_BR from 'dayjs/locale/pt-br'
 
 export default defineNuxtPlugin(({ vueApp }) => {
   const vuetify = createVuetify({
-    components: {
-      ...components,
-      ...labsComponents,
-    },
+    // components: {
+    //   ...components,
+    //   ...labsComponents,
+    // },
     directives,
     ssr: true,
     locale: {
