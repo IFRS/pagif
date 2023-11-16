@@ -92,16 +92,16 @@ module.exports.save = [
     .isNumeric({ no_symbols: true })
     .isLength({ max: 5 }),
   validator.body('referencia', '')
-    .optional({ checkFalsy: true })
+    .optional({ values: 'falsy' })
     .trim()
     .isNumeric({ no_symbols: true })
     .isLength({ min: 1, max: 20 }),
   validator.body('competencia', '')
-    .optional({ checkFalsy: true })
+    .optional({ values: 'falsy' })
     .trim()
     .isISO8601(),
   validator.body('vencimento', '')
-    .optional({ checkFalsy: true })
+    .optional({ values: 'falsy' })
     .trim()
     .isISO8601(),
   validator.body('nomeContribuinte', '')
@@ -120,7 +120,7 @@ module.exports.save = [
     .isInt({ allow_leading_zeroes: false })
     .isLength({ min: 1, max: 17 }),
   validator.body(['valorDescontos', 'valorOutrasDeducoes', 'valorMulta', 'valorJuros', 'valorOutrosAcrescimos'], '')
-    .optional({ checkFalsy: true })
+    .optional({ values: 'falsy' })
     .trim()
     .isInt({ allow_leading_zeroes: false })
     .isLength({ min: 1, max: 17 }),

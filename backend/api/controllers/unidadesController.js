@@ -126,18 +126,18 @@ module.exports.save = [
     .trim()
     .notEmpty(),
   validator.body('imagem', '')
-    .optional({ checkFalsy: true })
+    .optional({ values: 'falsy' })
     .isDataURI(),
   validator.body('link_url', '')
     .trim()
-    .optional({ checkFalsy: true })
+    .optional({ values: 'falsy' })
     .isURL({ protocols: ['http','https'], require_protocol: true }),
   validator.body('link_titulo', '')
     .trim()
-    .optional({ checkFalsy: true })
+    .optional({ values: 'falsy' })
     .isString(),
   validator.body('contato', '')
-    .optional({ checkFalsy: true })
+    .optional({ values: 'falsy' })
     .isString(),
   function(req, res) {
     const errors = validator.validationResult(req);

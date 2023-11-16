@@ -33,7 +33,7 @@ module.exports.save = [
     .isString(),
   validator.body('intro', '')
     .trim()
-    .optional({ checkFalsy: true })
+    .optional({ values: 'falsy' })
     .isString(),
   function(req, res) {
     const errors = validator.validationResult(req);

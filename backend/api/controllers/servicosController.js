@@ -85,10 +85,10 @@ module.exports.save = [
     .notEmpty(),
   validator.body('desc', '')
     .trim()
-    .optional({ checkFalsy: true })
+    .optional({ values: 'falsy' })
     .isLength({ min: 1, max: 999 }),
   validator.body('referencia_required', '')
-    .optional()
+    .optional({ values: 'null' })
     .isBoolean(),
   function(req, res) {
     const errors = validator.validationResult(req);
