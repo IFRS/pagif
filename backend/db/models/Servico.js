@@ -5,6 +5,7 @@ const Servico = new mongoose.Schema({
   codigo: { type: Number, required: true },
   nome: { type: String, required: true },
   desc: { type: String },
+  referencia_required: { type: Boolean, default: false },
 }, {
   timestamps: true,
   toJSON: {

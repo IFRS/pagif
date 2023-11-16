@@ -87,6 +87,9 @@ module.exports.save = [
     .trim()
     .optional({ checkFalsy: true })
     .isLength({ min: 1, max: 999 }),
+  validator.body('referencia_required', '')
+    .optional()
+    .isBoolean(),
   function(req, res) {
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {
@@ -98,6 +101,7 @@ module.exports.save = [
       codigo: req.body.codigo,
       nome: req.body.nome,
       desc: req.body.desc,
+      referencia_required: req.body.referencia_required,
     };
 
     if (req.params.id) {
