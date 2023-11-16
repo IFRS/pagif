@@ -55,6 +55,6 @@ async function handleCancel() {
 }
 
 onUnmounted(() => {
-  unidadeStore.$reset()
+  servicoStore.$reset()
 })
 </script>
