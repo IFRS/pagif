@@ -19,6 +19,16 @@
             required
           />
         </v-col>
+        <v-col cols="auto">
+          <v-checkbox
+            v-model="referencia_required"
+            label="Número de Referência Obrigatório"
+            hint="Marque caso esse Serviço tenha sido configurado para requerer o Número de Referência."
+            persistent-hint
+            :loading="pending"
+            :disabled="pending"
+          />
+        </v-col>
       </v-row>
       <v-row>
         <v-col
@@ -118,6 +128,7 @@ const {
   codigo,
   nome,
   desc,
+  referencia_required,
 } = storeToRefs(servicoStore)
 
 const validation = {

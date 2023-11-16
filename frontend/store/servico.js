@@ -8,6 +8,7 @@ export const useServicoStore = defineStore('servico', {
     codigo: null,
     nome: '',
     desc: '',
+    referencia_required: null,
     createdAt: null,
     updatedAt: null,
   }),
