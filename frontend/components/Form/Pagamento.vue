@@ -48,11 +48,13 @@
         <v-col>
           <!-- Referência -->
           <v-text-field
+            :key="codigoServico"
             v-model="referencia"
             prepend-icon="mdi-numeric"
             label="Número de Referência"
             :rules="validation.referencia"
             :counter="20"
+            :required="isReferenciaRequired"
           />
         </v-col>
         <v-col>
@@ -272,6 +274,17 @@ const validation = {
     v => !!v || 'Selecione um Serviço.',
   ],
   referencia: [
+    v => {
+      if (isReferenciaRequired.value) {
+        if (v) {
+          return true
+        }
+
+        return 'O Número de Referência é obrigatório.'
+      }
+
+      return true
+    },
     v => !v || (/^\d+$/).test(v) || 'Número de Referência precisa ser um número.',
     v => !v || v?.length <= 20 || 'Número de Referência deve ter no máximo 20 dígitos.',
   ],
@@ -326,6 +339,13 @@ const {
   valorJuros,
   valorOutrosAcrescimos,
 } = storeToRefs(pagamentoStore)
+
+const isReferenciaRequired = ref(false)
+
+watch(codigoServico, (newValue) => {
+  const servico = servicos.value.find((s) => toRaw(s).codigo == newValue)
+  isReferenciaRequired.value = servico?.referencia_required ?? false
+})
 
 const showCompetencia = ref(false)
 const showVencimento = ref(false)
