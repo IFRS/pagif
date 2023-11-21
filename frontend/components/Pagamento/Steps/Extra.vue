@@ -8,11 +8,13 @@
     </p>
 
     <v-text-field
+      :key="codigoServico"
       v-model="referencia"
       prepend-icon="mdi-numeric"
       label="Número de Referência"
       :rules="validation.referencia"
       :counter="20"
+      :required="isReferenciaRequired"
     />
     <v-menu
       v-model="showCompetencia"
@@ -44,6 +46,7 @@
 
 <script setup>
 import { storeToRefs } from 'pinia'
+import { useMainStore } from '~/store';
 import { usePagamentoStore } from '~/store/pagamento'
 
 const form = ref(null)
@@ -56,14 +59,34 @@ defineExpose({
 
 const validation = {
   referencia: [
+    v => {
+      if (isReferenciaRequired.value) {
+        if (v) {
+          return true
+        }
+
+        return 'O Número de Referência é obrigatório para o Serviço selecionado.'
+      }
+
+      return true
+    },
     v => !v || (/^\d+$/).test(v) || 'Número de Referência precisa ser um número.',
     v => !v || v?.length <= 20 || 'Número de Referência deve ter no máximo 20 dígitos.',
   ],
 }
 
-const showCompetencia = ref(false)
+const { codigoServico, referencia, competencia } = storeToRefs(usePagamentoStore())
 
-const { referencia, competencia } = storeToRefs(usePagamentoStore())
+const { servicos } = storeToRefs(useMainStore())
+
+const isReferenciaRequired = ref(false)
+
+onBeforeMount(() => {
+  const servico = servicos.value.find((s) => toRaw(s).codigo == codigoServico.value)
+  isReferenciaRequired.value = servico?.referencia_required ?? false
+})
+
+const showCompetencia = ref(false)
 
 const dayjs = useDayjs()
 
