@@ -280,7 +280,7 @@ const validation = {
           return true
         }
 
-        return 'O Número de Referência é obrigatório.'
+        return 'O Número de Referência é obrigatório para o Serviço selecionado.'
       }
 
       return true
