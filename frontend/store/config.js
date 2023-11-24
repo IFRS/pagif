@@ -9,7 +9,6 @@ export const useConfigStore = defineStore('config', {
     orgao: null,
     intro: null,
   }),
-
   actions: {
     async populateUnidade(id) {
       const response = await useFetch(`/api/public/unidades/${id}`)
