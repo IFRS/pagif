@@ -98,16 +98,15 @@
           >
             <v-col v-if="unidade?.imagem">
               <v-tooltip location="top">
-                <template #activator="{ on, attrs }">
+                <template #activator="{ props }">
                   <a
                     :href="unidade?.link_url"
                     style="display: inline-block;"
                   >
                     <v-img
-                      v-bind="attrs"
+                      v-bind="props"
                       :src="unidade?.imagem"
                       :max-width="320"
-                      v-on="on"
                     />
                   </a>
                 </template>

@@ -29,11 +29,11 @@
                 @click:clear="datas = []"
               />
             </template>
+            <!-- TODO: Esse DatePicker precisa ser do tipo range. Talvez no Vuetify 3.5 essa opção esteja disponível. -->
             <v-date-picker
               v-model="datas"
               show-adjacent-months
               multiple
-              range
               @click:cancel="showDatas = false"
               @click:save="showDatas = false"
             >
@@ -70,6 +70,12 @@ const validation = {
       if (datas_sao_anteriores) return true
 
       return 'A Data precisa ser anterior à data de hoje.'
+    },
+    v => {
+      const datas = v.split(' ~ ')
+      if (datas.length <= 2) return true
+
+      return 'Selecione no máximo duas Datas.'
     },
   ],
 }
