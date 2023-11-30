@@ -52,6 +52,7 @@ export default defineNuxtPlugin(({ vueApp }) => {
             success: '#168821',
             warning: '#B38C00',
             footer: '#0C326F',
+            surface: '#fafafa',
           },
         },
         dark: {
