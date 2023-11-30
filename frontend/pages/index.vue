@@ -3,7 +3,6 @@
     <ClientOnly>
       <v-row
         class="my-5"
-        align="center"
       >
         <v-col>
           <div class="intro">
