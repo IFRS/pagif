@@ -42,6 +42,10 @@
           v-if="admin"
           @click="navigateTo({ path: '/' }, { external: true })"
         >
+          <template #prepend>
+            <v-icon>mdi-web</v-icon>
+          </template>
+
           <v-list-item-title>Site</v-list-item-title>
         </v-list-item>
 
@@ -49,6 +53,9 @@
           v-else
           @click="navigateTo({ path: '/admin' }, { external: true })"
         >
+          <template #prepend>
+            <v-icon>mdi-application-cog-outline</v-icon>
+          </template>
           <v-list-item-title>Administra&ccedil;&atilde;o</v-list-item-title>
         </v-list-item>
 
@@ -57,6 +64,9 @@
         <v-list-item
           @click="logout()"
         >
+          <template #prepend>
+            <v-icon>mdi-logout</v-icon>
+          </template>
           <v-list-item-title>Sair</v-list-item-title>
         </v-list-item>
       </v-list>
