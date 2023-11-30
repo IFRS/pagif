@@ -103,11 +103,11 @@
                     :href="unidade?.link_url"
                     style="display: inline-block;"
                   >
-                    <v-img
+                    <img
                       v-bind="props"
                       :src="unidade?.imagem"
-                      :max-width="320"
-                    />
+                      class="marca-instituicao"
+                    >
                   </a>
                 </template>
                 <span>{{ unidade?.link_titulo }}</span>
@@ -181,6 +181,10 @@ const { smAndDown, mdAndUp } = useDisplay()
   font-size: 1rem;
   font-size: clampBuilder(400, 1200, 1, 1.5);
   font-weight: 400;
+}
+
+.marca-instituicao {
+  max-width: 320px;
 }
 
 .contato {
