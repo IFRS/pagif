@@ -37,22 +37,15 @@
       </template>
     </v-navigation-drawer>
     <v-app-bar elevation="1">
-      <img
-        v-if="mdAndUp"
-        :src="darkMode ? '/img/govbr-white.svg' : '/img/govbr.svg'"
-        class="govbr"
-      >
-
-      <v-divider
-        v-if="mdAndUp"
-        vertical
-        class="separador"
-      />
-
       <NuxtLink
         :to="{ name: 'index' }"
-        class="text-decoration-none text-primary"
+        class="text-decoration-none text-primary d-flex flex-row flex-nowrap align-center"
       >
+        <img
+          v-if="mdAndUp"
+          :src="(darkMode) ? '/img/logo-white.png' : '/img/logo.png'"
+          class="govbr"
+        >
         <h1 class="titulo">
           Sistema de Pagamentos
           <template v-if="orgao && sigla">
@@ -71,6 +64,12 @@
       </template>
       <template v-else>
         <SelectUnidade />
+
+        <v-divider
+          v-if="mdAndUp"
+          vertical
+          class="mx-5"
+        />
 
         <DarkMode />
 
@@ -170,7 +169,9 @@ const { smAndDown, mdAndUp } = useDisplay()
 <style lang="scss" scoped>
 .govbr {
   margin-inline-start: 0.5rem;
-  max-width: 120px;
+  margin-inline-end: 0.5rem;
+  // max-width: 120px;
+  max-height: 48px;
 }
 
 .separador {

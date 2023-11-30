@@ -4,7 +4,6 @@
       <v-tooltip location="left">
         <template #activator="{ props: tooltip }">
           <v-btn
-            class="me-3"
             color="primary"
             variant="text"
             :loading="pending"
