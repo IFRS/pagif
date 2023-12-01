@@ -4,20 +4,30 @@
     <v-row>
       <v-col
         cols="12"
-        md="4"
+        md="5"
+        lg="4"
+        class="text-center"
       >
-        <h3 class="text-center">
+        <h3>
           Formas de Pagamento
         </h3>
+        <p class="mb-5">
+          Exibe a quantidade de Pagamentos em cada forma de pagamento disponível.
+        </p>
         <ChartsFormasDePagamento />
       </v-col>
       <v-col
         cols="12"
-        md="8"
+        md="7"
+        lg="8"
+        class="text-center"
       >
-        <h3 class="text-center">
+        <h3>
           Serviços mais usados
         </h3>
+        <p class="mb-5">
+          Exibe a quantidade de Pagamentos dos 5 Serviços mais utilizados.
+        </p>
         <ChartsServicos />
       </v-col>
     </v-row>
@@ -25,6 +35,7 @@
       <v-col
         v-if="numUnidades"
         cols="12"
+        sm="6"
         md="3"
       >
         <AdminInfoCount
@@ -37,6 +48,7 @@
       <v-col
         v-if="numServicos"
         cols="12"
+        sm="6"
         md="3"
       >
         <AdminInfoCount
@@ -49,6 +61,7 @@
       <v-col
         v-if="numPagamentos"
         cols="12"
+        sm="6"
         md="3"
       >
         <AdminInfoCount
