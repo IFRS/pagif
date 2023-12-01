@@ -72,6 +72,8 @@ const validation = {
       return 'A Data precisa ser anterior à data de hoje.'
     },
     v => {
+      if (!v) return true
+
       const datas = v.split(' ~ ')
       if (datas.length <= 2) return true
 
