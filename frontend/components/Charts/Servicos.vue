@@ -1,18 +1,30 @@
 <template>
-  <!-- Unidade -->
-  <v-autocomplete
-    v-model="unidade"
-    prepend-icon="mdi-office-building-marker"
-    label="Unidade Gestora"
-    clearable
-    :loading="pending"
-    :disabled="pending"
-    :items="unidades"
-    item-title="nome"
-    item-value="_id"
+  <v-responsive
+    class="mx-auto"
+    max-width="400"
+  >
+    <!-- Unidade -->
+    <v-autocomplete
+      v-model="unidade"
+      prepend-inner-icon="mdi-office-building-marker"
+      label="Unidade Gestora"
+      variant="solo"
+      density="comfortable"
+      clearable
+      :loading="pendingUnidades"
+      :disabled="pendingUnidades"
+      :items="unidades"
+      item-title="nome"
+      item-value="_id"
+    />
+  </v-responsive>
+  <v-progress-circular
+    v-if="pending"
+    indeterminate
+    :size="128"
   />
   <Bar
-    v-if="data"
+    v-else-if="data"
     id="chart-servicos"
     :options="chartOptions"
     :data="chartData"
@@ -31,13 +43,13 @@
   const store = useMainStore()
   const { unidades } = storeToRefs(store)
 
-  const { error: errorUnidades, pending } = await store.fetchUnidades()
+  const { error: errorUnidades, pending: pendingUnidades } = await store.fetchUnidades()
   if (errorUnidades.value) {
     useToast().error('Ocorreu um erro ao carregar as Unidades: ' + errorUnidades.message)
     console.error(errorUnidades)
   }
 
-  const { data, error } = await useFetch('/api/info/pagamentos_por_servicos', {
+  const { data, error, pending } = await useFetch('/api/info/pagamentos_por_servicos', {
     query: { unidade: unidade }
   })
   if (error.value) {
