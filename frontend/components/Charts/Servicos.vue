@@ -63,13 +63,18 @@
             '#B8A2E3',
             '#D0C3E9',
           ],
-          hoverOffset: 4,
         },
       ],
     }
   ))
 
-  const chartOptions = {}
+  const chartOptions = {
+    plugins: {
+      legend: {
+        display: false
+      }
+    }
+  }
 </script>
 
 <style lang="scss" scoped>

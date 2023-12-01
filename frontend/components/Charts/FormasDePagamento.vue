@@ -43,7 +43,7 @@
             '#E5A000', // GRU
             '#565C65', // não informado
           ],
-          hoverOffset: 4,
+          hoverOffset: 10,
         },
       ],
     }
