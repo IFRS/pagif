@@ -1,6 +1,26 @@
 <template>
   <v-container>
     <PageTitle>Administra&ccedil;&atilde;o</PageTitle>
+    <v-row>
+      <v-col
+        cols="12"
+        md="4"
+      >
+        <h3 class="text-center">
+          Formas de Pagamento
+        </h3>
+        <ChartsFormasDePagamento />
+      </v-col>
+      <v-col
+        cols="12"
+        md="8"
+      >
+        <h3 class="text-center">
+          Serviços mais usados
+        </h3>
+        <ChartsServicos />
+      </v-col>
+    </v-row>
     <v-row justify="center">
       <v-col
         v-if="numUnidades"
