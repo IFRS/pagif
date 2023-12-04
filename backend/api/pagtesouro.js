@@ -20,7 +20,7 @@ const pagtesouro = axios.create({
     'Content-Type': 'application/json',
   },
   transformRequest: [
-    (rawData, headers) => {
+    (rawData) => {
       if (!rawData) return rawData;
 
       const allowed_fields = [
@@ -127,7 +127,7 @@ const pagtesouro = axios.create({
         }
       }
 
-      loggerPagTesouro.info("[PagTesouro Request] %o / %o", data, headers);
+      loggerPagTesouro.info("[PagTesouro Request] %o", data);
 
       return data;
     }

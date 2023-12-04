@@ -176,8 +176,10 @@ module.exports.save = [
         });
       })
       .catch((error) => {
-        logger.error(error);
-        return res.status(500).json(error);
+        logger.error('Erro ao solicitar criação do Pagamento: %o', error);
+        return res.status(500).json({
+          message: 'Erro ao solicitar criação do Pagamento.',
+        });
       });
     })
     .catch(error => {
