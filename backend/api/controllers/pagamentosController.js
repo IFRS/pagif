@@ -43,13 +43,20 @@ module.exports.list = function(req, res) {
     if (req.query.unidades) {
       query.where('nomeUnidade').in(req.query.unidades);
     }
+
     if (req.query.situacoes) {
       query.where('situacao.codigo').in(req.query.situacoes);
     }
-    if (req.query.datas && Array.isArray(req.query.datas)) {
+
+    if (
+      req.query.datas
+      && Array.isArray(req.query.datas)
+      && req.query.datas.length >= 1
+      && dayjs(req.query.datas[0]).isValid()
+    ) {
       const datas = req.query.datas;
       query.where('situacao.data').gte(dayjs(datas[0]).startOf('day').toDate());
-      if (datas[1]) query.lte(dayjs(datas[1]).endOf('day').toDate());
+      if (datas[1] && dayjs(datas[1]).isValid()) query.lte(dayjs(datas[1]).endOf('day').toDate());
     } else {
       query.or([{ 'situacao.data': null }, { 'situacao.data': { $gte: dayjs().startOf('day').subtract(30, 'day').toDate() } }]);
     }
