@@ -94,6 +94,8 @@ watch(datas, (newValue) => {
     const dataFinal = dayjs(newDatas[1])
 
     if (dataFinal.isBefore(dataInicial, 'day')) newDatas.reverse()
+
+    showDatas.value = false
   }
 
   newDatas = newDatas.map((data) => {
