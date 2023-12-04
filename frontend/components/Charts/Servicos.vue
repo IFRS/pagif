@@ -12,17 +12,22 @@
       density="comfortable"
       clearable
       :loading="pendingUnidades"
-      :disabled="pendingUnidades"
+      :disabled="pendingUnidades || unidades?.length === 1"
       :items="unidades"
       item-title="nome"
       item-value="_id"
     />
   </v-responsive>
-  <v-progress-circular
+  <v-responsive
     v-if="pending"
-    indeterminate
-    :size="128"
-  />
+    :aspect-ratio="2.5"
+    class="align-center justify-center"
+  >
+    <v-progress-circular
+      indeterminate
+      :size="128"
+    />
+  </v-responsive>
   <Bar
     v-else-if="data"
     id="chart-servicos"
