@@ -25,6 +25,7 @@
         />
         <v-data-table
           class="pagamentos"
+          loading-text="Carregando Pagamentos..."
           :loading="pending"
           :headers="tableHeaders"
           :items="pagamentos"

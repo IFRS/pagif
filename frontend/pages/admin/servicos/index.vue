@@ -8,6 +8,7 @@
     <v-row>
       <v-col>
         <v-data-table
+          loading-text="Carregando Serviços..."
           :loading="pending"
           :headers="tableHeaders"
           :items="servicos"
