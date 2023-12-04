@@ -87,7 +87,7 @@ const showDatas = ref(false)
 const datas = ref([])
 
 watch(datas, (newValue) => {
-  const newDatas = toRaw(newValue)
+  let newDatas = toRaw(newValue)
 
   if (newDatas.length === 2) {
     const dataInicial = dayjs(newDatas[0])
@@ -95,6 +95,10 @@ watch(datas, (newValue) => {
 
     if (dataFinal.isBefore(dataInicial, 'day')) newDatas.reverse()
   }
+
+  newDatas = newDatas.map((data) => {
+    return dayjs(data).toISOString()
+  })
 
   emit('filtro', { datas: newDatas })
 }, { deep: true })
