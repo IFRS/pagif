@@ -13,7 +13,7 @@ winston.loggers.add('pagtesouro', {
     }),
   ),
   transports: [
-    new winston.transports.File({ filename: 'log/pagtesouro.log' }),
+    new winston.transports.File({ filename: 'log/pagtesouro.log', maxsize: 10000000, maxFiles: 10, tailable: true }),
   ],
 });
 
