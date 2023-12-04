@@ -79,6 +79,9 @@ export default defineNuxtPlugin(({ vueApp }) => {
       VAutocomplete: {
         variant: 'underlined',
       },
+      VDataTable: {
+        class: 'bg-transparent',
+      },
       VTextField: {
         variant: 'underlined',
       },
