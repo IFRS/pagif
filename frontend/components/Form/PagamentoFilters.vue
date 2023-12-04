@@ -52,6 +52,7 @@
           <v-btn
             color="primary"
             type="submit"
+            :disabled="isFiltrosEmpty"
           >
             Filtrar Pagamentos
           </v-btn>
@@ -97,6 +98,12 @@ const drawerWidth = computed(() => {
 })
 
 const filtros = ref({})
+
+const isFiltrosEmpty = computed(() => {
+  return Object.keys(filtros.value).length === 0 || Object.values(filtros.value).length === 0 || Object.values(filtros.value).every((value) => {
+    return Array.isArray(value) ? value.length === 0 : !value
+  })
+})
 
 function addFiltro(filtro) {
   Object.assign(filtros.value, filtro)
