@@ -342,7 +342,7 @@ async function deletePagamento() {
 </script>
 
 <style lang="scss" scoped>
-  :deep(.v-data-table__wrapper > table > tbody > tr:hover) {
-    cursor: pointer;
+  :deep(.v-data-table__tr--clickable:hover) {
+    background-color: rgb(var(--v-theme-surface));
   }
 </style>
