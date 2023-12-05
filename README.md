@@ -4,9 +4,46 @@ Sistema de Pagamentos integrado ao [PagTesouro](https://www.gov.br/tesouronacion
 
 ## Utilização
 
+O sistema é dividido em dois "serviços", um para o _backend_ e outro para o _frontend_.
+
+### Backend
+
+O backend é desenvolvido em [NodeJS](https://nodejs.org/) com [Express](https://expressjs.com/) e banco de dados MongoDB através do [Mongoose](https://mongoosejs.com/). Confira abaixo os comandos disponíveis.
+
+
 ```bash
 # instalação de dependências
 $ npm install
+
+# roda o linter para verificar inconsistências no código
+$ npm run lint
+
+# corrige automaticamente as insconsistências encontras, quando possível
+$ npm run lint -- --fix
+
+# roda o código e inicia o servidor de desenvolvimento (com monitoramento de mudanças)
+$ npm run dev
+
+# roda o código e inicia o servidor de produção
+$ npm run start
+```
+
+### Frontend
+
+O _frontend_ é desenvolvido com [Nuxt 3](https://nuxt.com/). Confira abaixo os comandos disponíveis.
+
+```bash
+# instalação de dependências
+$ npm install
+
+# roda o linter para verificar inconsistências no código
+$ npm run lint
+
+# corrige automaticamente as insconsistências encontras, quando possível
+$ npm run lint -- --fix
+
+# remove arquivos de compilação e caches
+$ npm run clean
 
 # compila (com hot reload) e inicia o servidor de desenvolvimento
 $ npm run dev
@@ -14,21 +51,27 @@ $ npm run dev
 # compila para produção
 $ npm run build
 
-# inicia o servidor para produção
-$ npm run start
+# inicia um servidor para conferir a aplicação após o build de produção
+$ npm run preview
 ```
 
-Para mais informações confira a [documentação do Nuxt](https://nuxtjs.com).
+Para mais informações confira a [documentação do Nuxt](https://nuxt.com/docs).
 
 ## Criação de Super Administrador
 
-Para criar um usuário _super_ administrador, principalmente pela primeira vez, é necessário usar um `script` personalizado conforme abaixo:
+Para criar um usuário _super_ administrador, principalmente pela primeira vez, é necessário roda um `script` no backend conforme abaixo:
 
 ```bash
-$ npm run superadmin <email_do_superadmin>
+$ npm run superadmin email@example.com
 ```
 
 **Atenção:** O comando acima deve ser rodado no _console_ do _backend_.
+
+## Contribuição
+
+Toda contribuição é bem-vinda. Por favor, entre em contato em caso de dúvidas.
+
+As contribuições no código devem ser feitas através de um [PR](https://docs.github.com/pt/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request).
 
 ## Licença
 
