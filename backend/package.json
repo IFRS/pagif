@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon --verbose --trace-warnings --throw-deprecation --ignore log/ ./index.js",
     "start": "NODE_ENV=production node ./index.js",
-    "lint": "eslint . --fix",
+    "lint": "eslint .",
     "superadmin": "node ./db/scripts/superadmin.js"
   },
   "dependencies": {
