@@ -61,18 +61,30 @@
     </v-main>
     <v-footer
       app
-      class="bg-grey-lighten-5 text-body-2 justify-space-between"
+      class="bg-surface text-body-2 justify-space-between"
     >
-      <span><a
-        href="https://www.gov.br/tesouronacional/pt-br/gru-e-pag-tesouro/pagtesouro"
-        class="text-decoration-none text-grey"
-        :class="{ 'text--darken-2': !darkMode }"
-      >PagIF - Sistema de Pagamentos integrado ao PagTesouro</a></span>
-      <span><a
-        href="https://ifrs.edu.br/"
-        class="text-decoration-none text-grey"
-        :class="{ 'text--darken-2': !darkMode }"
-      >Desenvolvido por Instituto Federal do Rio Grande do Sul</a></span>
+      <span>
+        <a
+          href="https://www.gov.br/tesouronacional/pt-br/gru-e-pag-tesouro/pagtesouro"
+          target="_blank"
+          class="text-decoration-none text-grey"
+          :class="{ 'text-grey-darken-2': !darkMode }"
+        >
+          PagIF - Sistema de Pagamentos integrado ao PagTesouro
+          <v-icon size="x-small">mdi-open-in-new</v-icon>
+        </a>
+      </span>
+      <span>
+        <a
+          href="https://github.com/IFRS/pagif"
+          target="_blank"
+          class="text-decoration-none text-grey"
+          :class="{ 'text-grey-darken-2': !darkMode }"
+        >
+          Desenvolvido por Instituto Federal do Rio Grande do Sul
+          <v-icon size="x-small">mdi-open-in-new</v-icon>
+        </a>
+      </span>
     </v-footer>
   </v-app>
 </template>
