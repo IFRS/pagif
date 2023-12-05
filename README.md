@@ -59,7 +59,7 @@ Para mais informações confira a [documentação do Nuxt](https://nuxt.com/docs
 
 ## Criação de Super Administrador
 
-Para criar um usuário _super_ administrador, principalmente pela primeira vez, é necessário roda um `script` no backend conforme abaixo:
+Para criar um usuário _super_ administrador, principalmente pela primeira vez, é necessário rodar um `script` no backend conforme abaixo:
 
 ```bash
 $ npm run superadmin email@example.com
