@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "module": "esnext",
+    "target": "esnext",
+    "lib": [
+      "esnext",
+      "esnext.asynciterable",
+      "dom"
+    ],
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "strict": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./*"],
+      "@/*": ["./*"],
+      "~~/*": ["../*"],
+      "@@/*": ["../*"]
+    }
+  },
+  "include": ["**/*"],
+  "exclude": ["node_modules", ".nuxt", "dist", "public"]
+}

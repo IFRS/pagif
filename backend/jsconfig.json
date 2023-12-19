@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node16",
+    "module": "Node16",
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./*"],
+      "@/*": ["./*"],
+      "~~/*": ["../*"],
+      "@@/*": ["../*"]
+    }
+  },
+  "include": ["**/*"],
+  "exclude": ["node_modules", "log"]
+}
