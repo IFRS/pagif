@@ -92,7 +92,7 @@ export default defineNuxtConfig({
     'vite:extendConfig': (config) => {
       config.plugins.push(
         vuetify({
-          autoImport: true,
+          autoImport: { labs: true },
           // styles: {
           //   configFile: 'assets/settings.scss',
           // },
@@ -125,6 +125,6 @@ export default defineNuxtConfig({
   },
 
   devtools: {
-    enabled: false
+    enabled: false,
   },
 })
