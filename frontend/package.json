@@ -21,11 +21,14 @@
     "copy-to-clipboard": "^3.3.2",
     "dayjs": "^1.11.3",
     "iframe-resizer": "^4.3.2",
+    "maska": "^2.1.10",
     "pinia": "^2.1.7",
     "slug": "^8.0.0",
     "vue": "^3.3.2",
     "vue-chartjs": "^5.2.0",
     "vue-gtag": "^2.0.1",
+    "vue-recaptcha": "^3.0.0-alpha.6",
+    "vue3-google-login": "^2.0.25",
     "vuetify": "^3.2.5",
     "vuetify-pro-tiptap": "^2.1.0"
   },
@@ -35,16 +38,12 @@
     "@nuxt/eslint-config": "^0.2.0",
     "@nuxt/vite-builder": "^3.5.1",
     "@nuxtjs/eslint-module": "^4.0.2",
-    "@vue/compiler-sfc": "^3.3.4",
     "eslint": "^8.40.0",
     "eslint-plugin-vue": "^9.13.0",
-    "eslint-plugin-vuetify": "^2.0.0-beta.4",
-    "maska": "^2.1.9",
+    "eslint-plugin-vuetify": "^2.1.1",
     "nuxt": "^3.8.2",
-    "nuxt-proxy-request": "^1.1.11",
+    "nuxt-proxy-request": "^1.7.0",
     "sass": "^1.62.1",
-    "vite-plugin-vuetify": "^1.0.2",
-    "vue-recaptcha": "^3.0.0-alpha.2",
-    "vue3-google-login": "^2.0.15"
+    "vite-plugin-vuetify": "^2.0.1"
   }
 }
