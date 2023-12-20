@@ -24,7 +24,7 @@
     "maska": "^2.1.10",
     "pinia": "^2.1.7",
     "slug": "^8.0.0",
-    "vue": "^3.3.2",
+    "vue": "^3.3.9",
     "vue-chartjs": "^5.2.0",
     "vue-gtag": "^2.0.1",
     "vue-recaptcha": "^3.0.0-alpha.6",
