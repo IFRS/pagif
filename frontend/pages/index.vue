@@ -85,6 +85,7 @@
 
 <script setup>
 import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
 import { useDisplay } from 'vuetify';
 import { useMainStore } from '~/store';
 import { useConfigStore } from '~/store/config';
@@ -114,12 +115,19 @@ onBeforeMount(() => {
 });
 
 const { smAndDown } = useDisplay();
+
+const css_intro_flex_direction = computed(() => {
+  return smAndDown.value ? "column" : "row"
+})
+const css_intro_text_flex = computed(() => {
+  return smAndDown.value ? "auto" : "80ch"
+})
 </script>
 
 <style lang="scss" scoped>
 .intro {
   display: flex;
-  flex-direction: v-bind('smAndDown ? "column" : "row"');
+  flex-direction: v-bind(css_intro_flex_direction);
   flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
@@ -130,7 +138,7 @@ const { smAndDown } = useDisplay();
   }
 
   &__text {
-    flex: 0 1 v-bind('smAndDown ? "auto" : "80ch"');
+    flex: 0 1 v-bind(css_intro_text_flex);
   }
 }
 
