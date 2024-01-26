@@ -55,7 +55,7 @@ export default defineNuxtConfig({
   proxy: {
     options: {
       enableLogger: (process.env.NODE_ENV !== 'production') ? true : false,
-      target: 'http://localhost:3030',
+      target: process.env.API_BASE,
       pathRewrite: {
         '^/api': '',
       },
