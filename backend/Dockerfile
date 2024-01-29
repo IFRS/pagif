@@ -1,12 +1,14 @@
 FROM node:18-alpine
 
-USER node
+# USER node
 
 WORKDIR /home/node/app
 
 COPY . .
 
 RUN npm --loglevel error install
+
+USER node
 
 EXPOSE ${LISTEN_PORT:-"3030"}
 
