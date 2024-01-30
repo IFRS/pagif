@@ -65,7 +65,7 @@ const emit = defineEmits(['recaptcha'])
 
 const dayjs = useDayjs()
 
-const { recaptchaSiteKey } = useAppConfig()
+const { public: { recaptchaSiteKey } } = useRuntimeConfig()
 
 const configStore = useConfigStore()
 const pagamentoStore = usePagamentoStore()

@@ -28,7 +28,7 @@ import { GoogleLogin } from 'vue3-google-login'
 import { useAuthStore } from '~/store/auth'
 
 const authStore = useAuthStore()
-const { googleClientId } = useAppConfig()
+const { public: { googleClientId } } = useRuntimeConfig()
 
 const loading = ref(false)
 

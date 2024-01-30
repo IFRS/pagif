@@ -1,16 +1,16 @@
-import { defineNuxtPlugin, useAppConfig } from '#app'
+import { defineNuxtPlugin, useRuntimeConfig } from '#app'
 import { useConfigStore } from '../store/config'
 import VueGtag from 'vue-gtag'
 
 export default defineNuxtPlugin(async ({ $pinia, vueApp, router }) => {
-  const config = useAppConfig()
+  const config = useRuntimeConfig()
   const store = useConfigStore($pinia)
 
-  if (config.GA) {
+  if (config.public.GA) {
     vueApp.use(VueGtag, {
       enabled: !store.dnt,
       config: {
-        id: config.GA,
+        id: config.public.GA,
         params: {
           send_page_view: false
         }

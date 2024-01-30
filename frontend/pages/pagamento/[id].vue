@@ -156,7 +156,7 @@ if (error.value) {
 
 async function retornoPagtesouro(event) {
   // Só confiar em eventos oriundos do PagTesouro.
-  if (event.origin !== useAppConfig().pagtesouroURL) return;
+  if (event.origin !== useRuntimeConfig().public.pagtesouroURL) return;
 
   // Evento disparado pelos botões Fechar/Concluir.
   if (event.data === "EPAG_FIM") {

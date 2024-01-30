@@ -65,12 +65,10 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      pagtesouroURL: '',
-      recaptcha: {
-        siteKey: '',
-      },
-      googleClientId: '',
-      GA: '',
+      pagtesouroURL: process.env.PAGTESOURO_URL,
+      recaptchaSiteKey: process.env.RECAPTCHA_SITE_KEY,
+      googleClientId: process.env.GOOGLE_CLIENT_ID,
+      GA: process.env.GA,
     },
   },
 
