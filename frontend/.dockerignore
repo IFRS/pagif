@@ -1,7 +1,8 @@
 .git/
 .nuxt/
+.output/
 node_modules/
-.env*.example
+.env.example
 .eslintrc.json
 .gitignore
 Dockerfile
