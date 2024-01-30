@@ -1,9 +1,0 @@
-.git/
-.nuxt/
-node_modules/
-.gitignore
-.editorconfig
-.env*.example
-docker-compose.yml
-Dockerfile
-README.md

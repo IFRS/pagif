@@ -1,0 +1,7 @@
+.git/
+.nuxt/
+node_modules/
+.env*.example
+.eslintrc.json
+.gitignore
+Dockerfile
