@@ -184,7 +184,7 @@
 </template>
 
 <script setup>
-import * as libSlug from 'slug'
+import libSlug from 'slug'
 import { storeToRefs } from 'pinia'
 import { useUnidadeStore } from '~/store/unidade'
 
