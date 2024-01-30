@@ -189,7 +189,7 @@ const { smAndDown, mdAndUp } = useDisplay()
 }
 
 .contato {
-  a {
+  :deep(a) {
     color: inherit;
   }
 }
