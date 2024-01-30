@@ -116,7 +116,7 @@
 
 <script setup>
 import iFrameResize from 'iframe-resizer/js/iframeResizer';
-import { useRoute, useRuntimeConfig } from '#app';
+import { useRoute } from '#app';
 import { storeToRefs } from 'pinia';
 import { useConfigStore } from '~/store/config';
 import { usePagamentoStore } from '~/store/pagamento';
@@ -156,7 +156,7 @@ if (error.value) {
 
 async function retornoPagtesouro(event) {
   // Só confiar em eventos oriundos do PagTesouro.
-  if (event.origin !== useRuntimeConfig().public.pagtesouroURL) return;
+  if (event.origin !== useAppConfig().pagtesouroURL) return;
 
   // Evento disparado pelos botões Fechar/Concluir.
   if (event.data === "EPAG_FIM") {

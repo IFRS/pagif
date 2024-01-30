@@ -39,7 +39,7 @@
       <v-col class="d-flex justify-center align-center">
         <div
           class="g-recaptcha"
-          :data-sitekey="siteKey"
+          :data-sitekey="recaptchaSiteKey"
           :data-theme="configStore.darkMode ? 'dark' : 'light'"
           data-callback="responseCallback"
           data-expired-callback="responseCallback"
@@ -65,7 +65,7 @@ const emit = defineEmits(['recaptcha'])
 
 const dayjs = useDayjs()
 
-const { public: { recaptcha: { siteKey } } } = useRuntimeConfig()
+const { recaptchaSiteKey } = useAppConfig()
 
 const configStore = useConfigStore()
 const pagamentoStore = usePagamentoStore()

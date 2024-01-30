@@ -16,6 +16,7 @@
   "globals": {
     "$fetch": "readonly",
     "globalThis": "readonly",
+    "defineAppConfig": "readonly",
     "defineStore": "readonly",
     "acceptHMRUpdate": "readonly"
   }

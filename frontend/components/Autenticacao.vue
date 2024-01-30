@@ -10,7 +10,7 @@
 
   <GoogleLogin
     v-else
-    :client-id="config.public.googleClientId"
+    :client-id="googleClientId"
     :callback="handleGoogle"
     :button-config="{
       type: 'standard',
@@ -25,11 +25,10 @@
 
 <script setup>
 import { GoogleLogin } from 'vue3-google-login'
-import { useRuntimeConfig } from '#app'
 import { useAuthStore } from '~/store/auth'
 
 const authStore = useAuthStore()
-const config = useRuntimeConfig()
+const { googleClientId } = useAppConfig()
 
 const loading = ref(false)
 
