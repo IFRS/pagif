@@ -5,11 +5,18 @@ const api = require('./api');
 let fila = fork('./queue/process.js');
 
 fila.on('close', (code) => {
-  console.log(`Fila terminada com o código: ${code}`);
+  console.info(`Fila terminada com o código: ${code}`);
 });
 
 const port = process.env.LISTEN_PORT || '3030';
 
-api.listen(port, () => {
-  console.log(`API rodando na porta ${port}`)
+const server = api.listen(port, () => {
+  console.info(`API rodando na porta ${port}`)
+});
+
+process.on('SIGTERM', () => {
+  console.debug('Sinal SIGTERM recebido: fechando o servidor HTTP...');
+  server.close(() => {
+    console.info('Servidor da API fechado.');
+  });
 });
