@@ -34,6 +34,10 @@ const Pagamento = new mongoose.Schema({
     virtuals: true,
     versionKey: false,
   },
+  toObject: {
+    virtuals: true,
+    versionKey: false,
+  },
 });
 
 module.exports = mongoose.model('Pagamento', Pagamento);
