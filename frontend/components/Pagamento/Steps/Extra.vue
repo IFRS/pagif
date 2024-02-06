@@ -28,6 +28,8 @@
           v-model="competenciaFormatted"
           v-bind="props"
           label="Competência"
+          hint="Selecione qualquer data dentro do mês desejado."
+          persistent-hint
           prepend-icon="mdi-calendar-month"
           readonly
         />
@@ -35,8 +37,6 @@
       <v-date-picker
         v-model="competencia"
         show-adjacent-months
-        @click:cancel="showCompetencia = false"
-        @click:save="showCompetencia = false"
       >
         <template #header />
       </v-date-picker>
@@ -46,6 +46,7 @@
 
 <script setup>
 import { storeToRefs } from 'pinia'
+import { watch } from 'vue';
 import { useMainStore } from '~/store';
 import { usePagamentoStore } from '~/store/pagamento'
 
@@ -94,6 +95,10 @@ const competenciaFormatted = computed(() => {
   if (!competencia.value) return null
 
   return dayjs(competencia.value).format('MM/YYYY')
+})
+
+watch(competencia, async () => {
+  showCompetencia.value = false
 })
 </script>
 
