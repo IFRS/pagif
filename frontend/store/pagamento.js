@@ -72,7 +72,7 @@ export const usePagamentoStore = defineStore('pagamento', {
       return response;
     },
     async show(id) {
-      const response = await useFetch(`/api/public/pagamentos/${id}`)
+      const response = await useFetch(`/api/pagamentos/${id}`)
       if (response.data.value) this.$patch(response.data.value);
       return response;
     },
