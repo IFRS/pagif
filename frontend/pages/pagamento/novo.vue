@@ -99,13 +99,13 @@
               <v-btn
                 class="me-3"
                 icon
-                @click="toClipboard(pagamentoStore.idPagamento)"
+                @click="toClipboard(idPagamento)"
               >
                 <v-icon>mdi-content-copy</v-icon>
               </v-btn>
             </template>
             <v-list-item-title style="user-select: all">
-              {{ pagamentoStore.idPagamento }}
+              {{ idPagamento }}
             </v-list-item-title>
             <v-list-item-subtitle>Código do Pagamento</v-list-item-subtitle>
           </v-list-item>
@@ -131,7 +131,7 @@
           <v-btn
             variant="text"
             color="primary"
-            :to="{ name: 'pagamento-id', params: { id: pagamentoStore.idPagamento } }"
+            :to="{ name: 'pagamento-id', params: { id: idPagamento } }"
           >
             Pagar
           </v-btn>
@@ -151,7 +151,9 @@ definePageMeta({ title: 'Novo Pagamento' })
 
 const store = useMainStore()
 const configStore = useConfigStore()
+
 const pagamentoStore = usePagamentoStore()
+const { idPagamento } = storeToRefs(pagamentoStore)
 
 const recaptchaResponse = ref(null)
 const criandoPagamento = ref(false)
@@ -245,8 +247,12 @@ async function toClipboard(text) {
   }
 }
 
-onUnmounted(() => {
+onBeforeRouteLeave(() => {
   store.clearServicos()
+  /*
+    Ao limpar o store é gerado o erro 'Missing required param "id"', pois a navegação usa o idPagamento como parâmetro
+    Porém, somente limpando o store nesse hook a página de pagamento funciona. Ao usar o hook onUnmout ou onBeforeUnmount o store é limpo depois do fetch.
+  */
   pagamentoStore.$reset()
 })
 </script>

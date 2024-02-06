@@ -68,7 +68,7 @@ function submitPagamento() {
 
   nextTick(async () => {
     if (form.value.validate()) {
-      await navigateTo({ name: 'pagamento-id', params: { id: idPagamento.value } });
+      await navigateTo({ name: 'pagamento-id', params: { id: idPagamento.value } })
     }
   });
 }

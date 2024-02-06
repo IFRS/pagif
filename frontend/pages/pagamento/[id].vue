@@ -115,20 +115,31 @@
 </template>
 
 <script setup>
-import iFrameResize from 'iframe-resizer/js/iframeResizer';
-import { useRoute } from '#app';
-import { storeToRefs } from 'pinia';
-import { useConfigStore } from '~/store/config';
-import { usePagamentoStore } from '~/store/pagamento';
+import iFrameResize from 'iframe-resizer/js/iframeResizer'
+import { useRoute } from '#app'
+import { storeToRefs } from 'pinia'
+import { useConfigStore } from '~/store/config'
+import { usePagamentoStore } from '~/store/pagamento'
 
 definePageMeta({ title: 'Pagamento' })
 
 const dayjs = useDayjs()
 
-const mostrarPagamento = ref(false);
+const mostrarPagamento = ref(false)
 
-const configStore = useConfigStore();
-const pagamentoStore = usePagamentoStore();
+const configStore = useConfigStore()
+
+const route = useRoute()
+const pagamentoStore = usePagamentoStore()
+
+const { pending, error } = await pagamentoStore.show_public(route.params.id)
+
+if (error.value) {
+  console.error(error);
+  useToast().error('Ocorreu um erro ao buscar o Pagamento.')
+  await navigateTo({ name: 'pagamento' })
+}
+
 const {
   idPagamento,
   valorPrincipal,
@@ -143,43 +154,34 @@ const {
   vencimento,
   dataCriacao,
   proximaUrl,
-} = storeToRefs(pagamentoStore);
-
-const route = useRoute();
-const { pending, error } = await pagamentoStore.show_public(route.params.id);
-
-if (error.value) {
-  console.error(error);
-  useToast().error('Ocorreu um erro ao buscar o Pagamento.');
-  await navigateTo({ name: 'pagamento' });
-}
+} = storeToRefs(pagamentoStore)
 
 async function retornoPagtesouro(event) {
   // Só confiar em eventos oriundos do PagTesouro.
-  if (event.origin !== useRuntimeConfig().public.pagtesouroURL) return;
+  if (event.origin !== useRuntimeConfig().public.pagtesouroURL) return
 
   // Evento disparado pelos botões Fechar/Concluir.
   if (event.data === "EPAG_FIM") {
-    useToast().info('Pagamento finalizado.');
-    await navigateTo({ name: 'index' });
+    useToast().info('Pagamento finalizado.')
+    await navigateTo({ name: 'index' })
   }
 }
 
 onMounted(() => {
-  window.addEventListener('message', retornoPagtesouro, false);
+  window.addEventListener('message', retornoPagtesouro, false)
 })
 
 const vResizeIframe = {
   beforeMount(el, { value }) {
-    el.addEventListener('load', () => iFrameResize(value, el));
+    el.addEventListener('load', () => iFrameResize(value, el))
   },
   beforeUnmount(el) {
-    el.iFrameResizer.removeListeners();
+    el.iFrameResizer.removeListeners()
   }
 }
 
 onUnmounted(() => {
-  pagamentoStore.$reset();
+  pagamentoStore.$reset()
 })
 </script>
 
