@@ -62,11 +62,11 @@ const servicos = computed(() => {
   })
 })
 
-const selectedServico = ref(null)
+const selectedServico = ref()
 
-watch(selectedServico, (newServico) => {
+watch(selectedServico, async (newServico) => {
   const servico = store.servicos.find((servico) => {
-    return servico._id = newServico
+    return servico._id == newServico
   })
   codigoServico.value = servico?.codigo
   nomeServico.value = servico?.nome
