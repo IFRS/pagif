@@ -1,4 +1,4 @@
-const {loggerPagTesouro} = require('../logger');
+const { loggerPagTesouro } = require('../logger');
 const axios = require('axios');
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
@@ -177,15 +177,15 @@ const pagtesouro = axios.create({
 pagtesouro.interceptors.request.use(function (config) {
   return config;
 }, function (error) {
-  loggerPagTesouro.error("[PagTesouro Request Error] %o", error);
-  return Promise.reject(error);
+  loggerPagTesouro.error("[PagTesouro Request Error] %o", error.message);
+  return Promise.reject(error.message);
 });
 
 pagtesouro.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
-  loggerPagTesouro.error("[PagTesouro Response Error] %o", error);
-  return Promise.reject(error);
+  loggerPagTesouro.error("[PagTesouro Response Error] %o", error.message);
+  return Promise.reject(error.message);
 });
 
 module.exports = pagtesouro;
