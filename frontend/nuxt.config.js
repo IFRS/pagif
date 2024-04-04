@@ -78,15 +78,6 @@ export default defineNuxtConfig({
   },
 
   hooks: {
-    'pages:extend': (routes) => {
-      routes.push({
-        name: 'unidades-slug',
-        path: '/unidades/:slug',
-        redirect: (to) => {
-          return { name: 'index', query: { unidade: to.params.slug } };
-        },
-      });
-    },
     'vite:extendConfig': (config) => {
       config.plugins.push(
         vuetify({
