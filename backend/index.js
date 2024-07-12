@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { fork } = require('child_process');
+const { fork } = require('node:child_process');
 const api = require('./api');
 
 let fila = fork('./queue/process.js');
