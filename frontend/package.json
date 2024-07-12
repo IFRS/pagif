@@ -35,13 +35,13 @@
   "devDependencies": {
     "@fontsource/roboto": "^5.0.1",
     "@nuxt/devtools": "^1.0.0",
-    "@nuxt/eslint-config": "^0.2.0",
+    "@nuxt/eslint-config": "^0.3.13",
     "@nuxt/vite-builder": "^3.5.1",
     "@nuxtjs/eslint-module": "^4.0.2",
-    "eslint": "^8.40.0",
+    "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.13.0",
     "eslint-plugin-vuetify": "^2.1.1",
-    "nuxt": "^3.11.1",
+    "nuxt": "^3.12.3",
     "nuxt-proxy-request": "^1.7.0",
     "sass": "^1.62.1",
     "vite-plugin-vuetify": "^2.0.1"
