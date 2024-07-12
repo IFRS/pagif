@@ -1,12 +1,12 @@
-const { Agenda } = require('@hokify/agenda');
+const Pulse = require('@pulsecron/pulse');
 const mongo = require('../db');
 const Pagamento = require('../db/models/Pagamento');
 const pagtesouro = require('../api/pagtesouro');
 const { logger } = require('../logger');
 
-const agenda = new Agenda({mongo: mongo, db: { collection: 'jobs' }, processEvery: '5 minute'});
+const pulse = new Pulse({mongo: mongo, db: { collection: 'jobs' }, processEvery: '5 minutes'});
 
-agenda.define('update pagamentos', async job => {
+pulse.define('update pagamentos', async job => {
   const { idPagamento } = job.attrs.data;
 
 	logger.info('[Fila] Iniciando atualização do Pagamento %s', idPagamento);
@@ -40,10 +40,16 @@ agenda.define('update pagamentos', async job => {
     });
   })
   .catch(async error => {
-      logger.error('[Fila] Erro ao obter Pagamento.');
-      await job.fail('Erro ao obter Pagamento. ' + error);
-      await job.save();
+    logger.error('[Fila] Erro ao obter Pagamento.');
+    await job.fail('Erro ao obter Pagamento. ' + error);
+    await job.save();
   });
+}, {
+  attempts: 10,
+  backoff: {
+    type: 'exponential',
+    delay: 60000,
+  },
 });
 
-module.exports = agenda;
+module.exports = pulse;

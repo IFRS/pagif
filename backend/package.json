@@ -15,7 +15,7 @@
   "dependencies": {
     "@casl/ability": "^6.5.0",
     "@casl/mongoose": "^8.0.1",
-    "@hokify/agenda": "^6.3.0",
+    "@pulsecron/pulse": "^1.5.2",
     "axios": "^1.4.0",
     "connect-mongodb-session": "^4.0.0",
     "cors": "^2.8.5",

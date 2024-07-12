@@ -1,6 +1,6 @@
 const Pagamento = require('../../db/models/Pagamento');
 const validator = require('express-validator');
-const agenda = require('../../queue');
+const pulse = require('../../queue');
 const { loggerPagTesouro, logger } = require('../../logger');
 
 module.exports.handle = [
@@ -58,7 +58,7 @@ module.exports.handle = [
       }
 
       try {
-        let tarefa = agenda.create('update pagamentos', {idPagamento: pagamento._id});
+        let tarefa = pulse.create('update pagamentos', { idPagamento: pagamento._id });
         await tarefa.save();
 
         logger.info('[Fila] Tarefa adicionada para o Pagamento %s', pagamento._id);
