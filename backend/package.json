@@ -27,6 +27,7 @@
     "google-auth-library": "^9.0.0",
     "helmet": "^7.0.0",
     "mongoose": "^8.5.0",
+    "tslib": "^2.6.3",
     "winston": "^3.8.2"
   },
   "devDependencies": {
