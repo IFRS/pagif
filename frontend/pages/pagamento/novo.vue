@@ -7,76 +7,77 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-card :disabled="criandoPagamento">
-          <v-card-title class="d-inline-flex align-center">
-            <v-badge
-              color="primary"
-              :content="currentStep"
-              inline
-            />
-            &nbsp;
-            <span>{{ steps[currentStep]?.title }}</span>
-          </v-card-title>
-
-          <v-window v-model="currentStep">
-            <v-window-item
+        <v-stepper :model-value="currentStep" :disabled="criandoPagamento">
+          <v-stepper-header>
+            <template
               v-for="(step, index) in steps"
-              :key="index"
+              :key="`${index}-step`"
+            >
+              <v-stepper-item
+                :title="step.title"
+                :value="parseInt(index)"
+                :complete="currentStep > index"
+              ></v-stepper-item>
+              <v-divider></v-divider>
+            </template>
+          </v-stepper-header>
+          <v-stepper-window>
+            <v-stepper-window-item
+              v-for="(step, index) in steps"
+              :key="`${index}-content`"
               :value="parseInt(index)"
             >
-              <v-card-text>
-                <component
-                  :is="step.component"
-                  :ref="(el) => addForm(el, index)"
-                  class="mb-6"
-                  @submit.prevent="nextStep()"
-                  @recaptcha="handleRecaptcha"
-                />
-              </v-card-text>
-            </v-window-item>
-          </v-window>
+              <component
+                :is="step.component"
+                :ref="(el) => addForm(el, index)"
+                class="mb-6"
+                @submit.prevent="nextStep()"
+                @keyup.enter="nextStep()"
+                @recaptcha="handleRecaptcha"
+              />
+            </v-stepper-window-item>
+          </v-stepper-window>
+          <v-stepper-actions :disabled="false">
+            <template #prev>
+              <v-btn
+                v-if="currentStep === 1"
+                variant="text"
+                :to="{ name: 'pagamento' }"
+              >
+                Voltar
+              </v-btn>
+              <v-btn
+                v-else
+                variant="text"
+                :disabled="criandoPagamento"
+                @click="previousStep()"
+              >
+                Anterior
+              </v-btn>
+            </template>
 
-          <v-divider />
+            <template #next>
+              <v-btn
+                v-if="currentStep < numberOfSteps"
+                variant="tonal"
+                @click="nextStep()"
+              >
+                Pr&oacute;ximo
+              </v-btn>
 
-          <v-card-actions>
-            <v-btn
-              v-if="currentStep === 1"
-              variant="plain"
-              @click="navigateTo({ name: 'pagamento' })"
-            >
-              Voltar
-            </v-btn>
-            <v-btn
-              v-else
-              variant="text"
-              :disabled="criandoPagamento"
-              @click="previousStep()"
-            >
-              Anterior
-            </v-btn>
-
-            <v-spacer />
-
-            <v-btn
-              v-if="currentStep < numberOfSteps"
-              variant="text"
-              @click="nextStep()"
-            >
-              Pr&oacute;ximo
-            </v-btn>
-
-            <v-btn
-              v-else-if="currentStep == numberOfSteps"
-              color="success"
-              variant="flat"
-              :disabled="!enablePagamento"
-              :loading="criandoPagamento"
-              @click="criarPagamento()"
-            >
-              Concluir
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+              <v-btn
+                v-else-if="currentStep == numberOfSteps"
+                color="success"
+                variant="flat"
+                :disabled="!enablePagamento"
+                :loading="criandoPagamento"
+                @click="criarPagamento()"
+              >
+                Concluir
+              </v-btn>
+            </template>
+          </v-stepper-actions>
+        </v-stepper>
       </v-col>
     </v-row>
     <v-dialog
