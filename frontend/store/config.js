@@ -21,6 +21,10 @@ export const useConfigStore = defineStore('config', {
         this.sigla = response.data.value.sigla
         this.orgao = response.data.value.orgao
         this.intro = response.data.value.intro
+      } else if (response.statusCode === 404) {
+        this.sigla = ''
+        this.orgao = ''
+        this.intro = ''
       }
       return response
     },

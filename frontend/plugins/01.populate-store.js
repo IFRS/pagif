@@ -19,7 +19,7 @@ export default defineNuxtPlugin(async ({ $pinia }) => {
   const cookie_unidade = useCookie('unidade')
 
   const { error } = await configStore.populateConfig()
-  if (error.value) {
+  if (error.value && error.value.statusCode !== 404) {
     useToast().error('Ocorreu um erro ao carregar as Configurações do Sistema.')
     console.error(error.value)
   }

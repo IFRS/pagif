@@ -106,12 +106,12 @@ const {
 
 const { error, pending } = await settingsStore.show()
 if (error.value) {
-  useToast().error('Ocorreu um erro ao carregar as Configurações: ' + error.message)
+  useToast().error('Ocorreu um erro ao carregar as Configurações: ' + error.value.message)
   console.error(error)
 }
 
 async function handleSubmit() {
-  const { valid } = formNode.value.validate()
+  const { valid } = await formNode.value.validate()
 
   if (valid) {
     emit('ok')

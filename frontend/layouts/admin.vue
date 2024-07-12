@@ -42,7 +42,7 @@
       <Toast />
       <v-snackbar
         v-if="loaded"
-        :model-value="useACL().can('manage', 'Settings') && (!sigla || !orgao)"
+        :model-value="showNoSettings"
         :timeout="-1"
         location="top"
         multi-line
@@ -54,9 +54,8 @@
         Por favor, vá até o menu <NuxtLink
           :to="{ path: '/admin/config' }"
           class="text-white font-weight-bold"
-        >
-          Configurações
-        </NuxtLink> para definir esses valores.
+        >Configurações</NuxtLink>
+        para definir esses valores.
       </v-snackbar>
     </v-main>
     <v-footer
@@ -98,6 +97,10 @@ const store = useMainStore()
 const configStore = useConfigStore()
 
 const { darkMode, sigla, orgao } = storeToRefs(configStore)
+
+const showNoSettings = computed(() => {
+  return useACL().can('manage', 'Settings') && (!sigla || !orgao)
+})
 
 const loaded = ref(false)
 
