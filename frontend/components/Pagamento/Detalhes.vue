@@ -209,7 +209,7 @@ const {
 } = storeToRefs(pagamentoStore)
 
 const domain = computed(() => {
-  if (process.client) return window.location.host
+  if (import.meta.client) return window.location.host
   return process.env.BROWSER_BASE_URL
 })
 </script>

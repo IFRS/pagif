@@ -4,7 +4,7 @@ import { useAuthStore } from '~/store/auth'
 import { useConfigStore } from '~/store/config'
 
 export default defineNuxtPlugin(async ({ $pinia }) => {
-  if (process.server) {
+  if (import.meta.server) {
     const authStore = useAuthStore($pinia)
     const { data, error } = await useFetch('/api/auth/me')
     if (data.value) authStore.user = data.value
@@ -30,7 +30,7 @@ export default defineNuxtPlugin(async ({ $pinia }) => {
   }
 
   /* Seta dark mode no cliente, caso o browser retorne que esse é o modo preferido do usuário */
-  if (process.client && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  if (import.meta.client && window.matchMedia('(prefers-color-scheme: dark)').matches) {
     configStore.darkMode = true
   }
 

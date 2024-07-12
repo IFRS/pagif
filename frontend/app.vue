@@ -31,7 +31,7 @@ const theme = useTheme();
 
 const cookie = useCookie('darkMode');
 
-const isDarkMode = process.server ? cookie.value : darkMode.value;
+const isDarkMode = import.meta.server ? cookie.value : darkMode.value;
 
 theme.global.name.value = isDarkMode ? 'dark': 'light';
 </script>
