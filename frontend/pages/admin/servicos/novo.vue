@@ -39,7 +39,7 @@ async function handleSubmit() {
   submitting.value = false;
 
   if (error.value) {
-    useToast().error('Ocorreu um erro ao cadastrar o Serviço. ' + error.message)
+    useToast().error('Ocorreu um erro ao cadastrar o Serviço. ' + error.value.message)
     console.error(error)
   } else {
     useToast().success('Serviço cadastrado com sucesso!')

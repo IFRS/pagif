@@ -36,7 +36,7 @@ async function handleSubmit() {
 
   const { error } = await pagamentoStore.save()
   if (error.value) {
-    useToast().error('Ocorreu um erro ao cadastrar a Cobrança. ' + error.message)
+    useToast().error('Ocorreu um erro ao cadastrar a Cobrança. ' + error.value.message)
     console.error(error)
   } else {
     useToast().success('Cobrança cadastrada com sucesso!')

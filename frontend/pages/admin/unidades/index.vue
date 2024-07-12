@@ -184,7 +184,7 @@ const { unidades } = storeToRefs(store)
 
 const { pending, refresh, error } = await store.fetchUnidades()
 if (error.value) {
-  useToast().error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.message)
+  useToast().error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.value.message)
   console.error(error)
 }
 
@@ -206,7 +206,7 @@ async function showTokenDialog(item) {
 
   const { error } = await unidadeStore.fetchToken(item._id)
   if (error.value) {
-    useToast().error('Ocorreu um erro ao buscar o Token da Unidade Gestora: ' + error.message)
+    useToast().error('Ocorreu um erro ao buscar o Token da Unidade Gestora: ' + error.value.message)
     console.error(error)
   }
 
@@ -236,7 +236,7 @@ async function deleteUnidade() {
   confirmDialog.value = false
   const { error } = await unidadeStore.delete()
   if (error.value) {
-    useToast().error('Erro ao tentar deletar a Unidade Gestora. ' + error.message)
+    useToast().error('Erro ao tentar deletar a Unidade Gestora. ' + error.value.message)
     console.error(error)
   } else {
     useToast().success('Unidade Gestora removida com sucesso!')

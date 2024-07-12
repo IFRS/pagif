@@ -143,7 +143,7 @@ const usuarioStore = useUsuarioStore()
 
 const { error, pending, refresh } = await store.fetchUsuarios()
 if (error.value) {
-  useToast().error('Ocorreu um erro ao carregar os Usuários: ' + error.message)
+  useToast().error('Ocorreu um erro ao carregar os Usuários: ' + error.value.message)
   console.error(error)
 }
 
@@ -175,7 +175,7 @@ async function deleteUsuario() {
 
   const { error } = usuarioStore.delete()
   if (error.value) {
-    useToast().error('Erro ao tentar deletar o Usuário. ' + error.message)
+    useToast().error('Erro ao tentar deletar o Usuário. ' + error.value.message)
     console.error(error)
   } else {
     useToast().success('Usuário removido com sucesso!')

@@ -39,7 +39,7 @@ async function handleSubmit() {
 
   const { error } = await servicoStore.update()
   if (error.value) {
-    useToast().error('Ocorreu um erro ao atualizar o Serviço. ' + error.message)
+    useToast().error('Ocorreu um erro ao atualizar o Serviço. ' + error.value.message)
     console.error(error)
   } else {
     useToast().success('Serviço atualizado com sucesso!')

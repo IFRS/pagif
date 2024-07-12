@@ -117,7 +117,7 @@ const formEl = ref(null)
 const store = useMainStore()
 const { error, pending } = await store.fetchUnidades()
 if (error.value) {
-  useToast().error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.message);
+  useToast().error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.value.message);
   console.error(error);
 }
 

@@ -320,7 +320,7 @@ const { unidades, servicos } = storeToRefs(store)
 
 const { error, pending } = await store.fetchUnidades()
 if (error.value) {
-  useToast().error('Ocorreu um erro ao carregar as Unidades: ' + error.message)
+  useToast().error('Ocorreu um erro ao carregar as Unidades: ' + error.value.message)
   console.error(error)
 }
 
@@ -380,7 +380,7 @@ async function fetchServicos(unidade_id) {
 
   const { error } = await store.fetchServicos({ unidade: unidade_id })
   if (error.value) {
-    useToast().error('Ocorreu um erro ao carregar os Serviços: ' + error.message)
+    useToast().error('Ocorreu um erro ao carregar os Serviços: ' + error.value.message)
     console.error(error)
   }
   loadingServicos.value = false

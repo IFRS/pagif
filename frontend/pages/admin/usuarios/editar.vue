@@ -36,7 +36,7 @@ async function handleSubmit() {
 
   const { error } = await usuarioStore.update()
   if (error.value) {
-    useToast().error('Ocorreu um erro ao atualizar o Usuário. ' + error.message)
+    useToast().error('Ocorreu um erro ao atualizar o Usuário. ' + error.value.message)
     console.error(error)
   } else {
     useToast().success('Usuário atualizado com sucesso!')

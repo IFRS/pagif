@@ -15,7 +15,7 @@
 
   const { data, error } = await useFetch('/api/info/pagamentos_por_tipo')
   if (error.value) {
-    useToast().error('Ocorreu um erro ao carregar as informações sobre o sistema: ' + error.message)
+    useToast().error('Ocorreu um erro ao carregar as informações sobre o sistema: ' + error.value.message)
     console.error(error)
   }
 

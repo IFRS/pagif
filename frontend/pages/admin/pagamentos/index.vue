@@ -258,7 +258,7 @@ const { error, pending, refresh } = await useFetch('/api/pagamentos', {
   },
 })
 if (error.value) {
-  useToast().error('Ocorreu um erro ao carregar os Pagamentos: ' + error.message)
+  useToast().error('Ocorreu um erro ao carregar os Pagamentos: ' + error.value.message)
   console.error(error)
 }
 
@@ -314,7 +314,7 @@ async function consultaPagamento(idPagamento) {
   const { error, status } = await pagamentoStore.consulta(idPagamento)
 
   if (error.value) {
-    useToast().error('Erro ao tentar consultar o Pagamento. ' + error.message)
+    useToast().error('Erro ao tentar consultar o Pagamento. ' + error.value.message)
     console.error(error)
   } else {
     if (status === 204) {
@@ -333,7 +333,7 @@ async function deletePagamento() {
   const { error } = await pagamentoStore.delete()
 
   if (error.value) {
-    useToast().error('Erro ao tentar deletar o Pagamento. ' + error.message)
+    useToast().error('Erro ao tentar deletar o Pagamento. ' + error.value.message)
     console.error(error)
   } else {
     useToast().success('Pagamento removido com sucesso!')

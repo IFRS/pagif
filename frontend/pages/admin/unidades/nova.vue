@@ -39,7 +39,7 @@ async function handleSubmit() {
   submitting.value = false;
 
   if (error.value) {
-    useToast().error('Ocorreu um erro ao cadastrar a Unidade Gestora. ' + error.message)
+    useToast().error('Ocorreu um erro ao cadastrar a Unidade Gestora. ' + error.value.message)
     console.error(error)
   } else {
     useToast().success('Unidade Gestora cadastrada com sucesso!')

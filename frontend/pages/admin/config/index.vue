@@ -28,7 +28,7 @@ async function handleSubmit() {
 
   const { error } = await settingsStore.save()
   if (error.value) {
-    useToast().error('Ocorreu um erro ao salvar as Configurações. ' + error.message)
+    useToast().error('Ocorreu um erro ao salvar as Configurações. ' + error.value.message)
     console.error(error)
   } else {
     useToast().success('Configurações salvas com sucesso!')

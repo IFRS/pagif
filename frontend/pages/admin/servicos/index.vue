@@ -151,7 +151,7 @@ const { servicos } = storeToRefs(store)
 
 const { pending, refresh, error } = await store.fetchServicos()
 if (error.value) {
-  useToast().error('Ocorreu um erro ao carregar os Serviços: ' + error.message)
+  useToast().error('Ocorreu um erro ao carregar os Serviços: ' + error.value.message)
   console.error(error)
 }
 
@@ -179,7 +179,7 @@ async function deleteServico() {
 
   const { error } = await servicoStore.delete()
   if (error.value) {
-    useToast().error('Erro ao tentar deletar o Serviço. ' + error.message)
+    useToast().error('Erro ao tentar deletar o Serviço. ' + error.value.message)
     console.error(error)
   } else {
     useToast().success('Serviço removido com sucesso!')

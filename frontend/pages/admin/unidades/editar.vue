@@ -37,7 +37,7 @@ const submitting = ref(false)
 
 const { error, pending } = await unidadeStore.fetchToken()
 if (error.value) {
-  useToast().error('Ocorreu um erro ao buscar o Token da Unidade: ' + error.message)
+  useToast().error('Ocorreu um erro ao buscar o Token da Unidade: ' + error.value.message)
   console.error(error)
 }
 
@@ -47,7 +47,7 @@ async function handleSubmit() {
   const { error } = await unidadeStore.update()
 
   if (error.value) {
-    useToast().error('Ocorreu um erro ao atualizar a Unidade Gestora. ' + error.message)
+    useToast().error('Ocorreu um erro ao atualizar a Unidade Gestora. ' + error.value.message)
     console.error(error)
   } else {
     useToast().success('Unidade Gestora atualizada com sucesso!')
