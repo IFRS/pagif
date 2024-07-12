@@ -1,4 +1,4 @@
-const Pulse = require('@pulsecron/pulse');
+const { Pulse } = require('@pulsecron/pulse');
 const mongo = require('../db');
 const Pagamento = require('../db/models/Pagamento');
 const pagtesouro = require('../api/pagtesouro');
