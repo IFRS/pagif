@@ -17,7 +17,7 @@
     "@casl/mongoose": "^8.0.1",
     "@pulsecron/pulse": "^1.5.2",
     "axios": "^1.4.0",
-    "connect-mongodb-session": "^4.0.0",
+    "connect-mongodb-session": "^5.0.0",
     "cors": "^2.8.5",
     "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",
@@ -26,13 +26,13 @@
     "express-validator": "^7.0.1",
     "google-auth-library": "^9.0.0",
     "helmet": "^7.0.0",
-    "mongoose": "^7.6.10",
+    "mongoose": "^8.5.0",
     "winston": "^3.8.2"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "eslint": "^8.47.0",
-    "eslint-plugin-n": "^16.0.0",
+    "eslint": "^9.6.0",
+    "eslint-plugin-n": "^17.9.0",
     "nodemon": "^3.0.1"
   }
 }
