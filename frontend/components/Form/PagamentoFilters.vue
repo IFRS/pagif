@@ -92,9 +92,9 @@ const drawerWidth = computed(() => {
     case 'xl': return '640'
     case 'lg': return '640'
     case 'md': return '480'
-    case 'sm': return false
-    case 'xs': return false
-    default: return false
+    case 'sm': return ''
+    case 'xs': return ''
+    default: return ''
   }
 })
 
