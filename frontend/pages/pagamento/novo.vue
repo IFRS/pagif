@@ -7,7 +7,10 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-stepper :model-value="currentStep" :disabled="criandoPagamento">
+        <v-stepper
+          :model-value="currentStep"
+          :disabled="criandoPagamento"
+        >
           <v-stepper-header>
             <template
               v-for="(step, index) in steps"
@@ -17,8 +20,8 @@
                 :title="step.title"
                 :value="parseInt(index)"
                 :complete="currentStep > index"
-              ></v-stepper-item>
-              <v-divider></v-divider>
+              />
+              <v-divider />
             </template>
           </v-stepper-header>
           <v-stepper-window>
@@ -31,8 +34,7 @@
                 :is="step.component"
                 :ref="(el) => addForm(el, index)"
                 class="mb-6"
-                @submit.prevent="nextStep()"
-                @keyup.enter="nextStep()"
+                @keyup.enter.prevent="nextStep()"
                 @recaptcha="handleRecaptcha"
               />
             </v-stepper-window-item>

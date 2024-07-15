@@ -2,6 +2,7 @@
   <v-form
     ref="form"
     v-bind="$attrs"
+    @submit.prevent
   >
     <v-text-field
       prepend-icon="mdi-office-building-marker"

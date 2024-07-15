@@ -2,6 +2,7 @@
   <v-form
     ref="form"
     v-bind="$attrs"
+    @submit.prevent
   >
     <p class="text-body-2 text--secondary mb-3">
       As informa&ccedil;&otilde;es abaixo s&atilde;o opcionais.
