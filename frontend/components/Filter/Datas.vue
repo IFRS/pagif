@@ -29,15 +29,30 @@
                 @click:clear="datas = []"
               />
             </template>
-            <!-- TODO: Esse DatePicker precisa ser do tipo range. Talvez no Vuetify 3.5 essa opção esteja disponível. -->
             <v-date-picker
               v-model="datas"
               show-adjacent-months
-              multiple
+              multiple="range"
+              hide-header
               @click:cancel="showDatas = false"
               @click:save="showDatas = false"
             >
-              <template #header />
+              <template #actions>
+                <v-btn
+                  variant="text"
+                  color="primary"
+                  @click="[showDatas = false, datas = []]"
+                >
+                  Cancelar
+                </v-btn>
+                <v-btn
+                  variant="text"
+                  color="primary"
+                  @click="showDatas = false"
+                >
+                  Ok
+                </v-btn>
+              </template>
             </v-date-picker>
           </v-menu>
         </v-col>
@@ -89,11 +104,10 @@ const datas = ref([])
 watch(datas, (newValue) => {
   let newDatas = toRaw(newValue)
 
-  if (newDatas.length === 2) {
-    const dataInicial = dayjs(newDatas[0])
-    const dataFinal = dayjs(newDatas[1])
-
-    if (dataFinal.isBefore(dataInicial, 'day')) newDatas.reverse()
+  if (newDatas.length > 1) {
+    newDatas = newDatas.filter((data, index, array) => {
+      return index === 0 || index === array.length - 1
+    })
 
     showDatas.value = false
   }
@@ -111,6 +125,8 @@ const datasFormatted = computed({
 
     const formatted = datas.value.map((data) => {
       return dayjs(data).format('DD/MM/YYYY')
+    }).filter((data, index, array) => {
+      return index === 0 || index === array.length - 1
     });
 
     return formatted.join(' ~ ')
