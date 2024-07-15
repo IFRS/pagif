@@ -5,6 +5,7 @@
     <v-form
       ref="form"
       lazy-validation
+      class="d-flex flex-nowrap justify-center align-start ga-3"
       @submit.prevent="submitConsulta"
     >
       <v-text-field
@@ -15,18 +16,17 @@
         variant="filled"
         :rules="validation"
         required
+      />
+      <v-btn
+        type="submit"
+        variant="text"
+        size="large"
+        icon
       >
-        <template #append>
-          <v-btn
-            type="submit"
-            size="x-large"
-            variant="text"
-            icon
-          >
-            <v-icon>mdi-arrow-right</v-icon>
-          </v-btn>
-        </template>
-      </v-text-field>
+        <v-icon size="x-large">
+          mdi-arrow-right
+        </v-icon>
+      </v-btn>
     </v-form>
   </v-container>
 </template>
@@ -50,7 +50,8 @@ function submitConsulta() {
   ];
 
   nextTick(async () => {
-    if (form.value.validate()) {
+    const { valid } = await form.value.validate()
+    if (valid) {
       await navigateTo({ name: 'consulta-id', params: { id: idPagamento.value } });
     }
   });

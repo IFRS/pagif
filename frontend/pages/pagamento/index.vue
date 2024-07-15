@@ -7,8 +7,8 @@
     </h3>
     <v-form
       ref="form"
-      class="mb-8"
       lazy-validation
+      class="mb-12 d-flex flex-nowrap justify-center align-start ga-3"
       @submit.prevent="submitPagamento"
     >
       <v-text-field
@@ -19,23 +19,22 @@
         variant="filled"
         :rules="validation"
         required
+      />
+      <v-btn
+        type="submit"
+        variant="text"
+        size="large"
+        icon
       >
-        <template #append>
-          <v-btn
-            type="submit"
-            size="x-large"
-            variant="text"
-            icon
-          >
-            <v-icon>mdi-arrow-right</v-icon>
-          </v-btn>
-        </template>
-      </v-text-field>
+        <v-icon size="x-large">
+          mdi-arrow-right
+        </v-icon>
+      </v-btn>
     </v-form>
 
     <div class="text-center">
-      <h3 class="mb-4">
-        ou, realizar um pagamento manualmente
+      <h3 class="separador">
+        <span>ou, realizar um pagamento manualmente</span>
       </h3>
       <v-btn
         class="mx-auto"
@@ -50,7 +49,8 @@
 </template>
 
 <script setup>
-import { useConfigStore } from '~/store/config';
+import { useConfigStore } from '~/store/config'
+import colors from 'vuetify/util/colors'
 
 definePageMeta({ title: 'Pagamento' })
 
@@ -67,9 +67,36 @@ function submitPagamento() {
   ];
 
   nextTick(async () => {
-    if (form.value.validate()) {
+    const { valid } = await form.value.validate()
+    if (valid) {
       await navigateTo({ name: 'pagamento-id', params: { id: idPagamento.value } })
     }
   });
 }
 </script>
+
+<style lang="scss" scoped>
+.separador {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+  > span {
+    flex: 1 0 auto;
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: v-bind('colors.grey.lighten1');
+    flex: 0 2 auto;
+  }
+}
+</style>
