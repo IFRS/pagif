@@ -6,29 +6,33 @@
         cols="12"
         md="5"
         lg="4"
-        class="text-center"
       >
-        <h3>
-          Formas de Pagamento
-        </h3>
-        <p class="mb-5">
-          Exibe a quantidade de Pagamentos em cada forma de pagamento disponível.
-        </p>
-        <ChartsFormasDePagamento />
+        <v-card
+          title="Formas de Pagamento"
+          subtitle="Exibe a quantidade de Pagamentos em cada forma de pagamento disponível."
+          variant="flat"
+          class="h-100 text-center"
+        >
+          <v-card-text>
+            <ChartsFormasDePagamento />
+          </v-card-text>
+        </v-card>
       </v-col>
       <v-col
         cols="12"
         md="7"
         lg="8"
-        class="text-center"
       >
-        <h3>
-          Serviços mais usados
-        </h3>
-        <p class="mb-5">
-          Exibe a quantidade de Pagamentos dos 5 Serviços mais utilizados.
-        </p>
-        <ChartsServicos />
+        <v-card
+          title="Serviços mais usados"
+          subtitle="Exibe a quantidade de Pagamentos dos 5 Serviços mais utilizados."
+          variant="flat"
+          class="h-100 text-center"
+        >
+          <v-card-text>
+            <ChartsServicos />
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
     <v-row justify="center">

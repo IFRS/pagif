@@ -1,8 +1,8 @@
 <template>
   <v-card class="d-flex flex-row flex-nowrap">
     <v-sheet
-      class="bg-info pa-4 d-flex justify-center align-center"
-      width="40%"
+      class="bg-grey-darken-2 pa-4 d-flex justify-center align-center"
+      width="30%"
     >
       <v-icon
         size="x-large"
