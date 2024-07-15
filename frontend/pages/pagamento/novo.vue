@@ -250,12 +250,13 @@ async function toClipboard(text) {
   }
 }
 
-onBeforeRouteLeave(() => {
+onBeforeRouteLeave((to, from, next) => {
   store.clearServicos()
   /*
     Ao limpar o store é gerado o erro 'Missing required param "id"', pois a navegação usa o idPagamento como parâmetro
     Porém, somente limpando o store nesse hook a página de pagamento funciona. Ao usar o hook onUnmout ou onBeforeUnmount o store é limpo depois do fetch.
   */
   pagamentoStore.$reset()
+  next()
 })
 </script>
