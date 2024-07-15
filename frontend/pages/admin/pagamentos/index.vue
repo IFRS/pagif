@@ -43,12 +43,13 @@
                 v-model="busca"
                 prepend-inner-icon="mdi-magnify"
                 label="Buscar Pagamentos"
+                single-line
                 hide-details
-                variant="outlined"
+                variant="underlined"
                 class="mr-5"
               />
               <v-btn
-                variant="text"
+                :variant="!filtrosEmpty ? 'tonal' : 'text'"
                 :color="!filtrosEmpty ? 'success' : ''"
                 @click="showFiltros = !showFiltros"
               >
