@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-import { useDisplay } from 'vuetify';
+import { useDisplay } from 'vuetify'
 
 defineProps({
   'modelValue': Boolean,
@@ -87,13 +87,14 @@ const datasNode = ref(null)
 const { name } = useDisplay()
 
 const drawerWidth = computed(() => {
-  switch (name) {
-    case 'xl': return '30%'
-    case 'lg': return '30%'
-    case 'md': return '50%'
-    case 'sm': return 'auto'
-    case 'xs': return 'auto'
-    default: return 'auto'
+  switch (name.value) {
+    case 'xxl': return '800'
+    case 'xl': return '640'
+    case 'lg': return '640'
+    case 'md': return '480'
+    case 'sm': return false
+    case 'xs': return false
+    default: return false
   }
 })
 
