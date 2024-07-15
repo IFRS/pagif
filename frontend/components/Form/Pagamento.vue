@@ -79,11 +79,8 @@
             </template>
             <v-date-picker
               v-model="competencia"
-              @click:cancel="showCompetencia = false"
-              @click:save="showCompetencia = false"
-            >
-              <template #header />
-            </v-date-picker>
+              hide-header
+            />
           </v-menu>
         </v-col>
         <v-col>
@@ -110,11 +107,8 @@
             <v-date-picker
               v-model="vencimento"
               show-adjacent-months
-              @click:cancel="showVencimento = false"
-              @click:save="showVencimento = false"
-            >
-              <template #header />
-            </v-date-picker>
+              hide-header
+            />
           </v-menu>
         </v-col>
       </v-row>
@@ -349,6 +343,13 @@ watch(codigoServico, (newValue) => {
 
 const showCompetencia = ref(false)
 const showVencimento = ref(false)
+
+watch(competencia, () => {
+  showCompetencia.value = false
+})
+watch(vencimento, () => {
+  showVencimento.value = false
+})
 
 const competenciaFormatted = computed(() => {
   if (!competencia.value) return null
