@@ -37,10 +37,8 @@
       </template>
       <v-date-picker
         v-model="competencia"
-        show-adjacent-months
-      >
-        <template #header />
-      </v-date-picker>
+        hide-header
+      />
     </v-menu>
   </v-form>
 </template>
