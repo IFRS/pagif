@@ -38,6 +38,7 @@ export default defineNuxtPlugin(({ vueApp }) => {
         light: {
           dark: false,
           colors: {
+            pagif: '#39b54a',
             primary: '#1351B4',
             secondary: '#636363',
             accent: '#1351B4',
@@ -52,6 +53,7 @@ export default defineNuxtPlugin(({ vueApp }) => {
         dark: {
           dark: true,
           colors: {
+            pagif: '#39b54a',
             primary: '#4A77B4',
             secondary: '#565C65',
             accent: '#155BCB',
