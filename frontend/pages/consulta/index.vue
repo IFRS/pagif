@@ -21,6 +21,7 @@
         type="submit"
         variant="text"
         size="large"
+        :rounded="false"
         icon
       >
         <v-icon size="x-large">
