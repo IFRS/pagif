@@ -97,7 +97,7 @@ const logout = async () => {
   } else {
     user.value = null
     useToast().info('Você saiu com sucesso!')
-    await navigateTo('/', { replace: true })
+    await navigateTo('/', { external: true })
   }
 }
 </script>
