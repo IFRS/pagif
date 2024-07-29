@@ -49,6 +49,7 @@ export default defineNuxtConfig({
   ],
 
   modules: [
+    '@nuxt/eslint',
     '@pinia/nuxt',
     'nuxt-proxy-request',
   ],
@@ -100,6 +101,15 @@ export default defineNuxtConfig({
 
   devtools: {
     enabled: false,
+  },
+
+  /* ESLint */
+  eslint: {
+    config: {
+      stylistic: {
+        jsx: false,
+      },
+    },
   },
 
   /* nuxt-proxy-request */
