@@ -15,7 +15,7 @@ import { useTheme } from 'vuetify';
 const route = useRoute()
 
 const layout = computed(() => {
-  return route.name.startsWith('admin') ? 'admin' : 'default'
+  return route.name?.startsWith('admin') ? 'admin' : 'default'
 })
 
 const configStore = useConfigStore();
