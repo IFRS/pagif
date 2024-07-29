@@ -1,6 +1,9 @@
 import { defineNuxtPlugin } from '#app'
-import { VuetifyTiptap, VuetifyViewer, createVuetifyProTipTap, locale } from 'vuetify-pro-tiptap'
 import {
+  VuetifyTiptap,
+  VuetifyViewer,
+  createVuetifyProTipTap,
+  locale,
   BaseKit,
   History,
   Bold,
