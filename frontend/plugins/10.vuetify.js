@@ -70,7 +70,7 @@ export default defineNuxtPlugin(({ vueApp }) => {
       VBtn: {
         color: 'primary',
         variant: 'elevated',
-        rounded: 'xl',
+        rounded: 'pill',
       },
       VAutocomplete: {
         variant: 'underlined',
