@@ -7,7 +7,7 @@
       temporary
     >
       <v-list-item>
-        <SelectUnidade />
+        <SelectUnidade mobile />
       </v-list-item>
 
       <v-list-item>

@@ -5,7 +5,7 @@
         <template #activator="{ props: tooltip }">
           <v-btn
             color="primary"
-            variant="text"
+            :variant="props.mobile ? 'tonal' : 'text'"
             :loading="pending"
             :disabled="!configStore.unidade"
             v-bind="mergeProps(menu, tooltip)"
@@ -38,6 +38,10 @@
 import { mergeProps } from 'vue';
 import { useMainStore } from '~/store';
 import { useConfigStore } from '~/store/config';
+
+const props = defineProps({
+  mobile: Boolean,
+})
 
 const store = useMainStore();
 const configStore = useConfigStore();
