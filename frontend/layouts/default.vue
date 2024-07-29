@@ -36,26 +36,35 @@
         </v-list>
       </template>
     </v-navigation-drawer>
-    <v-app-bar elevation="1">
-      <NuxtLink
-        :to="{ name: 'index' }"
-        class="text-decoration-none text-primary d-flex flex-row flex-nowrap align-center"
+    <v-app-bar
+      elevation="1"
+      class="pe-lg-5"
+    >
+      <v-app-bar-title
+        tag="h1"
+        class="flex-0-1"
       >
-        <img
-          v-if="mdAndUp"
-          :src="(darkMode) ? '/img/logo-white.png' : '/img/logo.png'"
-          class="govbr"
+        <NuxtLink
+          :to="{ name: 'index' }"
+          class="text-decoration-none text-primary d-flex flex-row flex-nowrap align-center"
         >
-        <h1 class="titulo">
-          Sistema de Pagamentos
-          <template v-if="orgao && sigla">
-            do <abbr :title="orgao">{{ sigla }}</abbr>
-          </template>
-          <template v-else-if="sigla">
-            do {{ sigla }}
-          </template>
-        </h1>
-      </NuxtLink>
+          <img
+            v-if="mdAndUp"
+            :src="(darkMode) ? '/img/logo-white.png' : '/img/logo.png'"
+            class="govbr"
+            aria-hidden="true"
+          >
+          <span class="titulo">
+            Sistema de Pagamentos
+            <template v-if="orgao && sigla">
+              do <abbr :title="orgao">{{ sigla }}</abbr>
+            </template>
+            <template v-else-if="sigla">
+              do {{ sigla }}
+            </template>
+          </span>
+        </NuxtLink>
+      </v-app-bar-title>
 
       <v-spacer />
 
@@ -170,7 +179,6 @@ const { smAndDown, mdAndUp } = useDisplay()
 .govbr {
   margin-inline-start: 0.5rem;
   margin-inline-end: 0.5rem;
-  // max-width: 120px;
   max-height: 48px;
 }
 
