@@ -128,7 +128,7 @@ const css_intro_text_flex = computed(() => {
   display: flex;
   flex-direction: v-bind(css_intro_flex_direction);
   flex-wrap: nowrap;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   gap: 1rem;
 
