@@ -53,17 +53,6 @@ export default defineNuxtConfig({
     'nuxt-proxy-request',
   ],
 
-  proxy: {
-    options: {
-      enableLogger: (process.env.NODE_ENV !== 'production') ? true : false,
-      target: process.env.API_BASE,
-      pathRewrite: {
-        '^/api': '',
-      },
-      pathFilter: ['/api/**'],
-    },
-  },
-
   runtimeConfig: {
     public: {
       pagtesouroURL: process.env.PAGTESOURO_URL,
@@ -71,11 +60,6 @@ export default defineNuxtConfig({
       googleClientId: process.env.GOOGLE_CLIENT_ID,
       GA: process.env.GA,
     },
-  },
-
-  sourcemap: {
-    server: false,
-    client: false,
   },
 
   hooks: {
@@ -116,5 +100,17 @@ export default defineNuxtConfig({
 
   devtools: {
     enabled: false,
+  },
+
+  /* nuxt-proxy-request */
+  proxy: {
+    options: {
+      enableLogger: (process.env.NODE_ENV !== 'production') ? true : false,
+      target: process.env.API_BASE,
+      pathRewrite: {
+        '^/api': '',
+      },
+      pathFilter: ['/api/**'],
+    },
   },
 })
