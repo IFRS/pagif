@@ -25,6 +25,7 @@ const tag = computed(() => ('h' + props.level))
 <style lang="scss" scoped>
 .titulo {
   color: v-bind('colors.grey.darken4');
+  margin-top: 1rem;
   margin-bottom: 2rem;
   padding-inline-start: 0.75rem;
   position: relative;
