@@ -1,18 +1,19 @@
 <template>
   <v-tooltip location="bottom">
-    <template #activator="{ props }">
+    <template #activator="{ props: bindProps }">
       <div
         v-bind="props"
         class="me-3"
       >
         <v-switch
+          v-bind="bindProps"
           v-model="darkMode"
           inset
           density="compact"
           hide-details
           color="primary"
-          prepend-icon="mdi-theme-light-dark"
-          v-bind="props"
+          :label="props.mobile ? 'Modo Escuro' : ''"
+          :prepend-icon="!props.mobile ? 'mdi-theme-light-dark' : undefined"
         />
       </div>
     </template>
@@ -24,6 +25,10 @@
 import { storeToRefs } from 'pinia';
 import { useTheme } from 'vuetify';
 import { useConfigStore } from '~/store/config';
+
+const props = defineProps({
+  mobile: Boolean
+})
 
 const configStore = useConfigStore();
 const { darkMode } = storeToRefs(configStore);

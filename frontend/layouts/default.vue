@@ -2,38 +2,30 @@
   <v-app>
     <v-navigation-drawer
       v-model="drawer"
-      mobile-breakpoint="0"
       width="300"
       location="right"
       temporary
     >
-      <v-list
-        nav
-        lines="two"
-      >
-        <v-list-item>
-          <SelectUnidade />
-        </v-list-item>
+      <v-list-item>
+        <SelectUnidade />
+      </v-list-item>
 
-        <v-list-item>
-          <v-toolbar flat>
-            <DarkMode />
-            <Autenticacao />
-          </v-toolbar>
-        </v-list-item>
-      </v-list>
+      <v-list-item>
+        <DarkMode mobile />
+      </v-list-item>
+
+      <v-list-item>
+        <Autenticacao />
+      </v-list-item>
 
       <template #prepend>
-        <v-list>
-          <v-list-item>
-            <v-btn
-              icon
-              @click="drawer = false"
-            >
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-          </v-list-item>
-        </v-list>
+        <v-btn
+          icon
+          variant="text"
+          @click="drawer = false"
+        >
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
       </template>
     </v-navigation-drawer>
     <v-app-bar
@@ -49,7 +41,7 @@
           class="text-decoration-none text-primary d-flex flex-row flex-nowrap align-center"
         >
           <img
-            v-if="mdAndUp"
+            v-if="smAndUp"
             :src="(darkMode) ? '/img/logo-white.png' : '/img/logo.png'"
             class="govbr"
             aria-hidden="true"
@@ -172,7 +164,7 @@ const { sigla, orgao, unidade, darkMode } = storeToRefs(configStore)
 
 const drawer = ref(false)
 
-const { smAndDown, mdAndUp } = useDisplay()
+const { smAndDown, mdAndUp, smAndUp } = useDisplay()
 </script>
 
 <style lang="scss" scoped>
