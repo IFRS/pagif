@@ -108,6 +108,7 @@ export default defineNuxtConfig({
     config: {
       stylistic: {
         jsx: false,
+        braceStyle: '1tbs',
       },
     },
   },
