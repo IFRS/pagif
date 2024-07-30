@@ -19,7 +19,7 @@ $ npm install
 $ npm run lint
 
 # corrige automaticamente as insconsistências encontras, quando possível
-$ npm run lint -- --fix
+$ npm run lint:fix
 
 # roda o código e inicia o servidor de desenvolvimento (com monitoramento de mudanças)
 $ npm run dev
@@ -40,7 +40,7 @@ $ npm install
 $ npm run lint
 
 # corrige automaticamente as insconsistências encontras, quando possível
-$ npm run lint -- --fix
+$ npm run lint:fix
 
 # remove arquivos de compilação e caches
 $ npm run clean
