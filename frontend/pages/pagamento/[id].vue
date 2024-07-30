@@ -38,9 +38,13 @@
               type="info"
               text
             >
-              Pagamento n&atilde;o pode ser realizado por j&aacute; ter sido iniciado. Verifique mais informa&ccedil;&otilde;es sobre esse Pagamento na <NuxtLink :to="{ name: 'consulta-id', params: { id: idPagamento } }">
-                p&aacute;gina de consulta
-              </NuxtLink>.
+              Pagamento n&atilde;o pode ser realizado por j&aacute; ter sido iniciado. Verifique mais informa&ccedil;&otilde;es sobre esse Pagamento na
+              <NuxtLink
+                :to="{ name: 'consulta-id', params: { id: idPagamento } }"
+                class="text-white"
+              >
+                p&aacute;gina de consulta.
+              </NuxtLink>
             </v-alert>
 
             <v-alert
@@ -48,9 +52,13 @@
               type="info"
               text
             >
-              Pagamento n&atilde;o pode ser realizado por j&aacute; ter sido conclu&iacute;do. Verifique mais informa&ccedil;&otilde;es sobre esse Pagamento na <NuxtLink :to="{ name: 'consulta-id', params: { id: idPagamento } }">
-                p&aacute;gina de consulta
-              </NuxtLink>.
+              Pagamento n&atilde;o pode ser realizado por j&aacute; ter sido conclu&iacute;do. Verifique mais informa&ccedil;&otilde;es sobre esse Pagamento na
+              <NuxtLink
+                :to="{ name: 'consulta-id', params: { id: idPagamento } }"
+                class="text-white"
+              >
+                p&aacute;gina de consulta.
+              </NuxtLink>
             </v-alert>
 
             <v-alert
@@ -58,9 +66,13 @@
               type="info"
               text
             >
-              Pagamento n&atilde;o pode ser realizado por j&aacute; ter sido finalizado. Verifique mais informa&ccedil;&otilde;es sobre esse Pagamento na <NuxtLink :to="{ name: 'consulta-id', params: { id: idPagamento } }">
-                p&aacute;gina de consulta
-              </NuxtLink>.
+              Pagamento n&atilde;o pode ser realizado por j&aacute; ter sido finalizado. Verifique mais informa&ccedil;&otilde;es sobre esse Pagamento na
+              <NuxtLink
+                :to="{ name: 'consulta-id', params: { id: idPagamento } }"
+                class="text-white"
+              >
+                p&aacute;gina de consulta.
+              </NuxtLink>
             </v-alert>
 
             <v-alert
