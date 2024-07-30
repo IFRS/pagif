@@ -128,7 +128,6 @@
 
 <script setup>
 import iFrameResize from 'iframe-resizer/js/iframeResizer'
-import { useRoute } from '#app'
 import { storeToRefs } from 'pinia'
 import { useConfigStore } from '~/store/config'
 import { usePagamentoStore } from '~/store/pagamento'
@@ -192,8 +191,9 @@ const vResizeIframe = {
   }
 }
 
-onUnmounted(() => {
+onBeforeRouteLeave((to, from, next) => {
   pagamentoStore.$reset()
+  next()
 })
 </script>
 
