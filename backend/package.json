@@ -10,6 +10,7 @@
     "dev": "cross-env NODE_ENV=development nodemon --verbose --trace-warnings --throw-deprecation --ignore log/ ./index.js",
     "start": "NODE_ENV=production node ./index.js",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "superadmin": "node ./db/scripts/superadmin.js"
   },
   "dependencies": {
@@ -31,9 +32,12 @@
     "winston": "^3.8.2"
   },
   "devDependencies": {
+    "@eslint/js": "^9.8.0",
+    "@stylistic/eslint-plugin": "^2.4.0",
     "cross-env": "^7.0.3",
-    "eslint": "^8.57.0",
+    "eslint": "^9.8.0",
     "eslint-plugin-n": "^17.9.0",
+    "globals": "^15.8.0",
     "nodemon": "^3.0.1"
   }
 }
