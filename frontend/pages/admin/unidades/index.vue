@@ -165,10 +165,13 @@ import { useMainStore } from '~/store'
 import { useUnidadeStore } from '~/store/unidade'
 
 definePageMeta({
-  title: 'Lista de Unidades',
   validate: async () => {
     return useACL().can('read', 'Unidade');
   }
+})
+
+useHeadSafe({
+  title: 'Lista de Unidades',
 })
 
 const busca = ref('')

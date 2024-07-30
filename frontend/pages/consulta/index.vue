@@ -35,7 +35,7 @@
 <script setup>
 import { useConfigStore } from '~/store/config';
 
-definePageMeta({
+useHeadSafe({
   title: 'Consulta Pagamento',
 });
 

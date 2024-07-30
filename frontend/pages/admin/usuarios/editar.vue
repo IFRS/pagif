@@ -21,10 +21,13 @@
 import { useUsuarioStore } from '~/store/usuario'
 
 definePageMeta({
-  title: 'Edição de Usuário',
   validate: async () => {
     return useACL().can('update', 'Usuario')
   }
+})
+
+useHeadSafe({
+  title: 'Edição de Usuário',
 })
 
 const usuarioStore = useUsuarioStore()

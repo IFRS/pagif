@@ -21,11 +21,10 @@
 </template>
 
 <script setup>
-import { navigateTo } from '#app';
 import { useMainStore } from '~/store';
 import { useConfigStore } from '~/store/config';
 
-definePageMeta({
+useHeadSafe({
   title: 'Escolha uma Unidade',
 });
 

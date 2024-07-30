@@ -130,10 +130,13 @@ import { useMainStore } from '~/store';
 import { useUsuarioStore } from '~/store/usuario';
 
 definePageMeta({
-  title: 'Lista de Usuários',
   validate: async () => {
     return useACL().can('read', 'Usuario')
   }
+})
+
+useHeadSafe({
+  title: 'Lista de Usuários',
 })
 
 const store = useMainStore()

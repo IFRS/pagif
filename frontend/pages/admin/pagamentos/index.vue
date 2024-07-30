@@ -208,10 +208,13 @@ import { useMainStore } from '~/store'
 import { usePagamentoStore } from '~/store/pagamento'
 
 definePageMeta({
-  title: 'Lista de Pagamentos',
   validate: async () => {
     return useACL().can('read', 'Pagamento')
   }
+})
+
+useHeadSafe({
+  title: 'Lista de Pagamentos',
 })
 
 const dayjs = useDayjs()

@@ -80,7 +80,7 @@
 </template>
 
 <script setup>
-definePageMeta({
+useHeadSafe({
   title: 'Área Administrativa',
 })
 

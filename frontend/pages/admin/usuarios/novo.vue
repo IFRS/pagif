@@ -21,10 +21,13 @@
 import { useUsuarioStore } from '~/store/usuario'
 
 definePageMeta({
-  title: 'Cadastro de Novo Usuário',
   validate: async () => {
     return useACL().can('create', 'Usuario')
   }
+})
+
+useHeadSafe({
+  title: 'Cadastro de Novo Usuário',
 })
 
 const usuarioStore = useUsuarioStore()

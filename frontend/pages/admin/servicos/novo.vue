@@ -21,10 +21,13 @@
 import { useServicoStore } from '~/store/servico'
 
 definePageMeta({
-  title: 'Cadastro de Novo Serviço',
   validate: async () => {
     return useACL().can('create', 'Servico')
   }
+})
+
+useHeadSafe({
+  title: 'Cadastro de Novo Serviço',
 })
 
 const servicoStore = useServicoStore()

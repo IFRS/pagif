@@ -53,7 +53,9 @@
 import { useConfigStore } from '~/store/config'
 import colors from 'vuetify/util/colors'
 
-definePageMeta({ title: 'Pagamento' })
+useHeadSafe({
+  title: 'Pagamento',
+})
 
 const configStore = useConfigStore();
 

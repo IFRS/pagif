@@ -131,10 +131,13 @@ import { useMainStore } from '~/store'
 import { useServicoStore } from '~/store/servico'
 
 definePageMeta({
-  title: 'Lista de Serviços',
   validate: async () => {
     return useACL().can('read', 'Servico')
   }
+})
+
+useHeadSafe({
+  title: 'Lista de Serviços',
 })
 
 const busca = ref('')

@@ -13,10 +13,13 @@
 import { useSettingsStore } from '~/store/settings'
 
 definePageMeta({
-  title: 'Configurações',
   validate: async () => {
     return useACL().can('edit', 'Settings')
   }
+})
+
+useHeadSafe({
+  title: 'Configurações',
 })
 
 const submitting = ref(false)

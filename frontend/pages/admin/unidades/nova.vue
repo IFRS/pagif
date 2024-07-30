@@ -21,10 +21,13 @@
 import { useUnidadeStore } from '~/store/unidade'
 
 definePageMeta({
-  title: 'Cadastro de Nova Unidade',
   validate: async () => {
     return useACL().can('create', 'Unidade')
   }
+})
+
+useHeadSafe({
+  title: 'Cadastro de Nova Unidade',
 })
 
 const unidadeStore = useUnidadeStore()

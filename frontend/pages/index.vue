@@ -89,7 +89,7 @@ import { useDisplay } from 'vuetify';
 import { useMainStore } from '~/store';
 import { useConfigStore } from '~/store/config';
 
-definePageMeta({
+useHeadSafe({
   title: 'PagIF',
 });
 

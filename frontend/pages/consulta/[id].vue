@@ -15,7 +15,9 @@
 <script setup>
 import { usePagamentoStore } from '~/store/pagamento'
 
-definePageMeta({ title: 'Consulta' })
+useHeadSafe({
+  title: 'Consulta',
+})
 
 const route = useRoute()
 const pagamentoStore = usePagamentoStore();

@@ -132,7 +132,9 @@ import { storeToRefs } from 'pinia'
 import { useConfigStore } from '~/store/config'
 import { usePagamentoStore } from '~/store/pagamento'
 
-definePageMeta({ title: 'Pagamento' })
+useHeadSafe({
+  title: 'Pagamento',
+})
 
 const dayjs = useDayjs()
 

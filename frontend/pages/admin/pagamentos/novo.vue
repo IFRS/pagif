@@ -21,10 +21,13 @@
 import { usePagamentoStore } from '~/store/pagamento'
 
 definePageMeta({
-  title: 'Nova Cobrança',
   validate: async () => {
     return useACL().can('create', 'Pagamento')
   }
+})
+
+useHeadSafe({
+  title: 'Nova Cobrança',
 })
 
 const submitting = ref(false)
