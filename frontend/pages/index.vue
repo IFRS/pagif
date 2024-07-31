@@ -33,11 +33,8 @@
                 class="text-center"
                 :class="isHovering ? 'white--text' : ''"
               >
-                <v-icon
-                  size="x-large"
-                  :color="isHovering ? 'white' : ''"
-                >
-                  mdi-archive-search-outline
+                <v-icon size="x-large">
+                  mdi-cash-marker
                 </v-icon>
                 <v-card-title class="justify-center">
                   Consultar Pagamento
@@ -58,10 +55,7 @@
                 class="text-center"
                 :class="isHovering ? 'white--text' : ''"
               >
-                <v-icon
-                  size="x-large"
-                  :color="isHovering ? 'white' : ''"
-                >
+                <v-icon size="x-large">
                   mdi-cash-plus
                 </v-icon>
                 <v-card-title class="justify-center">
