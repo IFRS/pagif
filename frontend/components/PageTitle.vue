@@ -8,6 +8,8 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+import { useTheme } from 'vuetify';
 import colors from 'vuetify/util/colors'
 
 const props = defineProps({
@@ -20,11 +22,19 @@ const props = defineProps({
 })
 
 const tag = computed(() => ('h' + props.level))
+
+const { current } = useTheme()
+
+const color = computed(() => {
+  return current.value.dark ? colors.grey.lighten4 : colors.grey.darken4
+})
+
+
 </script>
 
 <style lang="scss" scoped>
 .titulo {
-  color: v-bind('colors.grey.darken4');
+  color: v-bind(color);
   margin-top: 1rem;
   margin-bottom: 2rem;
   padding-inline-start: 0.75rem;
