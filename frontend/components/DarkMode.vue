@@ -1,12 +1,11 @@
 <template>
   <v-tooltip location="bottom">
-    <template #activator="{ props: bindProps }">
+    <template #activator="{ props: tooltipProps }">
       <div
-        v-bind="props"
         class="me-3"
       >
         <v-switch
-          v-bind="bindProps"
+          v-bind="tooltipProps"
           v-model="darkMode"
           inset
           density="compact"
