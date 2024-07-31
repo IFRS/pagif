@@ -16,7 +16,7 @@
 import { usePagamentoStore } from '~/store/pagamento'
 
 useHeadSafe({
-  title: 'Consulta',
+  title: 'Consulta Pagamento',
 })
 
 const route = useRoute()

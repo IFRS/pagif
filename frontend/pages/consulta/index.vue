@@ -36,7 +36,7 @@
 import { useConfigStore } from '~/store/config';
 
 useHeadSafe({
-  title: 'Consulta Pagamento',
+  title: 'Consulta',
 });
 
 const configStore = useConfigStore();
