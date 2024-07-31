@@ -3,6 +3,6 @@
 .output/
 node_modules/
 .env.example
-.eslintrc.json
 .gitignore
+eslint.config.mjs
 Dockerfile
