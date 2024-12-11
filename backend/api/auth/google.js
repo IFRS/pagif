@@ -11,7 +11,7 @@ router.post('/auth/google/login', async function(req, res) {
     });
     const userInfo = ticket.getPayload();
 
-    if (!userInfo.email_verified || !userInfo.hd.endsWith('ifrs.edu.br')) return res.status(406).end();
+    if (!userInfo.email_verified || !userInfo.hd?.endsWith('ifrs.edu.br')) return res.status(406).end();
 
     Usuario.findOne({ email: userInfo.email })
     .then(async usuario => {
