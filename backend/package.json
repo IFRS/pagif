@@ -26,16 +26,16 @@
     "express-session": "^1.17.3",
     "express-validator": "^7.0.1",
     "google-auth-library": "^9.0.0",
-    "helmet": "^7.0.0",
+    "helmet": "^8.0.0",
     "mongoose": "^8.5.0",
     "tslib": "^2.6.3",
     "winston": "^3.8.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
-    "@stylistic/eslint-plugin": "^2.4.0",
+    "@stylistic/eslint-plugin": "^3.0.1",
     "cross-env": "^7.0.3",
-    "eslint": "^8.57.0",
+    "eslint": "^9.19.0",
     "eslint-plugin-n": "^17.9.0",
     "globals": "^15.8.0",
     "nodemon": "^3.0.1"

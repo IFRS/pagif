@@ -5,6 +5,7 @@ const stylistic = require('@stylistic/eslint-plugin');
 
 module.exports = [
   stylistic.configs.customize({
+    flat: true,
     semi: true,
     jsx: false,
     braceStyle: '1tbs',
