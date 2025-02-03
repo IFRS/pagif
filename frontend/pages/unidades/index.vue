@@ -2,21 +2,18 @@
   <v-container>
     <PageTitle>Escolha uma Unidade para Pagamento</PageTitle>
 
-    <v-btn-group
+    <v-btn
+      v-for="(unidade, i) in store.unidades"
+      :key="i"
+      size="x-large"
       color="primary"
       variant="tonal"
       rounded="pill"
+      class="me-2 mb-2"
+      @click="escolha(unidade)"
     >
-      <v-btn
-        v-for="(unidade, i) in store.unidades"
-        :key="i"
-        size="x-large"
-        rounded="0"
-        @click="escolha(unidade)"
-      >
-        {{ unidade.nome }}
-      </v-btn>
-    </v-btn-group>
+      {{ unidade.nome }}
+    </v-btn>
   </v-container>
 </template>
 
