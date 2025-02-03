@@ -39,7 +39,10 @@
               />
             </v-stepper-window-item>
           </v-stepper-window>
-          <v-stepper-actions :disabled="false">
+          <v-stepper-actions
+            :disabled="false"
+            color="primary"
+          >
             <template #prev>
               <v-btn
                 v-if="currentStep === 1"
