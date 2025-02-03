@@ -1,18 +1,14 @@
-import withNuxt from './.nuxt/eslint.config.mjs'
 import globals from 'globals'
-import { FlatCompat } from '@eslint/eslintrc'
 import pluginVue from 'eslint-plugin-vue'
 import pluginVuetify from 'eslint-plugin-vuetify'
-
-const compat = new FlatCompat({
-  config: pluginVuetify.configs.recommended,
-})
+import withNuxt from './.nuxt/eslint.config.mjs'
 
 export default withNuxt(
   ...pluginVue.configs['flat/essential'],
-  ...pluginVue.configs['flat/recommended'],
   ...pluginVue.configs['flat/strongly-recommended'],
-  ...compat.extends('plugin:vue/base', 'plugin:vuetify/base'),
+  ...pluginVue.configs['flat/recommended'],
+  ...pluginVuetify.configs['flat/base'],
+  ...pluginVuetify.configs['flat/recommended'],
   {
     name: 'Frontend',
     rules: {
