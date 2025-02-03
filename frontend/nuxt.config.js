@@ -1,5 +1,6 @@
 import { defineNuxtConfig } from 'nuxt/config'
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
+import { resolve } from 'path'
 
 export default defineNuxtConfig({
 
@@ -39,22 +40,14 @@ export default defineNuxtConfig({
   },
 
   css: [
-    '@fontsource/roboto/latin.css',
-    '@fontsource/roboto/latin-100-italic.css',
-    '@fontsource/roboto/latin-100.css',
-    '@fontsource/roboto/latin-300-italic.css',
-    '@fontsource/roboto/latin-300.css',
-    '@fontsource/roboto/latin-400-italic.css',
-    '@fontsource/roboto/latin-400.css',
-    '@fontsource/roboto/latin-500-italic.css',
-    '@fontsource/roboto/latin-500.css',
-    '@fontsource/roboto/latin-700-italic.css',
-    '@fontsource/roboto/latin-700.css',
-    '@fontsource/roboto/latin-900-italic.css',
-    '@fontsource/roboto/latin-900.css',
+    // '@fontsource/roboto/latin.css',
+    // '@fontsource/roboto/latin-italic.css',
+    '@fontsource/raleway/latin.css',
+    '@fontsource/raleway/latin-italic.css',
     '@mdi/font/css/materialdesignicons.css',
-    'vuetify/styles',
-    '~/assets/vuetify-required.scss',
+    // 'vuetify/styles', // should not be used in sass files as it resolves to precompiled css.
+    '~/assets/scss/vuetify-config.scss',
+    '~/assets/scss/vuetify-required.scss',
   ],
 
   runtimeConfig: {
@@ -69,13 +62,14 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vuetify'],
   },
-  compatibilityDate: '2024-07-01',
+  compatibilityDate: '2025-02-03',
 
   vite: {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '@import "assets/utils/utils.scss";',
+          api: 'modern-compiler',
+          additionalData: '@use "~/assets/scss/modules/utils" as *;',
         },
       },
     },
@@ -96,7 +90,7 @@ export default defineNuxtConfig({
         vuetify({
           autoImport: { labs: true },
           // styles: {
-          //   configFile: 'assets/settings.scss',
+          //   configFile: 'assets/vuetify-config-components.scss', // Configure components variables
           // },
         }),
       )

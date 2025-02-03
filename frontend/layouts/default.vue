@@ -181,7 +181,7 @@ const { smAndDown, mdAndUp, smAndUp } = useDisplay()
 .titulo {
   font-size: 1rem;
   font-size: clampBuilder(400, 1200, 1, 1.5);
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .marca-instituicao {

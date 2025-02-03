@@ -18,7 +18,7 @@ import {
 } from 'vuetify-pro-tiptap'
 import { defineNuxtPlugin } from '#app'
 import 'vuetify-pro-tiptap/styles/editor.css'
-import '~/assets/tiptap-github-markdown.scss'
+import '~/assets/scss/tiptap-github-markdown.scss'
 
 export default defineNuxtPlugin(({ vueApp }) => {
   locale.setMessage('pt-BR', {
