@@ -2,26 +2,26 @@ const { logger } = require('../../logger');
 const Usuario = require('../../db/models/Usuario');
 const validator = require('express-validator');
 
-module.exports.list = function(req, res) {
+module.exports.list = function (req, res) {
   const query = Usuario.find({});
 
   query.sort('nome');
 
-  query.then(usuarios => {
+  query.then((usuarios) => {
     return res.json(usuarios.map(doc => doc.toJSON()));
   })
-  .catch(error => {
-    logger.error('Erro obtendo Usuários: %o', error);
-    return res.status(500).json({
-      message: 'Erro obtendo Usuários.',
+    .catch((error) => {
+      logger.error('Erro obtendo Usuários: %o', error);
+      return res.status(500).json({
+        message: 'Erro obtendo Usuários.',
+      });
     });
-  });
 };
 
-module.exports.show = function(req, res) {
+module.exports.show = function (req, res) {
   const query = Usuario.findById(req.params.id);
 
-  query.then(usuario => {
+  query.then((usuario) => {
     if (!usuario) {
       return res.status(404).json({
         message: 'Usuário não encontrado.',
@@ -30,23 +30,23 @@ module.exports.show = function(req, res) {
 
     return res.json(usuario.toJSON());
   })
-  .catch(error => {
-    logger.error('Erro obtendo o Usuário: %o', error);
-    return res.status(500).json({
-      message: 'Erro obtendo o Usuário.',
+    .catch((error) => {
+      logger.error('Erro obtendo o Usuário: %o', error);
+      return res.status(500).json({
+        message: 'Erro obtendo o Usuário.',
+      });
     });
-  });
 };
 
 module.exports.save = [
   validator.body('email', '')
-  .trim()
-  .notEmpty()
-  .isEmail(),
+    .trim()
+    .notEmpty()
+    .isEmail(),
   validator.body('abilities', '')
-  .optional()
-  .isArray(),
-  function(req, res) {
+    .optional()
+    .isArray(),
+  function (req, res) {
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.mapped() });
@@ -59,47 +59,47 @@ module.exports.save = [
 
     if (req.params.id) {
       Usuario.findByIdAndUpdate(req.params.id, data, { returnDocument: 'after' })
-      .then(usuario => {
-        if (!usuario) {
-          return res.status(404).json({
-            message: 'Usuário não encontrado.',
-          });
-        }
+        .then((usuario) => {
+          if (!usuario) {
+            return res.status(404).json({
+              message: 'Usuário não encontrado.',
+            });
+          }
 
-        return res.json(usuario.toJSON());
-      })
-      .catch(error => {
-        logger.error('Erro atualizando Usuário: %o', error);
-        return res.status(500).json({
-          message: 'Erro atualizando Usuário.',
+          return res.json(usuario.toJSON());
+        })
+        .catch((error) => {
+          logger.error('Erro atualizando Usuário: %o', error);
+          return res.status(500).json({
+            message: 'Erro atualizando Usuário.',
+          });
         });
-      });
     } else {
       let usuario = new Usuario(data);
 
       usuario.save()
-      .then(usuario => {
-        return res.json(usuario.toJSON());
-      })
-      .catch(error => {
-        logger.error('Erro ao adicionar o Usuário: %o', error);
-        return res.status(500).json({
-          message: 'Erro ao adicionar o Usuário.',
+        .then((usuario) => {
+          return res.json(usuario.toJSON());
+        })
+        .catch((error) => {
+          logger.error('Erro ao adicionar o Usuário: %o', error);
+          return res.status(500).json({
+            message: 'Erro ao adicionar o Usuário.',
+          });
         });
-      });
     }
-  }
+  },
 ];
 
-module.exports.delete = function(req, res) {
+module.exports.delete = function (req, res) {
   Usuario.findByIdAndRemove(req.params.id)
-  .then(usuario => {
-    return res.json(usuario.toJSON());
-  })
-  .catch(error => {
-    logger.error('Erro ao remover a Usuário: %o', error);
-    return res.status(500).json({
-      message: 'Erro ao remover a Usuário.',
+    .then((usuario) => {
+      return res.json(usuario.toJSON());
+    })
+    .catch((error) => {
+      logger.error('Erro ao remover a Usuário: %o', error);
+      return res.status(500).json({
+        message: 'Erro ao remover a Usuário.',
+      });
     });
-  });
 };

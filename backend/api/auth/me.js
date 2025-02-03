@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 
-router.get('/auth/me', function(req, res) {
+router.get('/auth/me', function (req, res) {
   return res.json(req.session?.user || null);
 });
 

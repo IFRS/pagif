@@ -23,7 +23,7 @@ winston.loggers.add('geral', {
     winston.format.timestamp({
       format: () => {
         return new Date().toLocaleString('pt-BR', {
-          timeZone: 'America/Sao_Paulo'
+          timeZone: 'America/Sao_Paulo',
         });
       },
     }),

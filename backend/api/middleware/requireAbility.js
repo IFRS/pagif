@@ -1,8 +1,8 @@
 const { createMongoAbility } = require('@casl/ability');
-const dayjs = require('dayjs')
+const dayjs = require('dayjs');
 
-module.exports = function(restrictions) {
-  return function(req, res, next) {
+module.exports = function (restrictions) {
+  return function (req, res, next) {
     if (req.session.user && dayjs(req.session.cookie.expires).isAfter(dayjs())) {
       if (req.session.user) {
         if (restrictions) {

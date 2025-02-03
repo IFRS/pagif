@@ -30,7 +30,7 @@ let session_store = new MongoDBStore({
   collection: 'sessions',
   expires: expire,
 });
-session_store.on('error', function(error) {
+session_store.on('error', function (error) {
   logger.error('Erro na sessão: %o', error);
 });
 

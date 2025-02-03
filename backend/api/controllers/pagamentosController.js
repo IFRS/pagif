@@ -2,40 +2,40 @@ const Pagamento = require('../../db/models/Pagamento');
 const Servico = require('../../db/models/Servico');
 const validator = require('express-validator');
 const pagtesouro = require('../pagtesouro');
-const dayjs = require('dayjs')
+const dayjs = require('dayjs');
 const { createMongoAbility } = require('@casl/ability');
 const { logger } = require('../../logger');
 
-module.exports.showPublic = function(req, res) {
+module.exports.showPublic = function (req, res) {
   Pagamento.findById(req.params.id).select('-token -tipoPagamentoEscolhido -nomePSP -transacaoPSP')
-  .then(pagamento => {
-    if (!pagamento) {
-      return res.status(404).json({
-        message: 'Pagamento não encontrado.',
-      });
-    }
-
-    pagamento = pagamento.toObject();
-
-    if (pagamento.cnpjCpf) {
-      if (pagamento.cnpjCpf.length === 11) {
-        pagamento.cnpjCpf = pagamento.cnpjCpf.replace(/(.{3})(.{3})(.{3})(.{2})/, "***$2$3**");
-      } else if (pagamento.cnpjCpf.length === 14) {
-        pagamento.cnpjCpf = pagamento.cnpjCpf.replace(/(.{2})(.{3})(.{3})(.{4})(.{2})/, "*****$3$4**");
+    .then((pagamento) => {
+      if (!pagamento) {
+        return res.status(404).json({
+          message: 'Pagamento não encontrado.',
+        });
       }
-    }
 
-    return res.json(pagamento);
-  })
-  .catch(error => {
-    logger.error('Erro obtendo o Pagamento: %o', error);
-    return res.status(500).json({
-      message: 'Erro obtendo o Pagamento.',
+      pagamento = pagamento.toObject();
+
+      if (pagamento.cnpjCpf) {
+        if (pagamento.cnpjCpf.length === 11) {
+          pagamento.cnpjCpf = pagamento.cnpjCpf.replace(/(.{3})(.{3})(.{3})(.{2})/, '***$2$3**');
+        } else if (pagamento.cnpjCpf.length === 14) {
+          pagamento.cnpjCpf = pagamento.cnpjCpf.replace(/(.{2})(.{3})(.{3})(.{4})(.{2})/, '*****$3$4**');
+        }
+      }
+
+      return res.json(pagamento);
+    })
+    .catch((error) => {
+      logger.error('Erro obtendo o Pagamento: %o', error);
+      return res.status(500).json({
+        message: 'Erro obtendo o Pagamento.',
+      });
     });
-  });
 };
 
-module.exports.list = function(req, res) {
+module.exports.list = function (req, res) {
   const ability = createMongoAbility(req.session.user.abilities);
   const query = Pagamento.find({}).accessibleBy(ability).select('-token').sort('-dataCriacao');
 
@@ -62,34 +62,34 @@ module.exports.list = function(req, res) {
     }
   }
 
-  query.then(pagamentos => {
+  query.then((pagamentos) => {
     return res.json(pagamentos.map(doc => doc.toJSON()));
   })
-  .catch(error => {
-    logger.error('Erro obtendo Pagamentos: %o', error);
-    return res.status(500).json({
-      message: 'Erro obtendo Pagamentos.',
+    .catch((error) => {
+      logger.error('Erro obtendo Pagamentos: %o', error);
+      return res.status(500).json({
+        message: 'Erro obtendo Pagamentos.',
+      });
     });
-  });
 };
 
-module.exports.show = function(req, res) {
+module.exports.show = function (req, res) {
   Pagamento.findById(req.params.id).select('-token')
-  .then(pagamento => {
-    if (!pagamento) {
-      return res.status(404).json({
-        message: 'Pagamento não encontrado.',
-      });
-    }
+    .then((pagamento) => {
+      if (!pagamento) {
+        return res.status(404).json({
+          message: 'Pagamento não encontrado.',
+        });
+      }
 
-    return res.json(pagamento.toJSON());
-  })
-  .catch(error => {
-    logger.error('Erro obtendo o Pagamento: %o', error);
-    return res.status(500).json({
-      message: 'Erro obtendo o Pagamento.',
+      return res.json(pagamento.toJSON());
+    })
+    .catch((error) => {
+      logger.error('Erro obtendo o Pagamento: %o', error);
+      return res.status(500).json({
+        message: 'Erro obtendo o Pagamento.',
+      });
     });
-  });
 };
 
 module.exports.save = [
@@ -131,7 +131,7 @@ module.exports.save = [
     .trim()
     .isInt({ allow_leading_zeroes: false })
     .isLength({ min: 1, max: 17 }),
-  function(req, res) {
+  function (req, res) {
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.mapped() });
@@ -153,49 +153,49 @@ module.exports.save = [
     };
 
     Servico.findOne({ codigo: data.codigoServico }).populate('unidade')
-    .then(servico => {
-      if (!servico) {
-        return res.status(500).json({
-          message: `Serviço de código ${data.codigoServico} não encontrado.`,
-        });
-      }
-
-      data.token = servico.unidade.token;
-      data.unidade = servico.unidade._id;
-      data.nomeUnidade = servico.unidade.nome;
-      data.nomeServico = servico.nome;
-
-      pagtesouro.post('/api/gru/solicitacao-pagamento', data, { headers: {'Authorization': `Bearer ${data.token}`} })
-      .then((response) => {
-        Object.assign(data, response.data);
-
-        let pagamento = new Pagamento(data);
-
-        pagamento.save()
-        .then(pagamento => {
-          return res.json(pagamento.toJSON());
-        })
-        .catch(error => {
-          logger.error('Erro ao adicionar o Pagamento: %o', error);
+      .then((servico) => {
+        if (!servico) {
           return res.status(500).json({
-            message: 'Erro ao adicionar o Pagamento.',
+            message: `Serviço de código ${data.codigoServico} não encontrado.`,
           });
-        });
+        }
+
+        data.token = servico.unidade.token;
+        data.unidade = servico.unidade._id;
+        data.nomeUnidade = servico.unidade.nome;
+        data.nomeServico = servico.nome;
+
+        pagtesouro.post('/api/gru/solicitacao-pagamento', data, { headers: { Authorization: `Bearer ${data.token}` } })
+          .then((response) => {
+            Object.assign(data, response.data);
+
+            let pagamento = new Pagamento(data);
+
+            pagamento.save()
+              .then((pagamento) => {
+                return res.json(pagamento.toJSON());
+              })
+              .catch((error) => {
+                logger.error('Erro ao adicionar o Pagamento: %o', error);
+                return res.status(500).json({
+                  message: 'Erro ao adicionar o Pagamento.',
+                });
+              });
+          })
+          .catch((error) => {
+            logger.error('Erro ao solicitar criação do Pagamento: %o', error);
+            return res.status(500).json({
+              message: 'Erro ao solicitar criação do Pagamento.',
+            });
+          });
       })
       .catch((error) => {
-        logger.error('Erro ao solicitar criação do Pagamento: %o', error);
+        logger.error('Erro ao buscar Serviço: %o', error);
         return res.status(500).json({
-          message: 'Erro ao solicitar criação do Pagamento.',
+          message: 'Erro ao buscar Serviço.',
         });
       });
-    })
-    .catch(error => {
-      logger.error('Erro ao buscar Serviço: %o', error);
-      return res.status(500).json({
-        message: 'Erro ao buscar Serviço.',
-      });
-    });
-  }
+  },
 ];
 
 module.exports.update = [
@@ -204,71 +204,71 @@ module.exports.update = [
     .notEmpty()
     .isAlphanumeric()
     .isLength({ max: 50 }),
-  function(req, res) {
+  function (req, res) {
     if (req.body.idPagamento) {
       Pagamento.findById(req.body.idPagamento)
-      .then(pagamento => {
-        if (!pagamento) {
-          return res.status(500).json([{
-            codigo: 'C0027',
-            descricao: 'Falha ao verificar a situação do pagamento.',
-          }]);
-        }
-
-        pagtesouro.get(`/api/gru/pagamentos/${pagamento.idPagamento}`, { headers: {'Authorization': `Bearer ${pagamento.token}`} })
-        .then((response) => {
-          let pagamentoBeforeSave = pagamento.toJSON();
-          Object.assign(pagamento, response.data);
-          pagamento.save()
-          .then((pagamentoAfterSave) => {
-            if (JSON.stringify(pagamentoAfterSave.toJSON()) === JSON.stringify(pagamentoBeforeSave)) return res.status(204).end();
-            return res.json(pagamentoAfterSave.toJSON({
-              transform: function(doc, ret) {
-                delete ret.token;
-                return ret;
-              }
-            }));
-          })
-          .catch((error) => {
-            logger.error('Erro atualizando o Pagamento: %o' + error);
+        .then((pagamento) => {
+          if (!pagamento) {
             return res.status(500).json([{
               codigo: 'C0027',
               descricao: 'Falha ao verificar a situação do pagamento.',
             }]);
-          });
+          }
+
+          pagtesouro.get(`/api/gru/pagamentos/${pagamento.idPagamento}`, { headers: { Authorization: `Bearer ${pagamento.token}` } })
+            .then((response) => {
+              let pagamentoBeforeSave = pagamento.toJSON();
+              Object.assign(pagamento, response.data);
+              pagamento.save()
+                .then((pagamentoAfterSave) => {
+                  if (JSON.stringify(pagamentoAfterSave.toJSON()) === JSON.stringify(pagamentoBeforeSave)) return res.status(204).end();
+                  return res.json(pagamentoAfterSave.toJSON({
+                    transform: function (doc, ret) {
+                      delete ret.token;
+                      return ret;
+                    },
+                  }));
+                })
+                .catch((error) => {
+                  logger.error('Erro atualizando o Pagamento: %o' + error);
+                  return res.status(500).json([{
+                    codigo: 'C0027',
+                    descricao: 'Falha ao verificar a situação do pagamento.',
+                  }]);
+                });
+            })
+            .catch((error) => {
+              logger.error('Erro consultando o Pagamento: %o / %o', error, error.response?.data);
+              return res.status(500).json([{
+                codigo: 'C0027',
+                descricao: 'Falha ao verificar a situação do pagamento.',
+              }]);
+            });
         })
-        .catch((error) => {
-          logger.error('Erro consultando o Pagamento: %o / %o', error, error.response?.data);
+        .catch(() => {
           return res.status(500).json([{
             codigo: 'C0027',
             descricao: 'Falha ao verificar a situação do pagamento.',
           }]);
         });
-      })
-      .catch(() => {
-        return res.status(500).json([{
-          codigo: 'C0027',
-          descricao: 'Falha ao verificar a situação do pagamento.',
-        }]);
-      });
     } else {
       return res.status(400).json({
         message: 'idPagamento não presente.',
         error: null,
       });
     }
-  }
+  },
 ];
 
-module.exports.delete = function(req, res) {
+module.exports.delete = function (req, res) {
   Pagamento.findByIdAndRemove(req.params.id)
-  .then(pagamento => {
-    return res.json(pagamento.toJSON());
-  })
-  .catch(error => {
-    logger.error('Erro ao remover o Pagamento: %o', error);
-    return res.status(500).json({
-      message: 'Erro ao remover o Pagamento.',
+    .then((pagamento) => {
+      return res.json(pagamento.toJSON());
+    })
+    .catch((error) => {
+      logger.error('Erro ao remover o Pagamento: %o', error);
+      return res.status(500).json({
+        message: 'Erro ao remover o Pagamento.',
+      });
     });
-  });
 };

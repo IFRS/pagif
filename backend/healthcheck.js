@@ -3,9 +3,9 @@ const http = require('http');
 require('dotenv').config();
 
 const options = {
-  host : 'localhost',
-  port : process.env.LISTEN_PORT || '3030',
-  timeout : 5000,
+  host: 'localhost',
+  port: process.env.LISTEN_PORT || '3030',
+  timeout: 5000,
 };
 
 let request = http.request({ ...options, path: '/health' }, (res) => {
@@ -15,7 +15,7 @@ let request = http.request({ ...options, path: '/health' }, (res) => {
   }
 });
 
-request.on('error', function(err) {
+request.on('error', function (err) {
   console.error(`ERROR: ${err}`);
   process.exitCode = 1;
 });

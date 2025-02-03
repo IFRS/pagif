@@ -3,15 +3,15 @@ const mongoose = require('mongoose');
 const Settings = new mongoose.Schema({
   sigla: {
     type: String,
-    required: true
+    required: true,
   },
   orgao: {
     type: String,
-    required: true
+    required: true,
   },
   intro: {
     type: String,
-    required: true
+    required: true,
   },
 },
 {

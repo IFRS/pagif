@@ -1,11 +1,11 @@
 module.exports.geral = {
-  'Usuario': [
+  Usuario: [
     'create',
     'read',
     'update',
     'delete',
   ],
-  'Unidade': [
+  Unidade: [
     'create',
     'read',
     'update',
@@ -13,13 +13,13 @@ module.exports.geral = {
   ],
 };
 module.exports.porUnidade = {
-  'Servico': [
+  Servico: [
     'create',
     'read',
     'update',
     'delete',
   ],
-  'Pagamento': [
+  Pagamento: [
     'create',
     'read',
     'update',

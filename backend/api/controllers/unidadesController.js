@@ -3,25 +3,25 @@ const validator = require('express-validator');
 const { createMongoAbility } = require('@casl/ability');
 const { logger } = require('../../logger');
 
-module.exports.listPublic = function(req, res) {
+module.exports.listPublic = function (req, res) {
   const query = Unidade.find({});
 
   query.select('-token');
 
   query.sort('nome');
 
-  query.then(unidades => {
+  query.then((unidades) => {
     return res.json(unidades.map(doc => doc.toJSON()));
   })
-  .catch(error => {
-    logger.error('Erro obtendo Unidades: %o', error);
-    return res.status(500).json({
-      message: 'Erro obtendo Unidades.',
+    .catch((error) => {
+      logger.error('Erro obtendo Unidades: %o', error);
+      return res.status(500).json({
+        message: 'Erro obtendo Unidades.',
+      });
     });
-  });
 };
 
-module.exports.list = function(req, res) {
+module.exports.list = function (req, res) {
   const ability = createMongoAbility(req.session.user.abilities);
   let fields = req.query.fields?.split(',');
 
@@ -35,23 +35,23 @@ module.exports.list = function(req, res) {
 
   query.sort('nome');
 
-  query.then(unidades => {
+  query.then((unidades) => {
     return res.json(unidades.map(doc => doc.toJSON()));
   })
-  .catch(error => {
-    logger.error('Erro obtendo Unidades: %o', error);
-    return res.status(500).json({
-      message: 'Erro obtendo Unidades.',
+    .catch((error) => {
+      logger.error('Erro obtendo Unidades: %o', error);
+      return res.status(500).json({
+        message: 'Erro obtendo Unidades.',
+      });
     });
-  });
 };
 
-module.exports.showPublic = function(req, res) {
+module.exports.showPublic = function (req, res) {
   const query = Unidade.findById(req.params.id);
 
   query.select('-token');
 
-  query.then(unidade => {
+  query.then((unidade) => {
     if (!unidade) {
       return res.status(404).json({
         message: 'Unidade não encontrada.',
@@ -60,15 +60,15 @@ module.exports.showPublic = function(req, res) {
 
     return res.json(unidade.toJSON());
   })
-  .catch(error => {
-    logger.error('Erro obtendo a Unidade: %o', error);
-    return res.status(500).json({
-      message: 'Erro obtendo a Unidade.',
+    .catch((error) => {
+      logger.error('Erro obtendo a Unidade: %o', error);
+      return res.status(500).json({
+        message: 'Erro obtendo a Unidade.',
+      });
     });
-  });
 };
 
-module.exports.show = function(req, res) {
+module.exports.show = function (req, res) {
   let fields = req.query.fields?.split(',');
 
   const query = Unidade.findById(req.params.id);
@@ -79,7 +79,7 @@ module.exports.show = function(req, res) {
 
   query.select('-token');
 
-  query.then(unidade => {
+  query.then((unidade) => {
     if (!unidade) {
       return res.status(404).json({
         message: 'Unidade não encontrada.',
@@ -88,30 +88,30 @@ module.exports.show = function(req, res) {
 
     return res.json(unidade.toJSON());
   })
-  .catch(error => {
-    logger.error('Erro obtendo a Unidade: %o', error);
-    return res.status(500).json({
-      message: 'Erro obtendo a Unidade.',
+    .catch((error) => {
+      logger.error('Erro obtendo a Unidade: %o', error);
+      return res.status(500).json({
+        message: 'Erro obtendo a Unidade.',
+      });
     });
-  });
 };
 
-module.exports.token = function(req, res) {
+module.exports.token = function (req, res) {
   Unidade.findById(req.params.id).select('token')
-  .then(unidade => {
-    if (!unidade) {
-      return res.status(404).json({
-        message: 'Unidade não encontrada.',
-      });
-    }
+    .then((unidade) => {
+      if (!unidade) {
+        return res.status(404).json({
+          message: 'Unidade não encontrada.',
+        });
+      }
 
-    return res.json(unidade.token);
-  }).catch(error => {
-    logger.error('Erro obtendo o token da Unidade: %o', error);
-    return res.status(500).json({
-      message: 'Erro obtendo o token da Unidade.',
+      return res.json(unidade.token);
+    }).catch((error) => {
+      logger.error('Erro obtendo o token da Unidade: %o', error);
+      return res.status(500).json({
+        message: 'Erro obtendo o token da Unidade.',
+      });
     });
-  });
 };
 
 module.exports.save = [
@@ -131,7 +131,7 @@ module.exports.save = [
   validator.body('link_url', '')
     .trim()
     .optional({ values: 'falsy' })
-    .isURL({ protocols: ['http','https'], require_protocol: true }),
+    .isURL({ protocols: ['http', 'https'], require_protocol: true }),
   validator.body('link_titulo', '')
     .trim()
     .optional({ values: 'falsy' })
@@ -139,7 +139,7 @@ module.exports.save = [
   validator.body('contato', '')
     .optional({ values: 'falsy' })
     .isString(),
-  function(req, res) {
+  function (req, res) {
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.mapped() });
@@ -157,47 +157,47 @@ module.exports.save = [
 
     if (req.params.id) {
       Unidade.findByIdAndUpdate(req.params.id, data, { returnDocument: 'after' })
-      .then(unidade => {
-        if (!unidade) {
-          return res.status(404).json({
-            message: 'Unidade não encontrada.',
-          });
-        }
+        .then((unidade) => {
+          if (!unidade) {
+            return res.status(404).json({
+              message: 'Unidade não encontrada.',
+            });
+          }
 
-        return res.json(unidade.toJSON());
-      })
-      .catch(error => {
-        logger.error('Erro atualizando Unidade: %o', error);
-        return res.status(500).json({
-          message: 'Erro atualizando Unidade.',
+          return res.json(unidade.toJSON());
+        })
+        .catch((error) => {
+          logger.error('Erro atualizando Unidade: %o', error);
+          return res.status(500).json({
+            message: 'Erro atualizando Unidade.',
+          });
         });
-      });
     } else {
       let unidade = new Unidade(data);
 
       unidade.save()
-      .then(unidade => {
-        return res.json(unidade.toJSON());
-      })
-      .catch(error => {
-        logger.error('Erro ao adicionar a Unidade: %o', error);
-        return res.status(500).json({
-          message: 'Erro ao adicionar a Unidade.',
+        .then((unidade) => {
+          return res.json(unidade.toJSON());
+        })
+        .catch((error) => {
+          logger.error('Erro ao adicionar a Unidade: %o', error);
+          return res.status(500).json({
+            message: 'Erro ao adicionar a Unidade.',
+          });
         });
-      });
     }
-  }
+  },
 ];
 
-module.exports.delete = function(req, res) {
+module.exports.delete = function (req, res) {
   Unidade.findByIdAndRemove(req.params.id)
-  .then(unidade => {
-    return res.json(unidade.toJSON());
-  })
-  .catch(error => {
-    logger.error('Erro ao remover a Unidade: %o', error);
-    return res.status(500).json({
-      message: 'Erro ao remover a Unidade.',
+    .then((unidade) => {
+      return res.json(unidade.toJSON());
+    })
+    .catch((error) => {
+      logger.error('Erro ao remover a Unidade: %o', error);
+      return res.status(500).json({
+        message: 'Erro ao remover a Unidade.',
+      });
     });
-  });
 };

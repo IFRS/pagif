@@ -13,9 +13,9 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${
       logger.error('Erro no MongoDB: %o', error);
     });
   },
-  error => {
+  (error) => {
     logger.error('Erro ao tentar conectar no MongoDB: %o', error);
-  }
+  },
 );
 
 module.exports = mongoose.connection;

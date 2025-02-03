@@ -14,7 +14,7 @@ fila.on('close', (code) => {
 const port = process.env.LISTEN_PORT || '3030';
 
 const server = api.listen(port, () => {
-  console.info(`API rodando na porta ${port}`)
+  console.info(`API rodando na porta ${port}`);
 });
 
 process.on('SIGTERM', () => {

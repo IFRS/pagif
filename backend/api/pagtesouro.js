@@ -40,11 +40,11 @@ const pagtesouro = axios.create({
       ];
 
       let data = Object.keys(rawData)
-      .filter((key => allowed_fields.includes(key)))
-      .reduce((obj, key) => {
-        obj[key] = rawData[key];
-        return obj;
-      }, {});
+        .filter(key => allowed_fields.includes(key))
+        .reduce((obj, key) => {
+          obj[key] = rawData[key];
+          return obj;
+        }, {});
 
       data.urlRetorno = process.env.APP_URL + '/';
       data.urlNotificacao = process.env.APP_URL + '/api/notifica';
@@ -127,14 +127,14 @@ const pagtesouro = axios.create({
         }
       }
 
-      loggerPagTesouro.info("[PagTesouro Request] %o", data);
+      loggerPagTesouro.info('[PagTesouro Request] %o', data);
 
       return data;
-    }
+    },
   ].concat(axios.defaults.transformRequest),
   transformResponse: axios.defaults.transformResponse.concat(
     (rawData) => {
-      loggerPagTesouro.info("[PagTesouro Response] %o", rawData);
+      loggerPagTesouro.info('[PagTesouro Response] %o', rawData);
 
       if (Object.prototype.hasOwnProperty.call(rawData, 'dataCriacao') && rawData.dataCriacao) {
         let dataUTC = dayjs.tz(rawData.dataCriacao, 'America/Sao_Paulo').toISOString();
@@ -177,14 +177,14 @@ const pagtesouro = axios.create({
 pagtesouro.interceptors.request.use(function (config) {
   return config;
 }, function (error) {
-  loggerPagTesouro.error("[PagTesouro Request Error] %o", error.message);
+  loggerPagTesouro.error('[PagTesouro Request Error] %o', error.message);
   return Promise.reject(error.message);
 });
 
 pagtesouro.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
-  loggerPagTesouro.error("[PagTesouro Response Error] %o", error.message);
+  loggerPagTesouro.error('[PagTesouro Response Error] %o', error.message);
   return Promise.reject(error.message);
 });
 
