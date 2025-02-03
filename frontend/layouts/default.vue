@@ -83,7 +83,7 @@
     </v-main>
     <v-footer
       color="footer"
-      class="mt-4"
+      class="mt-4 flex-grow-0"
     >
       <v-card
         flat
