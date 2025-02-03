@@ -75,8 +75,8 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia';
-import { useAuthStore } from '~/store/auth';
+import { storeToRefs } from 'pinia'
+import { useAuthStore } from '~/store/auth'
 
 defineProps({
   admin: {
@@ -85,9 +85,9 @@ defineProps({
   },
 })
 
-const authStore = useAuthStore();
+const authStore = useAuthStore()
 
-const { user } = storeToRefs(authStore);
+const { user } = storeToRefs(authStore)
 
 const logout = async () => {
   const { error } = await useFetch('/api/auth/google/logout')

@@ -125,14 +125,14 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia';
-import { useMainStore } from '~/store';
-import { useUsuarioStore } from '~/store/usuario';
+import { storeToRefs } from 'pinia'
+import { useMainStore } from '~/store'
+import { useUsuarioStore } from '~/store/usuario'
 
 definePageMeta({
   validate: async () => {
     return useACL().can('read', 'Usuario')
-  }
+  },
 })
 
 useHeadSafe({

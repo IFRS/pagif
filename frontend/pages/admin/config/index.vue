@@ -15,7 +15,7 @@ import { useSettingsStore } from '~/store/settings'
 definePageMeta({
   validate: async () => {
     return useACL().can('edit', 'Settings')
-  }
+  },
 })
 
 useHeadSafe({

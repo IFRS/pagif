@@ -74,7 +74,7 @@
 import { useDisplay } from 'vuetify'
 
 defineProps({
-  'modelValue': Boolean,
+  modelValue: Boolean,
 })
 
 const emit = defineEmits(['update:modelValue', 'filtrar'])

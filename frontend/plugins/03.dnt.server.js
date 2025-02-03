@@ -1,5 +1,5 @@
-import { defineNuxtPlugin, useRequestHeaders } from "#app"
-import { useConfigStore } from "~/store/config"
+import { defineNuxtPlugin, useRequestHeaders } from '#app'
+import { useConfigStore } from '~/store/config'
 
 export default defineNuxtPlugin(async ({ $pinia }) => {
   const headers = useRequestHeaders()

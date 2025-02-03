@@ -20,7 +20,7 @@ useHeadSafe({
 })
 
 const route = useRoute()
-const pagamentoStore = usePagamentoStore();
+const pagamentoStore = usePagamentoStore()
 const { pending, error } = await pagamentoStore.show_public(route.params.id)
 
 if (error.value) {

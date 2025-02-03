@@ -17,7 +17,7 @@ export const useServicoStore = defineStore('servico', {
     async save() {
       let servico = {
         ...this.$state,
-        unidade: (Object.prototype.hasOwnProperty.call(this.unidade, '_id')) ? this.unidade._id : this.unidade
+        unidade: (Object.prototype.hasOwnProperty.call(this.unidade, '_id')) ? this.unidade._id : this.unidade,
       }
       const response = await useFetch('/api/servicos', { method: 'POST', body: servico })
       this.$reset()
@@ -26,7 +26,7 @@ export const useServicoStore = defineStore('servico', {
     async update() {
       let servico = {
         ...this.$state,
-        unidade: (Object.prototype.hasOwnProperty.call(this.unidade, '_id')) ? this.unidade._id : this.unidade
+        unidade: (Object.prototype.hasOwnProperty.call(this.unidade, '_id')) ? this.unidade._id : this.unidade,
       }
       const response = await useFetch(`/api/servicos/${this._id}`, { method: 'PUT', body: servico })
       this.$reset()

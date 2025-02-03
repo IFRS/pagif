@@ -234,11 +234,11 @@ async function toClipboard(text) {
   let copiou = false
   if (Navigator.clipboard) {
     await Navigator.clipboard.writeText(text)
-    .then(() => {
-      copiou = true
-    }, () => {
-      copiou = false
-    });
+      .then(() => {
+        copiou = true
+      }, () => {
+        copiou = false
+      })
   } else if (copy(text, { format: 'text/plain' })) {
     copiou = true
   } else {

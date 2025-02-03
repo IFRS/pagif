@@ -1,7 +1,7 @@
-import { useNuxtApp } from "#app";
-import { useSnackbarStore } from "~/store/snackbar";
+import { useNuxtApp } from '#app'
+import { useSnackbarStore } from '~/store/snackbar'
 
-export default function() {
-  const { $pinia } = useNuxtApp();
-  return useSnackbarStore($pinia);
+export default function () {
+  const { $pinia } = useNuxtApp()
+  return useSnackbarStore($pinia)
 }

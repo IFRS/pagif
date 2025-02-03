@@ -7,7 +7,7 @@
     </h3>
     <v-form
       ref="form"
-      lazy-validation
+      validate-on="lazy"
       class="mb-12 d-flex flex-nowrap justify-center align-start ga-3"
       @submit.prevent="submitPagamento"
     >
@@ -50,31 +50,31 @@
 </template>
 
 <script setup>
-import { useConfigStore } from '~/store/config'
 import colors from 'vuetify/util/colors'
+import { useConfigStore } from '~/store/config'
 
 useHeadSafe({
   title: 'Pagamento',
 })
 
-const configStore = useConfigStore();
+const configStore = useConfigStore()
 
-const form = ref(null);
-const idPagamento = ref(null);
-const validation = ref([]);
+const form = ref(null)
+const idPagamento = ref(null)
+const validation = ref([])
 
 function submitPagamento() {
   validation.value = [
     v => !!v || 'Código do Pagamento é obrigatório.',
     v => (/^[A-Za-z0-9]+$/).test(v) || 'Código do Pagamento só pode conter letras e números.',
-  ];
+  ]
 
   nextTick(async () => {
     const { valid } = await form.value.validate()
     if (valid) {
       await navigateTo({ name: 'pagamento-id', params: { id: idPagamento.value } })
     }
-  });
+  })
 }
 </script>
 

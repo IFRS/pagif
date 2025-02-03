@@ -27,19 +27,19 @@
 </template>
 
 <script setup>
-  const props = defineProps({
-    error: {
-      type: Object,
-      default: null,
-    },
-  })
+const props = defineProps({
+  error: {
+    type: Object,
+    default: null,
+  },
+})
 
-  const { $authStore } = useNuxtApp()
+const { $authStore } = useNuxtApp()
 
-  if (props.error.statusCode === 401) {
-    $authStore.$reset();
-    clearError({ redirect: '/' })
-  }
+if (props.error.statusCode === 401) {
+  $authStore.$reset()
+  clearError({ redirect: '/' })
+}
 
-  const handleError = () => clearError({ redirect: '/' })
+const handleError = () => clearError({ redirect: '/' })
 </script>

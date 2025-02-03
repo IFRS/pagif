@@ -1,10 +1,10 @@
-import { defineNuxtPlugin } from '#app'
 import { createVuetify } from 'vuetify'
 import * as directives from 'vuetify/directives'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import { pt } from 'vuetify/locale'
 import DayJsAdapter from '@date-io/dayjs'
 import pt_BR from 'dayjs/locale/pt-br'
+import { defineNuxtPlugin } from '#app'
 
 export default defineNuxtPlugin(({ vueApp }) => {
   const vuetify = createVuetify({
@@ -20,7 +20,7 @@ export default defineNuxtPlugin(({ vueApp }) => {
       adapter: DayJsAdapter,
       locale: {
         pt: pt_BR,
-      }
+      },
     },
     icons: {
       defaultSet: 'mdi',
@@ -32,7 +32,7 @@ export default defineNuxtPlugin(({ vueApp }) => {
     theme: {
       defaultTheme: 'light',
       options: {
-        customProperties: true
+        customProperties: true,
       },
       themes: {
         light: {

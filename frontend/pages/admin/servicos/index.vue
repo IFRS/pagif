@@ -133,7 +133,7 @@ import { useServicoStore } from '~/store/servico'
 definePageMeta({
   validate: async () => {
     return useACL().can('read', 'Servico')
-  }
+  },
 })
 
 useHeadSafe({

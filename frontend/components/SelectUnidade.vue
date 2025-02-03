@@ -35,39 +35,39 @@
 </template>
 
 <script setup>
-import { mergeProps } from 'vue';
-import { useMainStore } from '~/store';
-import { useConfigStore } from '~/store/config';
+import { mergeProps } from 'vue'
+import { useMainStore } from '~/store'
+import { useConfigStore } from '~/store/config'
 
 const props = defineProps({
   mobile: Boolean,
 })
 
-const store = useMainStore();
-const configStore = useConfigStore();
+const store = useMainStore()
+const configStore = useConfigStore()
 
-const { pending, error } = await store.fetchUnidades(true);
+const { pending, error } = await store.fetchUnidades(true)
 if (error.value) {
-  useToast().error('Ocorreu um erro ao carregar a lista de Unidades.');
-  console.error(error);
+  useToast().error('Ocorreu um erro ao carregar a lista de Unidades.')
+  console.error(error)
 }
 
 const selectedUnidade = computed({
   get() {
     return store.unidades.findIndex((unidade) => {
-      return unidade._id === configStore.unidade?._id;
-    });
+      return unidade._id === configStore.unidade?._id
+    })
   },
   set(index) {
-    configStore.unidade = store.unidades[index];
+    configStore.unidade = store.unidades[index]
 
     setTimeout(() => {
-      navigateTo({ name: 'index' });
-    }, 250);
-  }
+      navigateTo({ name: 'index' })
+    }, 250)
+  },
 })
 
 onUnmounted(() => {
-  store.clearUnidades();
+  store.clearUnidades()
 })
 </script>

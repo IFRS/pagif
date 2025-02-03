@@ -57,8 +57,8 @@ import { usePagamentoStore } from '~/store/pagamento'
 
 useHead({
   script: [
-    { src: 'https://www.google.com/recaptcha/api.js', type: "text/javascript", async: true, defer: true }
-  ]
+    { src: 'https://www.google.com/recaptcha/api.js', type: 'text/javascript', async: true, defer: true },
+  ],
 }, { mode: 'client' })
 
 const emit = defineEmits(['recaptcha'])

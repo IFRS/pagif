@@ -6,7 +6,6 @@
 </template>
 
 <script setup>
-
 const props = defineProps({
   situacao: {
     type: String,
@@ -17,26 +16,26 @@ const props = defineProps({
 const color = computed(() => {
   switch (props.situacao) {
     case 'CRIADO':
-      return 'bg-blue-accent-2';
-    break;
+      return 'bg-blue-accent-2'
+      break
     case 'INICIADO':
-      return 'bg-blue-accent-3';
-    break;
+      return 'bg-blue-accent-3'
+      break
     case 'SUBMETIDO':
-      return 'bg-blue-accent-4';
-    break;
+      return 'bg-blue-accent-4'
+      break
     case 'CONCLUIDO':
-      return 'bg-light-green-darken-2';
-    break;
+      return 'bg-light-green-darken-2'
+      break
     case 'REJEITADO':
-      return 'bg-red-darken-3';
-    break;
+      return 'bg-red-darken-3'
+      break
     case 'CANCELADO':
-      return 'bg-deep-orange-darken-3';
-    break;
+      return 'bg-deep-orange-darken-3'
+      break
     default:
-      return 'bg-black';
-    break;
+      return 'bg-black'
+      break
   }
 })
 </script>

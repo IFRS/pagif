@@ -39,7 +39,7 @@ async function handleGoogle(response) {
     useToast().error('Ocorreu um erro ao logar com o Google.')
     console.error(error.value)
   }
-  authStore.user = data.value;
+  authStore.user = data.value
   loading.value = false
   await navigateTo('/', { replace: true })
 }

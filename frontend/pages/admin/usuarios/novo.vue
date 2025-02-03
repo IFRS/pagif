@@ -23,7 +23,7 @@ import { useUsuarioStore } from '~/store/usuario'
 definePageMeta({
   validate: async () => {
     return useACL().can('create', 'Usuario')
-  }
+  },
 })
 
 useHeadSafe({

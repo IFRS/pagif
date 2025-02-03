@@ -1,5 +1,5 @@
-import { computed } from "vue"
-import { Mask } from "maska"
+import { computed } from 'vue'
+import { Mask } from 'maska'
 
 export default (ref) => {
   const cnpjCpfMask = computed(() => {
@@ -21,6 +21,6 @@ export default (ref) => {
       val = String(val)
       val = val.replace(/\D/g, '')
       ref.value = val
-    }
+    },
   }
 }

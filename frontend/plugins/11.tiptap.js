@@ -1,4 +1,3 @@
-import { defineNuxtPlugin } from '#app'
 import {
   VuetifyTiptap,
   VuetifyViewer,
@@ -17,6 +16,7 @@ import {
   HorizontalRule,
   Clear,
 } from 'vuetify-pro-tiptap'
+import { defineNuxtPlugin } from '#app'
 import 'vuetify-pro-tiptap/styles/editor.css'
 import '~/assets/tiptap-github-markdown.scss'
 
@@ -97,20 +97,20 @@ export default defineNuxtPlugin(({ vueApp }) => {
     'editor.undo.tooltip': 'Desfazer',
     'editor.redo.tooltip': 'Refazer',
     'editor.fullscreen.tooltip.fullscreen': 'Tela Cheia',
-    'editor.fullscreen.tooltip.exit': 'Sair da Tela Cheia'
+    'editor.fullscreen.tooltip.exit': 'Sair da Tela Cheia',
   })
 
   const vuetifyProTipTap = createVuetifyProTipTap({
     lang: 'pt-BR',
     components: {
       VuetifyTiptap,
-      VuetifyViewer
+      VuetifyViewer,
     },
     markdownTheme: 'github',
     extensions: [
       BaseKit.configure({
         placeholder: {
-          placeholder: ''
+          placeholder: '',
         },
         bubble: false,
       }),
@@ -125,7 +125,7 @@ export default defineNuxtPlugin(({ vueApp }) => {
       OrderedList.configure({ divider: true }),
       Link.configure({ divider: true }),
       Clear,
-    ]
+    ],
   })
 
   vueApp.use(vuetifyProTipTap)

@@ -13,7 +13,7 @@ export const useUsuarioStore = defineStore('usuario', {
   }),
 
   getters: {
-    getAbilities: state => {
+    getAbilities: (state) => {
       return state.abilities.map((ability) => {
         return JSON.stringify(ability)
       })

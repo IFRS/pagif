@@ -8,9 +8,9 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia';
-import { useConfigStore } from './store/config';
-import { useTheme } from 'vuetify';
+import { storeToRefs } from 'pinia'
+import { useTheme } from 'vuetify'
+import { useConfigStore } from './store/config'
 
 const route = useRoute()
 
@@ -18,8 +18,8 @@ const layout = computed(() => {
   return route.name?.startsWith('admin') ? 'admin' : 'default'
 })
 
-const configStore = useConfigStore();
-const { darkMode, sigla } = storeToRefs(configStore);
+const configStore = useConfigStore()
+const { darkMode, sigla } = storeToRefs(configStore)
 
 useHead({
   titleTemplate: (titleChunk) => {
@@ -27,13 +27,13 @@ useHead({
   },
 })
 
-const theme = useTheme();
+const theme = useTheme()
 
-const cookie = useCookie('darkMode');
+const cookie = useCookie('darkMode')
 
-const isDarkMode = import.meta.server ? cookie.value : darkMode.value;
+const isDarkMode = import.meta.server ? cookie.value : darkMode.value
 
-theme.global.name.value = isDarkMode ? 'dark': 'light';
+theme.global.name.value = isDarkMode ? 'dark' : 'light'
 </script>
 
 <style>

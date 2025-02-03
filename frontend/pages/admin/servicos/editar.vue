@@ -24,7 +24,7 @@ import { useServicoStore } from '~/store/servico'
 definePageMeta({
   validate: async () => {
     return useACL().can('update', 'Servico')
-  }
+  },
 })
 
 useHeadSafe({

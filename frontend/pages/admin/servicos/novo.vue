@@ -23,7 +23,7 @@ import { useServicoStore } from '~/store/servico'
 definePageMeta({
   validate: async () => {
     return useACL().can('create', 'Servico')
-  }
+  },
 })
 
 useHeadSafe({
@@ -39,7 +39,7 @@ async function handleSubmit() {
 
   const { error } = await servicoStore.save()
 
-  submitting.value = false;
+  submitting.value = false
 
   if (error.value) {
     useToast().error('Ocorreu um erro ao cadastrar o Serviço. ' + error.value.message)

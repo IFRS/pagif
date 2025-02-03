@@ -37,61 +37,61 @@
 </template>
 
 <script setup>
-  import { useMainStore } from '~/store';
-  import { Bar } from 'vue-chartjs'
-  import { Chart as ChartJS, Tooltip, Legend, BarController, BarElement, CategoryScale, LinearScale } from 'chart.js'
+import { Bar } from 'vue-chartjs'
+import { Chart as ChartJS, Tooltip, Legend, BarController, BarElement, CategoryScale, LinearScale } from 'chart.js'
+import { useMainStore } from '~/store'
 
-  ChartJS.register(Tooltip, Legend, BarController, BarElement, CategoryScale, LinearScale)
+ChartJS.register(Tooltip, Legend, BarController, BarElement, CategoryScale, LinearScale)
 
-  const unidade = ref()
+const unidade = ref()
 
-  const store = useMainStore()
-  const { unidades } = storeToRefs(store)
+const store = useMainStore()
+const { unidades } = storeToRefs(store)
 
-  const { error: errorUnidades, pending: pendingUnidades } = await store.fetchUnidades()
-  if (errorUnidades.value) {
-    useToast().error('Ocorreu um erro ao carregar as Unidades: ' + errorUnidades.message)
-    console.error(errorUnidades)
+const { error: errorUnidades, pending: pendingUnidades } = await store.fetchUnidades()
+if (errorUnidades.value) {
+  useToast().error('Ocorreu um erro ao carregar as Unidades: ' + errorUnidades.message)
+  console.error(errorUnidades)
+}
+
+const { data, error, pending } = await useFetch('/api/info/pagamentos_por_servicos', {
+  query: { unidade: unidade },
+})
+if (error.value) {
+  useToast().error('Ocorreu um erro ao carregar as informações sobre o sistema: ' + error.value.message)
+  console.error(error)
+}
+
+const servicos_graph = computed(() => {
+  return data.value.slice(0, 5)
+})
+
+const chartData = computed(() => (
+  {
+    labels: servicos_graph.value.map(e => e._id),
+    datasets: [
+      {
+        label: 'Pagamentos',
+        data: servicos_graph.value.map(e => e.count),
+        backgroundColor: [
+          '#665190',
+          '#8168B3',
+          '#9D84D2',
+          '#B8A2E3',
+          '#D0C3E9',
+        ],
+      },
+    ],
   }
+))
 
-  const { data, error, pending } = await useFetch('/api/info/pagamentos_por_servicos', {
-    query: { unidade: unidade }
-  })
-  if (error.value) {
-    useToast().error('Ocorreu um erro ao carregar as informações sobre o sistema: ' + error.value.message)
-    console.error(error)
-  }
-
-  const servicos_graph = computed(() => {
-    return data.value.slice(0, 5)
-  })
-
-  const chartData = computed(() => (
-    {
-      labels: servicos_graph.value.map(e => e._id),
-      datasets: [
-        {
-          label: 'Pagamentos',
-          data: servicos_graph.value.map(e => e.count),
-          backgroundColor: [
-            '#665190',
-            '#8168B3',
-            '#9D84D2',
-            '#B8A2E3',
-            '#D0C3E9',
-          ],
-        },
-      ],
-    }
-  ))
-
-  const chartOptions = {
-    plugins: {
-      legend: {
-        display: false
-      }
-    }
-  }
+const chartOptions = {
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>

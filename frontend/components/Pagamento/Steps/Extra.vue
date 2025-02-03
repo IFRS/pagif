@@ -45,8 +45,8 @@
 
 <script setup>
 import { storeToRefs } from 'pinia'
-import { watch } from 'vue';
-import { useMainStore } from '~/store';
+import { watch } from 'vue'
+import { useMainStore } from '~/store'
 import { usePagamentoStore } from '~/store/pagamento'
 
 const form = ref(null)
@@ -59,7 +59,7 @@ defineExpose({
 
 const validation = {
   referencia: [
-    v => {
+    (v) => {
       if (isReferenciaRequired.value) {
         if (v) {
           return true
@@ -82,7 +82,7 @@ const { servicos } = storeToRefs(useMainStore())
 const isReferenciaRequired = ref(false)
 
 onBeforeMount(() => {
-  const servico = servicos.value.find((s) => toRaw(s).codigo == codigoServico.value)
+  const servico = servicos.value.find(s => toRaw(s).codigo == codigoServico.value)
   isReferenciaRequired.value = servico?.referencia_required ?? false
 })
 

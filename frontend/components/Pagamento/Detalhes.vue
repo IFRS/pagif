@@ -205,7 +205,7 @@ const {
   tipoPagamentoEscolhido,
   transacaoPSP,
   nomePSP,
-  situacao
+  situacao,
 } = storeToRefs(pagamentoStore)
 
 const domain = computed(() => {

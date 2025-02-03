@@ -21,25 +21,25 @@
 </template>
 
 <script setup>
-import { useMainStore } from '~/store';
-import { useConfigStore } from '~/store/config';
+import { useMainStore } from '~/store'
+import { useConfigStore } from '~/store/config'
 
 useHeadSafe({
   title: 'Escolha uma Unidade',
-});
+})
 
-const store = useMainStore();
-const configStore = useConfigStore();
+const store = useMainStore()
+const configStore = useConfigStore()
 
-const { error } = await store.fetchUnidades(true);
+const { error } = await store.fetchUnidades(true)
 if (error.value) {
-  useToast().error('Ocorreu um erro ao carregar as Unidades.');
-  console.error(error);
+  useToast().error('Ocorreu um erro ao carregar as Unidades.')
+  console.error(error)
 }
 
-const route = useRoute();
+const route = useRoute()
 async function escolha(unidade) {
-  configStore.unidade = unidade;
-  await navigateTo({ path: route.query.returnPath || '/' });
+  configStore.unidade = unidade
+  await navigateTo({ path: route.query.returnPath || '/' })
 }
 </script>

@@ -23,7 +23,7 @@ import { usePagamentoStore } from '~/store/pagamento'
 definePageMeta({
   validate: async () => {
     return useACL().can('create', 'Pagamento')
-  }
+  },
 })
 
 useHeadSafe({

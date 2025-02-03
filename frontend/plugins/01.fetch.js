@@ -1,5 +1,5 @@
+import { ofetch } from 'ofetch'
 import { defineNuxtPlugin, navigateTo } from '#app'
-import { ofetch } from "ofetch"
 import { useAuthStore } from '~/store/auth'
 
 export default defineNuxtPlugin(({ $pinia }) => {

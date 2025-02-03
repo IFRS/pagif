@@ -160,14 +160,14 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia';
+import { storeToRefs } from 'pinia'
 import { useMainStore } from '~/store'
 import { useUnidadeStore } from '~/store/unidade'
 
 definePageMeta({
   validate: async () => {
-    return useACL().can('read', 'Unidade');
-  }
+    return useACL().can('read', 'Unidade')
+  },
 })
 
 useHeadSafe({

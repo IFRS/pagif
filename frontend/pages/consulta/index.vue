@@ -4,7 +4,7 @@
 
     <v-form
       ref="form"
-      lazy-validation
+      validate-on="lazy"
       class="d-flex flex-nowrap justify-center align-start ga-3"
       @submit.prevent="submitConsulta"
     >
@@ -33,28 +33,28 @@
 </template>
 
 <script setup>
-import { useConfigStore } from '~/store/config';
+import { useConfigStore } from '~/store/config'
 
 useHeadSafe({
   title: 'Consulta',
-});
+})
 
-const configStore = useConfigStore();
-const form = ref(null);
-const idPagamento = ref(null);
-const validation = ref([]);
+const configStore = useConfigStore()
+const form = ref(null)
+const idPagamento = ref(null)
+const validation = ref([])
 
 function submitConsulta() {
   validation.value = [
     v => !!v || 'Código do Pagamento é obrigatório.',
     v => (/^[A-Za-z0-9]+$/).test(v) || 'Código do Pagamento só pode conter letras e números.',
-  ];
+  ]
 
   nextTick(async () => {
     const { valid } = await form.value.validate()
     if (valid) {
-      await navigateTo({ name: 'consulta-id', params: { id: idPagamento.value } });
+      await navigateTo({ name: 'consulta-id', params: { id: idPagamento.value } })
     }
-  });
+  })
 }
 </script>

@@ -30,11 +30,11 @@ function limpa() {
   unidadesSelected.value = []
 }
 
-defineExpose({limpa})
+defineExpose({ limpa })
 
 const { data: unidades, error, pending } = await useFetch('/api/unidades')
 
 if (error.value) {
-  useToast().error('Ocorreu um erro obter a lista de Unidades. ' + error.value.message);
+  useToast().error('Ocorreu um erro obter a lista de Unidades. ' + error.value.message)
 }
 </script>

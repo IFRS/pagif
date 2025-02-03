@@ -1,9 +1,9 @@
 <script setup>
-  definePageMeta({
-    redirect: (to) => ({ path: '/', query: { unidade: to.params.slug } }),
-  })
+definePageMeta({
+  redirect: to => ({ path: '/', query: { unidade: to.params.slug } }),
+})
 
-  useHeadSafe({
-    title: 'Redirecionando...',
-  })
+useHeadSafe({
+  title: 'Redirecionando...',
+})
 </script>

@@ -26,10 +26,10 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia';
-import { useMainStore } from '~/store';
-import { useConfigStore } from '~/store/config';
-import { usePagamentoStore } from '~/store/pagamento';
+import { storeToRefs } from 'pinia'
+import { useMainStore } from '~/store'
+import { useConfigStore } from '~/store/config'
+import { usePagamentoStore } from '~/store/pagamento'
 
 const form = ref(null)
 async function validateForm() {
@@ -51,14 +51,14 @@ if (error.value) {
   console.error(error)
 }
 
-const pagamentoStore = usePagamentoStore();
+const pagamentoStore = usePagamentoStore()
 const { codigoServico, nomeServico } = storeToRefs(pagamentoStore)
 
 const servicos = computed(() => {
   return store.servicos.map((item) => {
     return {
       title: `${item.nome} (${item.codigo})`,
-      value: item._id
+      value: item._id,
     }
   })
 })

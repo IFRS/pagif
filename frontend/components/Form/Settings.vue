@@ -89,11 +89,11 @@ const formNode = ref(null)
 const validation = {
   sigla: [
     v => !!v || 'Sigla é obrigatória.',
-    v => !(/^\d/).test(v) || 'Sigla não pode iniciar com um número.'
+    v => !(/^\d/).test(v) || 'Sigla não pode iniciar com um número.',
   ],
   orgao: [
     v => !!v || 'Nome é obrigatório.',
-    v => !(/^\d/).test(v) || 'Nome não pode iniciar com um número.'
+    v => !(/^\d/).test(v) || 'Nome não pode iniciar com um número.',
   ],
 }
 

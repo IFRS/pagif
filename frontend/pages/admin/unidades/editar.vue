@@ -25,7 +25,7 @@ import { useUnidadeStore } from '~/store/unidade'
 definePageMeta({
   validate: async () => {
     return useACL().can('update', 'Unidade')
-  }
+  },
 })
 
 useHeadSafe({

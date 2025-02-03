@@ -45,6 +45,6 @@ export default defineNuxtPlugin(async ({ $pinia }) => {
 
   configStore.$subscribe((mutation, state) => {
     cookie_darkmode.value = state.darkMode
-    if (state.unidade?._id) cookie_unidade.value =  state.unidade._id
+    if (state.unidade?._id) cookie_unidade.value = state.unidade._id
   }, { detached: true })
 })

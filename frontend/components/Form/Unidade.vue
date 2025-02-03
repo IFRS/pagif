@@ -223,7 +223,7 @@ const isEditSlug = ref(false)
 const validation = {
   nome: [
     v => !!v || 'Nome é obrigatório.',
-    v => !(/^\d/).test(v) || 'Nome não pode iniciar com um número.'
+    v => !(/^\d/).test(v) || 'Nome não pode iniciar com um número.',
   ],
   token: [
     v => !!v || 'Token é obrigatório.',
@@ -237,16 +237,16 @@ const validation = {
 function handleUpload(fileObject) {
   if (fileObject[0]) {
     if (fileObject[0].size > 1000000) {
-      uploadEl.value.reset();
-      useToast().error('Arquivo excedeu o limite de 1MB de tamanho.');
-      return;
+      uploadEl.value.reset()
+      useToast().error('Arquivo excedeu o limite de 1MB de tamanho.')
+      return
     }
-    const reader = new FileReader();
+    const reader = new FileReader()
     reader.onload = (e) => {
-      imagem.value = e.target.result;
-      uploadEl.value.reset();
-    };
-    reader.readAsDataURL(fileObject[0]);
+      imagem.value = e.target.result
+      uploadEl.value.reset()
+    }
+    reader.readAsDataURL(fileObject[0])
   }
 }
 
@@ -271,7 +271,7 @@ function slugify() {
       reject(error)
     }
 
-    isEditSlug.value = false;
+    isEditSlug.value = false
   })
 }
 

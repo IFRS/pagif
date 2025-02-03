@@ -148,7 +148,7 @@ const pagamentoStore = usePagamentoStore()
 const { pending, error } = await pagamentoStore.show_public(route.params.id)
 
 if (error.value) {
-  console.error(error);
+  console.error(error)
   useToast().error('Ocorreu um erro ao buscar o Pagamento.')
   await navigateTo({ name: 'pagamento' })
 }
@@ -174,7 +174,7 @@ async function retornoPagtesouro(event) {
   if (event.origin !== useRuntimeConfig().public.pagtesouroURL) return
 
   // Evento disparado pelos botões Fechar/Concluir.
-  if (event.data === "EPAG_FIM") {
+  if (event.data === 'EPAG_FIM') {
     useToast().info('Pagamento finalizado.')
     await navigateTo({ name: 'index' })
   }
@@ -190,7 +190,7 @@ const vResizeIframe = {
   },
   beforeUnmount(el) {
     el.iFrameResizer.removeListeners()
-  }
+  },
 }
 
 onBeforeRouteLeave((to, from, next) => {

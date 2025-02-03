@@ -2,7 +2,16 @@ import { defineNuxtConfig } from 'nuxt/config'
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 
 export default defineNuxtConfig({
-  compatibilityDate: '2024-07-01',
+
+  modules: [
+    '@nuxt/eslint',
+    '@pinia/nuxt',
+    'nuxt-proxy-request',
+  ],
+
+  devtools: {
+    enabled: false,
+  },
   app: {
     head: {
       htmlAttrs: {
@@ -48,12 +57,6 @@ export default defineNuxtConfig({
     '~/assets/vuetify-required.scss',
   ],
 
-  modules: [
-    '@nuxt/eslint',
-    '@pinia/nuxt',
-    'nuxt-proxy-request',
-  ],
-
   runtimeConfig: {
     public: {
       pagtesouroURL: process.env.PAGTESOURO_URL,
@@ -63,22 +66,10 @@ export default defineNuxtConfig({
     },
   },
 
-  hooks: {
-    'vite:extendConfig': (config) => {
-      config.plugins.push(
-        vuetify({
-          autoImport: { labs: true },
-          // styles: {
-          //   configFile: 'assets/settings.scss',
-          // },
-        }),
-      )
-    },
-  },
-
   build: {
     transpile: ['vuetify'],
   },
+  compatibilityDate: '2024-07-01',
 
   vite: {
     css: {
@@ -99,8 +90,17 @@ export default defineNuxtConfig({
     shim: false,
   },
 
-  devtools: {
-    enabled: false,
+  hooks: {
+    'vite:extendConfig': (config) => {
+      config.plugins.push(
+        vuetify({
+          autoImport: { labs: true },
+          // styles: {
+          //   configFile: 'assets/settings.scss',
+          // },
+        }),
+      )
+    },
   },
 
   /* ESLint */

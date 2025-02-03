@@ -8,16 +8,16 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { useTheme } from 'vuetify';
+import { computed } from 'vue'
+import { useTheme } from 'vuetify'
 import colors from 'vuetify/util/colors'
 
 const props = defineProps({
   level: {
     default: '2',
     validator(value) {
-      return ['2', '3', '4', '5', '6'].includes(value);
-    }
+      return ['2', '3', '4', '5', '6'].includes(value)
+    },
   },
 })
 
@@ -28,8 +28,6 @@ const { current } = useTheme()
 const color = computed(() => {
   return current.value.dark ? colors.grey.lighten4 : colors.grey.darken4
 })
-
-
 </script>
 
 <style lang="scss" scoped>

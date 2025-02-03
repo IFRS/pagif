@@ -36,16 +36,16 @@ export const useSnackbarStore = defineStore('snackbar', {
     hide() {
       this.$reset()
     },
-    info (text) {
+    info(text) {
       this.show({ text, type: 'info' })
     },
-    success (text) {
+    success(text) {
       this.show({ text, type: 'success' })
     },
-    warning (text) {
+    warning(text) {
       this.show({ text, type: 'warning' })
     },
-    error (text) {
+    error(text) {
       this.show({ text, type: 'error' })
     },
   },

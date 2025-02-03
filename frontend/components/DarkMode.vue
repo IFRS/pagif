@@ -21,20 +21,20 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia';
-import { useTheme } from 'vuetify';
-import { useConfigStore } from '~/store/config';
+import { storeToRefs } from 'pinia'
+import { useTheme } from 'vuetify'
+import { useConfigStore } from '~/store/config'
 
 const props = defineProps({
-  mobile: Boolean
+  mobile: Boolean,
 })
 
-const configStore = useConfigStore();
-const { darkMode } = storeToRefs(configStore);
+const configStore = useConfigStore()
+const { darkMode } = storeToRefs(configStore)
 
-const theme = useTheme();
+const theme = useTheme()
 
 watch(darkMode, (newValue) => {
-  theme.global.name.value = newValue ? 'dark': 'light';
+  theme.global.name.value = newValue ? 'dark' : 'light'
 })
 </script>

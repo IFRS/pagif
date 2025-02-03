@@ -107,7 +107,7 @@
             <v-switch
               v-model="abilities"
               label="read"
-              :value="JSON.stringify({ action: 'read', subject: 'Unidade', conditions: { '_id': unidade._id } })"
+              :value="JSON.stringify({ action: 'read', subject: 'Unidade', conditions: { _id: unidade._id } })"
               :disabled="user_is_me"
               color="primary"
             />
@@ -123,7 +123,7 @@
                     :key="subject + '_' + i + '_' + a"
                     v-model="abilities"
                     :label="action"
-                    :value="JSON.stringify({ action: action, subject: subject, conditions: { 'unidade': unidade._id } })"
+                    :value="JSON.stringify({ action: action, subject: subject, conditions: { unidade: unidade._id } })"
                     :disabled="user_is_me"
                     color="primary"
                   />
@@ -188,13 +188,13 @@ const validation = {
 
 const all_abilities = {
   geral: {
-    'Usuario': [
+    Usuario: [
       'create',
       'read',
       'update',
       'delete',
     ],
-    'Unidade': [
+    Unidade: [
       'create',
       'read',
       'update',
@@ -202,13 +202,13 @@ const all_abilities = {
     ],
   },
   porUnidade: {
-    'Servico': [
+    Servico: [
       'create',
       'read',
       'update',
       'delete',
     ],
-    'Pagamento': [
+    Pagamento: [
       'create',
       'read',
       'update',
@@ -225,7 +225,7 @@ const {
   _id,
   email,
   nome,
-  foto
+  foto,
 } = storeToRefs(usuarioStore)
 
 const abilities = computed({
@@ -234,7 +234,7 @@ const abilities = computed({
   },
   set(value) {
     usuarioStore.setAbilities(value)
-  }
+  },
 })
 
 const { error, pending } = await store.fetchUnidades()

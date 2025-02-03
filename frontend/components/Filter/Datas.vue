@@ -71,7 +71,7 @@ const dayjs = useDayjs(customParseFormat, isSameOrBefore)
 
 const validation = {
   datas: [
-    v => {
+    (v) => {
       if (!v) return true
 
       const hoje = dayjs()
@@ -86,7 +86,7 @@ const validation = {
 
       return 'A Data precisa ser anterior à data de hoje.'
     },
-    v => {
+    (v) => {
       if (!v) return true
 
       const datas = v.split(' ~ ')
@@ -127,18 +127,18 @@ const datasFormatted = computed({
       return dayjs(data).format('DD/MM/YYYY')
     }).filter((data, index, array) => {
       return index === 0 || index === array.length - 1
-    });
+    })
 
     return formatted.join(' ~ ')
   },
   set(value) {
     datas.value = value?.split(' ~ ') ?? []
-  }
+  },
 })
 
 function limpa() {
   datas.value = []
 }
 
-defineExpose({limpa})
+defineExpose({ limpa })
 </script>

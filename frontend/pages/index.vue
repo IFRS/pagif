@@ -78,42 +78,42 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia';
-import { useDisplay } from 'vuetify';
-import { useMainStore } from '~/store';
-import { useConfigStore } from '~/store/config';
+import { storeToRefs } from 'pinia'
+import { useDisplay } from 'vuetify'
+import { useMainStore } from '~/store'
+import { useConfigStore } from '~/store/config'
 
 useHeadSafe({
   title: 'PagIF',
-});
+})
 
-const store = useMainStore();
-const configStore = useConfigStore();
+const store = useMainStore()
+const configStore = useConfigStore()
 
-const { intro, darkMode } = storeToRefs(configStore);
+const { intro, darkMode } = storeToRefs(configStore)
 
-const route = useRoute();
-const router = useRouter();
+const route = useRoute()
+const router = useRouter()
 
 onBeforeMount(() => {
   if (route.query.unidade) {
-    const unidade = store.unidades.find(unidade => (unidade.slug && unidade.slug === route.query.unidade));
+    const unidade = store.unidades.find(unidade => (unidade.slug && unidade.slug === route.query.unidade))
     if (unidade) {
-      configStore.unidade = unidade;
-      useToast().success(`Unidade definida para "${unidade.nome}".`);
+      configStore.unidade = unidade
+      useToast().success(`Unidade definida para "${unidade.nome}".`)
     }
 
-    router.replace({ 'query': null });
+    router.replace({ query: null })
   }
-});
+})
 
-const { smAndDown } = useDisplay();
+const { smAndDown } = useDisplay()
 
 const css_intro_flex_direction = computed(() => {
-  return smAndDown.value ? "column" : "row"
+  return smAndDown.value ? 'column' : 'row'
 })
 const css_intro_text_flex = computed(() => {
-  return smAndDown.value ? "auto" : "80ch"
+  return smAndDown.value ? 'auto' : '80ch'
 })
 </script>
 

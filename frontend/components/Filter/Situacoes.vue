@@ -35,5 +35,5 @@ function limpa() {
   situacoesSelected.value = []
 }
 
-defineExpose({limpa})
+defineExpose({ limpa })
 </script>

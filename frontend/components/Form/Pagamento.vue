@@ -239,11 +239,10 @@
 
 <script setup>
 import { storeToRefs } from 'pinia'
-import { useMainStore } from '~/store'
-import { usePagamentoStore } from '~/store/pagamento'
-
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
+import { useMainStore } from '~/store'
+import { usePagamentoStore } from '~/store/pagamento'
 
 const dayjs = useDayjs(customParseFormat, isSameOrAfter)
 
@@ -268,7 +267,7 @@ const validation = {
     v => !!v || 'Selecione um Serviço.',
   ],
   referencia: [
-    v => {
+    (v) => {
       if (isReferenciaRequired.value) {
         if (v) {
           return true
@@ -283,17 +282,17 @@ const validation = {
     v => !v || v?.length <= 20 || 'Número de Referência deve ter no máximo 20 dígitos.',
   ],
   vencimento: [
-    v => {
-      if (!v) return true;
+    (v) => {
+      if (!v) return true
 
-      const hoje = dayjs();
-      const vencimento = dayjs(v, 'DD/MM/YYYY');
+      const hoje = dayjs()
+      const vencimento = dayjs(v, 'DD/MM/YYYY')
 
       if (vencimento.isSameOrAfter(hoje, 'day')) {
-        return true;
+        return true
       }
 
-      return 'O Vencimento precisa ser em data posterior à data de hoje.';
+      return 'O Vencimento precisa ser em data posterior à data de hoje.'
     },
   ],
   nomeContribuinte: [
@@ -337,7 +336,7 @@ const {
 const isReferenciaRequired = ref(false)
 
 watch(codigoServico, (newValue) => {
-  const servico = servicos.value.find((s) => toRaw(s).codigo == newValue)
+  const servico = servicos.value.find(s => toRaw(s).codigo == newValue)
   isReferenciaRequired.value = servico?.referencia_required ?? false
 })
 

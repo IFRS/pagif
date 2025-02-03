@@ -1,5 +1,5 @@
-import { useFetch } from '#app'
 import { useMainStore } from '.'
+import { useFetch } from '#app'
 
 export const useUnidadeStore = defineStore('unidade', {
   state: () => ({

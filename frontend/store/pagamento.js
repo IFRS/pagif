@@ -34,52 +34,52 @@ export const usePagamentoStore = defineStore('pagamento', {
   getters: {
     getValor() {
       if (!this.valor) {
-        return this.valorPrincipal - this.valorDescontos - this.valorOutrasDeducoes + this.valorMulta + this.valorJuros + this.valorOutrosAcrescimos;
+        return this.valorPrincipal - this.valorDescontos - this.valorOutrasDeducoes + this.valorMulta + this.valorJuros + this.valorOutrosAcrescimos
       }
 
-      return this.valor;
+      return this.valor
     },
   },
 
   actions: {
     async save_public(recaptcha) {
-      this.vencimento = dayjs().add(1, 'day').format('YYYY-MM-DD');
+      this.vencimento = dayjs().add(1, 'day').format('YYYY-MM-DD')
       const response = await useFetch('/api/public/pagamentos', { method: 'POST', body: { ...this.$state, recaptcha } })
-      if (response.data.value) this.$patch(response.data.value);
-      return response;
+      if (response.data.value) this.$patch(response.data.value)
+      return response
     },
     async save() {
       const response = await useFetch('/api/pagamentos', { method: 'POST', body: { ...this.$state } })
-      if (response.data.value) this.$patch(response.data.value);
-      return response;
+      if (response.data.value) this.$patch(response.data.value)
+      return response
     },
     async update() {
       const response = await useFetch(`/api/pagamentos/${this._id}`, { method: 'PUT', body: { ...this.$state } })
-      if (response.data.value) this.$reset();
-      return response;
+      if (response.data.value) this.$reset()
+      return response
     },
     async delete() {
       const response = await useFetch(`/api/pagamentos/${this._id}`, { method: 'DELETE' })
       if (response.data.value) {
-        this.$reset();
-        useMainStore().removePagamento(response.data.value);
+        this.$reset()
+        useMainStore().removePagamento(response.data.value)
       }
-      return response;
+      return response
     },
     async show_public(id) {
       const response = await useFetch(`/api/public/pagamentos/${id}`)
-      if (response.data.value) this.$patch(response.data.value);
-      return response;
+      if (response.data.value) this.$patch(response.data.value)
+      return response
     },
     async show(id) {
       const response = await useFetch(`/api/pagamentos/${id}`)
-      if (response.data.value) this.$patch(response.data.value);
-      return response;
+      if (response.data.value) this.$patch(response.data.value)
+      return response
     },
     async consulta(id) {
       const response = await useFetch('/api/pagamentos/update', { method: 'PUT', body: { idPagamento: id } })
-      if (response.data.value) useMainStore().updatePagamento(response.data.value);
-      return response;
+      if (response.data.value) useMainStore().updatePagamento(response.data.value)
+      return response
     },
   },
 })

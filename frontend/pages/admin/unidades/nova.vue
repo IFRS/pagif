@@ -23,7 +23,7 @@ import { useUnidadeStore } from '~/store/unidade'
 definePageMeta({
   validate: async () => {
     return useACL().can('create', 'Unidade')
-  }
+  },
 })
 
 useHeadSafe({
@@ -39,7 +39,7 @@ async function handleSubmit() {
 
   const { error } = await unidadeStore.save()
 
-  submitting.value = false;
+  submitting.value = false
 
   if (error.value) {
     useToast().error('Ocorreu um erro ao cadastrar a Unidade Gestora. ' + error.value.message)

@@ -26,8 +26,8 @@
 </template>
 
 <script setup>
-import { useNuxtApp } from '#app'
 import { storeToRefs } from 'pinia'
+import { useNuxtApp } from '#app'
 import { usePagamentoStore } from '~/store/pagamento'
 
 const form = ref(null)
@@ -47,7 +47,7 @@ const validation = {
   ],
   cnpjCpf: [
     v => !!v || 'CPF / CNPJ é obrigatório.',
-    v => v && ($isCPF(v) || $isCNPJ(v)) || 'CPF / CNPJ deve ser válido.',
+    v => (v && ($isCPF(v) || $isCNPJ(v))) || 'CPF / CNPJ deve ser válido.',
   ],
 }
 
