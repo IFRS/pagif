@@ -1,7 +1,9 @@
 .v-required {
   &::after {
-    content: "*";
-    color: var(--v-error-base, red);
+    content: "\002A";
+    color: rgb(var(--v-theme-error, (255,0,0)));
+    font-weight: 600;
     margin-inline-start: 0.25rem;
+    vertical-align: middle;
   }
 }
