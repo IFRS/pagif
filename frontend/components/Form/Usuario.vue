@@ -145,7 +145,7 @@
             :loading="submitting"
             :disabled="submitting"
           >
-            {{ id ? 'Atualizar' : 'Salvar' }}
+            {{ _id ? 'Atualizar' : 'Salvar' }}
           </v-btn>
         </v-col>
         <v-col cols="auto">
