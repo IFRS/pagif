@@ -1,6 +1,5 @@
 import { defineNuxtConfig } from 'nuxt/config'
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
-import { resolve } from 'path'
 
 export default defineNuxtConfig({
 
@@ -40,8 +39,6 @@ export default defineNuxtConfig({
   },
 
   css: [
-    // '@fontsource/roboto/latin.css',
-    // '@fontsource/roboto/latin-italic.css',
     '@fontsource/raleway/latin.css',
     '@fontsource/raleway/latin-italic.css',
     '@mdi/font/css/materialdesignicons.css',
