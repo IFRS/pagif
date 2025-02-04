@@ -9,9 +9,10 @@ export default defineNuxtConfig({
     'nuxt-proxy-request',
   ],
 
-  devtools: {
-    enabled: false,
-  },
+  // devtools: {
+  //   enabled: false,
+  // },
+
   app: {
     head: {
       htmlAttrs: {
