@@ -36,8 +36,6 @@
 
 <script setup>
 import { mergeProps } from 'vue'
-import { useMainStore } from '~/store'
-import { useConfigStore } from '~/store/config'
 
 const props = defineProps({
   mobile: Boolean,

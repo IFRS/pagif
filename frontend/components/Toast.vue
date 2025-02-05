@@ -22,9 +22,6 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
-import { useSnackbarStore } from '~/store/snackbar'
-
 const snackbarStore = useSnackbarStore()
 const { showing, color, icon, text } = storeToRefs(snackbarStore)
 </script>

@@ -18,8 +18,6 @@
 </template>
 
 <script setup>
-import { useUsuarioStore } from '~/store/usuario'
-
 definePageMeta({
   validate: async () => {
     return useACL().can('update', 'Usuario')

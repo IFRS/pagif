@@ -1,5 +1,5 @@
 import VueGtag from 'vue-gtag'
-import { useConfigStore } from '../store/config'
+import { useConfigStore } from '../stores/config'
 import { defineNuxtPlugin, useRuntimeConfig } from '#app'
 
 export default defineNuxtPlugin(async ({ $pinia, vueApp, router }) => {

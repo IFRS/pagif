@@ -238,13 +238,10 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
-import { useMainStore } from '~/store'
-import { usePagamentoStore } from '~/store/pagamento'
 
-const dayjs = useDayjs(customParseFormat, isSameOrAfter)
+const dayjs = utilDayJS(customParseFormat, isSameOrAfter)
 
 defineProps({
   submitting: {

@@ -18,8 +18,6 @@
 </template>
 
 <script setup>
-import { useServicoStore } from '~/store/servico'
-
 definePageMeta({
   validate: async () => {
     return useACL().can('create', 'Servico')

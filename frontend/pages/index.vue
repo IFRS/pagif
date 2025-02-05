@@ -78,10 +78,7 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
 import { useDisplay } from 'vuetify'
-import { useMainStore } from '~/store'
-import { useConfigStore } from '~/store/config'
 
 useHeadSafe({
   title: 'PagIF',

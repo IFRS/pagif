@@ -167,9 +167,6 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
-import { usePagamentoStore } from '~/store/pagamento'
-
 defineProps({
   loading: {
     type: Boolean,
@@ -181,7 +178,7 @@ defineProps({
   },
 })
 
-const dayjs = useDayjs()
+const dayjs = utilDayJS()
 
 const pagamentoStore = usePagamentoStore()
 

@@ -18,9 +18,6 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
-import { usePagamentoStore } from '~/store/pagamento'
-
 const form = ref(null)
 async function validateForm() {
   return await form.value.validate()

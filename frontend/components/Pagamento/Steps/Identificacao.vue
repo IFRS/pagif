@@ -26,9 +26,7 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
 import { useNuxtApp } from '#app'
-import { usePagamentoStore } from '~/store/pagamento'
 
 const form = ref(null)
 async function validateForm() {

@@ -94,10 +94,6 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
-import { useMainStore } from '~/store'
-import { useConfigStore } from '~/store/config'
-
 const store = useMainStore()
 const configStore = useConfigStore()
 

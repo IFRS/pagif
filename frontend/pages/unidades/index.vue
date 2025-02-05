@@ -18,9 +18,6 @@
 </template>
 
 <script setup>
-import { useMainStore } from '~/store'
-import { useConfigStore } from '~/store/config'
-
 useHeadSafe({
   title: 'Escolha uma Unidade',
 })

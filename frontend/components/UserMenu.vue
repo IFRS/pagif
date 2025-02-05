@@ -75,9 +75,6 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
-import { useAuthStore } from '~/store/auth'
-
 defineProps({
   admin: {
     type: Boolean,

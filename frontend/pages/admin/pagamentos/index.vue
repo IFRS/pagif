@@ -203,9 +203,6 @@
 
 <script setup>
 import { useDisplay } from 'vuetify'
-import { storeToRefs } from 'pinia'
-import { useMainStore } from '~/store'
-import { usePagamentoStore } from '~/store/pagamento'
 
 definePageMeta({
   validate: async () => {
@@ -217,7 +214,7 @@ useHeadSafe({
   title: 'Lista de Pagamentos',
 })
 
-const dayjs = useDayjs()
+const dayjs = utilDayJS()
 
 const { xs } = useDisplay()
 

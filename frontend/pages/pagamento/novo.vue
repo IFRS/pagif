@@ -149,9 +149,6 @@
 
 <script setup>
 import copy from 'copy-to-clipboard'
-import { useMainStore } from '~/store'
-import { useConfigStore } from '~/store/config'
-import { usePagamentoStore } from '~/store/pagamento'
 
 useHeadSafe({
   title: 'Novo Pagamento',

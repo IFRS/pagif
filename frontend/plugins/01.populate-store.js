@@ -1,7 +1,7 @@
 import { defineNuxtPlugin, useFetch, useCookie } from '#app'
 import useToast from '~/composables/useToast'
-import { useAuthStore } from '~/store/auth'
-import { useConfigStore } from '~/store/config'
+import { useAuthStore } from '~/stores/auth'
+import { useConfigStore } from '~/stores/config'
 
 export default defineNuxtPlugin(async ({ $pinia }) => {
   if (import.meta.server) {

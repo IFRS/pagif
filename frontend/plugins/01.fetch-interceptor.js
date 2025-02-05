@@ -1,5 +1,5 @@
 import { defineNuxtPlugin, navigateTo } from '#app'
-import { useAuthStore } from '~/store/auth'
+import { useAuthStore } from '~/stores/auth'
 
 export default defineNuxtPlugin(({ $pinia }) => {
   const authStore = useAuthStore($pinia)

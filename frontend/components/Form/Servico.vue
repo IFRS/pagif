@@ -98,11 +98,6 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
-import useToast from '~/composables/useToast'
-import { useMainStore } from '~/store'
-import { useServicoStore } from '~/store/servico'
-
 defineProps({
   submitting: {
     type: Boolean,

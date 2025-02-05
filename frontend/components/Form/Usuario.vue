@@ -163,11 +163,6 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
-import { useMainStore } from '~/store'
-import { useAuthStore } from '~/store/auth'
-import { useUsuarioStore } from '~/store/usuario'
-
 defineProps({
   submitting: {
     type: Boolean,

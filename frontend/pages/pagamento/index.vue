@@ -51,7 +51,6 @@
 
 <script setup>
 import colors from 'vuetify/util/colors'
-import { useConfigStore } from '~/store/config'
 
 useHeadSafe({
   title: 'Pagamento',

@@ -19,9 +19,6 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
-import { useUnidadeStore } from '~/store/unidade'
-
 definePageMeta({
   validate: async () => {
     return useACL().can('update', 'Unidade')

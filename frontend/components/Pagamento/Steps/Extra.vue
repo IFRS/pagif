@@ -44,10 +44,7 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
 import { watch } from 'vue'
-import { useMainStore } from '~/store'
-import { usePagamentoStore } from '~/store/pagamento'
 
 const form = ref(null)
 async function validateForm() {
@@ -88,7 +85,7 @@ onBeforeMount(() => {
 
 const showCompetencia = ref(false)
 
-const dayjs = useDayjs()
+const dayjs = utilDayJS()
 
 const competenciaFormatted = computed(() => {
   if (!competencia.value) return null

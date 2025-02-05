@@ -33,8 +33,6 @@
 </template>
 
 <script setup>
-import { useConfigStore } from '~/store/config'
-
 useHeadSafe({
   title: 'Consulta',
 })

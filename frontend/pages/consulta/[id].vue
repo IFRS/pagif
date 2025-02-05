@@ -13,8 +13,6 @@
 </template>
 
 <script setup>
-import { usePagamentoStore } from '~/store/pagamento'
-
 useHeadSafe({
   title: 'Consulta Pagamento',
 })

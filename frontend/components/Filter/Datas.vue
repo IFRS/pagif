@@ -67,7 +67,7 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 
 const emit = defineEmits(['filtro'])
 
-const dayjs = useDayjs(customParseFormat, isSameOrBefore)
+const dayjs = utilDayJS(customParseFormat, isSameOrBefore)
 
 const validation = {
   datas: [

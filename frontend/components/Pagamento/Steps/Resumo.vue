@@ -51,10 +51,6 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
-import { useConfigStore } from '~/store/config'
-import { usePagamentoStore } from '~/store/pagamento'
-
 useHead({
   script: [
     { src: 'https://www.google.com/recaptcha/api.js', type: 'text/javascript', async: true, defer: true },
@@ -63,7 +59,7 @@ useHead({
 
 const emit = defineEmits(['recaptcha'])
 
-const dayjs = useDayjs()
+const dayjs = utilDayJS()
 
 const { public: { recaptchaSiteKey } } = useRuntimeConfig()
 

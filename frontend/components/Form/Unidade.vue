@@ -185,8 +185,6 @@
 
 <script setup>
 import libSlug from 'slug'
-import { storeToRefs } from 'pinia'
-import { useUnidadeStore } from '~/store/unidade'
 
 defineProps({
   tokenLoading: {

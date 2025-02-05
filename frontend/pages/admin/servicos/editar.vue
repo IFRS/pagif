@@ -18,9 +18,6 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
-import { useServicoStore } from '~/store/servico'
-
 definePageMeta({
   validate: async () => {
     return useACL().can('update', 'Servico')

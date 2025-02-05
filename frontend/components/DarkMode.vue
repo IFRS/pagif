@@ -21,9 +21,7 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
 import { useTheme } from 'vuetify'
-import { useConfigStore } from '~/store/config'
 
 const props = defineProps({
   mobile: Boolean,

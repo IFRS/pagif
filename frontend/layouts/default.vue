@@ -155,9 +155,7 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
 import { useDisplay } from 'vuetify'
-import { useConfigStore } from '~/store/config'
 
 const configStore = useConfigStore()
 const { sigla, orgao, unidade, darkMode } = storeToRefs(configStore)

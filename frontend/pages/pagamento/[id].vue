@@ -128,15 +128,12 @@
 
 <script setup>
 import iFrameResize from 'iframe-resizer/js/iframeResizer'
-import { storeToRefs } from 'pinia'
-import { useConfigStore } from '~/store/config'
-import { usePagamentoStore } from '~/store/pagamento'
 
 useHeadSafe({
   title: 'Pagamento',
 })
 
-const dayjs = useDayjs()
+const dayjs = utilDayJS()
 
 const mostrarPagamento = ref(false)
 
