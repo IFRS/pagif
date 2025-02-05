@@ -10,8 +10,6 @@
 </template>
 
 <script setup>
-import { useSettingsStore } from '~/store/settings'
-
 definePageMeta({
   validate: async () => {
     return useACL().can('edit', 'Settings')
@@ -22,30 +20,28 @@ useHeadSafe({
   title: 'Configurações',
 })
 
-const submitting = ref(false)
+const { updateSettings } = useFetchSettings()
+const { error, status, execute } = useAsyncData(() => updateSettings(), { immediate: false })
 
-const settingsStore = useSettingsStore()
+watch(error, (newError) => {
+  useToast().error('Ocorreu um erro ao salvar as Configurações. ' + newError.message)
+  console.error(newError)
+})
 
-async function handleSubmit() {
-  submitting.value = true
+const submitting = computed(() => status.value === 'pending')
 
-  const { error } = await settingsStore.save()
-  if (error.value) {
-    useToast().error('Ocorreu um erro ao salvar as Configurações. ' + error.value.message)
-    console.error(error)
-  } else {
+watch(status, (newStatus) => {
+  if (newStatus === 'success') {
     useToast().success('Configurações salvas com sucesso!')
   }
+})
 
-  submitting.value = false
+async function handleSubmit() {
+  await execute()
 }
 
 async function handleCancel() {
   useToast().info('Edição das Configurações cancelada.')
   await navigateTo({ path: '/admin' })
 }
-
-onUnmounted(() => {
-  settingsStore.$reset()
-})
 </script>

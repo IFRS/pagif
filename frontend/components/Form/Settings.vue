@@ -72,9 +72,6 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
-import { useSettingsStore } from '~/store/settings'
-
 defineProps({
   submitting: {
     type: Boolean,
@@ -104,11 +101,13 @@ const {
   intro,
 } = storeToRefs(settingsStore)
 
-const { error, pending } = await settingsStore.show()
-if (error.value) {
-  useToast().error('Ocorreu um erro ao carregar as Configurações: ' + error.value.message)
-  console.error(error)
-}
+const { readSettings } = useFetchSettings()
+const { error, pending } = useAsyncData(() => readSettings())
+
+watch(error, (newError) => {
+  useToast().error('Ocorreu um erro ao carregar as Configurações: ' + newError.message)
+  console.error(newError)
+})
 
 async function handleSubmit() {
   const { valid } = await formNode.value.validate()
