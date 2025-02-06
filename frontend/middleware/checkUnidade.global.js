@@ -9,7 +9,7 @@ export default defineNuxtRouteMiddleware((to) => {
       && to.name !== 'index'
       && to.name !== 'unidades'
       && to.name !== 'pagamento-id'
-      && !to.name.startsWith('admin')
+      && !to.name?.startsWith('admin')
       && !store.unidade
   ) {
     return navigateTo({ name: 'unidades', query: { returnPath: to.path } })
