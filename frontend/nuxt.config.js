@@ -2,16 +2,13 @@ import { defineNuxtConfig } from 'nuxt/config'
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 
 export default defineNuxtConfig({
-
   modules: [
     '@nuxt/eslint',
     '@pinia/nuxt',
     'nuxt-proxy-request',
   ],
 
-  // devtools: {
-  //   enabled: false,
-  // },
+  devtools: { enabled: true },
 
   app: {
     head: {
@@ -60,7 +57,7 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vuetify'],
   },
-  compatibilityDate: '2025-02-03',
+  compatibilityDate: '2025-02-01',
 
   vite: {
     css: {
