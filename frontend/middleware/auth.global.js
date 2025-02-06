@@ -2,10 +2,10 @@ import { defineNuxtRouteMiddleware, useNuxtApp, navigateTo } from '#app'
 import { useAuthStore } from '~/stores/auth'
 
 export default defineNuxtRouteMiddleware((to) => {
-  const { $pinia } = useNuxtApp()
-  const authStore = useAuthStore($pinia)
+  const nuxtApp = useNuxtApp()
+  const authStore = useAuthStore(nuxtApp.$pinia)
 
-  if (to.name.startsWith('admin') && !authStore.user) {
+  if (to.name?.startsWith('admin') && !authStore.user) {
     return navigateTo('/')
   }
 
