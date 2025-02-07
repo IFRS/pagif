@@ -1,4 +1,5 @@
 <template>
+  <NuxtRouteAnnouncer />
   <NuxtLayout :name="layout">
     <NuxtLoadingIndicator />
     <div>
