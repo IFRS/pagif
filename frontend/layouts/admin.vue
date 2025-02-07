@@ -1,11 +1,6 @@
 <template>
   <v-app>
     <v-app-bar elevation="1">
-      <v-app-bar-nav-icon
-        :color="drawer ? 'grey-darken-2' : 'primary'"
-        :icon="drawer ? 'mdi-menu-open' : undefined"
-        @click.stop="drawer = !drawer"
-      />
       <v-toolbar-title>Administra&ccedil;&atilde;o do Sistema de Pagamentos</v-toolbar-title>
 
       <v-spacer />
@@ -14,8 +9,8 @@
       <UserMenu admin />
     </v-app-bar>
     <v-navigation-drawer
-      v-model="drawer"
       :rail="miniVariant"
+      expand-on-hover
     >
       <v-list nav>
         <v-list-item
@@ -58,9 +53,7 @@
         Por favor, vá até o menu <NuxtLink
           :to="{ path: '/admin/config' }"
           class="text-white font-weight-bold"
-        >
-          Configurações
-        </NuxtLink> para definir esses valores.
+        >Configurações</NuxtLink> para definir esses valores.
       </v-snackbar>
     </v-main>
     <v-footer
@@ -105,7 +98,6 @@ const showNoSettings = computed(() => {
 
 const loaded = ref(false)
 
-const drawer = ref(true)
 const miniVariant = ref(false)
 
 const items = [
