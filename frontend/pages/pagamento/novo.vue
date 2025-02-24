@@ -35,7 +35,7 @@
                 :ref="(el) => addForm(el, index)"
                 class="mb-6"
                 @keyup.enter.prevent="nextStep()"
-                @recaptcha="handleRecaptcha"
+                @captcha="handleCaptcha"
               />
             </v-stepper-window-item>
           </v-stepper-window>
@@ -160,7 +160,7 @@ const configStore = useConfigStore()
 const pagamentoStore = usePagamentoStore()
 const { idPagamento } = storeToRefs(pagamentoStore)
 
-const recaptchaResponse = ref(null)
+const captchaResponse = ref(null)
 const criandoPagamento = ref(false)
 const pagamentoConcluido = ref(false)
 const currentStep = ref(1)
@@ -207,18 +207,18 @@ async function nextStep() {
   }
 }
 
-function handleRecaptcha(response) {
-  recaptchaResponse.value = response
+function handleCaptcha(response) {
+  captchaResponse.value = response
 }
 
 const enablePagamento = computed(() => {
-  return Boolean(recaptchaResponse.value)
+  return Boolean(captchaResponse.value)
 })
 
 async function criarPagamento() {
   criandoPagamento.value = true
 
-  const { error } = await pagamentoStore.save_public(recaptchaResponse.value)
+  const { error } = await pagamentoStore.save_public(captchaResponse.value)
 
   if (error.value) {
     useToast().error('Ocorreu um erro ao criar o Pagamento.')

@@ -37,13 +37,8 @@
         </v-alert>
       </v-col>
       <v-col class="d-flex justify-center align-center">
-        <div
-          class="g-recaptcha"
-          :data-sitekey="recaptchaSiteKey"
-          :data-theme="configStore.darkMode ? 'dark' : 'light'"
-          data-callback="responseCallback"
-          data-expired-callback="responseCallback"
-          data-error-callback="responseCallback"
+        <altcha
+          v-model="altchaPayload"
         />
       </v-col>
     </v-row>
@@ -51,17 +46,16 @@
 </template>
 
 <script setup>
-useHead({
-  script: [
-    { src: 'https://www.google.com/recaptcha/api.js', type: 'text/javascript', async: true, defer: true },
-  ],
-}, { mode: 'client' })
+const emit = defineEmits(['captcha'])
 
-const emit = defineEmits(['recaptcha'])
+const altchaPayload = ref('')
+
+watch(altchaPayload, (value) => {
+  console.log('altchaPayload', value)
+  emit('captcha', value)
+})
 
 const dayjs = utilDayJS()
-
-const { public: { recaptchaSiteKey } } = useRuntimeConfig()
 
 const configStore = useConfigStore()
 const pagamentoStore = usePagamentoStore()
@@ -75,20 +69,4 @@ const {
   cnpjCpf,
   referencia,
 } = storeToRefs(pagamentoStore)
-
-function responseCallback(response) {
-  emit('recaptcha', response)
-}
-
-onBeforeMount(() => {
-  window.responseCallback = responseCallback
-})
-
-onBeforeUnmount(() => {
-  window.grecaptcha.reset()
-})
-
-onUnmounted(() => {
-  delete window.responseCallback
-})
 </script>

@@ -71,6 +71,9 @@ export default defineNuxtConfig({
     vue: {
       template: {
         transformAssetUrls,
+        compilerOptions: {
+          isCustomElement: tag => ['altcha-widget'].includes(tag),
+        },
       },
     },
   },

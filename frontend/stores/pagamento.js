@@ -42,9 +42,9 @@ export const usePagamentoStore = defineStore('pagamento', {
   },
 
   actions: {
-    async save_public(recaptcha) {
+    async save_public(captcha) {
       this.vencimento = dayjs().add(1, 'day').format('YYYY-MM-DD')
-      const response = await useFetch('/api/public/pagamentos', { method: 'POST', body: { ...this.$state, recaptcha } })
+      const response = await useFetch('/api/public/pagamentos', { method: 'POST', body: { ...this.$state, captcha } })
       if (response.data.value) this.$patch(response.data.value)
       return response
     },
