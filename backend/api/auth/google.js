@@ -1,7 +1,7 @@
-const { Router } = require('express');
+import { Router } from 'express';
 const router = Router();
-const { OAuth2Client } = require('google-auth-library');
-const Usuario = require('../../db/models/Usuario');
+import { OAuth2Client } from 'google-auth-library';
+import Usuario from '../../db/models/Usuario.js';
 
 router.post('/auth/google/login', async function (req, res) {
   if (req.body.client_id && req.body.credential) {
@@ -45,4 +45,4 @@ router.get('/auth/google/logout', function (req, res) {
   return res.status(405).end();
 });
 
-module.exports = router;
+export default router;

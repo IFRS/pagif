@@ -1,8 +1,8 @@
-const { loggerPagTesouro } = require('../logger');
-const axios = require('axios');
-const dayjs = require('dayjs');
-const utc = require('dayjs/plugin/utc');
-const timezone = require('dayjs/plugin/timezone');
+import { loggerPagTesouro } from '../logger/index.js';
+import axios from 'axios';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc.js';
+import timezone from 'dayjs/plugin/timezone.js';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -188,4 +188,4 @@ pagtesouro.interceptors.response.use(function (response) {
   return Promise.reject(error.message);
 });
 
-module.exports = pagtesouro;
+export default pagtesouro;

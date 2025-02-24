@@ -1,6 +1,6 @@
-const process = require('node:process');
-const pulse = require('./index');
-const { logger } = require('../logger');
+import { logger } from '../logger/index.js';
+import process from 'node:process';
+import pulse from './index.js';
 
 (async function () {
   logger.info(`[Fila] Início do subprocesso com PID ${process.pid}.`);

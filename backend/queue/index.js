@@ -1,8 +1,8 @@
-const { Pulse } = require('@pulsecron/pulse');
-const mongo = require('../db');
-const Pagamento = require('../db/models/Pagamento');
-const pagtesouro = require('../api/pagtesouro');
-const { logger } = require('../logger');
+import { Pulse } from '@pulsecron/pulse';
+import mongo from '../db/index.js';
+import Pagamento from '../db/models/Pagamento.js';
+import pagtesouro from '../api/pagtesouro.js';
+import { logger } from '../logger/index.js';
 
 const pulse = new Pulse({ mongo: mongo, db: { collection: 'jobs' }, processEvery: '5 minutes' });
 
@@ -52,4 +52,4 @@ pulse.define('update pagamentos', async (job) => {
   },
 });
 
-module.exports = pulse;
+export default pulse;

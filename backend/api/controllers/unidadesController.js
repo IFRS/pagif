@@ -1,9 +1,9 @@
-const Unidade = require('../../db/models/Unidade');
-const validator = require('express-validator');
-const { createMongoAbility } = require('@casl/ability');
-const { logger } = require('../../logger');
+import Unidade from '../../db/models/Unidade.js';
+import validator from 'express-validator';
+import { createMongoAbility } from '@casl/ability';
+import { logger } from '../../logger/index.js';
 
-module.exports.listPublic = function (req, res) {
+export const listPublic = function (req, res) {
   const query = Unidade.find({});
 
   query.select('-token');
@@ -21,7 +21,7 @@ module.exports.listPublic = function (req, res) {
     });
 };
 
-module.exports.list = function (req, res) {
+export const list = function (req, res) {
   const ability = createMongoAbility(req.session.user.abilities);
   let fields = req.query.fields?.split(',');
 
@@ -46,7 +46,7 @@ module.exports.list = function (req, res) {
     });
 };
 
-module.exports.showPublic = function (req, res) {
+export const showPublic = function (req, res) {
   const query = Unidade.findById(req.params.id);
 
   query.select('-token');
@@ -68,7 +68,7 @@ module.exports.showPublic = function (req, res) {
     });
 };
 
-module.exports.show = function (req, res) {
+export const show = function (req, res) {
   let fields = req.query.fields?.split(',');
 
   const query = Unidade.findById(req.params.id);
@@ -96,7 +96,7 @@ module.exports.show = function (req, res) {
     });
 };
 
-module.exports.token = function (req, res) {
+export const token = function (req, res) {
   Unidade.findById(req.params.id).select('token')
     .then((unidade) => {
       if (!unidade) {
@@ -114,7 +114,7 @@ module.exports.token = function (req, res) {
     });
 };
 
-module.exports.save = [
+export const save = [
   validator.body('nome', '')
     .trim()
     .notEmpty(),
@@ -189,7 +189,7 @@ module.exports.save = [
   },
 ];
 
-module.exports.delete = function (req, res) {
+export const remove = function (req, res) {
   Unidade.findByIdAndRemove(req.params.id)
     .then((unidade) => {
       return res.json(unidade.toJSON());

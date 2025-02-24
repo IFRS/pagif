@@ -1,5 +1,6 @@
-const DB = require('../index');
-const Usuario = require('../models/Usuario');
+import DB from '../index.js';
+import Usuario from '../models/Usuario.js';
+
 const args = process.argv.slice(2);
 
 const email = args[0];

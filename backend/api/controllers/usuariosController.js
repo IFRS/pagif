@@ -1,8 +1,8 @@
-const { logger } = require('../../logger');
-const Usuario = require('../../db/models/Usuario');
-const validator = require('express-validator');
+import { logger } from '../../logger/index.js';
+import Usuario from '../../db/models/Usuario.js';
+import validator from 'express-validator';
 
-module.exports.list = function (req, res) {
+export const list = function (req, res) {
   const query = Usuario.find({});
 
   query.sort('nome');
@@ -18,7 +18,7 @@ module.exports.list = function (req, res) {
     });
 };
 
-module.exports.show = function (req, res) {
+export const show = function (req, res) {
   const query = Usuario.findById(req.params.id);
 
   query.then((usuario) => {
@@ -38,7 +38,7 @@ module.exports.show = function (req, res) {
     });
 };
 
-module.exports.save = [
+export const save = [
   validator.body('email', '')
     .trim()
     .notEmpty()
@@ -91,7 +91,7 @@ module.exports.save = [
   },
 ];
 
-module.exports.delete = function (req, res) {
+export const remove = function (req, res) {
   Usuario.findByIdAndRemove(req.params.id)
     .then((usuario) => {
       return res.json(usuario.toJSON());

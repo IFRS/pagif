@@ -1,23 +1,25 @@
-const { Router } = require('express');
-const requireAbility = require('../middleware/requireAbility');
-const recaptcha = require('../middleware/recaptcha');
+import { Router } from 'express';
+import requireAbility from '../middleware/requireAbility.js';
+// import recaptcha from '../middleware/recaptcha.js';
+import altcha from '../middleware/altcha.js';
+
+import { showPublic, list, show, save, update, remove } from '../controllers/pagamentosController.js';
 
 const router = Router();
 
-const pagamentosController = require('../controllers/pagamentosController');
+router.get('/public/pagamentos/:id', showPublic);
 
-router.get('/public/pagamentos/:id', pagamentosController.showPublic);
+router.get('/pagamentos', requireAbility(['read', 'Pagamento']), list);
 
-router.get('/pagamentos', requireAbility(['read', 'Pagamento']), pagamentosController.list);
+router.get('/pagamentos/:id', requireAbility(['read', 'Pagamento']), show);
 
-router.get('/pagamentos/:id', requireAbility(['read', 'Pagamento']), pagamentosController.show);
+router.post('/pagamentos', requireAbility(['create', 'Pagamento']), save);
 
-router.post('/pagamentos', requireAbility(['create', 'Pagamento']), pagamentosController.save);
+// router.post('/public/pagamentos', recaptcha, save);
+router.post('/public/pagamentos', altcha, save);
 
-router.post('/public/pagamentos', recaptcha, pagamentosController.save);
+router.put('/pagamentos/:id', requireAbility(['update', 'Pagamento']), update);
 
-router.put('/pagamentos/:id', requireAbility(['update', 'Pagamento']), pagamentosController.update);
+router.delete('/pagamentos/:id', requireAbility(['delete', 'Pagamento']), remove);
 
-router.delete('/pagamentos/:id', requireAbility(['delete', 'Pagamento']), pagamentosController.delete);
-
-module.exports = router;
+export default router;

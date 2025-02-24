@@ -1,5 +1,5 @@
-const db = require('../../db');
-const { Router } = require('express');
+import db from '../../db/index.js';
+import { Router } from 'express';
 
 const router = Router();
 
@@ -11,4 +11,4 @@ router.get('/health', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

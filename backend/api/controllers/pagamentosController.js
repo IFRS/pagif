@@ -1,12 +1,12 @@
-const Pagamento = require('../../db/models/Pagamento');
-const Servico = require('../../db/models/Servico');
-const validator = require('express-validator');
-const pagtesouro = require('../pagtesouro');
-const dayjs = require('dayjs');
-const { createMongoAbility } = require('@casl/ability');
-const { logger } = require('../../logger');
+import Pagamento from '../../db/models/Pagamento.js';
+import Servico from '../../db/models/Servico.js';
+import validator from 'express-validator';
+import pagtesouro from '../pagtesouro.js';
+import dayjs from 'dayjs';
+import { createMongoAbility } from '@casl/ability';
+import { logger } from '../../logger/index.js';
 
-module.exports.showPublic = function (req, res) {
+export const showPublic = function (req, res) {
   Pagamento.findById(req.params.id).select('-token -tipoPagamentoEscolhido -nomePSP -transacaoPSP')
     .then((pagamento) => {
       if (!pagamento) {
@@ -35,7 +35,7 @@ module.exports.showPublic = function (req, res) {
     });
 };
 
-module.exports.list = function (req, res) {
+export const list = function (req, res) {
   const ability = createMongoAbility(req.session.user.abilities);
   const query = Pagamento.find({}).accessibleBy(ability).select('-token').sort('-dataCriacao');
 
@@ -73,7 +73,7 @@ module.exports.list = function (req, res) {
     });
 };
 
-module.exports.show = function (req, res) {
+export const show = function (req, res) {
   Pagamento.findById(req.params.id).select('-token')
     .then((pagamento) => {
       if (!pagamento) {
@@ -92,7 +92,7 @@ module.exports.show = function (req, res) {
     });
 };
 
-module.exports.save = [
+export const save = [
   validator.body('codigoServico', '')
     .trim()
     .notEmpty()
@@ -198,7 +198,7 @@ module.exports.save = [
   },
 ];
 
-module.exports.update = [
+export const update = [
   validator.body('idPagamento', 'Identificador do Pagamento está num formato inválido.')
     .trim()
     .notEmpty()
@@ -260,7 +260,7 @@ module.exports.update = [
   },
 ];
 
-module.exports.delete = function (req, res) {
+export const remove = function (req, res) {
   Pagamento.findByIdAndRemove(req.params.id)
     .then((pagamento) => {
       return res.json(pagamento.toJSON());

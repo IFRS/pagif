@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const Pagamento = new mongoose.Schema({
   _id: { type: String, alias: 'idPagamento' },
@@ -40,4 +40,4 @@ const Pagamento = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Pagamento', Pagamento);
+export default mongoose.model('Pagamento', Pagamento);

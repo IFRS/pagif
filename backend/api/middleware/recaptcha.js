@@ -1,6 +1,6 @@
-const axios = require('axios');
+import axios from 'axios';
 
-module.exports = function (req, res, next) {
+export default function (req, res, next) {
   if (req.body.recaptcha) {
     axios.get('https://www.google.com/recaptcha/api/siteverify', { params: { secret: process.env.RECAPTCHA_SECRET, response: req.body.recaptcha } })
       .then((response) => {

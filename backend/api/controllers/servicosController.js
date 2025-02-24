@@ -1,9 +1,9 @@
-const Servico = require('../../db/models/Servico');
-const validator = require('express-validator');
-const { createMongoAbility } = require('@casl/ability');
-const { logger } = require('../../logger');
+import Servico from '../../db/models/Servico.js';
+import validator from 'express-validator';
+import { createMongoAbility } from '@casl/ability';
+import { logger } from '../../logger/index.js';
 
-module.exports.listPublic = function (req, res) {
+export const listPublic = function (req, res) {
   const unidade_id = req.query.unidade;
 
   const query = Servico.find({});
@@ -25,7 +25,7 @@ module.exports.listPublic = function (req, res) {
     });
 };
 
-module.exports.list = function (req, res) {
+export const list = function (req, res) {
   const ability = createMongoAbility(req.session.user.abilities);
   const unidade_id = req.query.unidade;
 
@@ -53,7 +53,7 @@ module.exports.list = function (req, res) {
     });
 };
 
-module.exports.show = function (req, res) {
+export const show = function (req, res) {
   Servico.findById(req.params.id).then((servico) => {
     if (!servico) {
       return res.status(404).json({
@@ -71,7 +71,7 @@ module.exports.show = function (req, res) {
     });
 };
 
-module.exports.save = [
+export const save = [
   validator.body('unidade', '')
     .trim()
     .notEmpty(),
@@ -138,7 +138,7 @@ module.exports.save = [
   },
 ];
 
-module.exports.delete = function (req, res) {
+export const remove = function (req, res) {
   Servico.findByIdAndRemove(req.params.id).then((servico) => {
     return res.json(servico.toJSON());
   })

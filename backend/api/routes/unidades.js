@@ -1,24 +1,24 @@
-const { Router } = require('express');
-const requireAbility = require('../middleware/requireAbility');
+import { Router } from 'express';
+import requireAbility from '../middleware/requireAbility.js';
+
+import { listPublic, showPublic, list, show, token, save, remove } from '../controllers/unidadesController.js';
 
 const router = Router();
 
-const unidadesController = require('../controllers/unidadesController');
+router.get('/public/unidades', listPublic);
 
-router.get('/public/unidades', unidadesController.listPublic);
+router.get('/public/unidades/:id', showPublic);
 
-router.get('/public/unidades/:id', unidadesController.showPublic);
+router.get('/unidades', requireAbility(['read', 'Unidade']), list);
 
-router.get('/unidades', requireAbility(['read', 'Unidade']), unidadesController.list);
+router.get('/unidades/:id', requireAbility(['read', 'Unidade']), show);
 
-router.get('/unidades/:id', requireAbility(['read', 'Unidade']), unidadesController.show);
+router.get('/unidades/token/:id', requireAbility(['read', 'UnidadeToken']), token);
 
-router.get('/unidades/token/:id', requireAbility(['read', 'UnidadeToken']), unidadesController.token);
+router.post('/unidades', requireAbility(['create', 'Unidade']), save);
 
-router.post('/unidades', requireAbility(['create', 'Unidade']), unidadesController.save);
+router.put('/unidades/:id', requireAbility(['update', 'Unidade']), save);
 
-router.put('/unidades/:id', requireAbility(['update', 'Unidade']), unidadesController.save);
+router.delete('/unidades/:id', requireAbility(['delete', 'Unidade']), remove);
 
-router.delete('/unidades/:id', requireAbility(['delete', 'Unidade']), unidadesController.delete);
-
-module.exports = router;
+export default router;

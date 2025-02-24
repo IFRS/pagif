@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const Unidade = new mongoose.Schema({
   nome: { type: String, required: true },
@@ -15,4 +15,4 @@ const Unidade = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Unidade', Unidade);
+export default mongoose.model('Unidade', Unidade);

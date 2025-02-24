@@ -1,14 +1,14 @@
-const { Router } = require('express');
-const requireAbility = require('../middleware/requireAbility');
+import { Router } from 'express';
+import requireAbility from '../middleware/requireAbility.js';
+
+import { count, pagamentos_por_tipo, pagamentos_por_servicos } from '../controllers/infoController.js';
 
 const router = Router();
 
-const infoController = require('../controllers/infoController.js');
+router.get('/info/count', requireAbility(), count);
 
-router.get('/info/count', requireAbility(), infoController.count);
+router.get('/info/pagamentos_por_tipo', requireAbility(), pagamentos_por_tipo);
 
-router.get('/info/pagamentos_por_tipo', requireAbility(), infoController.pagamentos_por_tipo);
+router.get('/info/pagamentos_por_servicos', requireAbility(), pagamentos_por_servicos);
 
-router.get('/info/pagamentos_por_servicos', requireAbility(), infoController.pagamentos_por_servicos);
-
-module.exports = router;
+export default router;

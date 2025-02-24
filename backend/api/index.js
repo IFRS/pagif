@@ -1,30 +1,34 @@
-require('dotenv').config();
-require('../db');
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-const session = require('express-session');
-const MongoDBStore = require('connect-mongodb-session')(session);
+import 'dotenv/config';
+import '../db/index.js';
 
-const health = require('./routes/health');
-const info = require('./routes/info');
-const unidades = require('./routes/unidades');
-const servicos = require('./routes/servicos');
-const pagamentos = require('./routes/pagamentos');
-const notifica = require('./routes/notifica');
-const usuarios = require('./routes/usuarios');
-const settings = require('./routes/settings');
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import session from 'express-session';
+import MongoDBStore from 'connect-mongodb-session';
 
-const me = require('./auth/me');
-const google = require('./auth/google');
+import health from './routes/health.js';
+import info from './routes/info.js';
+import unidades from './routes/unidades.js';
+import servicos from './routes/servicos.js';
+import pagamentos from './routes/pagamentos.js';
+import altcha from './routes/altcha.js';
+import notifica from './routes/notifica.js';
+import usuarios from './routes/usuarios.js';
+import settings from './routes/settings.js';
 
-const { logger } = require('../logger');
+import me from './auth/me.js';
+import google from './auth/google.js';
+
+import { logger } from '../logger/index.js';
 
 const app = express();
 
 const expire = (process.env.NODE_ENV === 'production') ? 1000 * 60 * 60 * 24 * 7 : 1000 * 60 * 60 * 8; // 7 dias em produção e 8 horas em desenvolvimento
 
-let session_store = new MongoDBStore({
+const MongoStore = MongoDBStore(session);
+
+let session_store = new MongoStore({
   uri: `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_URL}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
   databaseName: process.env.DB_NAME,
   collection: 'sessions',
@@ -65,8 +69,9 @@ app.use(info);
 app.use(unidades);
 app.use(servicos);
 app.use(pagamentos);
+app.use(altcha);
 app.use(notifica);
 app.use(usuarios);
 app.use(settings);
 
-module.exports = app;
+export default app;

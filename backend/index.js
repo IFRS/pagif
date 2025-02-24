@@ -1,6 +1,6 @@
-require('dotenv').config();
-const { fork } = require('node:child_process');
-const api = require('./api');
+import 'dotenv/config';
+import { fork } from 'node:child_process';
+import api from './api/index.js';
 
 let fila = fork('./queue/process.js');
 

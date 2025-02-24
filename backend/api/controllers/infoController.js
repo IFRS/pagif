@@ -1,11 +1,11 @@
-const { logger } = require('../../logger');
-const { createMongoAbility } = require('@casl/ability');
+import { logger } from '../../logger/index.js';
+import { createMongoAbility } from '@casl/ability';
 
-const Unidade = require('../../db/models/Unidade');
-const Servico = require('../../db/models/Servico');
-const Pagamento = require('../../db/models/Pagamento');
+import Unidade from '../../db/models/Unidade.js';
+import Servico from '../../db/models/Servico.js';
+import Pagamento from '../../db/models/Pagamento.js';
 
-module.exports.count = async (req, res) => {
+export const count = async (req, res) => {
   const unidades = Unidade.countDocuments().exec();
   const servicos = Servico.countDocuments().exec();
   const pagamentos = Pagamento.countDocuments().exec();
@@ -20,7 +20,7 @@ module.exports.count = async (req, res) => {
     });
 };
 
-module.exports.pagamentos_por_tipo = (req, res) => {
+export const pagamentos_por_tipo = (req, res) => {
   const ability = createMongoAbility(req.session.user.abilities);
 
   const query = Pagamento.accessibleBy(ability).getQuery();
@@ -50,7 +50,7 @@ module.exports.pagamentos_por_tipo = (req, res) => {
     });
 };
 
-module.exports.pagamentos_por_servicos = (req, res) => {
+export const pagamentos_por_servicos = (req, res) => {
   const ability = createMongoAbility(req.session.user.abilities);
   const unidade_id = req.query.unidade;
 

@@ -1,9 +1,9 @@
-const Pagamento = require('../../db/models/Pagamento');
-const validator = require('express-validator');
-const pulse = require('../../queue');
-const { loggerPagTesouro, logger } = require('../../logger');
+import Pagamento from '../../db/models/Pagamento.js';
+import validator from 'express-validator';
+import pulse from '../../queue/index.js';
+import { loggerPagTesouro, logger } from '../../logger/index.js';
 
-module.exports.handle = [
+export const handle = [
   validator.body('idPagamento', 'Identificador do Pagamento está num formato inválido.')
     .trim()
     .notEmpty()

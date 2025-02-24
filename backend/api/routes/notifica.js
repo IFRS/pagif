@@ -1,9 +1,9 @@
-const { Router } = require('express');
+import { Router } from 'express';
+
+import { handle } from '../controllers/notificaController.js';
 
 const router = Router();
 
-const notificaController = require('../controllers/notificaController');
+router.post('/notifica', handle);
 
-router.post('/notifica', notificaController.handle);
-
-module.exports = router;
+export default router;

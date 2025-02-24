@@ -1,8 +1,8 @@
-const Settings = require('../../db/models/Settings');
-const validator = require('express-validator');
-const { logger } = require('../../logger');
+import Settings from '../../db/models/Settings.js';
+import validator from 'express-validator';
+import { logger } from '../../logger/index.js';
 
-module.exports.show = function (req, res) {
+export const show = function (req, res) {
   const query = Settings.findOne({});
 
   query.then((settings) => {
@@ -22,7 +22,7 @@ module.exports.show = function (req, res) {
     });
 };
 
-module.exports.save = [
+export const save = [
   validator.body('sigla', '')
     .trim()
     .notEmpty()

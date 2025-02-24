@@ -1,7 +1,7 @@
-require('dotenv').config();
-const { accessibleRecordsPlugin } = require('@casl/mongoose');
-const mongoose = require('mongoose');
-const { logger } = require('../logger');
+import 'dotenv/config';
+import { accessibleRecordsPlugin } from '@casl/mongoose';
+import mongoose from 'mongoose';
+import { logger } from '../logger/index.js';
 
 mongoose.plugin(accessibleRecordsPlugin);
 
@@ -18,4 +18,4 @@ mongoose.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${
   },
 );
 
-module.exports = mongoose.connection;
+export default mongoose.connection;

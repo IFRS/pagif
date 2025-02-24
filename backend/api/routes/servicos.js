@@ -1,20 +1,20 @@
-const { Router } = require('express');
-const requireAbility = require('../middleware/requireAbility');
+import { Router } from 'express';
+import requireAbility from '../middleware/requireAbility.js';
+
+import { listPublic, list, show, save, remove } from '../controllers/servicosController.js';
 
 const router = Router();
 
-const servicosController = require('../controllers/servicosController');
+router.get('/public/servicos', listPublic);
 
-router.get('/public/servicos', servicosController.listPublic);
+router.get('/servicos', requireAbility(['read', 'Servico']), list);
 
-router.get('/servicos', requireAbility(['read', 'Servico']), servicosController.list);
+router.get('/servicos/:id', requireAbility(['read', 'Servico']), show);
 
-router.get('/servicos/:id', requireAbility(['read', 'Servico']), servicosController.show);
+router.post('/servicos', requireAbility(['create', 'Servico']), save);
 
-router.post('/servicos', requireAbility(['create', 'Servico']), servicosController.save);
+router.put('/servicos/:id', requireAbility(['update', 'Servico']), save);
 
-router.put('/servicos/:id', requireAbility(['update', 'Servico']), servicosController.save);
+router.delete('/servicos/:id', requireAbility(['delete', 'Servico']), remove);
 
-router.delete('/servicos/:id', requireAbility(['delete', 'Servico']), servicosController.delete);
-
-module.exports = router;
+export default router;

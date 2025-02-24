@@ -1,4 +1,4 @@
-const winston = require('winston');
+import winston from 'winston';
 
 winston.loggers.add('pagtesouro', {
   format: winston.format.combine(
@@ -47,5 +47,7 @@ winston.loggers.add('geral', {
   ],
 });
 
-module.exports.loggerPagTesouro = winston.loggers.get('pagtesouro');
-module.exports.logger = winston.loggers.get('geral');
+const loggerPagTesouro = winston.loggers.get('pagtesouro');
+const logger = winston.loggers.get('geral');
+
+export { loggerPagTesouro, logger };

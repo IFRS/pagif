@@ -1,4 +1,4 @@
-module.exports.geral = {
+export const geral = {
   Usuario: [
     'create',
     'read',
@@ -12,7 +12,7 @@ module.exports.geral = {
     'delete',
   ],
 };
-module.exports.porUnidade = {
+export const porUnidade = {
   Servico: [
     'create',
     'read',

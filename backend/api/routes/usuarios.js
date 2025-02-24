@@ -1,18 +1,18 @@
-const { Router } = require('express');
-const requireAbility = require('../middleware/requireAbility');
+import { Router } from 'express';
+import requireAbility from '../middleware/requireAbility.js';
+
+import { list, show, save, remove } from '../controllers/usuariosController.js';
 
 const router = Router();
 
-const usuariosController = require('../controllers/usuariosController');
+router.get('/usuarios', requireAbility(['read', 'Usuario']), list);
 
-router.get('/usuarios', requireAbility(['read', 'Usuario']), usuariosController.list);
+router.get('/usuarios/:id', requireAbility(['read', 'Usuario']), show);
 
-router.get('/usuarios/:id', requireAbility(['read', 'Usuario']), usuariosController.show);
+router.post('/usuarios', requireAbility(['create', 'Usuario']), save);
 
-router.post('/usuarios', requireAbility(['create', 'Usuario']), usuariosController.save);
+router.put('/usuarios/:id', requireAbility(['update', 'Usuario']), save);
 
-router.put('/usuarios/:id', requireAbility(['update', 'Usuario']), usuariosController.save);
+router.delete('/usuarios/:id', requireAbility(['delete', 'Usuario']), remove);
 
-router.delete('/usuarios/:id', requireAbility(['delete', 'Usuario']), usuariosController.delete);
-
-module.exports = router;
+export default router;

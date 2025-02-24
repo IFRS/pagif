@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const Servico = new mongoose.Schema({
   unidade: { type: mongoose.Schema.Types.ObjectId, ref: 'Unidade' },
@@ -13,4 +13,4 @@ const Servico = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Servico', Servico);
+export default mongoose.model('Servico', Servico);

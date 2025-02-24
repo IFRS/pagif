@@ -1,6 +1,6 @@
-const process = require('node:process');
-const http = require('http');
-require('dotenv').config();
+import process from 'node:process';
+import http from 'http';
+import 'dotenv/config';
 
 const options = {
   host: 'localhost',

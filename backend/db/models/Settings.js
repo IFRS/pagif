@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const Settings = new mongoose.Schema({
   sigla: {
@@ -25,4 +25,4 @@ const Settings = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Settings', Settings);
+export default mongoose.model('Settings', Settings);

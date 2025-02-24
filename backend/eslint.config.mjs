@@ -1,9 +1,9 @@
-const globals = require('globals');
-const nodePlugin = require('eslint-plugin-n');
-const js = require('@eslint/js');
-const stylistic = require('@stylistic/eslint-plugin');
+import globals from 'globals';
+import nodePlugin from 'eslint-plugin-n';
+import js from '@eslint/js';
+import stylistic from '@stylistic/eslint-plugin';
 
-module.exports = [
+export default [
   stylistic.configs.customize({
     flat: true,
     semi: true,
@@ -15,9 +15,9 @@ module.exports = [
   {
     name: 'Backend',
     languageOptions: {
+      sourceType: 'module',
       ecmaVersion: 2021,
       globals: {
-        ...globals.commonjs,
         ...globals.node,
         ...globals.es2021,
       },
