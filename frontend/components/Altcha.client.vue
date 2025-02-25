@@ -8,17 +8,15 @@ const model = defineModel({
   required: true,
 })
 
-const i18n = computed(() => {
-  return JSON.stringify({
-    ariaLinkLabel: 'Visite Altcha.org',
-    error: 'Falha na verificação. Tente novamente mais tarde.',
-    expired: 'Verificação expirada. Tente novamente.',
-    footer: 'Protegido por <a href="https://altcha.org/" target="_blank" aria-label="Visite Altcha.org">ALTCHA</a>',
-    label: 'Não sou um robô',
-    verified: 'Verificado',
-    verifying: 'Verificando...',
-    waitAlert: 'Verificando... por favor aguarde.',
-  })
+const i18n = JSON.stringify({
+  ariaLinkLabel: 'Visite Altcha.org',
+  error: 'Falha na verificação. Tente novamente mais tarde.',
+  expired: 'Verificação expirada. Tente novamente.',
+  footer: 'Protegido por <a href="https://altcha.org/" target="_blank" aria-label="Visite Altcha.org">ALTCHA</a>',
+  label: 'Não sou um robô',
+  verified: 'Verificado',
+  verifying: 'Verificando...',
+  waitAlert: 'Verificando... por favor aguarde.',
 })
 
 const onStateChange = (ev) => {
@@ -38,10 +36,9 @@ const onStateChange = (ev) => {
   <altcha-widget
     ref="altchaWidget"
     challengeurl="/api/altcha/challenge"
-    hidelogo
-    expire="60000"
+    :refetchonexpire="false"
     :strings="i18n"
-    refetchonexpire="false"
+    hidelogo
     class="altcha-widget"
     @load="model = ''"
     @statechange="onStateChange"

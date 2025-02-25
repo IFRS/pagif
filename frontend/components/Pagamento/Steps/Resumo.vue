@@ -51,7 +51,6 @@ const emit = defineEmits(['captcha'])
 const altchaPayload = ref('')
 
 watch(altchaPayload, (value) => {
-  console.log('altchaPayload', value)
   emit('captcha', value)
 })
 
