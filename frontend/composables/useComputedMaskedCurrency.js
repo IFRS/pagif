@@ -11,6 +11,6 @@ export default ref => ({
     return null
   },
   set(val) {
-    ref.value = useFilters().real_to_int(val) ?? null
+    ref.value = filterRealToInt(val) ?? null
   },
 })

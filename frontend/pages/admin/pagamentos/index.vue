@@ -80,7 +80,7 @@
             {{ item.nomeServico }} ({{ item.codigoServico }})
           </template>
           <template #item.cnpjCpf="{ item }">
-            {{ useFilters().cnpj_cpf(item.cnpjCpf) }}
+            {{ filterCnpjCpf(item.cnpjCpf) }}
           </template>
           <template #item.valor="{ item }">
             <v-icon size="small">
@@ -287,10 +287,10 @@ function handleValor(item) {
       + (item.valorMulta || 0)
       + (item.valorJuros || 0)
       + (item.valorOutrosAcrescimos || 0)
-    return useFilters().int_to_real(valor)
+    return filterIntToReal(valor)
   }
 
-  return useFilters().int_to_real(item.valor)
+  return filterIntToReal(item.valor)
 }
 
 function showPagamento(event, linha) {
