@@ -1,5 +1,5 @@
 import { Mask } from 'maska'
-import useFilters from './useFilters'
+import filterRealToInt from '../utils/filterRealToInt'
 
 export default ref => ({
   get() {
