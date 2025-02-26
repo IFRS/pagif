@@ -9,7 +9,7 @@
       <v-col>
         <v-data-table
           loading-text="Carregando Unidades..."
-          :loading="pending"
+          :loading="status == 'pending'"
           :headers="tableHeaders"
           :items="unidades"
           :items-per-page="10"
@@ -32,7 +32,7 @@
               <v-btn
                 icon
                 color="secondary"
-                :loading="pending"
+                :loading="status == 'pending'"
                 class="mr-2"
                 @click="refresh()"
               >
@@ -181,7 +181,12 @@ const tableHeaders = [
 const store = useMainStore()
 const { unidades } = storeToRefs(store)
 
-const { pending, refresh, error } = await store.fetchUnidades()
+const { error, status, refresh } = await useFetch('/api/unidades', {
+  onResponse: ({ response }) => {
+    unidades.value = response._data
+  },
+})
+
 if (error.value) {
   useToast().error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.value.message)
   console.error(error)

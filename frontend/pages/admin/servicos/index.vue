@@ -148,7 +148,16 @@ const tableHeaders = [
 const store = useMainStore()
 const { servicos } = storeToRefs(store)
 
-const { pending, refresh, error } = await store.fetchServicos()
+const { error, pending, refresh } = await useFetch('/api/servicos', {
+  query: {
+    populate: 'unidade',
+    populate_fields: 'nome',
+  },
+  onResponse: ({ response }) => {
+    servicos.value = response._data
+  },
+})
+
 if (error.value) {
   useToast().error('Ocorreu um erro ao carregar os Serviços: ' + error.value.message)
   console.error(error)
