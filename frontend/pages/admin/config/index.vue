@@ -20,24 +20,26 @@ useHeadSafe({
   title: 'Configurações',
 })
 
-const { updateSettings } = useFetchSettings()
-const { error, status, execute } = useAsyncData(() => updateSettings(), { immediate: false })
+const settingsStore = useSettingsStore()
 
-watch(error, (newError) => {
-  useToast().error('Ocorreu um erro ao salvar as Configurações. ' + newError.message)
-  console.error(newError)
-})
-
-const submitting = computed(() => status.value === 'pending')
-
-watch(status, (newStatus) => {
-  if (newStatus === 'success') {
-    useToast().success('Configurações salvas com sucesso!')
-  }
-})
+const submitting = ref(false)
 
 async function handleSubmit() {
-  await execute()
+  submitting.value = true
+
+  try {
+    await $fetch('/api/settings', {
+      method: 'POST',
+      body: settingsStore.$state,
+    })
+
+    useToast().success('Configurações salvas com sucesso!')
+  } catch (error) {
+    useToast().error('Ocorreu um erro ao salvar as Configurações. ' + error.message)
+    console.error(error)
+  } finally {
+    submitting.value = false
+  }
 }
 
 async function handleCancel() {

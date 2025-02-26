@@ -13,7 +13,7 @@
           <v-text-field
             v-model="sigla"
             label="Sigla do Órgão"
-            :loading="pending"
+            :loading="status == 'pending'"
             :rules="validation.sigla"
             required
           />
@@ -26,7 +26,7 @@
           <v-text-field
             v-model="orgao"
             label="Nome do Órgão"
-            :loading="pending"
+            :loading="status == 'pending'"
             :rules="validation.orgao"
             required
           />
@@ -101,13 +101,16 @@ const {
   intro,
 } = storeToRefs(settingsStore)
 
-const { readSettings } = useFetchSettings()
-const { error, pending } = useAsyncData(() => readSettings())
+const { data, status, error } = await useFetch('/api/settings')
 
-watch(error, (newError) => {
-  useToast().error('Ocorreu um erro ao carregar as Configurações: ' + newError.message)
-  console.error(newError)
-})
+if (data.value) {
+  settingsStore.$patch(data.value)
+}
+
+if (error.value) {
+  useToast().error('Ocorreu um erro ao carregar as Configurações: ' + error.value.message)
+  console.error(error.value)
+}
 
 async function handleSubmit() {
   const { valid } = await formNode.value.validate()
