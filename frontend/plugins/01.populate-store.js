@@ -9,7 +9,7 @@ export default defineNuxtPlugin(async ({ $pinia }) => {
     const { data, error } = await useFetch('/api/auth/me')
     if (data.value) authStore.user = data.value
     if (error.value) {
-      console.error(error.value)
+      console.error('Erro ao buscar usuário atual: ', error.value)
     }
   }
 
