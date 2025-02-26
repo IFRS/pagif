@@ -8,7 +8,6 @@
     <v-row>
       <v-col>
         <FormUnidade
-          :token-loading="status == 'pending'"
           :submitting="submitting"
           @ok="handleSubmit"
           @cancel="handleCancel"
@@ -36,7 +35,7 @@ const { nome } = storeToRefs(unidadeStore)
 
 const submitting = ref(false)
 
-const { data, status, error } = await useFetch(`/api/unidades/${route.params.id}`)
+const { data, error } = await useFetch(`/api/unidades/${route.params.id}`)
 
 if (data.value) {
   unidadeStore.$patch(data.value)

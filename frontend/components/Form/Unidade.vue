@@ -63,7 +63,6 @@
             label="Token do PagTesouro"
             hint="Token de acesso gerado no SISGRU."
             :rules="validation.token"
-            :loading="tokenLoading"
             auto-grow
             required
           />
@@ -187,10 +186,6 @@
 import libSlug from 'slug'
 
 defineProps({
-  tokenLoading: {
-    type: Boolean,
-    default: false,
-  },
   submitting: {
     type: Boolean,
     default: false,
