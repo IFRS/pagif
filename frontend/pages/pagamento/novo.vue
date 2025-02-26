@@ -218,6 +218,8 @@ const enablePagamento = computed(() => {
 async function criarPagamento() {
   criandoPagamento.value = true
 
+  const dayjs = utilDayJS()
+
   try {
     this.vencimento = dayjs().add(1, 'day').format('YYYY-MM-DD')
     const data = await $fetch('/api/public/pagamentos', {
