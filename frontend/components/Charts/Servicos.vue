@@ -11,8 +11,8 @@
       variant="solo"
       density="comfortable"
       clearable
-      :loading="pendingUnidades"
-      :disabled="pendingUnidades || unidades?.length === 1"
+      :loading="statusUnidades == 'pending'"
+      :disabled="statusUnidades == 'pending' || unidades?.length === 1"
       :items="unidades"
       item-title="nome"
       item-value="_id"
@@ -48,7 +48,12 @@ const unidade = ref()
 const store = useMainStore()
 const { unidades } = storeToRefs(store)
 
-const { error: errorUnidades, pending: pendingUnidades } = await store.fetchUnidades()
+const { data: dataUnidades, status: statusUnidades, error: errorUnidades } = await useFetch('/api/unidades')
+
+if (dataUnidades.value) {
+  unidades.value = data.value
+}
+
 if (errorUnidades.value) {
   useToast().error('Ocorreu um erro ao carregar as Unidades: ' + errorUnidades.message)
   console.error(errorUnidades)

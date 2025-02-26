@@ -17,8 +17,8 @@
       label="Serviço"
       no-data-text="Nenhum Serviço encontrado na Unidade atual."
       :rules="validation"
-      :loading="pending"
-      :disabled="pending"
+      :loading="status == 'pending'"
+      :disabled="status == 'pending'"
       :items="servicos"
       required
     />
@@ -40,7 +40,15 @@ const validation = [
 
 const store = useMainStore()
 const configStore = useConfigStore()
-const { pending, error } = await store.fetchServicos({ isPublic: true, unidade: configStore.unidade?._id })
+
+const { data, status, error } = await useFetch('/api/public/servicos', {
+  query: { unidade: configStore.unidade?._id },
+})
+
+if (data.value) {
+  store.servicos.value = data.value
+}
+
 if (error.value) {
   useToast().error('Ocorreu um erro ao carregar os Serviços.')
   console.error(error)

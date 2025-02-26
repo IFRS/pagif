@@ -11,8 +11,8 @@
             prepend-icon="mdi-office-building-marker"
             label="Unidade Gestora"
             :rules="validation.unidade"
-            :loading="pending"
-            :disabled="pending"
+            :loading="status == 'pending'"
+            :disabled="status == 'pending'"
             :items="store.unidades"
             item-title="nome"
             item-value="_id"
@@ -25,8 +25,8 @@
             label="Número de Referência Obrigatório"
             hint="Marque caso esse Serviço tenha sido configurado para requerer o Número de Referência."
             persistent-hint
-            :loading="pending"
-            :disabled="pending"
+            :loading="status == 'pending'"
+            :disabled="status == 'pending'"
           />
         </v-col>
       </v-row>
@@ -110,7 +110,13 @@ const emit = defineEmits(['ok', 'cancel'])
 const formEl = ref(null)
 
 const store = useMainStore()
-const { error, pending } = await store.fetchUnidades()
+
+const { data, status, error } = await useFetch('/api/unidades')
+
+if (data.value) {
+  store.unidades = data.value
+}
+
 if (error.value) {
   useToast().error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.value.message)
   console.error(error)

@@ -9,7 +9,7 @@
       <v-col>
         <v-data-table
           loading-text="Carregando Usuários..."
-          :loading="pending"
+          :loading="status == 'pending'"
           :headers="tableHeaders"
           :items="usuarios"
           :items-per-page="10"
@@ -31,7 +31,7 @@
               <v-btn
                 icon
                 color="secondary"
-                :loading="pending"
+                :loading="status == 'pending'"
                 class="mr-2"
                 @click="refresh()"
               >
@@ -140,7 +140,12 @@ const { usuarios } = storeToRefs(store)
 
 const usuarioStore = useUsuarioStore()
 
-const { error, pending, refresh } = await store.fetchUsuarios()
+const { error, status, refresh } = await useFetch('/api/usuarios')
+
+if (data.value) {
+  usuarios.value = data.value
+}
+
 if (error.value) {
   useToast().error('Ocorreu um erro ao carregar os Usuários: ' + error.value.message)
   console.error(error)
@@ -148,6 +153,7 @@ if (error.value) {
 
 const confirmDialog = ref(false)
 const busca = ref('')
+
 const tableHeaders = [
   { title: 'E-mail', key: 'email' },
   { title: 'Nome', key: 'nome' },

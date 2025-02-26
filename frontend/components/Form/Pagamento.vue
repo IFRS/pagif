@@ -11,8 +11,8 @@
             prepend-icon="mdi-office-building-marker"
             label="Unidade Gestora"
             :rules="validation.unidade"
-            :loading="pending"
-            :disabled="pending"
+            :loading="status == 'pending'"
+            :disabled="status == 'pending'"
             :items="unidades"
             item-title="nome"
             item-value="_id"
@@ -308,7 +308,12 @@ const validation = {
 const store = useMainStore()
 const { unidades, servicos } = storeToRefs(store)
 
-const { error, pending } = await store.fetchUnidades()
+const { data, status, error } = await useFetch('/api/unidades')
+
+if (data.value) {
+  unidades.value = data.value
+}
+
 if (error.value) {
   useToast().error('Ocorreu um erro ao carregar as Unidades: ' + error.value.message)
   console.error(error)
@@ -375,12 +380,18 @@ async function fetchServicos(unidade_id) {
 
   codigoServico.value = null
 
-  const { error } = await store.fetchServicos({ unidade: unidade_id })
-  if (error.value) {
-    useToast().error('Ocorreu um erro ao carregar os Serviços: ' + error.value.message)
+  try {
+    const data = await $fetch('/api/servicos', {
+      query: { unidade: unidade_id },
+    })
+
+    servicos.value = data
+  } catch (error) {
+    useToast().error('Ocorreu um erro ao carregar os Serviços: ' + error.message)
     console.error(error)
+  } finally {
+    loadingServicos.value = false
   }
-  loadingServicos.value = false
 }
 
 async function handleSubmit() {

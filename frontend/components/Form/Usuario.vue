@@ -86,7 +86,7 @@
       </h3>
 
       <v-progress-linear
-        v-if="pending"
+        v-if="status == 'pending'"
         indeterminate
         color="primary"
       />
@@ -232,7 +232,12 @@ const abilities = computed({
   },
 })
 
-const { error, pending } = await store.fetchUnidades()
+const { data, status, error } = await useFetch('/api/unidades')
+
+if (data.value) {
+  store.unidades = data.value
+}
+
 if (error.value) {
   useToast().error('Ocorreu um erro ao carregar as Unidades Gestoras: ' + error.value.message)
   console.error(error)

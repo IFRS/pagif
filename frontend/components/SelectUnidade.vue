@@ -6,7 +6,7 @@
           <v-btn
             color="primary"
             :variant="props.mobile ? 'tonal' : 'text'"
-            :loading="pending"
+            :loading="status == 'pending'"
             :disabled="!configStore.unidade"
             v-bind="mergeProps(menu, tooltip)"
           >
@@ -44,7 +44,12 @@ const props = defineProps({
 const store = useMainStore()
 const configStore = useConfigStore()
 
-const { pending, error } = await store.fetchUnidades(true)
+const { data, status, error } = await useFetch('/api/public/unidades')
+
+if (data.value) {
+  store.unidades = data.value
+}
+
 if (error.value) {
   useToast().error('Ocorreu um erro ao carregar a lista de Unidades.')
   console.error(error)

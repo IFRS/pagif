@@ -1,5 +1,3 @@
-import { useFetch } from '#app'
-
 export const useMainStore = defineStore('main', {
   state: () => ({
     unidades: [],
@@ -18,11 +16,6 @@ export const useMainStore = defineStore('main', {
         return value._id !== payload._id
       })
     },
-    async fetchUnidades(isPublic = false) {
-      const response = await useFetch(isPublic ? '/api/public/unidades' : '/api/unidades')
-      if (response.data.value) this.unidades = response.data.value
-      return response
-    },
 
     /* Serviços */
     clearServicos() {
@@ -32,12 +25,6 @@ export const useMainStore = defineStore('main', {
       this.servicos = this.servicos.filter((value) => {
         return value._id !== payload._id
       })
-    },
-    async fetchServicos(payload) {
-      const query = (payload?.unidade) ? { unidade: payload.unidade } : { populate: 'unidade', populate_fields: 'nome' }
-      const response = await useFetch(payload?.isPublic ? '/api/public/servicos' : '/api/servicos', { query: query })
-      if (response.data.value) this.servicos = response.data.value
-      return response
     },
 
     /* Pagamentos */
@@ -67,11 +54,6 @@ export const useMainStore = defineStore('main', {
       this.usuarios = this.usuarios.filter((value) => {
         return value._id !== payload._id
       })
-    },
-    async fetchUsuarios() {
-      const response = await useFetch('/api/usuarios')
-      if (response.data.value) this.usuarios = response.data.value
-      return response
     },
   },
 })

@@ -25,7 +25,12 @@ useHeadSafe({
 const store = useMainStore()
 const configStore = useConfigStore()
 
-const { error } = await store.fetchUnidades(true)
+const { data, error } = await useFetch('/api/public/unidades')
+
+if (data.value) {
+  store.unidades = data.value
+}
+
 if (error.value) {
   useToast().error('Ocorreu um erro ao carregar as Unidades.')
   console.error(error)
