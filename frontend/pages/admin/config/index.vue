@@ -12,7 +12,7 @@
 <script setup>
 definePageMeta({
   validate: async () => {
-    return useACL().can('edit', 'Settings')
+    return useACL().can('update', 'Settings')
   },
 })
 
