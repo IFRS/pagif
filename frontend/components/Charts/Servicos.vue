@@ -51,7 +51,7 @@ const { unidades } = storeToRefs(store)
 const { data: dataUnidades, status: statusUnidades, error: errorUnidades } = await useFetch('/api/unidades')
 
 if (dataUnidades.value) {
-  unidades.value = data.value
+  unidades.value = dataUnidades.value
 }
 
 if (errorUnidades.value) {
