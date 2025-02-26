@@ -3,8 +3,8 @@
     <v-row>
       <v-col>
         <v-card
-          :loading="pending"
-          :disabled="pending"
+          :loading="status == 'pending'"
+          :disabled="status == 'pending'"
         >
           <v-card-title primary-title>
             Pagamento {{ idPagamento }}
@@ -142,7 +142,11 @@ const configStore = useConfigStore()
 const route = useRoute()
 const pagamentoStore = usePagamentoStore()
 
-const { pending, error } = await pagamentoStore.show_public(route.params.id)
+const { data, status, error } = await useFetch(`/api/public/pagamentos/${route.params.id}`)
+
+if (data.value) {
+  pagamentoStore.$patch(data.value)
+}
 
 if (error.value) {
   console.error(error)

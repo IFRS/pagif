@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <PagamentoDetalhes :loading="pending">
+    <PagamentoDetalhes :loading="status == 'pending'">
       <v-btn
         color="primary"
         variant="plain"
@@ -19,7 +19,12 @@ useHeadSafe({
 
 const route = useRoute()
 const pagamentoStore = usePagamentoStore()
-const { pending, error } = await pagamentoStore.show_public(route.params.id)
+
+const { data, status, error } = await useFetch(`/api/public/pagamentos/${route.params.id}`)
+
+if (data.value) {
+  pagamentoStore.$patch(data.value)
+}
 
 if (error.value) {
   useToast().error('Ocorreu um erro ao buscar o Pagamento.')
@@ -27,7 +32,7 @@ if (error.value) {
   await navigateTo({ name: 'consulta' })
 }
 
-onUnmounted(() => {
+onBeforeRouteLeave(() => {
   pagamentoStore.$reset()
 })
 </script>

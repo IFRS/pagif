@@ -218,16 +218,22 @@ const enablePagamento = computed(() => {
 async function criarPagamento() {
   criandoPagamento.value = true
 
-  const { error } = await pagamentoStore.save_public(captchaResponse.value)
+  try {
+    this.vencimento = dayjs().add(1, 'day').format('YYYY-MM-DD')
+    const data = await $fetch('/api/public/pagamentos', {
+      method: 'POST',
+      body: { ...pagamentoStore.$state, captcha: captchaResponse.value },
+    })
 
-  if (error.value) {
+    if (data) pagamentoStore.$patch(data)
+
+    pagamentoConcluido.value = true
+  } catch (error) {
     useToast().error('Ocorreu um erro ao criar o Pagamento.')
     console.error(error)
-  } else {
-    pagamentoConcluido.value = true
+  } finally {
+    criandoPagamento.value = false
   }
-
-  criandoPagamento.value = false
 }
 
 async function toClipboard(text) {
