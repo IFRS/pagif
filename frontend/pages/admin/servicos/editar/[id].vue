@@ -29,32 +29,51 @@ useHeadSafe({
 })
 
 const servicoStore = useServicoStore()
+const route = useRoute()
 
 const { nome } = storeToRefs(servicoStore)
 
 const submitting = ref(false)
 
+const { data, error } = await useFetch(`/api/servicos/${route.params.id}`)
+
+if (data.value) {
+  servicoStore.$patch(data.value)
+}
+
+if (error.value) {
+  useToast().error('Ocorreu um erro ao buscar o Serviço: ' + error.value.message)
+  console.error(error)
+  await navigateTo({ path: '/admin/servicos' })
+}
+
+onBeforeRouteLeave(() => {
+  servicoStore.$reset()
+})
+
 async function handleSubmit() {
   submitting.value = true
 
-  const { error } = await servicoStore.update()
-  if (error.value) {
-    useToast().error('Ocorreu um erro ao atualizar o Serviço. ' + error.value.message)
-    console.error(error)
-  } else {
+  try {
+    const servico = {
+      ...servicoStore.$state,
+      unidade: (Object.prototype.hasOwnProperty.call(servicoStore.unidade, '_id')) ? servicoStore.unidade._id : servicoStore.unidade,
+    }
+
+    await $fetch(`/api/servicos/${servicoStore._id}`, { method: 'PUT', body: servico })
+
     useToast().success('Serviço atualizado com sucesso!')
     await navigateTo({ path: '/admin/servicos' })
+  } catch (error) {
+    useToast().error('Ocorreu um erro ao atualizar o Serviço. ' + error.value.message)
+    console.error(error)
+  } finally {
+    submitting.value = false
   }
-
-  submitting.value = false
 }
 
 async function handleCancel() {
   useToast().info('Edição do Serviço cancelada.')
   await navigateTo({ path: '/admin/servicos' })
 }
-
-onUnmounted(() => {
-  servicoStore.$reset()
-})
 </script>

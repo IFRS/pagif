@@ -68,7 +68,7 @@
                 <v-list-item
                   v-if="useACL().can('update', 'Servico')"
                   prepend-icon="mdi-pencil"
-                  @click="editServico(item)"
+                  :to="`/admin/servicos/editar/${item._id}`"
                 >
                   <v-list-item-title>Editar {{ item.nome }}</v-list-item-title>
                 </v-list-item>
@@ -158,11 +158,6 @@ const confirmDialog = ref(false)
 
 const servicoStore = useServicoStore()
 
-async function editServico(servico) {
-  servicoStore.$patch(servico)
-  await navigateTo({ path: '/admin/servicos/editar' })
-}
-
 function confirmDelete(servico) {
   servicoStore.$patch(servico)
   confirmDialog.value = true
@@ -176,12 +171,14 @@ function closeDelete() {
 async function deleteServico() {
   confirmDialog.value = false
 
-  const { error } = await servicoStore.delete()
-  if (error.value) {
-    useToast().error('Erro ao tentar deletar o Serviço. ' + error.value.message)
-    console.error(error)
-  } else {
+  try {
+    const data = await $fetch(`/api/servicos/${servicoStore._id}`, { method: 'DELETE' })
+    servicoStore.$reset()
+    store.removeServico(data)
     useToast().success('Serviço removido com sucesso!')
+  } catch (error) {
+    useToast().error('Erro ao tentar deletar o Serviço. ' + error.message)
+    console.error(error)
   }
 }
 </script>

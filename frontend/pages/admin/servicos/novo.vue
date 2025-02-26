@@ -32,19 +32,31 @@ const servicoStore = useServicoStore()
 
 const submitting = ref(false)
 
+onBeforeRouteLeave(() => {
+  servicoStore.$reset()
+})
+
 async function handleSubmit() {
   submitting.value = true
 
-  const { error } = await servicoStore.save()
+  try {
+    const servico = {
+      ...servicoStore.$state,
+      unidade: (Object.prototype.hasOwnProperty.call(servicoStore.unidade, '_id')) ? servicoStore.unidade._id : servicoStore.unidade,
+    }
 
-  submitting.value = false
+    await $fetch('/api/servicos', {
+      method: 'POST',
+      body: servico,
+    })
 
-  if (error.value) {
-    useToast().error('Ocorreu um erro ao cadastrar o Serviço. ' + error.value.message)
-    console.error(error)
-  } else {
     useToast().success('Serviço cadastrado com sucesso!')
     await navigateTo({ path: '/admin/servicos' })
+  } catch (error) {
+    useToast().error('Ocorreu um erro ao cadastrar o Serviço. ' + error.message)
+    console.error(error)
+  } finally {
+    submitting.value = false
   }
 }
 
@@ -52,8 +64,4 @@ async function handleCancel() {
   useToast().info('Cadastro de Serviço cancelado.')
   await navigateTo({ path: '/admin/servicos' })
 }
-
-onUnmounted(() => {
-  servicoStore.$reset()
-})
 </script>
