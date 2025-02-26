@@ -26,7 +26,7 @@
         <v-data-table
           class="pagamentos"
           loading-text="Carregando Pagamentos..."
-          :loading="pending"
+          :loading="status == 'pending'"
           :headers="tableHeaders"
           :items="pagamentos"
           :items-per-page="25"
@@ -60,7 +60,7 @@
               <v-btn
                 icon
                 color="secondary"
-                :loading="pending"
+                :loading="status == 'pending'"
                 class="mr-2"
                 @click="refresh()"
               >
@@ -252,12 +252,13 @@ const { pagamentos } = storeToRefs(store)
 
 const pagamentoStore = usePagamentoStore()
 
-const { error, pending, refresh } = await useFetch('/api/pagamentos', {
+const { error, status, refresh } = await useFetch('/api/pagamentos', {
   query: filtros,
   onResponse({ response }) {
     pagamentos.value = response._data
   },
 })
+
 if (error.value) {
   useToast().error('Ocorreu um erro ao carregar os Pagamentos: ' + error.value.message)
   console.error(error)
@@ -312,32 +313,39 @@ async function handleFiltrar(selectedFiltros) {
 async function consultaPagamento(idPagamento) {
   loadingPagamento.value = idPagamento
 
-  const { error, status } = await pagamentoStore.consulta(idPagamento)
+  try {
+    const data = await $fetch('/api/pagamentos/update', {
+      method: 'PUT',
+      body: { idPagamento: idPagamento },
+      onResponse: ({ response }) => {
+        if (response.status === 204) {
+          useToast().info(`Pagamento ${idPagamento} sem atualizações!`)
+        } else {
+          useToast().success(`Pagamento ${idPagamento} atualizado!`)
+        }
+      },
+    })
 
-  if (error.value) {
+    if (data) store.updatePagamento(data)
+  } catch (error) {
     useToast().error('Erro ao tentar consultar o Pagamento. ' + error.value.message)
     console.error(error)
-  } else {
-    if (status === 204) {
-      useToast().info(`Pagamento ${idPagamento} sem atualizações!`)
-    } else {
-      useToast().success(`Pagamento ${idPagamento} atualizado!`)
-    }
+  } finally {
+    loadingPagamento.value = false
   }
-
-  loadingPagamento.value = false
 }
 
 async function deletePagamento() {
   confirmDialog.value = false
 
-  const { error } = await pagamentoStore.delete()
-
-  if (error.value) {
-    useToast().error('Erro ao tentar deletar o Pagamento. ' + error.value.message)
-    console.error(error)
-  } else {
+  try {
+    const data = await $fetch(`/api/pagamentos/${this._id}`, { method: 'DELETE' })
+    pagamentoStore.$reset()
+    store.removePagamento(data)
     useToast().success('Pagamento removido com sucesso!')
+  } catch (error) {
+    useToast().error('Erro ao tentar deletar o Pagamento. ' + error.message)
+    console.error(error)
   }
 }
 </script>

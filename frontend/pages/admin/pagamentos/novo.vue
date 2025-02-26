@@ -35,17 +35,20 @@ const pagamentoStore = usePagamentoStore()
 async function handleSubmit() {
   submitting.value = true
 
-  const { error } = await pagamentoStore.save()
-  if (error.value) {
+  try {
+    await $fetch('/api/pagamentos', {
+      method: 'POST',
+      body: { ...pagamentoStore.$state },
+    })
+
+    useToast().success('Cobrança cadastrada com sucesso!')
+    await navigateTo({ path: '/admin/pagamentos' })
+  } catch (error) {
     useToast().error('Ocorreu um erro ao cadastrar a Cobrança. ' + error.value.message)
     console.error(error)
-  } else {
-    useToast().success('Cobrança cadastrada com sucesso!')
-    pagamentoStore.$reset()
-    await navigateTo({ path: '/admin/pagamentos' })
+  } finally {
+    submitting.value = false
   }
-
-  submitting.value = false
 }
 
 async function handleCancel() {
@@ -53,7 +56,7 @@ async function handleCancel() {
   await navigateTo({ path: '/admin/pagamentos' })
 }
 
-onUnmounted(() => {
+onBeforeRouteLeave(() => {
   pagamentoStore.$reset()
 })
 </script>
