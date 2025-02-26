@@ -46,7 +46,7 @@ const { data, status, error } = await useFetch('/api/public/servicos', {
 })
 
 if (data.value) {
-  store.servicos.value = data.value
+  store.servicos = data.value
 }
 
 if (error.value) {
