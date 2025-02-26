@@ -140,7 +140,7 @@ const { usuarios } = storeToRefs(store)
 
 const usuarioStore = useUsuarioStore()
 
-const { error, status, refresh } = await useFetch('/api/usuarios')
+const { data, error, status, refresh } = await useFetch('/api/usuarios')
 
 if (data.value) {
   usuarios.value = data.value
