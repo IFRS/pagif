@@ -1,6 +1,3 @@
-import { useMainStore } from '.'
-import { useFetch } from '#app'
-
 export const useUsuarioStore = defineStore('usuario', {
   state: () => ({
     _id: null,
@@ -25,22 +22,6 @@ export const useUsuarioStore = defineStore('usuario', {
       this.abilities = payload.map((ability) => {
         return JSON.parse(ability)
       })
-    },
-    async save() {
-      const response = await useFetch('/api/usuarios', { method: 'POST', body: { ...this.$state } })
-      this.$reset()
-      return response
-    },
-    async update() {
-      const response = await useFetch(`/api/usuarios/${this._id}`, { method: 'PUT', body: { ...this.$state } })
-      this.$reset()
-      return response
-    },
-    async delete() {
-      const response = await useFetch(`/api/usuarios/${this._id}`, { method: 'DELETE' })
-      this.$reset()
-      useMainStore().removeUsuario(response.data.value)
-      return response
     },
   },
 })

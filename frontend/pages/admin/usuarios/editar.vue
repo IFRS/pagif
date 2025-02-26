@@ -35,16 +35,19 @@ const submitting = ref(false)
 async function handleSubmit() {
   submitting.value = true
 
-  const { error } = await usuarioStore.update()
-  if (error.value) {
-    useToast().error('Ocorreu um erro ao atualizar o Usuário. ' + error.value.message)
-    console.error(error)
-  } else {
+  try {
+    await useFetch(`/api/usuarios/${usuarioStore._id}`, {
+      method: 'PUT',
+      body: { ...usuarioStore.$state },
+    })
     useToast().success('Usuário atualizado com sucesso!')
     await navigateTo({ path: '/admin/usuarios' })
+  } catch (error) {
+    useToast().error('Ocorreu um erro ao atualizar o Usuário. ' + error.value.message)
+    console.error(error)
+  } finally {
+    submitting.value = false
   }
-
-  submitting.value = false
 }
 
 async function handleCancel() {

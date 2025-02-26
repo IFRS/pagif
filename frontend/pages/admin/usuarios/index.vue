@@ -178,12 +178,14 @@ function closeDelete() {
 async function deleteUsuario() {
   confirmDialog.value = false
 
-  const { error } = usuarioStore.delete()
-  if (error.value) {
+  try {
+    const data = await $fetch(`/api/usuarios/${usuarioStore._id}`, { method: 'DELETE' })
+    usuarioStore.$reset()
+    store.removeUsuario(data)
+    useToast().success('Usuário removido com sucesso!')
+  } catch (error) {
     useToast().error('Erro ao tentar deletar o Usuário. ' + error.value.message)
     console.error(error)
-  } else {
-    useToast().success('Usuário removido com sucesso!')
   }
 }
 </script>
