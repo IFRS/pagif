@@ -55,7 +55,7 @@ async function handleCancel() {
   await navigateTo({ path: '/admin/usuarios' })
 }
 
-onUnmounted(() => {
+onBeforeRouteLeave(() => {
   usuarioStore.$reset()
 })
 </script>

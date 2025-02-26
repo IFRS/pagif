@@ -70,7 +70,7 @@ const selectedUnidade = computed({
   },
 })
 
-onUnmounted(() => {
+onBeforeRouteLeave(() => {
   store.clearUnidades()
 })
 </script>
