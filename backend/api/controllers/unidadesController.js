@@ -69,6 +69,7 @@ export const showPublic = function (req, res) {
 };
 
 export const show = function (req, res) {
+  const ability = createMongoAbility(req.session.user.abilities);
   let fields = req.query.fields?.split(',');
 
   const query = Unidade.findById(req.params.id);
@@ -77,7 +78,9 @@ export const show = function (req, res) {
     query.select(fields);
   }
 
-  query.select('-token');
+  if (ability.cannot('update', 'unidade')) {
+    query.select('-token');
+  }
 
   query.then((unidade) => {
     if (!unidade) {
