@@ -139,7 +139,7 @@ export const save = [
 ];
 
 export const remove = function (req, res) {
-  Servico.findByIdAndRemove(req.params.id).then((servico) => {
+  Servico.findByIdAndDelete(req.params.id).then((servico) => {
     return res.json(servico.toJSON());
   })
     .catch((error) => {

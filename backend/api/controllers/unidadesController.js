@@ -193,7 +193,7 @@ export const save = [
 ];
 
 export const remove = function (req, res) {
-  Unidade.findByIdAndRemove(req.params.id)
+  Unidade.findByIdAndDelete(req.params.id)
     .then((unidade) => {
       return res.json(unidade.toJSON());
     })

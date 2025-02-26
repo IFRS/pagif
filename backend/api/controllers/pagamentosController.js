@@ -261,7 +261,7 @@ export const update = [
 ];
 
 export const remove = function (req, res) {
-  Pagamento.findByIdAndRemove(req.params.id)
+  Pagamento.findByIdAndDelete(req.params.id)
     .then((pagamento) => {
       return res.json(pagamento.toJSON());
     })

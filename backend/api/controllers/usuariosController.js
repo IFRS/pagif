@@ -92,7 +92,7 @@ export const save = [
 ];
 
 export const remove = function (req, res) {
-  Usuario.findByIdAndRemove(req.params.id)
+  Usuario.findByIdAndDelete(req.params.id)
     .then((usuario) => {
       return res.json(usuario.toJSON());
     })
