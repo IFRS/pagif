@@ -150,7 +150,7 @@ onMounted(() => {
   loaded.value = true
 })
 
-onBeforeRouteLeave(() => {
+onUnmounted(() => {
   store.$reset()
 })
 </script>
