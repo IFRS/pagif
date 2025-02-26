@@ -86,7 +86,7 @@
                 <v-list-item
                   v-if="useACL().can('update', 'Unidade')"
                   prepend-icon="mdi-pencil"
-                  @click="editUnidade(item)"
+                  :to="`/admin/unidades/editar/${item._id}`"
                 >
                   <v-list-item-title>Editar {{ item.nome }}</v-list-item-title>
                 </v-list-item>
@@ -203,20 +203,18 @@ async function showTokenDialog(item) {
 
   unidadeStore.$patch(item)
 
-  const { error } = await unidadeStore.fetchToken(item._id)
-  if (error.value) {
-    useToast().error('Ocorreu um erro ao buscar o Token da Unidade Gestora: ' + error.value.message)
+  try {
+    const token = await $fetch(`/api/unidades/token/${item._id}`)
+
+    unidadeStore.token = token
+
+    tokenDialog.value = true
+  } catch (error) {
+    useToast().error('Ocorreu um erro ao buscar o Token da Unidade Gestora: ' + error.message)
     console.error(error)
+  } finally {
+    tokenLoading.value = false
   }
-
-  tokenDialog.value = true
-
-  tokenLoading.value = false
-}
-
-async function editUnidade(unidade) {
-  unidadeStore.$patch(unidade)
-  await navigateTo({ path: '/admin/unidades/editar' })
 }
 
 const confirmDialog = ref(false)
@@ -233,12 +231,20 @@ function closeDelete() {
 
 async function deleteUnidade() {
   confirmDialog.value = false
-  const { error } = await unidadeStore.delete()
-  if (error.value) {
+
+  try {
+    await $fetch(`/api/unidades/${unidadeStore._id}`, {
+      method: 'DELETE',
+      onResponse({ response }) {
+        unidadeStore.$reset()
+        store.removeUnidade(response._data)
+      },
+    })
+
+    useToast().success('Unidade Gestora removida com sucesso!')
+  } catch (error) {
     useToast().error('Erro ao tentar deletar a Unidade Gestora. ' + error.value.message)
     console.error(error)
-  } else {
-    useToast().success('Unidade Gestora removida com sucesso!')
   }
 }
 </script>

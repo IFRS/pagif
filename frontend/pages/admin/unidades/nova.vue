@@ -32,19 +32,29 @@ const unidadeStore = useUnidadeStore()
 
 const submitting = ref(false)
 
+onBeforeRouteLeave(() => {
+  unidadeStore.$reset()
+})
+
 async function handleSubmit() {
   submitting.value = true
 
-  const { error } = await unidadeStore.save()
+  try {
+    await $fetch('/api/unidades', {
+      method: 'POST',
+      body: { ...unidadeStore.$state },
+      onResponse() {
+        unidadeStore.$reset()
+      },
+    })
 
-  submitting.value = false
-
-  if (error.value) {
-    useToast().error('Ocorreu um erro ao cadastrar a Unidade Gestora. ' + error.value.message)
-    console.error(error)
-  } else {
     useToast().success('Unidade Gestora cadastrada com sucesso!')
     await navigateTo({ path: '/admin/unidades' })
+  } catch (error) {
+    useToast().error('Ocorreu um erro ao cadastrar a Unidade Gestora. ' + error.message)
+    console.error(error)
+  } finally {
+    submitting.value = false
   }
 }
 
@@ -52,8 +62,4 @@ async function handleCancel() {
   useToast().info('Cadastro de Unidade Gestora cancelado.')
   await navigateTo({ path: '/admin/unidades' })
 }
-
-onUnmounted(() => {
-  unidadeStore.$reset()
-})
 </script>

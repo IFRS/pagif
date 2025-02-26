@@ -8,7 +8,7 @@
     <v-row>
       <v-col>
         <FormUnidade
-          :token-loading="pending"
+          :token-loading="status == 'pending'"
           :submitting="submitting"
           @ok="handleSubmit"
           @cancel="handleCancel"
@@ -30,28 +30,45 @@ useHeadSafe({
 })
 
 const unidadeStore = useUnidadeStore()
+const route = useRoute()
 
 const { nome } = storeToRefs(unidadeStore)
 
 const submitting = ref(false)
 
-const { error, pending } = await unidadeStore.fetchToken()
-if (error.value) {
-  useToast().error('Ocorreu um erro ao buscar o Token da Unidade: ' + error.value.message)
-  console.error(error)
+const { data, status, error } = await useFetch(`/api/unidades/${route.params.id}`)
+
+if (data.value) {
+  unidadeStore.$patch(data.value)
 }
+
+if (error.value) {
+  useToast().error('Ocorreu um erro ao buscar a Unidade Gestora: ' + error.value.message)
+  console.error(error)
+  await navigateTo({ path: '/admin/unidades' })
+}
+
+onBeforeRouteLeave(() => {
+  unidadeStore.$reset()
+})
 
 async function handleSubmit() {
   submitting.value = true
 
-  const { error } = await unidadeStore.update()
+  try {
+    await $fetch(`/api/unidades/${unidadeStore._id}`, {
+      method: 'PUT',
+      body: { ...unidadeStore.$state },
+      onResponse() {
+        unidadeStore.$reset()
+      },
+    })
 
-  if (error.value) {
-    useToast().error('Ocorreu um erro ao atualizar a Unidade Gestora. ' + error.value.message)
-    console.error(error)
-  } else {
     useToast().success('Unidade Gestora atualizada com sucesso!')
     await navigateTo({ path: '/admin/unidades' })
+  } catch (error) {
+    useToast().error('Ocorreu um erro ao atualizar a Unidade Gestora. ' + error.message)
+    console.error(error)
   }
 
   submitting.value = false
@@ -61,8 +78,4 @@ async function handleCancel() {
   useToast().info('Edição da Unidade Gestora cancelada.')
   await navigateTo({ path: '/admin/unidades' })
 }
-
-onUnmounted(() => {
-  unidadeStore.$reset()
-})
 </script>
