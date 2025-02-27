@@ -1,5 +1,5 @@
 import process from 'node:process';
-import http from 'http';
+import http from 'node:http';
 import 'dotenv/config';
 
 const options = {

@@ -1,5 +1,5 @@
-const process = require('node:process')
-const http = require('http')
+import process from 'node:process'
+import http from 'node:http'
 
 const options = {
   host: 'localhost',
