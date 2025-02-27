@@ -18,7 +18,7 @@ $ npm install
 # roda o linter para verificar inconsistências no código
 $ npm run lint
 
-# corrige automaticamente as insconsistências encontras, quando possível
+# corrige automaticamente as inconsistências encontradas, quando possível
 $ npm run lint:fix
 
 # roda o código e inicia o servidor de desenvolvimento (com monitoramento de mudanças)
@@ -39,7 +39,7 @@ $ npm install
 # roda o linter para verificar inconsistências no código
 $ npm run lint
 
-# corrige automaticamente as insconsistências encontras, quando possível
+# corrige automaticamente as inconsistências encontradas, quando possível
 $ npm run lint:fix
 
 # remove arquivos de compilação e caches
