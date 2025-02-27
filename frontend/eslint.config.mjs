@@ -13,9 +13,11 @@ export default withNuxt(
       'vue/multi-word-component-names': 'off',
     },
     languageOptions: {
-      ecmaVersion: 11,
+      ecmaVersion: 2021,
+      sourceType: 'module',
       globals: {
         ...globals.browser,
+        ...globals.es2021,
       },
     },
   },
