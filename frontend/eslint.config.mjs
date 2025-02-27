@@ -4,10 +4,7 @@ import pluginVuetify from 'eslint-plugin-vuetify'
 import withNuxt from './.nuxt/eslint.config.mjs'
 
 export default withNuxt(
-  ...pluginVue.configs['flat/essential'],
-  ...pluginVue.configs['flat/strongly-recommended'],
   ...pluginVue.configs['flat/recommended'],
-  ...pluginVuetify.configs['flat/base'],
   ...pluginVuetify.configs['flat/recommended'],
   {
     name: 'Frontend',
