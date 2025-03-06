@@ -7,22 +7,23 @@ import { logger } from '../logger/index.js';
   await pulse.start();
 })();
 
-async function graceful(code = 0) {
+async function graceful(signal) {
   await pulse.stop();
+
+  const code = signal instanceof Error ? 1 : 0;
   process.exitCode = code;
 }
 
-process.on('SIGHUP', graceful(0));
-process.on('SIGINT', graceful(0));
-process.on('SIGKILL', graceful(0));
-process.on('SIGTERM', graceful(0));
+process.on('SIGHUP', graceful);
+process.on('SIGINT', graceful);
+process.on('SIGTERM', graceful);
 
 process.on('unhandledRejection', (reason, promise) => {
   logger.error(`[Fila] Erro não tratado em: ${promise} Razão: ${reason}`);
-  graceful(1);
+  graceful(reason);
 });
 
 process.on('uncaughtException', (error) => {
   logger.error(`[Fila] Exceção não capturada: ${error}`);
-  graceful(1);
+  graceful();
 });
