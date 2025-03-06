@@ -67,7 +67,7 @@
                 <v-list-item
                   v-if="useACL().can('update', 'Usuario')"
                   prepend-icon="mdi-pencil"
-                  @click="editUsuario(item)"
+                  :to="`/admin/usuarios/editar/${item._id}`"
                 >
                   <v-list-item-title>Editar {{ item.nome || item.email }}</v-list-item-title>
                 </v-list-item>
@@ -160,11 +160,6 @@ const tableHeaders = [
   { title: 'Ações', key: 'actions', sortable: false, align: 'center', width: 80 },
 ]
 
-async function editUsuario(usuario) {
-  usuarioStore.$patch(usuario)
-  await navigateTo({ path: '/admin/usuarios/editar' })
-}
-
 function confirmDelete(usuario) {
   usuarioStore.$patch(usuario)
   confirmDialog.value = true
@@ -184,7 +179,7 @@ async function deleteUsuario() {
     store.removeUsuario(data)
     useToast().success('Usuário removido com sucesso!')
   } catch (error) {
-    useToast().error('Erro ao tentar deletar o Usuário. ' + error.value.message)
+    useToast().error('Erro ao tentar deletar o Usuário. ' + error.message)
     console.error(error)
   }
 }
