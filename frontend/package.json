@@ -39,7 +39,7 @@
     "@nuxt/eslint": "^1.0.0",
     "@nuxt/vite-builder": "^3.5.1",
     "eslint": "^9.19.0",
-    "eslint-plugin-vue": "^9.13.0",
+    "eslint-plugin-vue": "^9.33.0",
     "eslint-plugin-vuetify": "^2.5.1",
     "globals": "^16.0.0",
     "nuxt": "^3.12.3",
