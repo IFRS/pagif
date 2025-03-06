@@ -20,7 +20,7 @@ useHeadSafe({
   title: 'Configurações',
 })
 
-const settingsStore = useSettingsStore()
+const configStore = useConfigStore()
 
 const submitting = ref(false)
 
@@ -30,10 +30,11 @@ async function handleSubmit() {
   try {
     await $fetch('/api/settings', {
       method: 'POST',
-      body: settingsStore.$state,
+      body: { sigla: configStore.sigla, orgao: configStore.orgao, intro: configStore.intro },
     })
 
     useToast().success('Configurações salvas com sucesso!')
+    await navigateTo({ path: '/admin' })
   } catch (error) {
     useToast().error('Ocorreu um erro ao salvar as Configurações. ' + error.message)
     console.error(error)

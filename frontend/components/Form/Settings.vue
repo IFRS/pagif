@@ -94,17 +94,17 @@ const validation = {
   ],
 }
 
-const settingsStore = useSettingsStore()
+const configStore = useConfigStore()
 const {
   sigla,
   orgao,
   intro,
-} = storeToRefs(settingsStore)
+} = storeToRefs(configStore)
 
 const { data, status, error } = await useFetch('/api/settings')
 
 if (data.value) {
-  settingsStore.$patch(data.value)
+  configStore.$patch(data.value)
 }
 
 if (error.value) {
@@ -121,7 +121,6 @@ async function handleSubmit() {
 }
 
 function handleCancel() {
-  formNode.value.reset()
   emit('cancel')
 }
 </script>
