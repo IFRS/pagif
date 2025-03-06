@@ -18,7 +18,18 @@ export default defineNuxtPlugin(async ({ $pinia }) => {
   const cookie_darkmode = useCookie('darkMode')
   const cookie_unidade = useCookie('unidade')
 
-  const { error } = await configStore.populateConfig()
+  const { data, error } = await useFetch('/api/public/settings')
+
+  if (data.value) {
+    configStore.sigla = data.value.sigla
+    configStore.orgao = data.value.orgao
+    configStore.intro = data.value.intro
+  }
+
+  if (error.value && error.value.statusCode === 404) {
+    configStore.setEmptySettings()
+  }
+
   if (error.value && error.value.statusCode !== 404) {
     useToast().error('Ocorreu um erro ao carregar as Configurações do Sistema.')
     console.error(error.value)
@@ -36,7 +47,10 @@ export default defineNuxtPlugin(async ({ $pinia }) => {
 
   const unidade_id = cookie_unidade.value
   if (unidade_id) {
-    const { error } = await configStore.populateUnidade(unidade_id)
+    const { data, error } = await useFetch(`/api/public/unidades/${unidade_id}`)
+
+    if (data.value) configStore.unidade = data.value
+
     if (error.value) {
       useToast().error('Ocorreu um erro ao carregar a Unidade previamente selecionada.')
       console.error(error.value)

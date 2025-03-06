@@ -1,5 +1,3 @@
-import { useFetch } from '#app'
-
 export const useConfigStore = defineStore('config', {
   state: () => ({
     unidade: null,
@@ -10,23 +8,10 @@ export const useConfigStore = defineStore('config', {
     intro: null,
   }),
   actions: {
-    async populateUnidade(id) {
-      const response = await useFetch(`/api/public/unidades/${id}`)
-      if (response.data.value) this.unidade = response.data.value
-      return response
-    },
-    async populateConfig() {
-      const response = await useFetch('/api/public/settings')
-      if (response.data.value) {
-        this.sigla = response.data.value.sigla
-        this.orgao = response.data.value.orgao
-        this.intro = response.data.value.intro
-      } else if (response.statusCode === 404) {
-        this.sigla = ''
-        this.orgao = ''
-        this.intro = ''
-      }
-      return response
+    setEmptySettings() {
+      this.sigla = ''
+      this.orgao = ''
+      this.intro = ''
     },
   },
 })
