@@ -32,18 +32,23 @@ const usuarioStore = useUsuarioStore()
 
 const submitting = ref(false)
 
+onBeforeRouteLeave(() => {
+  usuarioStore.$reset()
+})
+
 async function handleSubmit() {
   submitting.value = true
 
   try {
-    await useFetch('/api/usuarios', {
+    await $fetch('/api/usuarios', {
       method: 'POST',
       body: { ...usuarioStore.$state },
     })
+
     useToast().success('Usuário cadastrado com sucesso!')
     await navigateTo({ path: '/admin/usuarios' })
   } catch (error) {
-    useToast().error('Ocorreu um erro ao cadastrar o Usuário. ' + error.value.message)
+    useToast().error('Ocorreu um erro ao cadastrar o Usuário. ' + error.message)
     console.error(error)
   } finally {
     submitting.value = false
@@ -54,8 +59,4 @@ async function handleCancel() {
   useToast().info('Cadastro de Usuário cancelado.')
   await navigateTo({ path: '/admin/usuarios' })
 }
-
-onBeforeRouteLeave(() => {
-  usuarioStore.$reset()
-})
 </script>
