@@ -40,7 +40,7 @@ export default defineNuxtConfig({
     '@fontsource/raleway/latin.css',
     '@fontsource/raleway/latin-italic.css',
     '@mdi/font/css/materialdesignicons.css',
-    // 'vuetify/styles', // should not be used in sass files as it resolves to precompiled css.
+    // 'vuetify/styles', // should not be used in sass files as it resolves to precompiled CSS.
     '~/assets/scss/vuetify-config.scss',
     '~/assets/scss/vuetify-required.scss',
   ],
@@ -48,7 +48,6 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       pagtesouroURL: process.env.PAGTESOURO_URL,
-      recaptchaSiteKey: process.env.RECAPTCHA_SITE_KEY,
       googleClientId: process.env.GOOGLE_CLIENT_ID,
       GA: process.env.GA,
     },

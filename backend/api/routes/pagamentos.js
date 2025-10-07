@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import requireAbility from '../middleware/requireAbility.js';
-// import recaptcha from '../middleware/recaptcha.js';
 import altcha from '../middleware/altcha.js';
 
 import { showPublic, list, show, save, update, remove } from '../controllers/pagamentosController.js';
@@ -15,7 +14,6 @@ router.get('/pagamentos/:id', requireAbility(['read', 'Pagamento']), show);
 
 router.post('/pagamentos', requireAbility(['create', 'Pagamento']), save);
 
-// router.post('/public/pagamentos', recaptcha, save);
 router.post('/public/pagamentos', altcha, save);
 
 router.put('/pagamentos/:id', requireAbility(['update', 'Pagamento']), update);

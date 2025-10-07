@@ -30,7 +30,6 @@
     "vue": "^3.3.9",
     "vue-chartjs": "^5.2.0",
     "vue-gtag": "^2.0.1",
-    "vue-recaptcha": "^3.0.0-alpha.6",
     "vue3-google-login": "^2.0.25",
     "vuetify": "^3.2.5",
     "vuetify-pro-tiptap": "^2.1.0"
