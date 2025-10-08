@@ -221,7 +221,7 @@ async function criarPagamento() {
   const dayjs = utilDayJS()
 
   try {
-    this.vencimento = dayjs().add(1, 'day').format('YYYY-MM-DD')
+    pagamentoStore.vencimento = dayjs().add(1, 'day').format('YYYY-MM-DD')
     const data = await $fetch('/api/public/pagamentos', {
       method: 'POST',
       body: { ...pagamentoStore.$state, captcha: captchaResponse.value },

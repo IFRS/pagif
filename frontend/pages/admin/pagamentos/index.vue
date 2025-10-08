@@ -339,7 +339,7 @@ async function deletePagamento() {
   confirmDialog.value = false
 
   try {
-    const data = await $fetch(`/api/pagamentos/${this._id}`, { method: 'DELETE' })
+    const data = await $fetch(`/api/pagamentos/${pagamentoStore._id}`, { method: 'DELETE' })
     pagamentoStore.$reset()
     store.removePagamento(data)
     useToast().success('Pagamento removido com sucesso!')
