@@ -114,7 +114,7 @@ export const save = [
   validator.body('nomeContribuinte', '')
     .notEmpty()
     .trim()
-    .isAlpha('pt-BR', { ignore: ' _-' })
+    .isAlphanumeric('pt-BR', { ignore: ' _-' })
     .isLength({ min: 2, max: 45 }),
   validator.body('cnpjCpf', '')
     .notEmpty()
