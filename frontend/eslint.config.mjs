@@ -1,7 +1,7 @@
 import globals from 'globals'
 import pluginVue from 'eslint-plugin-vue'
 import pluginVuetify from 'eslint-plugin-vuetify'
-import withNuxt from './.nuxt/eslint.config.mjs'
+import withNuxt from '.nuxt/eslint.config.mjs'
 
 export default withNuxt(
   ...pluginVue.configs['flat/recommended'],

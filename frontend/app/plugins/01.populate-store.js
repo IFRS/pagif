@@ -1,12 +1,14 @@
 import { defineNuxtPlugin, useFetch, useCookie } from '#app'
 import useToast from '~/composables/useToast'
-import { useAuthStore } from '~/stores/auth'
-import { useConfigStore } from '~/stores/config'
+import { useAuthStore } from '~/app/stores/auth'
+import { useConfigStore } from '~/app/stores/config'
 
 export default defineNuxtPlugin(async ({ $pinia }) => {
   if (import.meta.server) {
     const authStore = useAuthStore($pinia)
-    const { data, error } = await useFetch('/api/auth/me')
+    const { data, error } = await useFetch('/api/auth/me', {
+      deep: true
+    })
     if (data.value) authStore.user = data.value
     if (error.value) {
       console.error('Erro ao buscar usuário atual: ', error.value)
@@ -18,7 +20,9 @@ export default defineNuxtPlugin(async ({ $pinia }) => {
   const cookie_darkmode = useCookie('darkMode')
   const cookie_unidade = useCookie('unidade')
 
-  const { data, error } = await useFetch('/api/public/settings')
+  const { data, error } = await useFetch('/api/public/settings', {
+    deep: true
+  })
 
   if (data.value) {
     configStore.sigla = data.value.sigla
@@ -47,7 +51,9 @@ export default defineNuxtPlugin(async ({ $pinia }) => {
 
   const unidade_id = cookie_unidade.value
   if (unidade_id) {
-    const { data, error } = await useFetch(`/api/public/unidades/${unidade_id}`)
+    const { data, error } = await useFetch(`/api/public/unidades/${unidade_id}`, {
+      deep: true
+    })
 
     if (data.value) configStore.unidade = data.value
 

@@ -1,6 +1,6 @@
 import { createMongoAbility } from '@casl/ability'
 import { useNuxtApp } from '#app'
-import { useAuthStore } from '~/stores/auth'
+import { useAuthStore } from '~/app/stores/auth'
 
 export default function () {
   const { $pinia } = useNuxtApp()

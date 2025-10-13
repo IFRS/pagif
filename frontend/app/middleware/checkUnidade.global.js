@@ -1,5 +1,5 @@
 import { defineNuxtRouteMiddleware, navigateTo } from '#app'
-import { useConfigStore } from '~/stores/config'
+import { useConfigStore } from '~/app/stores/config'
 
 export default defineNuxtRouteMiddleware((to) => {
   const store = useConfigStore()
