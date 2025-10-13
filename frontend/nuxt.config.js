@@ -2,11 +2,7 @@ import { defineNuxtConfig } from 'nuxt/config'
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 
 export default defineNuxtConfig({
-  modules: [
-    '@nuxt/eslint',
-    '@pinia/nuxt',
-    'nuxt-proxy-request',
-  ],
+  modules: ['@nuxt/eslint', '@pinia/nuxt', 'nuxt-proxy-request', 'nuxt-gtag'],
 
   devtools: { enabled: true },
 
@@ -113,6 +109,13 @@ export default defineNuxtConfig({
         '^/api': '',
       },
       pathFilter: ['/api/**'],
+    },
+  },
+
+  /* GTag */
+  gtag: {
+    params: {
+      send_page_view: false,
     },
   },
 })

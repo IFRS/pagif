@@ -18,7 +18,7 @@ const layout = computed(() => {
 })
 
 const configStore = useConfigStore()
-const { darkMode, sigla } = storeToRefs(configStore)
+const { dnt, darkMode, sigla } = storeToRefs(configStore)
 
 useHead({
   titleTemplate: (titleChunk) => {
@@ -33,6 +33,16 @@ const cookie = useCookie('darkMode')
 const isDarkMode = import.meta.server ? cookie.value : darkMode.value
 
 theme.global.name.value = isDarkMode ? 'dark' : 'light'
+
+const { disableAnalytics, enableAnalytics } = useGtag()
+
+watch(dnt, (newDNT) => {
+  if (newDNT) {
+    disableAnalytics()
+  } else {
+    enableAnalytics()
+  }
+}, { immediate: true })
 </script>
 
 <style>
