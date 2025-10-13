@@ -1,5 +1,5 @@
 <script setup>
-import 'altcha'
+import 'altcha/i18n'
 
 const altchaWidget = ref(null)
 
@@ -8,16 +8,17 @@ const model = defineModel({
   required: true,
 })
 
-const i18n = JSON.stringify({
-  ariaLinkLabel: 'Visite Altcha.org',
-  error: 'Falha na verificação. Tente novamente mais tarde.',
-  expired: 'Verificação expirada. Tente novamente.',
-  footer: 'Protegido por <a href="https://altcha.org/" target="_blank" aria-label="Visite Altcha.org">ALTCHA</a>',
-  label: 'Não sou um robô',
-  verified: 'Verificado',
-  verifying: 'Verificando...',
-  waitAlert: 'Verificando... por favor aguarde.',
-})
+// globalThis.altchaI18n.set('pt-br', {
+//   ...globalThis.altchaI18n.get('pt-br'),
+//   ariaLinkLabel: 'Visite Altcha.org',
+//   error: 'Falha na verificação. Tente novamente mais tarde.',
+//   expired: 'Verificação expirada. Tente novamente.',
+//   footer: 'Protegido por <a href="https://altcha.org/" target="_blank" aria-label="Visite Altcha.org">ALTCHA</a>',
+//   label: 'Não sou um robô',
+//   verified: 'Verificado',
+//   verifying: 'Verificando...',
+//   waitAlert: 'Verificando... por favor aguarde.',
+// })
 
 const onStateChange = (ev) => {
   if ('detail' in ev) {
@@ -37,7 +38,6 @@ const onStateChange = (ev) => {
     ref="altchaWidget"
     challengeurl="/api/altcha/challenge"
     :refetchonexpire="false"
-    :strings="i18n"
     hidelogo
     class="altcha-widget"
     @load="model = ''"
