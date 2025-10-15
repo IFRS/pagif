@@ -129,7 +129,7 @@
 <script setup>
 import iFrameResize from 'iframe-resizer/js/iframeResizer'
 
-useHeadSafe({
+useHead({
   title: 'Pagamento',
 })
 

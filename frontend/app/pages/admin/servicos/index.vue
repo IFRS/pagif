@@ -132,7 +132,7 @@ definePageMeta({
   },
 })
 
-useHeadSafe({
+useHead({
   title: 'Lista de Serviços',
 })
 

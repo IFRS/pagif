@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-useHeadSafe({
+useHead({
   title: 'Escolha uma Unidade',
 })
 

@@ -16,7 +16,7 @@ definePageMeta({
   },
 })
 
-useHeadSafe({
+useHead({
   title: 'Configurações',
 })
 

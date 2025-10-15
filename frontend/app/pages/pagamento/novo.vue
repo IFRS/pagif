@@ -150,7 +150,7 @@
 <script setup>
 import copy from 'copy-to-clipboard'
 
-useHeadSafe({
+useHead({
   title: 'Novo Pagamento',
 })
 

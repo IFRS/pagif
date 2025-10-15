@@ -80,7 +80,7 @@
 <script setup>
 import { useDisplay } from 'vuetify'
 
-useHeadSafe({
+useHead({
   title: 'PagIF',
 })
 

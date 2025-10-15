@@ -80,7 +80,7 @@
 </template>
 
 <script setup>
-useHeadSafe({
+useHead({
   title: 'Área Administrativa',
 })
 

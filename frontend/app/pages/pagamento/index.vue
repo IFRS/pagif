@@ -52,7 +52,7 @@
 <script setup>
 import colors from 'vuetify/util/colors'
 
-useHeadSafe({
+useHead({
   title: 'Pagamento',
 })
 

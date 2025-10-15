@@ -24,7 +24,7 @@ definePageMeta({
   },
 })
 
-useHeadSafe({
+useHead({
   title: 'Edição de Serviço',
 })
 

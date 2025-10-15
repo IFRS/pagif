@@ -3,7 +3,7 @@ definePageMeta({
   redirect: to => ({ path: '/', query: { unidade: to.params.slug } }),
 })
 
-useHeadSafe({
+useHead({
   title: 'Redirecionando...',
 })
 </script>

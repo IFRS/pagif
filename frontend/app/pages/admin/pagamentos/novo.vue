@@ -24,7 +24,7 @@ definePageMeta({
   },
 })
 
-useHeadSafe({
+useHead({
   title: 'Nova Cobrança',
 })
 

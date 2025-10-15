@@ -24,7 +24,7 @@ definePageMeta({
   },
 })
 
-useHeadSafe({
+useHead({
   title: 'Cadastro de Nova Unidade',
 })
 

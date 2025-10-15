@@ -166,7 +166,7 @@ definePageMeta({
   },
 })
 
-useHeadSafe({
+useHead({
   title: 'Lista de Unidades',
 })
 
