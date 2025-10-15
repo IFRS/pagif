@@ -52,7 +52,7 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vuetify'],
   },
-  compatibilityDate: '2025-02-01',
+  compatibilityDate: '2025-10-15',
 
   vite: {
     css: {
