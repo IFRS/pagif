@@ -33,6 +33,6 @@ const { darkMode } = storeToRefs(configStore)
 const theme = useTheme()
 
 watch(darkMode, (newValue) => {
-  theme.global.name.value = newValue ? 'dark' : 'light'
+  newValue ? theme.change('dark') : theme.change('light')
 })
 </script>
