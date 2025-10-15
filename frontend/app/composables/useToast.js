@@ -1,5 +1,5 @@
 import { useNuxtApp } from '#app'
-import { useSnackbarStore } from '~/app/stores/snackbar'
+import { useSnackbarStore } from '~/stores/snackbar'
 
 export default function () {
   const { $pinia } = useNuxtApp()

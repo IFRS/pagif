@@ -39,7 +39,7 @@
 <script setup>
 import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Tooltip, Legend, BarController, BarElement, CategoryScale, LinearScale } from 'chart.js'
-import { useMainStore } from '~/app/stores'
+import { useMainStore } from '~/stores'
 
 ChartJS.register(Tooltip, Legend, BarController, BarElement, CategoryScale, LinearScale)
 
