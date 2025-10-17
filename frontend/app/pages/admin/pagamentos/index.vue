@@ -314,9 +314,8 @@ async function consultaPagamento(idPagamento) {
   loadingPagamento.value = idPagamento
 
   try {
-    const data = await $fetch('/api/pagamentos/update', {
+    const data = await $fetch(`/api/pagamentos/${idPagamento}`, {
       method: 'PUT',
-      body: { idPagamento: idPagamento },
       onResponse: ({ response }) => {
         if (response.status === 204) {
           useToast().info(`Pagamento ${idPagamento} sem atualizações!`)
