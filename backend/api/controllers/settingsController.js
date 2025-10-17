@@ -1,13 +1,14 @@
 import Settings from '../../db/models/Settings.js';
 import validator from 'express-validator';
-import { logger } from '../../logger/index.js';
 
-export const show = function (req, res) {
+export const show = function (req, res, next) {
   const query = Settings.findOne({});
 
   query.then((settings) => {
     if (!settings) {
-      return res.status(404).json({
+      next({
+        status: 404,
+        context: 'Configurações',
         message: 'Configurações não encontradas.',
       });
     }
@@ -15,9 +16,11 @@ export const show = function (req, res) {
     return res.json(settings.toJSON());
   })
     .catch((error) => {
-      logger.error('Erro obtendo as Configurações: %o', error);
-      return res.status(500).json({
+      next({
+        status: 500,
+        context: 'Configurações',
         message: 'Erro obtendo as Configurações.',
+        details: error,
       });
     });
 };
@@ -35,10 +38,15 @@ export const save = [
     .trim()
     .optional({ values: 'falsy' })
     .isString(),
-  function (req, res) {
+  function (req, res, next) {
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.mapped() });
+      next({
+        status: 422,
+        context: 'Salvar Configurações',
+        message: 'Dados inválidos.',
+        details: errors.mapped(),
+      });
     }
 
     const data = {
@@ -54,9 +62,11 @@ export const save = [
         return res.json(settings.toJSON());
       })
       .catch((error) => {
-        logger.error('Erro salvando Configurações: %o', error);
-        return res.status(500).json({
-          message: 'Erro salvando Configurações.',
+        next({
+          status: 500,
+          context: 'Salvar Configurações',
+          message: 'Erro salvando as Configurações.',
+          details: error,
         });
       });
   },

@@ -4,13 +4,14 @@ import validator from 'express-validator';
 import pagtesouro from '../pagtesouro.js';
 import dayjs from 'dayjs';
 import { createMongoAbility } from '@casl/ability';
-import { logger } from '../../logger/index.js';
 
-export const showPublic = function (req, res) {
+export const showPublic = function (req, res, next) {
   Pagamento.findById(req.params.id).select('-token -tipoPagamentoEscolhido -nomePSP -transacaoPSP')
     .then((pagamento) => {
       if (!pagamento) {
-        return res.status(404).json({
+        next({
+          status: 404,
+          context: 'Pagamento Público',
           message: 'Pagamento não encontrado.',
         });
       }
@@ -28,14 +29,16 @@ export const showPublic = function (req, res) {
       return res.json(pagamento);
     })
     .catch((error) => {
-      logger.error('Erro obtendo o Pagamento: %o', error);
-      return res.status(500).json({
+      next({
+        status: 500,
+        context: 'Pagamento Público',
         message: 'Erro obtendo o Pagamento.',
+        details: error,
       });
     });
 };
 
-export const list = function (req, res) {
+export const list = function (req, res, next) {
   const ability = createMongoAbility(req.session.user.abilities);
   const query = Pagamento.find({}).accessibleBy(ability).select('-token').sort('-dataCriacao');
 
@@ -66,18 +69,22 @@ export const list = function (req, res) {
     return res.json(pagamentos.map(doc => doc.toJSON()));
   })
     .catch((error) => {
-      logger.error('Erro obtendo Pagamentos: %o', error);
-      return res.status(500).json({
-        message: 'Erro obtendo Pagamentos.',
+      next({
+        status: 500,
+        context: 'Pagamentos Lista',
+        message: 'Erro obtendo lista de Pagamentos.',
+        details: error,
       });
     });
 };
 
-export const show = function (req, res) {
+export const show = function (req, res, next) {
   Pagamento.findById(req.params.id).select('-token')
     .then((pagamento) => {
       if (!pagamento) {
-        return res.status(404).json({
+        next({
+          status: 404,
+          context: 'Pagamento',
           message: 'Pagamento não encontrado.',
         });
       }
@@ -85,9 +92,11 @@ export const show = function (req, res) {
       return res.json(pagamento.toJSON());
     })
     .catch((error) => {
-      logger.error('Erro obtendo o Pagamento: %o', error);
-      return res.status(500).json({
+      next({
+        status: 500,
+        context: 'Pagamento',
         message: 'Erro obtendo o Pagamento.',
+        details: error,
       });
     });
 };
@@ -131,10 +140,15 @@ export const save = [
     .trim()
     .isInt({ allow_leading_zeroes: false })
     .isLength({ min: 1, max: 17 }),
-  function (req, res) {
+  function (req, res, next) {
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.mapped() });
+      next({
+        status: 422,
+        context: 'Salvar Pagamento',
+        message: 'Dados inválidos para criação do Pagamento.',
+        details: errors.mapped(),
+      });
     }
 
     const data = {
@@ -155,7 +169,9 @@ export const save = [
     Servico.findOne({ codigo: data.codigoServico }).populate('unidade')
       .then((servico) => {
         if (!servico) {
-          return res.status(500).json({
+          next({
+            status: 500,
+            context: 'Salvar Pagamento',
             message: `Serviço de código ${data.codigoServico} não encontrado.`,
           });
         }
@@ -176,99 +192,97 @@ export const save = [
                 return res.json(pagamento.toJSON());
               })
               .catch((error) => {
-                logger.error('Erro ao adicionar o Pagamento: %o', error);
-                return res.status(500).json({
-                  message: 'Erro ao adicionar o Pagamento.',
+                next({
+                  status: 500,
+                  context: 'Salvar Pagamento',
+                  message: 'Erro ao salvar o Pagamento.',
+                  details: error,
                 });
               });
           })
           .catch((error) => {
-            logger.error('Erro ao solicitar criação do Pagamento: %o', error);
-            return res.status(500).json({
+            next({
+              status: 500,
+              context: 'Salvar Pagamento',
               message: 'Erro ao solicitar criação do Pagamento.',
+              details: error,
             });
           });
       })
       .catch((error) => {
-        logger.error('Erro ao buscar Serviço: %o', error);
-        return res.status(500).json({
+        next({
+          status: 500,
+          context: 'Salvar Pagamento',
           message: 'Erro ao buscar Serviço.',
+          details: error,
         });
       });
   },
 ];
 
-export const update = [
-  validator.body('idPagamento', 'Identificador do Pagamento está num formato inválido.')
-    .trim()
-    .notEmpty()
-    .isAlphanumeric()
-    .isLength({ max: 50 }),
-  function (req, res) {
-    if (req.body.idPagamento) {
-      Pagamento.findById(req.body.idPagamento)
-        .then((pagamento) => {
-          if (!pagamento) {
-            return res.status(500).json([{
-              codigo: 'C0027',
-              descricao: 'Falha ao verificar a situação do pagamento.',
-            }]);
-          }
+export const update = function (req, res, next) {
+  Pagamento.findById(req.params.id)
+    .then((pagamento) => {
+      if (!pagamento) {
+        next({
+          status: 404,
+          context: 'Pagamento Atualização',
+          message: 'Pagamento não encontrado.',
+        });
+      }
 
-          pagtesouro.get(`/api/gru/pagamentos/${pagamento.idPagamento}`, { headers: { Authorization: `Bearer ${pagamento.token}` } })
-            .then((response) => {
-              let pagamentoBeforeSave = pagamento.toJSON();
-              Object.assign(pagamento, response.data);
-              pagamento.save()
-                .then((pagamentoAfterSave) => {
-                  if (JSON.stringify(pagamentoAfterSave.toJSON()) === JSON.stringify(pagamentoBeforeSave)) return res.status(204).end();
-                  return res.json(pagamentoAfterSave.toJSON({
-                    transform: function (doc, ret) {
-                      delete ret.token;
-                      return ret;
-                    },
-                  }));
-                })
-                .catch((error) => {
-                  logger.error('Erro atualizando o Pagamento: %o' + error);
-                  return res.status(500).json([{
-                    codigo: 'C0027',
-                    descricao: 'Falha ao verificar a situação do pagamento.',
-                  }]);
-                });
+      pagtesouro.get(`/api/gru/pagamentos/${pagamento.idPagamento}`, { headers: { Authorization: `Bearer ${pagamento.token}` } })
+        .then((response) => {
+          let pagamentoBeforeSave = pagamento.toJSON();
+          Object.assign(pagamento, response.data);
+          pagamento.save()
+            .then((pagamentoAfterSave) => {
+              if (JSON.stringify(pagamentoAfterSave.toJSON()) === JSON.stringify(pagamentoBeforeSave)) return res.status(204).end();
+              return res.json(pagamentoAfterSave.toJSON({
+                transform: function (doc, ret) {
+                  delete ret.token;
+                  return ret;
+                },
+              }));
             })
             .catch((error) => {
-              logger.error('Erro consultando o Pagamento: %o / %o', error, error.response?.data);
-              return res.status(500).json([{
-                codigo: 'C0027',
-                descricao: 'Falha ao verificar a situação do pagamento.',
-              }]);
+              next({
+                status: 500,
+                context: 'Pagamento Atualização',
+                message: 'Erro ao salvar o Pagamento atualizado.',
+                details: error,
+              });
             });
         })
-        .catch(() => {
-          return res.status(500).json([{
-            codigo: 'C0027',
-            descricao: 'Falha ao verificar a situação do pagamento.',
-          }]);
+        .catch((error) => {
+          next({
+            status: 500,
+            context: 'Pagamento Atualização',
+            message: 'Erro ao consultar o Pagamento.',
+            details: error,
+          });
         });
-    } else {
-      return res.status(400).json({
-        message: 'idPagamento não presente.',
-        error: null,
+    })
+    .catch(() => {
+      next({
+        status: 500,
+        context: 'Pagamento Atualização',
+        message: 'Falha ao verificar a situação do pagamento.',
       });
-    }
-  },
-];
+    });
+};
 
-export const remove = function (req, res) {
+export const remove = function (req, res, next) {
   Pagamento.findByIdAndDelete(req.params.id)
     .then((pagamento) => {
       return res.json(pagamento.toJSON());
     })
     .catch((error) => {
-      logger.error('Erro ao remover o Pagamento: %o', error);
-      return res.status(500).json({
+      next({
+        status: 500,
+        context: 'Pagamento Remoção',
         message: 'Erro ao remover o Pagamento.',
+        details: error,
       });
     });
 };

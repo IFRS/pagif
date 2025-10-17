@@ -17,6 +17,8 @@ import notifica from './routes/notifica.js';
 import usuarios from './routes/usuarios.js';
 import settings from './routes/settings.js';
 
+import errorHandler from './middleware/errorHandler.js';
+
 import me from './auth/me.js';
 import google from './auth/google.js';
 
@@ -73,5 +75,7 @@ app.use(altcha);
 app.use(notifica);
 app.use(usuarios);
 app.use(settings);
+
+app.use(errorHandler);
 
 export default app;

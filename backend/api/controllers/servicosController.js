@@ -1,9 +1,8 @@
 import Servico from '../../db/models/Servico.js';
 import validator from 'express-validator';
 import { createMongoAbility } from '@casl/ability';
-import { logger } from '../../logger/index.js';
 
-export const listPublic = function (req, res) {
+export const listPublic = function (req, res, next) {
   const unidade_id = req.query.unidade;
 
   const query = Servico.find({});
@@ -18,14 +17,16 @@ export const listPublic = function (req, res) {
     return res.json(servicos.map(doc => doc.toJSON()));
   })
     .catch((error) => {
-      logger.error('Erro obtendo Serviços: %o', error);
-      return res.status(500).json({
+      next({
+        status: 500,
+        context: 'Serviços Públicos',
         message: 'Erro obtendo Serviços.',
+        details: error,
       });
     });
 };
 
-export const list = function (req, res) {
+export const list = function (req, res, next) {
   const ability = createMongoAbility(req.session.user.abilities);
   const unidade_id = req.query.unidade;
 
@@ -46,17 +47,21 @@ export const list = function (req, res) {
     return res.json(servicos.map(doc => doc.toJSON()));
   })
     .catch((error) => {
-      logger.error('Erro obtendo Serviços: %o', error);
-      return res.status(500).json({
+      next({
+        status: 500,
+        context: 'Serviços',
         message: 'Erro obtendo Serviços.',
+        details: error,
       });
     });
 };
 
-export const show = function (req, res) {
+export const show = function (req, res, next) {
   Servico.findById(req.params.id).then((servico) => {
     if (!servico) {
-      return res.status(404).json({
+      next({
+        status: 404,
+        context: 'Serviço',
         message: 'Serviço não encontrado.',
       });
     }
@@ -64,9 +69,11 @@ export const show = function (req, res) {
     return res.json(servico.toJSON());
   })
     .catch((error) => {
-      logger.error('Erro obtendo o Serviço: %o', error);
-      return res.status(500).json({
+      next({
+        status: 500,
+        context: 'Serviço',
         message: 'Erro obtendo o Serviço.',
+        details: error,
       });
     });
 };
@@ -90,10 +97,15 @@ export const save = [
   validator.body('referencia_required', '')
     .optional({ values: 'null' })
     .isBoolean(),
-  function (req, res) {
+  function (req, res, next) {
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.mapped() });
+      next({
+        status: 422,
+        context: 'Salvar Serviço',
+        message: 'Dados inválidos.',
+        details: errors.mapped(),
+      });
     }
 
     const data = {
@@ -108,7 +120,9 @@ export const save = [
       Servico.findByIdAndUpdate(req.params.id, data, { returnDocument: 'after' })
         .then((servico) => {
           if (!servico) {
-            return res.status(404).json({
+            next({
+              status: 404,
+              context: 'Salvar Serviço',
               message: 'Serviço não encontrado.',
             });
           }
@@ -116,9 +130,11 @@ export const save = [
           return res.json(servico.toJSON());
         })
         .catch((error) => {
-          logger.error('Erro atualizando Serviço: %o', error);
-          return res.status(500).json({
-            message: 'Erro atualizando Serviço.',
+          next({
+            status: 500,
+            context: 'Salvar Serviço',
+            message: 'Erro atualizando o Serviço.',
+            details: error,
           });
         });
     } else {
@@ -129,23 +145,27 @@ export const save = [
           return res.json(servico.toJSON());
         })
         .catch((error) => {
-          logger.error('Erro ao adicionar o Serviço: %o', error);
-          return res.status(500).json({
-            message: 'Erro ao adicionar o Serviço.',
+          next({
+            status: 500,
+            context: 'Salvar Serviço',
+            message: 'Erro adicionando o Serviço.',
+            details: error,
           });
         });
     }
   },
 ];
 
-export const remove = function (req, res) {
+export const remove = function (req, res, next) {
   Servico.findByIdAndDelete(req.params.id).then((servico) => {
     return res.json(servico.toJSON());
   })
     .catch((error) => {
-      logger.error('Erro ao remover o Serviço: %o', error);
-      return res.status(500).json({
+      next({
+        status: 500,
+        context: 'Remover Serviço',
         message: 'Erro ao remover o Serviço.',
+        details: error,
       });
     });
 };

@@ -1,8 +1,7 @@
-import { logger } from '../../logger/index.js';
 import Usuario from '../../db/models/Usuario.js';
 import validator from 'express-validator';
 
-export const list = function (req, res) {
+export const list = function (req, res, next) {
   const query = Usuario.find({});
 
   query.sort('nome');
@@ -11,19 +10,35 @@ export const list = function (req, res) {
     return res.json(usuarios.map(doc => doc.toJSON()));
   })
     .catch((error) => {
-      logger.error('Erro obtendo Usuários: %o', error);
-      return res.status(500).json({
+      next({
+        status: 500,
+        context: 'Listar Usuários',
         message: 'Erro obtendo Usuários.',
+        details: error,
       });
     });
 };
 
-export const show = function (req, res) {
+export const show = function (req, res, next) {
   const query = Usuario.findById(req.params.id);
 
   query.then((usuario) => {
     if (!usuario) {
-      return res.status(404).json({
+      next({
+        status: 404,
+        context: 'Usuário',
+        message: 'Usuário não encontrado.',
+      });
+    }
+
+    return res.json(usuario.toJSON());
+  });
+
+  query.then((usuario) => {
+    if (!usuario) {
+      next({
+        status: 404,
+        context: 'Usuário',
         message: 'Usuário não encontrado.',
       });
     }
@@ -31,9 +46,11 @@ export const show = function (req, res) {
     return res.json(usuario.toJSON());
   })
     .catch((error) => {
-      logger.error('Erro obtendo o Usuário: %o', error);
-      return res.status(500).json({
+      next({
+        status: 500,
+        context: 'Usuário',
         message: 'Erro obtendo o Usuário.',
+        details: error,
       });
     });
 };
@@ -46,10 +63,15 @@ export const save = [
   validator.body('abilities', '')
     .optional()
     .isArray(),
-  function (req, res) {
+  function (req, res, next) {
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.mapped() });
+      next({
+        status: 422,
+        context: 'Salvar Usuário',
+        message: 'Dados inválidos.',
+        details: errors.mapped(),
+      });
     }
 
     const data = {
@@ -61,7 +83,9 @@ export const save = [
       Usuario.findByIdAndUpdate(req.params.id, data, { returnDocument: 'after' })
         .then((usuario) => {
           if (!usuario) {
-            return res.status(404).json({
+            next({
+              status: 404,
+              context: 'Atualizar Usuário',
               message: 'Usuário não encontrado.',
             });
           }
@@ -69,9 +93,11 @@ export const save = [
           return res.json(usuario.toJSON());
         })
         .catch((error) => {
-          logger.error('Erro atualizando Usuário: %o', error);
-          return res.status(500).json({
+          next({
+            status: 500,
+            context: 'Atualizar Usuário',
             message: 'Erro atualizando Usuário.',
+            details: error,
           });
         });
     } else {
@@ -82,24 +108,28 @@ export const save = [
           return res.json(usuario.toJSON());
         })
         .catch((error) => {
-          logger.error('Erro ao adicionar o Usuário: %o', error);
-          return res.status(500).json({
+          next({
+            status: 500,
+            context: 'Adicionar Usuário',
             message: 'Erro ao adicionar o Usuário.',
+            details: error,
           });
         });
     }
   },
 ];
 
-export const remove = function (req, res) {
+export const remove = function (req, res, next) {
   Usuario.findByIdAndDelete(req.params.id)
     .then((usuario) => {
       return res.json(usuario.toJSON());
     })
     .catch((error) => {
-      logger.error('Erro ao remover a Usuário: %o', error);
-      return res.status(500).json({
+      next({
+        status: 500,
+        context: 'Remover Usuário',
         message: 'Erro ao remover a Usuário.',
+        details: error,
       });
     });
 };

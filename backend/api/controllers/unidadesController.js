@@ -1,9 +1,8 @@
 import Unidade from '../../db/models/Unidade.js';
 import validator from 'express-validator';
 import { createMongoAbility } from '@casl/ability';
-import { logger } from '../../logger/index.js';
 
-export const listPublic = function (req, res) {
+export const listPublic = function (req, res, next) {
   const query = Unidade.find({});
 
   query.select('-token');
@@ -14,14 +13,16 @@ export const listPublic = function (req, res) {
     return res.json(unidades.map(doc => doc.toJSON()));
   })
     .catch((error) => {
-      logger.error('Erro obtendo Unidades: %o', error);
-      return res.status(500).json({
+      next({
+        status: 500,
+        context: 'Unidades Públicas',
         message: 'Erro obtendo Unidades.',
+        details: error,
       });
     });
 };
 
-export const list = function (req, res) {
+export const list = function (req, res, next) {
   const ability = createMongoAbility(req.session.user.abilities);
   let fields = req.query.fields?.split(',');
 
@@ -39,21 +40,25 @@ export const list = function (req, res) {
     return res.json(unidades.map(doc => doc.toJSON()));
   })
     .catch((error) => {
-      logger.error('Erro obtendo Unidades: %o', error);
-      return res.status(500).json({
+      next({
+        status: 500,
+        context: 'Unidades',
         message: 'Erro obtendo Unidades.',
+        details: error,
       });
     });
 };
 
-export const showPublic = function (req, res) {
+export const showPublic = function (req, res, next) {
   const query = Unidade.findById(req.params.id);
 
   query.select('-token');
 
   query.then((unidade) => {
     if (!unidade) {
-      return res.status(404).json({
+      next({
+        status: 404,
+        context: 'Unidade Pública',
         message: 'Unidade não encontrada.',
       });
     }
@@ -61,14 +66,16 @@ export const showPublic = function (req, res) {
     return res.json(unidade.toJSON());
   })
     .catch((error) => {
-      logger.error('Erro obtendo a Unidade: %o', error);
-      return res.status(500).json({
+      next({
+        status: 500,
+        context: 'Unidade Pública',
         message: 'Erro obtendo a Unidade.',
+        details: error,
       });
     });
 };
 
-export const show = function (req, res) {
+export const show = function (req, res, next) {
   const ability = createMongoAbility(req.session.user.abilities);
   let fields = req.query.fields?.split(',');
 
@@ -84,7 +91,9 @@ export const show = function (req, res) {
 
   query.then((unidade) => {
     if (!unidade) {
-      return res.status(404).json({
+      next({
+        status: 404,
+        context: 'Unidade',
         message: 'Unidade não encontrada.',
       });
     }
@@ -92,27 +101,33 @@ export const show = function (req, res) {
     return res.json(unidade.toJSON());
   })
     .catch((error) => {
-      logger.error('Erro obtendo a Unidade: %o', error);
-      return res.status(500).json({
+      next({
+        status: 500,
+        context: 'Unidade',
         message: 'Erro obtendo a Unidade.',
+        details: error,
       });
     });
 };
 
-export const token = function (req, res) {
+export const token = function (req, res, next) {
   Unidade.findById(req.params.id).select('token')
     .then((unidade) => {
       if (!unidade) {
-        return res.status(404).json({
+        next({
+          status: 404,
+          context: 'Token da Unidade',
           message: 'Unidade não encontrada.',
         });
       }
 
       return res.json(unidade.token);
     }).catch((error) => {
-      logger.error('Erro obtendo o token da Unidade: %o', error);
-      return res.status(500).json({
-        message: 'Erro obtendo o token da Unidade.',
+      next({
+        status: 500,
+        context: 'Token da Unidade',
+        message: 'Erro obtendo o token.',
+        details: error,
       });
     });
 };
@@ -142,10 +157,15 @@ export const save = [
   validator.body('contato', '')
     .optional({ values: 'falsy' })
     .isString(),
-  function (req, res) {
+  function (req, res, next) {
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.mapped() });
+      next({
+        status: 422,
+        context: 'Salvar Unidade',
+        message: 'Dados inválidos.',
+        details: errors.mapped(),
+      });
     }
 
     const data = {
@@ -162,7 +182,9 @@ export const save = [
       Unidade.findByIdAndUpdate(req.params.id, data, { returnDocument: 'after' })
         .then((unidade) => {
           if (!unidade) {
-            return res.status(404).json({
+            next({
+              status: 404,
+              context: 'Atualizar Unidade',
               message: 'Unidade não encontrada.',
             });
           }
@@ -170,9 +192,11 @@ export const save = [
           return res.json(unidade.toJSON());
         })
         .catch((error) => {
-          logger.error('Erro atualizando Unidade: %o', error);
-          return res.status(500).json({
-            message: 'Erro atualizando Unidade.',
+          next({
+            status: 500,
+            context: 'Atualizar Unidade',
+            message: 'Erro atualizando a Unidade.',
+            details: error,
           });
         });
     } else {
@@ -183,24 +207,28 @@ export const save = [
           return res.json(unidade.toJSON());
         })
         .catch((error) => {
-          logger.error('Erro ao adicionar a Unidade: %o', error);
-          return res.status(500).json({
+          next({
+            status: 500,
+            context: 'Salvar Unidade',
             message: 'Erro ao adicionar a Unidade.',
+            details: error,
           });
         });
     }
   },
 ];
 
-export const remove = function (req, res) {
+export const remove = function (req, res, next) {
   Unidade.findByIdAndDelete(req.params.id)
     .then((unidade) => {
       return res.json(unidade.toJSON());
     })
     .catch((error) => {
-      logger.error('Erro ao remover a Unidade: %o', error);
-      return res.status(500).json({
+      next({
+        status: 500,
+        context: 'Remover Unidade',
         message: 'Erro ao remover a Unidade.',
+        details: error,
       });
     });
 };

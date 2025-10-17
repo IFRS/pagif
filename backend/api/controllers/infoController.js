@@ -1,4 +1,3 @@
-import { logger } from '../../logger/index.js';
 import { createMongoAbility } from '@casl/ability';
 
 import Unidade from '../../db/models/Unidade.js';
@@ -20,7 +19,7 @@ export const count = async (req, res) => {
     });
 };
 
-export const pagamentos_por_tipo = (req, res) => {
+export const pagamentos_por_tipo = (req, res, next) => {
   const ability = createMongoAbility(req.session.user.abilities);
 
   const query = Pagamento.accessibleBy(ability).getQuery();
@@ -43,14 +42,16 @@ export const pagamentos_por_tipo = (req, res) => {
 
   aggregate.then(resultado => res.json(resultado))
     .catch((error) => {
-      logger.error('Erro obtendo informações sobre formas de pagamento: %o', error);
-      return res.status(500).json({
-        message: 'Erro obtendo Informações.',
+      next({
+        status: 500,
+        context: 'Pagamentos por Tipo',
+        message: 'Erro obtendo informações sobre pagamento por tipo.',
+        details: error,
       });
     });
 };
 
-export const pagamentos_por_servicos = (req, res) => {
+export const pagamentos_por_servicos = (req, res, next) => {
   const ability = createMongoAbility(req.session.user.abilities);
   const unidade_id = req.query.unidade;
 
@@ -81,9 +82,11 @@ export const pagamentos_por_servicos = (req, res) => {
 
   aggregate.then(resultado => res.json(resultado))
     .catch((error) => {
-      logger.error('Erro obtendo informações sobre serviços: %o', error);
-      return res.status(500).json({
-        message: 'Erro obtendo Informações.',
+      next({
+        status: 500,
+        context: 'Pagamentos por Serviços',
+        message: 'Erro obtendo informações sobre pagamentos por serviços.',
+        details: error,
       });
     });
 };
