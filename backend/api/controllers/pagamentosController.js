@@ -51,7 +51,9 @@ export const list = function (req, res, next) {
     ) {
       const datas = req.query.datas;
       query.where('situacao.data').gte(dayjs(datas[0]).startOf('day').toDate());
-      if (datas[1] && dayjs(datas[1]).isValid()) query.lte(dayjs(datas[1]).endOf('day').toDate());
+      if (datas[1] && dayjs(datas[1]).isValid()) {
+        query.where('situacao.data').lte(dayjs(datas[1]).endOf('day').toDate());
+      }
     } else {
       query.or([{ 'situacao.data': null }, { 'situacao.data': { $gte: dayjs().startOf('day').subtract(30, 'day').toDate() } }]);
     }
