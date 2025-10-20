@@ -51,6 +51,8 @@ export const handle = [
         }
 
         if (pagamento.token && pagamento.token !== bearer_token) {
+          loggerPagTesouro.warn('[Notificação Inválida] Token inválido %s para o pagamento %s', bearer_token, pagamento._id);
+
           return res.status(422).json([{
             codigo: 'C0035',
             descricao: 'Token de autenticação inválido ou inexistente.',
