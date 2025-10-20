@@ -1,6 +1,7 @@
 import Servico from '../../db/models/Servico.js';
 import validator from 'express-validator';
 import { createMongoAbility } from '@casl/ability';
+import { ApiError } from '../utils/ApiError.js';
 
 export const listPublic = function (req, res, next) {
   const unidade_id = req.query.unidade;
@@ -17,12 +18,7 @@ export const listPublic = function (req, res, next) {
     return res.json(servicos.map(doc => doc.toJSON()));
   })
     .catch((error) => {
-      next({
-        status: 500,
-        context: 'Serviços Públicos',
-        message: 'Erro obtendo Serviços.',
-        details: error,
-      });
+      return next(new ApiError('Erro obtendo Serviços públicos.', 500, error));
     });
 };
 
@@ -47,34 +43,20 @@ export const list = function (req, res, next) {
     return res.json(servicos.map(doc => doc.toJSON()));
   })
     .catch((error) => {
-      next({
-        status: 500,
-        context: 'Serviços',
-        message: 'Erro obtendo Serviços.',
-        details: error,
-      });
+      return next(new ApiError('Erro obtendo Serviços.', 500, error));
     });
 };
 
 export const show = function (req, res, next) {
   Servico.findById(req.params.id).then((servico) => {
     if (!servico) {
-      next({
-        status: 404,
-        context: 'Serviço',
-        message: 'Serviço não encontrado.',
-      });
+      return next(new ApiError(`Serviço ${req.params.id} não encontrado.`, 404));
     }
 
     return res.json(servico.toJSON());
   })
     .catch((error) => {
-      next({
-        status: 500,
-        context: 'Serviço',
-        message: 'Erro obtendo o Serviço.',
-        details: error,
-      });
+      return next(new ApiError(`Erro obtendo o Serviço ${req.params.id}.`, 500, error));
     });
 };
 
@@ -100,12 +82,7 @@ export const save = [
   function (req, res, next) {
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {
-      next({
-        status: 422,
-        context: 'Salvar Serviço',
-        message: 'Dados inválidos.',
-        details: errors.mapped(),
-      });
+      return next(new ApiError('Dados inválidos para cadastro de Serviço.', 422, errors.mapped()));
     }
 
     const data = {
@@ -120,22 +97,13 @@ export const save = [
       Servico.findByIdAndUpdate(req.params.id, data, { returnDocument: 'after' })
         .then((servico) => {
           if (!servico) {
-            next({
-              status: 404,
-              context: 'Salvar Serviço',
-              message: 'Serviço não encontrado.',
-            });
+            return next(new ApiError(`Serviço ${req.params.id} não encontrado para atualização.`, 404));
           }
 
           return res.json(servico.toJSON());
         })
         .catch((error) => {
-          next({
-            status: 500,
-            context: 'Salvar Serviço',
-            message: 'Erro atualizando o Serviço.',
-            details: error,
-          });
+          return next(new ApiError(`Erro atualizando o Serviço ${req.params.id}.`, 500, error));
         });
     } else {
       let servico = new Servico(data);
@@ -145,12 +113,7 @@ export const save = [
           return res.json(servico.toJSON());
         })
         .catch((error) => {
-          next({
-            status: 500,
-            context: 'Salvar Serviço',
-            message: 'Erro adicionando o Serviço.',
-            details: error,
-          });
+          return next(new ApiError('Erro criando o Serviço.', 500, error));
         });
     }
   },
@@ -161,11 +124,6 @@ export const remove = function (req, res, next) {
     return res.json(servico.toJSON());
   })
     .catch((error) => {
-      next({
-        status: 500,
-        context: 'Remover Serviço',
-        message: 'Erro ao remover o Serviço.',
-        details: error,
-      });
+      return next(new ApiError(`Erro ao remover o Serviço ${req.params.id}.`, 500, error));
     });
 };

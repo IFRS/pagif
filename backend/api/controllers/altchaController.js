@@ -1,4 +1,5 @@
 import { createChallenge } from 'altcha-lib';
+import { ApiError } from '../utils/ApiError.js';
 
 export const challenge = async (req, res, next) => {
   const hmacKey = process.env.ALTCHA_HMAC_KEY;
@@ -12,11 +13,6 @@ export const challenge = async (req, res, next) => {
 
     return res.json(challenge);
   } catch (error) {
-    next({
-      status: 500,
-      context: 'Altcha Challenge',
-      message: 'Erro ao criar desafio.',
-      details: error,
-    });
+    return next(new ApiError('Erro ao criar desafio do ALTCHA.', 500, error));
   }
 };

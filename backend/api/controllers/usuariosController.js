@@ -1,5 +1,6 @@
 import Usuario from '../../db/models/Usuario.js';
 import validator from 'express-validator';
+import { ApiError } from '../utils/ApiError.js';
 
 export const list = function (req, res, next) {
   const query = Usuario.find({});
@@ -10,12 +11,7 @@ export const list = function (req, res, next) {
     return res.json(usuarios.map(doc => doc.toJSON()));
   })
     .catch((error) => {
-      next({
-        status: 500,
-        context: 'Listar Usuários',
-        message: 'Erro obtendo Usuários.',
-        details: error,
-      });
+      return next(new ApiError('Erro obtendo a lista de Usuários.', 500, error));
     });
 };
 
@@ -24,34 +20,13 @@ export const show = function (req, res, next) {
 
   query.then((usuario) => {
     if (!usuario) {
-      next({
-        status: 404,
-        context: 'Usuário',
-        message: 'Usuário não encontrado.',
-      });
-    }
-
-    return res.json(usuario.toJSON());
-  });
-
-  query.then((usuario) => {
-    if (!usuario) {
-      next({
-        status: 404,
-        context: 'Usuário',
-        message: 'Usuário não encontrado.',
-      });
+      return next(new ApiError(`Usuário ${req.params.id} não encontrado.`, 404));
     }
 
     return res.json(usuario.toJSON());
   })
     .catch((error) => {
-      next({
-        status: 500,
-        context: 'Usuário',
-        message: 'Erro obtendo o Usuário.',
-        details: error,
-      });
+      return next(new ApiError(`Erro obtendo o Usuário ${req.params.id}.`, 500, error));
     });
 };
 
@@ -66,12 +41,7 @@ export const save = [
   function (req, res, next) {
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {
-      next({
-        status: 422,
-        context: 'Salvar Usuário',
-        message: 'Dados inválidos.',
-        details: errors.mapped(),
-      });
+      return next(new ApiError('Dados inválidos para salvar o Usuário.', 422, errors.mapped()));
     }
 
     const data = {
@@ -83,22 +53,13 @@ export const save = [
       Usuario.findByIdAndUpdate(req.params.id, data, { returnDocument: 'after' })
         .then((usuario) => {
           if (!usuario) {
-            next({
-              status: 404,
-              context: 'Atualizar Usuário',
-              message: 'Usuário não encontrado.',
-            });
+            return next(new ApiError(`Usuário ${req.params.id} não encontrado para atualização.`, 404));
           }
 
           return res.json(usuario.toJSON());
         })
         .catch((error) => {
-          next({
-            status: 500,
-            context: 'Atualizar Usuário',
-            message: 'Erro atualizando Usuário.',
-            details: error,
-          });
+          return next(new ApiError(`Erro ao atualizar o Usuário ${req.params.id}.`, 500, error));
         });
     } else {
       let usuario = new Usuario(data);
@@ -108,12 +69,7 @@ export const save = [
           return res.json(usuario.toJSON());
         })
         .catch((error) => {
-          next({
-            status: 500,
-            context: 'Adicionar Usuário',
-            message: 'Erro ao adicionar o Usuário.',
-            details: error,
-          });
+          return next(new ApiError('Erro ao criar o Usuário.', 500, error));
         });
     }
   },
@@ -125,11 +81,6 @@ export const remove = function (req, res, next) {
       return res.json(usuario.toJSON());
     })
     .catch((error) => {
-      next({
-        status: 500,
-        context: 'Remover Usuário',
-        message: 'Erro ao remover a Usuário.',
-        details: error,
-      });
+      return next(new ApiError(`Erro ao excluir o Usuário ${req.params.id}.`, 500, error));
     });
 };

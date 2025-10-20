@@ -4,16 +4,13 @@ import validator from 'express-validator';
 import pagtesouro from '../pagtesouro.js';
 import dayjs from 'dayjs';
 import { createMongoAbility } from '@casl/ability';
+import { ApiError } from '../utils/ApiError.js';
 
 export const showPublic = function (req, res, next) {
   Pagamento.findById(req.params.id).select('-token -tipoPagamentoEscolhido -nomePSP -transacaoPSP')
     .then((pagamento) => {
       if (!pagamento) {
-        next({
-          status: 404,
-          context: 'Pagamento Público',
-          message: 'Pagamento não encontrado.',
-        });
+        return next(new ApiError(`Pagamento ${req.params.id} não encontrado.`, 404));
       }
 
       pagamento = pagamento.toObject();
@@ -29,12 +26,7 @@ export const showPublic = function (req, res, next) {
       return res.json(pagamento);
     })
     .catch((error) => {
-      next({
-        status: 500,
-        context: 'Pagamento Público',
-        message: 'Erro obtendo o Pagamento.',
-        details: error,
-      });
+      return next(new ApiError(`Erro ao buscar o Pagamento ${req.params.id}.`, 500, error));
     });
 };
 
@@ -69,12 +61,7 @@ export const list = function (req, res, next) {
     return res.json(pagamentos.map(doc => doc.toJSON()));
   })
     .catch((error) => {
-      next({
-        status: 500,
-        context: 'Pagamentos Lista',
-        message: 'Erro obtendo lista de Pagamentos.',
-        details: error,
-      });
+      return next(new ApiError('Erro ao listar os Pagamentos.', 500, error));
     });
 };
 
@@ -82,22 +69,13 @@ export const show = function (req, res, next) {
   Pagamento.findById(req.params.id).select('-token')
     .then((pagamento) => {
       if (!pagamento) {
-        next({
-          status: 404,
-          context: 'Pagamento',
-          message: 'Pagamento não encontrado.',
-        });
+        return next(new ApiError(`Pagamento ${req.params.id} não encontrado.`, 404));
       }
 
       return res.json(pagamento.toJSON());
     })
     .catch((error) => {
-      next({
-        status: 500,
-        context: 'Pagamento',
-        message: 'Erro obtendo o Pagamento.',
-        details: error,
-      });
+      return next(new ApiError(`Erro ao buscar o Pagamento ${req.params.id}.`, 500, error));
     });
 };
 
@@ -143,12 +121,7 @@ export const save = [
   function (req, res, next) {
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {
-      next({
-        status: 422,
-        context: 'Salvar Pagamento',
-        message: 'Dados inválidos para criação do Pagamento.',
-        details: errors.mapped(),
-      });
+      return next(new ApiError('Dados inválidos para criação do Pagamento.', 422, errors.mapped()));
     }
 
     const data = {
@@ -169,11 +142,7 @@ export const save = [
     Servico.findOne({ codigo: data.codigoServico }).populate('unidade')
       .then((servico) => {
         if (!servico) {
-          next({
-            status: 500,
-            context: 'Salvar Pagamento',
-            message: `Serviço de código ${data.codigoServico} não encontrado.`,
-          });
+          return next(new ApiError(`Serviço de código ${data.codigoServico} não encontrado para criação do Pagamento.`, 404));
         }
 
         data.token = servico.unidade.token;
@@ -192,30 +161,15 @@ export const save = [
                 return res.json(pagamento.toJSON());
               })
               .catch((error) => {
-                next({
-                  status: 500,
-                  context: 'Salvar Pagamento',
-                  message: 'Erro ao salvar o Pagamento.',
-                  details: error,
-                });
+                next(new ApiError('Erro ao salvar o Pagamento.', 500, error));
               });
           })
           .catch((error) => {
-            next({
-              status: 500,
-              context: 'Salvar Pagamento',
-              message: 'Erro ao solicitar criação do Pagamento.',
-              details: error,
-            });
+            next(new ApiError('Erro ao solicitar criação do Pagamento para o PagTesouro.', 500, error));
           });
       })
       .catch((error) => {
-        next({
-          status: 500,
-          context: 'Salvar Pagamento',
-          message: 'Erro ao buscar Serviço.',
-          details: error,
-        });
+        next(new ApiError('Erro ao buscar o Serviço para criação do Pagamento.', 500, error));
       });
   },
 ];
@@ -224,11 +178,7 @@ export const update = function (req, res, next) {
   Pagamento.findById(req.params.id)
     .then((pagamento) => {
       if (!pagamento) {
-        next({
-          status: 404,
-          context: 'Pagamento Atualização',
-          message: 'Pagamento não encontrado.',
-        });
+        return next(new ApiError(`Pagamento ${req.params.id} não encontrado para atualização.`, 404));
       }
 
       pagtesouro.get(`/api/gru/pagamentos/${pagamento.idPagamento}`, { headers: { Authorization: `Bearer ${pagamento.token}` } })
@@ -246,29 +196,15 @@ export const update = function (req, res, next) {
               }));
             })
             .catch((error) => {
-              next({
-                status: 500,
-                context: 'Pagamento Atualização',
-                message: 'Erro ao salvar o Pagamento atualizado.',
-                details: error,
-              });
+              return next(new ApiError(`Erro ao salvar o Pagamento ${req.params.id} atualizado.`, 500, error));
             });
         })
         .catch((error) => {
-          next({
-            status: 500,
-            context: 'Pagamento Atualização',
-            message: 'Erro ao consultar o Pagamento.',
-            details: error,
-          });
+          return next(new ApiError(`Erro ao consultar o Pagamento ${req.params.id} no PagTesouro para atualização.`, 500, error));
         });
     })
-    .catch(() => {
-      next({
-        status: 500,
-        context: 'Pagamento Atualização',
-        message: 'Falha ao verificar a situação do pagamento.',
-      });
+    .catch((error) => {
+      return next(new ApiError(`Erro ao buscar o Pagamento ${req.params.id} para atualização.`, 500, error));
     });
 };
 
@@ -278,11 +214,6 @@ export const remove = function (req, res, next) {
       return res.json(pagamento.toJSON());
     })
     .catch((error) => {
-      next({
-        status: 500,
-        context: 'Pagamento Remoção',
-        message: 'Erro ao remover o Pagamento.',
-        details: error,
-      });
+      return next(new ApiError(`Erro ao remover o Pagamento ${req.params.id}.`, 500, error));
     });
 };

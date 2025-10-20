@@ -1,27 +1,19 @@
 import Settings from '../../db/models/Settings.js';
 import validator from 'express-validator';
+import { ApiError } from '../utils/ApiError.js';
 
 export const show = function (req, res, next) {
   const query = Settings.findOne({});
 
   query.then((settings) => {
     if (!settings) {
-      next({
-        status: 404,
-        context: 'Configurações',
-        message: 'Configurações não encontradas.',
-      });
+      return next(new ApiError('Configurações não encontradas.', 404));
     }
 
     return res.json(settings.toJSON());
   })
     .catch((error) => {
-      next({
-        status: 500,
-        context: 'Configurações',
-        message: 'Erro obtendo as Configurações.',
-        details: error,
-      });
+      return next(new ApiError('Erro obtendo as Configurações.', 500, error));
     });
 };
 
@@ -41,12 +33,7 @@ export const save = [
   function (req, res, next) {
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {
-      next({
-        status: 422,
-        context: 'Salvar Configurações',
-        message: 'Dados inválidos.',
-        details: errors.mapped(),
-      });
+      return next(new ApiError('Dados inválidos para salvar as Configurações.', 422, errors.mapped()));
     }
 
     const data = {
@@ -62,12 +49,7 @@ export const save = [
         return res.json(settings.toJSON());
       })
       .catch((error) => {
-        next({
-          status: 500,
-          context: 'Salvar Configurações',
-          message: 'Erro salvando as Configurações.',
-          details: error,
-        });
+        return next(new ApiError('Erro salvando as Configurações.', 500, error));
       });
   },
 ];

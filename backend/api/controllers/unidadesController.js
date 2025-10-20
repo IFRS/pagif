@@ -1,6 +1,7 @@
 import Unidade from '../../db/models/Unidade.js';
 import validator from 'express-validator';
 import { createMongoAbility } from '@casl/ability';
+import { ApiError } from '../utils/ApiError.js';
 
 export const listPublic = function (req, res, next) {
   const query = Unidade.find({});
@@ -13,12 +14,7 @@ export const listPublic = function (req, res, next) {
     return res.json(unidades.map(doc => doc.toJSON()));
   })
     .catch((error) => {
-      next({
-        status: 500,
-        context: 'Unidades Públicas',
-        message: 'Erro obtendo Unidades.',
-        details: error,
-      });
+      return next(new ApiError('Erro obtendo Unidades públicas.', 500, error));
     });
 };
 
@@ -40,12 +36,7 @@ export const list = function (req, res, next) {
     return res.json(unidades.map(doc => doc.toJSON()));
   })
     .catch((error) => {
-      next({
-        status: 500,
-        context: 'Unidades',
-        message: 'Erro obtendo Unidades.',
-        details: error,
-      });
+      return next(new ApiError('Erro obtendo Unidades.', 500, error));
     });
 };
 
@@ -56,22 +47,13 @@ export const showPublic = function (req, res, next) {
 
   query.then((unidade) => {
     if (!unidade) {
-      next({
-        status: 404,
-        context: 'Unidade Pública',
-        message: 'Unidade não encontrada.',
-      });
+      return next(new ApiError(`Unidade ${req.params.id} não encontrada.`, 404));
     }
 
     return res.json(unidade.toJSON());
   })
     .catch((error) => {
-      next({
-        status: 500,
-        context: 'Unidade Pública',
-        message: 'Erro obtendo a Unidade.',
-        details: error,
-      });
+      return next(new ApiError(`Erro obtendo a Unidade pública ${req.params.id}.`, 500, error));
     });
 };
 
@@ -91,22 +73,13 @@ export const show = function (req, res, next) {
 
   query.then((unidade) => {
     if (!unidade) {
-      next({
-        status: 404,
-        context: 'Unidade',
-        message: 'Unidade não encontrada.',
-      });
+      return next(new ApiError(`Unidade ${req.params.id} não encontrada.`, 404));
     }
 
     return res.json(unidade.toJSON());
   })
     .catch((error) => {
-      next({
-        status: 500,
-        context: 'Unidade',
-        message: 'Erro obtendo a Unidade.',
-        details: error,
-      });
+      return next(new ApiError(`Erro obtendo a Unidade ${req.params.id}.`, 500, error));
     });
 };
 
@@ -114,21 +87,12 @@ export const token = function (req, res, next) {
   Unidade.findById(req.params.id).select('token')
     .then((unidade) => {
       if (!unidade) {
-        next({
-          status: 404,
-          context: 'Token da Unidade',
-          message: 'Unidade não encontrada.',
-        });
+        return next(new ApiError(`Unidade ${req.params.id} não encontrada para obtenção do token.`, 404));
       }
 
       return res.json(unidade.token);
     }).catch((error) => {
-      next({
-        status: 500,
-        context: 'Token da Unidade',
-        message: 'Erro obtendo o token.',
-        details: error,
-      });
+      return next(new ApiError(`Erro obtendo o token da Unidade ${req.params.id}.`, 500, error));
     });
 };
 
@@ -160,12 +124,7 @@ export const save = [
   function (req, res, next) {
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {
-      next({
-        status: 422,
-        context: 'Salvar Unidade',
-        message: 'Dados inválidos.',
-        details: errors.mapped(),
-      });
+      return next(new ApiError('Dados inválidos para salvar a Unidade.', 422, errors.mapped()));
     }
 
     const data = {
@@ -182,22 +141,13 @@ export const save = [
       Unidade.findByIdAndUpdate(req.params.id, data, { returnDocument: 'after' })
         .then((unidade) => {
           if (!unidade) {
-            next({
-              status: 404,
-              context: 'Atualizar Unidade',
-              message: 'Unidade não encontrada.',
-            });
+            return next(new ApiError(`Unidade ${req.params.id} não encontrada para atualização.`, 404));
           }
 
           return res.json(unidade.toJSON());
         })
         .catch((error) => {
-          next({
-            status: 500,
-            context: 'Atualizar Unidade',
-            message: 'Erro atualizando a Unidade.',
-            details: error,
-          });
+          return next(new ApiError(`Erro ao atualizar a Unidade ${req.params.id}.`, 500, error));
         });
     } else {
       let unidade = new Unidade(data);
@@ -207,12 +157,7 @@ export const save = [
           return res.json(unidade.toJSON());
         })
         .catch((error) => {
-          next({
-            status: 500,
-            context: 'Salvar Unidade',
-            message: 'Erro ao adicionar a Unidade.',
-            details: error,
-          });
+          return next(new ApiError('Erro ao criar a Unidade.', 500, error));
         });
     }
   },
@@ -224,11 +169,6 @@ export const remove = function (req, res, next) {
       return res.json(unidade.toJSON());
     })
     .catch((error) => {
-      next({
-        status: 500,
-        context: 'Remover Unidade',
-        message: 'Erro ao remover a Unidade.',
-        details: error,
-      });
+      return next(new ApiError(`Erro ao excluir a Unidade ${req.params.id}.`, 500, error));
     });
 };

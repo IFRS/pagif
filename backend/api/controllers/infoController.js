@@ -3,8 +3,9 @@ import { createMongoAbility } from '@casl/ability';
 import Unidade from '../../db/models/Unidade.js';
 import Servico from '../../db/models/Servico.js';
 import Pagamento from '../../db/models/Pagamento.js';
+import { ApiError } from '../utils/ApiError.js';
 
-export const count = async (req, res) => {
+export const count = async (req, res, next) => {
   const unidades = Unidade.countDocuments().exec();
   const servicos = Servico.countDocuments().exec();
   const pagamentos = Pagamento.countDocuments().exec();
@@ -16,6 +17,9 @@ export const count = async (req, res) => {
       if (responses[1].status === 'fulfilled') result.servicos = responses[1].value;
       if (responses[2].status === 'fulfilled') result.pagamentos = responses[2].value;
       res.json(result);
+    })
+    .catch((error) => {
+      return next(new ApiError('Erro ao contar documentos.', 500, error));
     });
 };
 
@@ -42,12 +46,7 @@ export const pagamentos_por_tipo = (req, res, next) => {
 
   aggregate.then(resultado => res.json(resultado))
     .catch((error) => {
-      next({
-        status: 500,
-        context: 'Pagamentos por Tipo',
-        message: 'Erro obtendo informações sobre pagamento por tipo.',
-        details: error,
-      });
+      return next(new ApiError('Erro obtendo estatísticas sobre pagamentos por tipo.', 500, error));
     });
 };
 
@@ -82,11 +81,6 @@ export const pagamentos_por_servicos = (req, res, next) => {
 
   aggregate.then(resultado => res.json(resultado))
     .catch((error) => {
-      next({
-        status: 500,
-        context: 'Pagamentos por Serviços',
-        message: 'Erro obtendo informações sobre pagamentos por serviços.',
-        details: error,
-      });
+      return next(new ApiError('Erro obtendo estatísticas sobre pagamentos por serviços.', 500, error));
     });
 };

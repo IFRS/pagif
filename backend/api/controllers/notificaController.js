@@ -65,12 +65,12 @@ export const handle = [
 
           return res.status(200).end();
         } catch (error) {
-          logger.error('[Fila] Erro adicionando tarefa: %o', error);
+          logger.error('[Fila] Erro adicionando tarefa para o Pagamento %s: %o', pagamento._id, error);
           return res.status(500).end();
         }
       })
       .catch((error) => {
-        logger.error('[Fila] Erro buscando o pagamento: %o', error);
+        logger.error(`[Fila] Erro buscando o pagamento %s: %o`, req.body.idPagamento, error);
         return res.status(500).json([{
           codigo: 'C0027',
           descricao: 'Falha ao verificar a situação do pagamento.',
