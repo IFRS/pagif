@@ -23,7 +23,12 @@ router.post('/auth/google/login', async function (req, res) {
 
         await usuario.save();
 
-        req.session.cookie.maxAge = userInfo.exp;
+        if (userInfo.exp) {
+          const expiresAtMs = userInfo.exp * 1000;
+          const ttl = Math.max(0, expiresAtMs - Date.now());
+          req.session.cookie.maxAge = ttl || undefined;
+        }
+
         req.session.user = usuario.toJSON();
 
         return res.json(usuario.toJSON());

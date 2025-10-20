@@ -240,14 +240,14 @@ async function criarPagamento() {
 
 async function toClipboard(text) {
   let copiou = false
-  if (Navigator.clipboard) {
-    await Navigator.clipboard.writeText(text)
+  if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+    await navigator.clipboard.writeText(text)
       .then(() => {
         copiou = true
       }, () => {
         copiou = false
       })
-  } else if (copy(text, { format: 'text/plain' })) {
+  } else if (copy && copy(text, { format: 'text/plain' })) {
     copiou = true
   } else {
     copiou = false
