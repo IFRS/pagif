@@ -24,6 +24,7 @@
     "dayjs": "^1.11.7",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
     "express-session": "^1.17.3",
     "express-validator": "^7.0.1",
     "google-auth-library": "^10.4.0",

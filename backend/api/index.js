@@ -6,6 +6,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import session from 'express-session';
 import MongoDBStore from 'connect-mongodb-session';
+import rateLimit from 'express-rate-limit';
 
 import health from './routes/health.js';
 import info from './routes/info.js';
@@ -58,15 +59,23 @@ app.use(session({
   saveUninitialized: true,
 }));
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 100, // Limita cada IP em 100 tentativas a cada tempo 'windowMs'
+  message: { message: 'Muitas solicitações, por favor tente novamente mais tarde.' },
+});
+
+app.use(limiter); // Rate limiting para todas as rotas
+
 app.use(me);
 app.use(google);
+app.use(health);
 
 // Add development latency
 if (process.env.NODE_ENV === 'development') {
   app.use((req, res, next) => setTimeout(next, 999));
 }
 
-app.use(health);
 app.use(info);
 app.use(unidades);
 app.use(servicos);
