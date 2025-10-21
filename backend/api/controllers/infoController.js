@@ -84,3 +84,83 @@ export const pagamentos_por_servicos = (req, res, next) => {
       return next(new ApiError('Erro obtendo estatísticas sobre pagamentos por serviços.', 500, error));
     });
 };
+
+export const pagamentos_por_mes_ano = (req, res, next) => {
+  const ability = createMongoAbility(req.session.user.abilities);
+  const unidade_id = req.query.unidade;
+
+  const query = Pagamento.accessibleBy(ability);
+
+  if (unidade_id) {
+    query.where({ unidade: unidade_id });
+  }
+  // Pipeline: agrupar por situação e por período (mês+ano), retornando
+  // labels no formato "YYYY-MM" e datasets alinhados cronologicamente.
+  const aggregate = Pagamento.aggregate([
+    {
+      $match: {
+        $and: [
+          query.getQuery(),
+          { dataCriacao: { $exists: true, $ne: null } },
+        ],
+      },
+    },
+    {
+      $project: {
+        period: { $dateToString: { format: '%Y-%m', date: '$dataCriacao' } },
+        year: { $year: '$dataCriacao' },
+        month: { $month: '$dataCriacao' },
+        situacaoCodigo: { $ifNull: ['$situacao.codigo', 'DESCONHECIDO'] },
+      },
+    },
+    {
+      $group: {
+        _id: { situacao: '$situacaoCodigo', period: '$period', year: '$year', month: '$month' },
+        count: { $sum: 1 },
+      },
+    },
+    // Ordena por situação e por período cronológico
+    { $sort: { '_id.situacao': 1, '_id.year': 1, '_id.month': 1 } },
+    {
+      $group: {
+        _id: '$_id.situacao',
+        periods: { $push: { period: '$_id.period', year: '$_id.year', month: '$_id.month', count: '$count' } },
+        total: { $sum: '$count' },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        situacao: '$_id',
+        periods: 1,
+        total: 1,
+      },
+    },
+    { $sort: { situacao: 1 } },
+  ]);
+  aggregate.then((resultado) => {
+    // resultado: [{ situacao, periods: [{period, year, month, count}], total }, ...]
+    // Construir labels globais (periodos YYYY-MM) e datasets alinhados para Chart.js
+    const periodsSet = new Set();
+    resultado.forEach((s) => {
+      (s.periods || []).forEach(p => periodsSet.add(p.period));
+    });
+
+    // Ordenar os periods cronologicamente: 'YYYY-MM' sort lexicograficamente funciona
+    const labels = Array.from(periodsSet).sort();
+
+    const datasets = resultado.map((s) => {
+      const periodMap = new Map((s.periods || []).map(p => [p.period, p.count]));
+      const data = labels.map(period => periodMap.get(period) || 0);
+      return {
+        label: s.situacao,
+        data,
+      };
+    });
+
+    res.json({ labels, datasets });
+  })
+    .catch((error) => {
+      return next(new ApiError('Erro obtendo estatísticas sobre pagamentos por ano.', 500, error));
+    });
+};

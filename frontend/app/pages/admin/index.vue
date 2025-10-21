@@ -35,6 +35,22 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <v-row>
+      <v-col>
+        <v-card
+          title="Pagamentos por Mês/Ano"
+          subtitle="Exibe a quantidade de Pagamentos por Mês e Ano de cada forma de pagamento."
+          variant="flat"
+          class="h-100 text-center"
+        >
+          <v-card-text>
+            <ChartsPagamentosPorMesAno />
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+
     <v-row justify="center">
       <v-col
         v-if="numUnidades"

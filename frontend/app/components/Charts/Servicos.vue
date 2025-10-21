@@ -8,7 +8,7 @@
       v-model="unidade"
       prepend-inner-icon="mdi-office-building-marker"
       label="Unidade Gestora"
-      variant="solo"
+      variant="filled"
       density="comfortable"
       clearable
       :loading="statusUnidades == 'pending'"
