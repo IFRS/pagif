@@ -4,7 +4,7 @@
     :timeout="5000"
     :color="color"
     multi-line
-    vertical
+    :vertical="details"
   >
     <v-icon start>
       {{ icon }}
