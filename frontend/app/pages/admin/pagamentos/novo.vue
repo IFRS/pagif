@@ -44,7 +44,7 @@ async function handleSubmit() {
     useToast().success('Cobrança cadastrada com sucesso!')
     await navigateTo({ path: '/admin/pagamentos' })
   } catch (error) {
-    useToast().error('Ocorreu um erro ao cadastrar a Cobrança. ' + error.value.message)
+    useToast().error('Ocorreu um erro ao cadastrar a Cobrança. ' + error.value.message, error.value.details)
     console.error(error)
   } finally {
     submitting.value = false

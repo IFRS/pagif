@@ -231,7 +231,7 @@ async function criarPagamento() {
 
     pagamentoConcluido.value = true
   } catch (error) {
-    useToast().error('Ocorreu um erro ao criar o Pagamento.', error.details ?? undefined)
+    useToast().error('Ocorreu um erro ao criar o Pagamento.', error.details)
     console.error(error)
   } finally {
     criandoPagamento.value = false
