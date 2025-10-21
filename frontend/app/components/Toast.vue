@@ -4,11 +4,13 @@
     :timeout="5000"
     :color="color"
     multi-line
+    vertical
   >
     <v-icon start>
       {{ icon }}
     </v-icon>
     {{ text }}
+    {{ details }}
     <template #actions>
       <v-btn
         color="white"
@@ -23,5 +25,5 @@
 
 <script setup>
 const snackbarStore = useSnackbarStore()
-const { showing, color, icon, text } = storeToRefs(snackbarStore)
+const { showing, color, icon, text, details } = storeToRefs(snackbarStore)
 </script>

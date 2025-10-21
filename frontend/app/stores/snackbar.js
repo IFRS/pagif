@@ -2,6 +2,7 @@ export const useSnackbarStore = defineStore('snackbar', {
   state: () => ({
     showing: false,
     text: '',
+    details: undefined,
     color: '',
     icon: '',
   }),
@@ -9,7 +10,8 @@ export const useSnackbarStore = defineStore('snackbar', {
   actions: {
     show(payload) {
       this.showing = true
-      this.text = payload.text
+      this.text = payload.text ?? ''
+      this.details = payload.details ?? undefined
       switch (payload.type) {
         case 'info':
           this.color = 'info'
@@ -36,17 +38,17 @@ export const useSnackbarStore = defineStore('snackbar', {
     hide() {
       this.$reset()
     },
-    info(text) {
-      this.show({ text, type: 'info' })
+    info(text, details) {
+      this.show({ text, details, type: 'info' })
     },
-    success(text) {
-      this.show({ text, type: 'success' })
+    success(text, details) {
+      this.show({ text, details, type: 'success' })
     },
-    warning(text) {
-      this.show({ text, type: 'warning' })
+    warning(text, details) {
+      this.show({ text, details, type: 'warning' })
     },
-    error(text) {
-      this.show({ text, type: 'error' })
+    error(text, details) {
+      this.show({ text, details, type: 'error' })
     },
   },
 })
