@@ -8,7 +8,7 @@ O sistema é dividido em dois "serviços", um para o _backend_ e outro para o _f
 
 ### Backend
 
-O backend é desenvolvido em [NodeJS](https://nodejs.org/) com [Express](https://expressjs.com/) e banco de dados MongoDB através do [Mongoose](https://mongoosejs.com/). Confira abaixo os comandos disponíveis.
+O _backend_ é desenvolvido em [NodeJS](https://nodejs.org/) com [Express](https://expressjs.com/) e banco de dados MongoDB através do [Mongoose](https://mongoosejs.com/). Confira abaixo os comandos disponíveis.
 
 
 ```bash
@@ -30,7 +30,7 @@ $ npm run start
 
 ### Frontend
 
-O _frontend_ é desenvolvido com [Nuxt 3](https://nuxt.com/). Confira abaixo os comandos disponíveis.
+O _frontend_ é desenvolvido com [VueJS 3](https://vuejs.org/) + [Nuxt 4](https://nuxt.com/), usando [Vuetify](https://vuetifyjs.com/) como biblioteca UI. Confira abaixo os comandos disponíveis.
 
 ```bash
 # instalação de dependências
@@ -66,6 +66,15 @@ $ npm run superadmin email@example.com
 ```
 
 **Atenção:** O comando acima deve ser rodado no _console_ do _backend_.
+
+## Deploy
+
+O _deploy_ é feito com **Docker Compose**. Já há configurações adequadas para geração das imagens e criação dos containers.
+
+```bash
+# inicia a stack (todos os containers necessários) construindo as imagens antes
+docker compose up -d --build
+```
 
 ## Contribuição
 
