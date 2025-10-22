@@ -3,7 +3,7 @@
 ## Overview
 PagIF is a payment system integrated with PagTesouro, split into two main services:
 - **Backend**: Node.js + Express, MongoDB (via Mongoose)
-- **Frontend**: Nuxt 3 (Vue), Pinia, Vuetify
+- **Frontend**: Nuxt 4 (Vue), Pinia, Vuetify
 
 ## Architecture & Data Flow
 - **Backend** (`backend/`): Handles API, authentication, business logic, and DB models. Entry point: `index.js`.
@@ -13,7 +13,7 @@ PagIF is a payment system integrated with PagTesouro, split into two main servic
   - DB models/scripts: `db/models/`, `db/scripts/`
   - Logging: `log/logger/`
   - Queue: `queue/`
-- **Frontend** (`frontend/`): SPA with Nuxt 3, using Pinia for state and Vuetify for UI.
+- **Frontend** (`frontend/`): SPA with Nuxt 4, using Pinia for state and Vuetify for UI.
   - Main app: `app/`
   - Components: `components/`
   - Pages: `pages/`
@@ -41,7 +41,7 @@ PagIF is a payment system integrated with PagTesouro, split into two main servic
   - Logging via Winston in `log/logger/`.
   - Queue processing in `queue/`.
 - **Frontend**:
-  - Nuxt 3 file-based routing in `pages/`.
+  - Nuxt 4 file-based routing in `pages/`.
   - State managed by Pinia stores in `stores/`.
   - UI components in `components/`, organized by feature.
   - Custom composables in `composables/` for ACL, masking, toast, etc.
