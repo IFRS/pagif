@@ -1,4 +1,4 @@
-FROM node:22-alpine AS build
+FROM node:22-slim AS build
 
 WORKDIR /home/node/app
 
@@ -7,7 +7,7 @@ COPY . .
 RUN npm --loglevel error install
 RUN npm run build
 
-FROM node:22-alpine AS app
+FROM node:22-slim AS app
 
 USER node
 
