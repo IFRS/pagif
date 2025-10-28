@@ -17,6 +17,7 @@ pulse.define('update pagamentos', async (job) => {
         logger.error('[Fila] Pagamento não encontrado.');
         await job.fail('Pagamento não encontrado.');
         await job.save();
+        return;
       }
 
       await pagtesouro.get(`/api/gru/pagamentos/${pagamento.idPagamento}`, { headers: { Authorization: `Bearer ${pagamento.token}` } })
