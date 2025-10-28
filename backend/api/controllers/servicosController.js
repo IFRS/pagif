@@ -120,9 +120,10 @@ export const save = [
 ];
 
 export const remove = function (req, res, next) {
-  Servico.findByIdAndDelete(req.params.id).then((servico) => {
-    return res.json(servico.toJSON());
-  })
+  Servico.findByIdAndDelete(req.params.id)
+    .then((servico) => {
+      return res.json(servico?.toJSON());
+    })
     .catch((error) => {
       return next(new ApiError(`Erro ao remover o Serviço ${req.params.id}.`, 500, error));
     });

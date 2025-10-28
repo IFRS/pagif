@@ -78,7 +78,7 @@ export const save = [
 export const remove = function (req, res, next) {
   Usuario.findByIdAndDelete(req.params.id)
     .then((usuario) => {
-      return res.json(usuario.toJSON());
+      return res.json(usuario?.toJSON());
     })
     .catch((error) => {
       return next(new ApiError(`Erro ao excluir o Usuário ${req.params.id}.`, 500, error));

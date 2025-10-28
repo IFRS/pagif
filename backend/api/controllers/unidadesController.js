@@ -166,7 +166,7 @@ export const save = [
 export const remove = function (req, res, next) {
   Unidade.findByIdAndDelete(req.params.id)
     .then((unidade) => {
-      return res.json(unidade.toJSON());
+      return res.json(unidade?.toJSON());
     })
     .catch((error) => {
       return next(new ApiError(`Erro ao excluir a Unidade ${req.params.id}.`, 500, error));

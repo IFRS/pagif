@@ -213,7 +213,7 @@ export const update = function (req, res, next) {
 export const remove = function (req, res, next) {
   Pagamento.findByIdAndDelete(req.params.id)
     .then((pagamento) => {
-      return res.json(pagamento.toJSON());
+      return res.json(pagamento?.toJSON());
     })
     .catch((error) => {
       return next(new ApiError(`Erro ao remover o Pagamento ${req.params.id}.`, 500, error));
