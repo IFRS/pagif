@@ -7,10 +7,10 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 function valor_formatter(valor) {
-  let valor_formatted = String(valor).padStart(3, '0');
-  valor_formatted = valor_formatted.split('');
-  valor_formatted.splice(-2, 0, '.');
-  valor_formatted = valor_formatted.join('');
+  let valor_string = String(valor).padStart(3, '0');
+  let valor_array = valor_string.split('');
+  valor_array.splice(-2, 0, '.');
+  let valor_formatted = valor_array.join('');
   return valor_formatted;
 }
 
@@ -67,7 +67,7 @@ const pagtesouro = axios.create({
         }
       }
 
-      if (Object.prototype.hasOwnProperty.call(data, 'valorPrincipal') && data.valorPrincipal) {
+      if (Object.prototype.hasOwnProperty.call(data, 'valorPrincipal') && (data.valorPrincipal || data.valorPrincipal === 0)) {
         let valorPrincipal = valor_formatter(data.valorPrincipal);
 
         if (valorPrincipal) {
@@ -77,7 +77,7 @@ const pagtesouro = axios.create({
         }
       }
 
-      if (Object.prototype.hasOwnProperty.call(data, 'valorDescontos') && data.valorDescontos) {
+      if (Object.prototype.hasOwnProperty.call(data, 'valorDescontos') && (data.valorDescontos || data.valorDescontos === 0)) {
         let valorDescontos = valor_formatter(data.valorDescontos);
 
         if (valorDescontos) {
@@ -87,7 +87,7 @@ const pagtesouro = axios.create({
         }
       }
 
-      if (Object.prototype.hasOwnProperty.call(data, 'valorOutrasDeducoes') && data.valorOutrasDeducoes) {
+      if (Object.prototype.hasOwnProperty.call(data, 'valorOutrasDeducoes') && (data.valorOutrasDeducoes || data.valorOutrasDeducoes === 0)) {
         let valorOutrasDeducoes = valor_formatter(data.valorOutrasDeducoes);
 
         if (valorOutrasDeducoes) {
@@ -97,7 +97,7 @@ const pagtesouro = axios.create({
         }
       }
 
-      if (Object.prototype.hasOwnProperty.call(data, 'valorMulta') && data.valorMulta) {
+      if (Object.prototype.hasOwnProperty.call(data, 'valorMulta') && (data.valorMulta || data.valorMulta === 0)) {
         let valorMulta = valor_formatter(data.valorMulta);
 
         if (valorMulta) {
@@ -107,7 +107,7 @@ const pagtesouro = axios.create({
         }
       }
 
-      if (Object.prototype.hasOwnProperty.call(data, 'valorJuros') && data.valorJuros) {
+      if (Object.prototype.hasOwnProperty.call(data, 'valorJuros') && (data.valorJuros || data.valorJuros === 0)) {
         let valorJuros = valor_formatter(data.valorJuros);
 
         if (valorJuros) {
@@ -117,7 +117,7 @@ const pagtesouro = axios.create({
         }
       }
 
-      if (Object.prototype.hasOwnProperty.call(data, 'valorOutrosAcrescimos') && data.valorOutrosAcrescimos) {
+      if (Object.prototype.hasOwnProperty.call(data, 'valorOutrosAcrescimos') && (data.valorOutrosAcrescimos || data.valorOutrosAcrescimos === 0)) {
         let valorOutrosAcrescimos = valor_formatter(data.valorOutrosAcrescimos);
 
         if (valorOutrosAcrescimos) {
