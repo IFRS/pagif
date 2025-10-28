@@ -247,7 +247,7 @@ async function toClipboard(text) {
       }, () => {
         copiou = false
       })
-  } else if (copy && copy(text, { format: 'text/plain' })) {
+  } else if (typeof copy !== 'undefined' && copy(text, { format: 'text/plain' })) {
     copiou = true
   } else {
     copiou = false
