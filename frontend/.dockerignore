@@ -1,0 +1,8 @@
+.git/
+.nuxt/
+.output/
+node_modules/
+.env.example
+.gitignore
+eslint.config.mjs
+Dockerfile

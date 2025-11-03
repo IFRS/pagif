@@ -1,0 +1,62 @@
+<template>
+  <v-container>
+    <v-row>
+      <v-col>
+        <PageTitle>Novo Usu&aacute;rio</PageTitle>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <FormUsuario
+          :submitting="submitting"
+          @ok="handleSubmit"
+          @cancel="handleCancel"
+        />
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script setup>
+definePageMeta({
+  validate: async () => {
+    return useACL().can('create', 'Usuario')
+  },
+})
+
+useHead({
+  title: 'Cadastro de Novo Usuário',
+})
+
+const usuarioStore = useUsuarioStore()
+
+const submitting = ref(false)
+
+onBeforeRouteLeave(() => {
+  usuarioStore.$reset()
+})
+
+async function handleSubmit() {
+  submitting.value = true
+
+  try {
+    await $fetch('/api/usuarios', {
+      method: 'POST',
+      body: { ...usuarioStore.$state },
+    })
+
+    useToast().success('Usuário cadastrado com sucesso!')
+    await navigateTo({ path: '/admin/usuarios' })
+  } catch (error) {
+    useToast().error('Ocorreu um erro ao cadastrar o Usuário. ' + error.message)
+    console.error(error)
+  } finally {
+    submitting.value = false
+  }
+}
+
+async function handleCancel() {
+  useToast().info('Cadastro de Usuário cancelado.')
+  await navigateTo({ path: '/admin/usuarios' })
+}
+</script>

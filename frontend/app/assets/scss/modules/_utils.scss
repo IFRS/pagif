@@ -1,0 +1,13 @@
+@use "sass:math";
+
+@function clampBuilder( $minWidthPx, $maxWidthPx, $minSize, $maxSize ) {
+  $pixelsPerRem: 16;
+
+  $minWidth: math.div($minWidthPx, $pixelsPerRem);
+  $maxWidth: math.div($maxWidthPx, $pixelsPerRem);
+
+  $slope: math.div( ( $maxSize - $minSize ), ( $maxWidth - $minWidth ) );
+  $yAxisIntersection: ($minWidth * -1) * $slope + $minSize;
+
+  @return clamp( #{$minSize}rem, #{$yAxisIntersection}rem + #{$slope * 100}vw, #{$maxSize}rem );
+}

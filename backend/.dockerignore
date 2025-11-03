@@ -1,0 +1,7 @@
+.git/
+log/
+node_modules/
+.env.example
+.gitignore
+eslint.config.js
+Dockerfile
