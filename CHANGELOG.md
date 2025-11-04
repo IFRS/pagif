@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [Unreleased] - Rascunho do próximo release
+### (Unreleased)
+- Nenhuma alteração documentada ainda.
+
 ## [0.2.0] - 2025-11-04
 ### Added
 - Integração com PagTesouro para criação e consulta de cobranças (cliente HTTP configurado em [backend/api/pagtesouro.js](backend/api/pagtesouro.js)).
