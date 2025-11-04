@@ -1,8 +1,6 @@
 # CHANGELOG
 
-Todos os lançamentos seguem (rápido resumo das principais funcionalidades presentes no repositório).
-
-## [Unreleased] - Rascunho do release inicial
+## [0.2.0] - 2025-11-04
 ### Added
 - Integração com PagTesouro para criação e consulta de cobranças (cliente HTTP configurado em [backend/api/pagtesouro.js](backend/api/pagtesouro.js)).
 - Endpoints públicos e administrativos para Pagamentos, Unidades, Serviços, Usuários e Configurações. Exemplos:
@@ -68,4 +66,3 @@ Todos os lançamentos seguem (rápido resumo das principais funcionalidades pres
 ## Como contribuir com o CHANGELOG
 - Sugestão: manter formato "Unreleased" → Tag por versão (ex.: v1.0.0) no momento do release.
 - Atualize as seções Added / Changed / Fixed / Removed conforme commits.
-
