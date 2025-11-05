@@ -115,6 +115,7 @@
             Confira os dados que aparecer&atilde;o na tela abaixo antes de efetuar o pagamento.
           </v-alert>
           <iframe
+            v-if="proximaUrl"
             v-resize-iframe="{ heightCalculationMethod: 'documentElementOffset' }"
             class="iframe-epag"
             scrolling="no"

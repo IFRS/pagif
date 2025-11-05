@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [0.2.1] - 2025-11-05
+### Fixed
+- Corrige um bug na página de pagamento que fazia com que, ao limpar a URL de pagamento, a interface dispare uma requisição desnecessária ao servidor. Agora limpar a URL não aciona requisições; a interface atualiza o estado corretamente e evita chamadas, reduzindo carga no servidor.
+
 ## [0.2.0] - 2025-11-04
 ### Added
 - Integração com PagTesouro para criação e consulta de cobranças (cliente HTTP configurado em [backend/api/pagtesouro.js](backend/api/pagtesouro.js)).
