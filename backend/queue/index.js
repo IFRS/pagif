@@ -15,7 +15,7 @@ pulse.define('update pagamentos', async (job) => {
     .then(async (pagamento) => {
       if (!pagamento) {
         logger.error('[Fila] Pagamento não encontrado.');
-        await job.fail('Pagamento não encontrado.');
+        job.fail('Pagamento não encontrado.');
         await job.save();
         return;
       }
@@ -30,19 +30,19 @@ pulse.define('update pagamentos', async (job) => {
             })
             .catch(async (error) => {
               logger.error('[Fila] Erro ao atualizar o pagamento.');
-              await job.fail('Erro ao atualizar o pagamento. ' + error);
+              job.fail('Erro ao atualizar o pagamento. ' + error);
               await job.save();
             });
         })
         .catch(async (error) => {
           logger.error('[Fila] Erro ao consultar o Pagamento.');
-          await job.fail('Erro ao consultar o Pagamento. ' + error);
+          job.fail('Erro ao consultar o Pagamento. ' + error);
           await job.save();
         });
     })
     .catch(async (error) => {
       logger.error('[Fila] Erro ao obter Pagamento.');
-      await job.fail('Erro ao obter Pagamento. ' + error);
+      job.fail('Erro ao obter Pagamento. ' + error);
       await job.save();
     });
 }, {
