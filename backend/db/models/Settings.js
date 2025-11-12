@@ -1,18 +1,10 @@
 import mongoose from 'mongoose';
 
 const Settings = new mongoose.Schema({
-  sigla: {
-    type: String,
-    required: true,
-  },
-  orgao: {
-    type: String,
-    required: true,
-  },
-  intro: {
-    type: String,
-    required: true,
-  },
+  sigla: { type: String, required: true },
+  orgao: { type: String, required: true },
+  intro: { type: String, required: true },
+  vencimento: { type: Number, required: true, min: [0, 'vencimento não pode ser um número negativo.'] },
 },
 {
   timestamps: false,
