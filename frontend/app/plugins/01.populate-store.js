@@ -28,6 +28,7 @@ export default defineNuxtPlugin(async ({ $pinia }) => {
     configStore.sigla = data.value.sigla
     configStore.orgao = data.value.orgao
     configStore.intro = data.value.intro
+    configStore.vencimento = data.value.vencimento
   }
 
   if (error.value && error.value.statusCode === 404) {

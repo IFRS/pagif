@@ -30,7 +30,7 @@ async function handleSubmit() {
   try {
     await $fetch('/api/settings', {
       method: 'POST',
-      body: { sigla: configStore.sigla, orgao: configStore.orgao, intro: configStore.intro },
+      body: { sigla: configStore.sigla, orgao: configStore.orgao, intro: configStore.intro, vencimento: configStore.vencimento },
     })
 
     useToast().success('Configurações salvas com sucesso!')
