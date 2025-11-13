@@ -45,7 +45,6 @@ export default defineNuxtConfig({
     public: {
       pagtesouroURL: process.env.PAGTESOURO_URL,
       googleClientId: process.env.GOOGLE_CLIENT_ID,
-      GA: process.env.GA,
     },
   },
 
@@ -114,6 +113,7 @@ export default defineNuxtConfig({
 
   /* GTag */
   gtag: {
+    id: process.env.GTAG_ID,
     params: {
       send_page_view: false,
     },
