@@ -1,4 +1,5 @@
 import winston from 'winston';
+import path from 'node:path';
 
 winston.loggers.add('pagtesouro', {
   format: winston.format.combine(
@@ -13,7 +14,7 @@ winston.loggers.add('pagtesouro', {
     }),
   ),
   transports: [
-    new winston.transports.File({ filename: 'log/pagtesouro.log', maxsize: 10000000, maxFiles: 10, tailable: true }),
+    new winston.transports.File({ filename: path.resolve('logs/pagtesouro.log'), maxsize: 10000000, maxFiles: 10, tailable: true }),
   ],
 });
 
@@ -36,14 +37,14 @@ winston.loggers.add('geral', {
     }),
   ),
   transports: [
-    new winston.transports.File({ filename: 'log/error.log', level: 'error' }),
-    new winston.transports.File({ filename: 'log/all.log' }),
+    new winston.transports.File({ filename: path.resolve('logs/error.log'), level: 'error' }),
+    new winston.transports.File({ filename: path.resolve('logs/all.log') }),
   ],
   exceptionHandlers: [
-    new winston.transports.File({ filename: 'log/exceptions.log' }),
+    new winston.transports.File({ filename: path.resolve('logs/exceptions.log') }),
   ],
   rejectionHandlers: [
-    new winston.transports.File({ filename: 'log/rejections.log' }),
+    new winston.transports.File({ filename: path.resolve('logs/rejections.log') }),
   ],
 });
 

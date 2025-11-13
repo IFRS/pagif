@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## [0.2.2] - 2025-11-13
+### Added
+- Background job (fila) para atualização automática de pagamentos com status `CRIADO` há mais de 7 dias.
+- Novo campo de configuração `dias de vencimento` em Settings.
+- Atributo correspondente adicionado ao store e ao formulário de Settings.
+
+### Changed
+- Ao criar pagamentos públicos, agora é usado o valor de `dias de vencimento` definido no store.
+- Ajuste da redação do aviso de prazo de pagamento.
+- Melhoria nas mensagens geradas pela fila de atualização de pagamentos.
+- Consolidação e padronização do caminho dos arquivos de log.
+
+### Fixed
+- Removido `await` em chamadas que não retornavam Promise.
+
 ## [0.2.1] - 2025-11-05
 ### Fixed
 - Corrige um bug na página de pagamento que fazia com que, ao limpar a URL de pagamento, a interface dispare uma requisição desnecessária ao servidor. Agora limpar a URL não aciona requisições; a interface atualiza o estado corretamente e evita chamadas, reduzindo carga no servidor.
@@ -58,6 +73,10 @@
 
 ### Fixed
 - Tratamento de dados sensíveis retornados em endpoints públicos (remoção de tokens/infos sensíveis em [backend/api/controllers/pagamentosController.js](backend/api/controllers/pagamentosController.js)).
+
+## [0.1.0]
+
+Sistema legado.
 
 ---
 

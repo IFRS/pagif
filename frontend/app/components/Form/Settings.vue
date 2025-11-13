@@ -43,10 +43,26 @@
           </ClientOnly>
         </v-col>
       </v-row>
-      <v-row
-        justify="start"
-        dense
-      >
+      <v-row>
+        <v-col
+          col="12"
+          sm="6"
+          md="4"
+        >
+          <v-number-input
+            v-model="vencimento"
+            label="Dias para Vencimento"
+            hint="Número padrão de Dias para o Vencimento dos Pagamentos (somente Pagamentos públicos)."
+            persistent-hint
+            :min="0"
+            :reverse="false"
+            controlVariant="split"
+            :hideInput="false"
+            inset
+          ></v-number-input>
+        </v-col>
+      </v-row>
+      <v-row justify="start">
         <v-col cols="auto">
           <v-btn
             color="primary"
@@ -99,6 +115,7 @@ const {
   sigla,
   orgao,
   intro,
+  vencimento
 } = storeToRefs(configStore)
 
 const { data, status, error } = await useFetch('/api/settings')

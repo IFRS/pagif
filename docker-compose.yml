@@ -7,7 +7,7 @@ services:
     environment:
       - NODE_ENV=production
     volumes:
-      - log:/home/node/app/log
+      - logs:/home/node/app/logs
   frontend:
     container_name: pagif-frontend
     image: ifrs/pagif-frontend:latest
@@ -21,4 +21,4 @@ services:
     ports:
       - "${DOCKER_PORT:-3000}:${NITRO_PORT:-3000}"
 volumes:
-  log:
+  logs:

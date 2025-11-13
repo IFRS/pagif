@@ -6,12 +6,14 @@ export const useConfigStore = defineStore('config', {
     sigla: null,
     orgao: null,
     intro: null,
+    vencimento: 1,
   }),
   actions: {
     setEmptySettings() {
       this.sigla = ''
       this.orgao = ''
       this.intro = ''
+      this.vencimento = 1
     },
   },
 })

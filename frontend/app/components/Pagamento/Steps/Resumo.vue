@@ -33,7 +33,7 @@
             </template>
             <span>Caso o pagamento n&atilde;o tenha sido iniciado, ser&aacute; cancelado ap&oacute;s 1h.</span>
           </v-tooltip>
-          para realiz&aacute;-lo.
+          para inici&aacute;-lo.
         </v-alert>
       </v-col>
       <v-col class="d-flex justify-center align-center">

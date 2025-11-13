@@ -59,13 +59,13 @@ app.use(session({
   saveUninitialized: true,
 }));
 
-const limiter = rateLimit({
+const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100, // Limita cada IP em 100 tentativas a cada tempo 'windowMs'
+  max: 1000, // 1000 tentativas por IP
   message: { message: 'Muitas solicitações, por favor tente novamente mais tarde.' },
 });
 
-app.use(limiter); // Rate limiting para todas as rotas
+app.use(globalLimiter); // Rate limiting para todas as rotas
 
 app.use(me);
 app.use(google);

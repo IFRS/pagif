@@ -30,6 +30,9 @@ export const save = [
     .trim()
     .optional({ values: 'falsy' })
     .isString(),
+  validator.body('vencimento', '')
+    .notEmpty()
+    .isInt({ min: 0 }),
   function (req, res, next) {
     const errors = validator.validationResult(req);
     if (!errors.isEmpty()) {
@@ -40,6 +43,7 @@ export const save = [
       sigla: req.body.sigla,
       orgao: req.body.orgao,
       intro: req.body.intro,
+      vencimento: req.body.vencimento,
     };
 
     if (data.intro === '<p></p>') data.intro = '';
