@@ -27,6 +27,32 @@ import { logger } from '../logger/index.js';
 
 const app = express();
 
+const parseTrustProxy = (value) => {
+  if (!value) return false;
+
+  const normalized = value.trim().toLowerCase();
+
+  if (normalized === 'false' || normalized === '0') return false;
+
+  // Avoid permissive trust-proxy=true, which weakens IP-based rate limiting.
+  if (normalized === 'true') return 1;
+
+  const hops = Number.parseInt(normalized, 10);
+  if (!Number.isNaN(hops) && String(hops) === normalized && hops >= 0) {
+    return hops;
+  }
+
+  // Accept Express formats such as CIDR list: "loopback, linklocal, uniquelocal".
+  return value;
+};
+
+const trustProxy = parseTrustProxy(process.env.TRUST_PROXY);
+if ((process.env.TRUST_PROXY || '').trim().toLowerCase() === 'true') {
+  logger.warn('[HTTP] TRUST_PROXY=true detectado. Ajustando para 1 para manter o rate limit por IP seguro.');
+}
+
+app.set('trust proxy', trustProxy);
+
 const expire = (process.env.NODE_ENV === 'production') ? 1000 * 60 * 60 * 24 * 7 : 1000 * 60 * 60 * 8; // 7 dias em produção e 8 horas em desenvolvimento
 
 const MongoStore = MongoDBStore(session);
