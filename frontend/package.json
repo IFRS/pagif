@@ -21,7 +21,7 @@
     "@pinia/nuxt": "^0.11.2",
     "altcha": "^3.2.1",
     "chart.js": "^4.4.0",
-    "copy-to-clipboard": "^3.3.2",
+    "copy-to-clipboard": "^4.0.2",
     "dayjs": "^1.11.3",
     "iframe-resizer": "^4.3.2",
     "maska": "^3.1.0",

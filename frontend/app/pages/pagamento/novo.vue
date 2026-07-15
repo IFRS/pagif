@@ -247,8 +247,13 @@ async function toClipboard(text) {
       }, () => {
         copiou = false
       })
-  } else if (typeof copy !== 'undefined' && copy(text, { format: 'text/plain' })) {
-    copiou = true
+  } else if (typeof copy !== 'undefined') {
+    await copy(text, { format: 'text/plain' })
+    .then(() => {
+      copiou = true
+    }, () => {
+      copiou = false
+    })
   } else {
     copiou = false
   }
