@@ -71,7 +71,16 @@ export default defineNuxtConfig({
       },
     },
     optimizeDeps: {
-      include: ['iframe-resizer/js/iframeResizer'],
+      include: [
+        '@vue/devtools-core',
+        '@vue/devtools-kit',
+        '@casl/ability',
+        '@date-io/dayjs',
+        'dayjs/locale/pt-br', // CJS
+        'iframe-resizer/js/iframeResizer', // CJS
+        'maska/vue',
+        'vuetify-pro-tiptap',
+      ],
     },
   },
 
