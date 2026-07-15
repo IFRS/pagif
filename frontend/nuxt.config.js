@@ -70,6 +70,9 @@ export default defineNuxtConfig({
         },
       },
     },
+    optimizeDeps: {
+      include: ['iframe-resizer/js/iframeResizer'],
+    }
   },
 
   typescript: {
