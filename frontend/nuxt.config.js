@@ -76,9 +76,14 @@ export default defineNuxtConfig({
         '@vue/devtools-kit',
         '@casl/ability',
         '@date-io/dayjs',
+        'copy-to-clipboard',
+        'altcha/i18n', // CJS
+        'dayjs',
         'dayjs/locale/pt-br', // CJS
         'iframe-resizer/js/iframeResizer', // CJS
+        'maska',
         'maska/vue',
+        'vue3-google-login',
         'vuetify-pro-tiptap',
       ],
     },
