@@ -1,19 +1,39 @@
-import { verifySolution } from 'altcha-lib';
-import { logger } from '../../logger/index.js';
+import 'dotenv/config';
 
-export default function (req, res, next) {
-  const hmacKey = process.env.ALTCHA_HMAC_KEY;
-  const payload = req.body?.captcha;
+import { create, deriveHmacKeySecret, randomInt } from 'altcha-lib/frameworks/express';
+import { deriveKey } from 'altcha-lib/algorithms/pbkdf2';
 
-  if (!payload) {
-    logger.warn('[ALTCHA] Payload de captcha ausente.');
-    return res.status(422).end();
-  }
+const hmacSignatureSecret = process.env.ALTCHA_HMAC_KEY;
 
-  verifySolution(payload, hmacKey)
-    .then(() => next())
-    .catch((altchaError) => {
-      logger.warn('[ALTCHA] Solução inválida: %o', altchaError);
-      return res.status(422).end();
-    });
+if (!hmacSignatureSecret) {
+  throw new Error('ALTCHA_HMAC_KEY não configurada.');
+}
+
+const createAltcha = async () => {
+  const hmacKeySignatureSecret = await deriveHmacKeySecret(hmacSignatureSecret);
+
+  return create({
+    fieldName: 'captcha',
+    hmacSignatureSecret,
+    hmacKeySignatureSecret,
+    deriveKey,
+    createChallengeParameters: () => ({
+      algorithm: 'PBKDF2/SHA-256',
+      cost: 5000,
+      counter: randomInt(10_000, 5_000),
+      expiresAt: new Date(Date.now() + 60 * 1000),
+    }),
+  });
+};
+
+const altchaPromise = createAltcha();
+
+export const challengeHandler = async (req, res, next) => {
+  const altcha = await altchaPromise;
+  return altcha.challengeHandler(req, res, next);
+};
+
+export default async (req, res, next) => {
+  const altcha = await altchaPromise;
+  return altcha.middleware()(req, res, next);
 };

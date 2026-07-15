@@ -36,7 +36,7 @@ const onStateChange = (ev) => {
   <!-- eslint-disable-next-line vue/html-self-closing -->
   <altcha-widget
     ref="altchaWidget"
-    challengeurl="/api/altcha/challenge"
+    challenge="/api/altcha/challenge"
     :refetchonexpire="false"
     hidelogo
     class="altcha-widget"

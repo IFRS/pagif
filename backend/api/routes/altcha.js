@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-import { challenge } from '../controllers/altchaController.js';
+import { challengeHandler } from '../middleware/altcha.js';
 
 const router = Router();
 
-router.get('/altcha/challenge', challenge);
+router.get('/altcha/challenge', challengeHandler);
 
 export default router;
