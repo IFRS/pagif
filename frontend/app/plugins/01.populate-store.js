@@ -7,7 +7,7 @@ export default defineNuxtPlugin(async ({ $pinia }) => {
   if (import.meta.server) {
     const authStore = useAuthStore($pinia)
     const { data, error } = await useFetch('/api/auth/me', {
-      deep: true
+      deep: true,
     })
     if (data.value) authStore.user = data.value
     if (error.value) {
@@ -21,7 +21,7 @@ export default defineNuxtPlugin(async ({ $pinia }) => {
   const cookie_unidade = useCookie('unidade')
 
   const { data, error } = await useFetch('/api/public/settings', {
-    deep: true
+    deep: true,
   })
 
   if (data.value) {
@@ -53,7 +53,7 @@ export default defineNuxtPlugin(async ({ $pinia }) => {
   const unidade_id = cookie_unidade.value
   if (unidade_id) {
     const { data, error } = await useFetch(`/api/public/unidades/${unidade_id}`, {
-      deep: true
+      deep: true,
     })
 
     if (data.value) configStore.unidade = data.value

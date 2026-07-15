@@ -72,7 +72,7 @@ export default defineNuxtConfig({
     },
     optimizeDeps: {
       include: ['iframe-resizer/js/iframeResizer'],
-    }
+    },
   },
 
   typescript: {
@@ -102,6 +102,14 @@ export default defineNuxtConfig({
     },
   },
 
+  /* GTag */
+  gtag: {
+    id: process.env.GTAG_ID,
+    params: {
+      send_page_view: false,
+    },
+  },
+
   /* nuxt-proxy-request */
   proxy: {
     options: {
@@ -111,14 +119,6 @@ export default defineNuxtConfig({
         '^/api': '',
       },
       pathFilter: ['/api/**'],
-    },
-  },
-
-  /* GTag */
-  gtag: {
-    id: process.env.GTAG_ID,
-    params: {
-      send_page_view: false,
     },
   },
 })

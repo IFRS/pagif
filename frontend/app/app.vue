@@ -32,7 +32,11 @@ const cookie = useCookie('darkMode')
 
 const isDarkMode = import.meta.server ? cookie.value : darkMode.value
 
-isDarkMode ? theme.change('dark') : theme.change('light')
+if (isDarkMode) {
+  theme.change('dark')
+} else {
+  theme.change('light')
+}
 
 const { disableAnalytics, enableAnalytics } = useGtag()
 

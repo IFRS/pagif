@@ -10,7 +10,7 @@
   >
     <template #prepend>
       <v-toolbar
-        dense
+        density="compact"
         flat
         color="transparent"
       >

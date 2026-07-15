@@ -45,7 +45,7 @@
       </v-row>
       <v-row>
         <v-col
-          col="12"
+          class="col"
           sm="6"
           md="4"
         >
@@ -56,10 +56,10 @@
             persistent-hint
             :min="0"
             :reverse="false"
-            controlVariant="split"
-            :hideInput="false"
+            control-variant="split"
+            :hide-input="false"
             inset
-          ></v-number-input>
+          />
         </v-col>
       </v-row>
       <v-row justify="start">
@@ -115,7 +115,7 @@ const {
   sigla,
   orgao,
   intro,
-  vencimento
+  vencimento,
 } = storeToRefs(configStore)
 
 const { data, status, error } = await useFetch('/api/settings')
