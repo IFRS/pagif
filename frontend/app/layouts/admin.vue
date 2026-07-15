@@ -93,7 +93,7 @@ const configStore = useConfigStore()
 const { darkMode, sigla, orgao } = storeToRefs(configStore)
 
 const showNoSettings = computed(() => {
-  return useACL().can('manage', 'Settings') && (!sigla || !orgao)
+  return useACL().can('manage', 'Settings') && (!sigla.value || !orgao.value)
 })
 
 const loaded = ref(false)
