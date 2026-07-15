@@ -3,7 +3,6 @@
     v-model="showing"
     :timeout="5000"
     :color="color"
-    multi-line
     :vertical="details"
   >
     <v-icon start>

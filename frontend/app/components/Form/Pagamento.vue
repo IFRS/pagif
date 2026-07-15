@@ -35,10 +35,10 @@
             item-value="codigo"
             required
           >
-            <template #item="{ props, item }">
+            <template #item="{ props, internalItem }">
               <v-list-item
                 v-bind="props"
-                :title="item.raw.codigo + ' - ' + item.raw.nome"
+                :title="internalItem.raw.codigo + ' - ' + internalItem.raw.nome"
               />
             </template>
           </v-autocomplete>
@@ -211,7 +211,7 @@
       </v-row>
       <v-row
         justify="start"
-        dense
+        density="comfortable"
       >
         <v-col cols="auto">
           <v-btn

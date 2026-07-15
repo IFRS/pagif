@@ -9,7 +9,7 @@
       </v-card-subtitle>
       <v-list lines="two">
         <v-container fluid>
-          <v-row dense>
+          <v-row density="comfortable">
             <v-col md="6">
               <v-list-item>
                 <v-list-item-title>Nome do Contribuinte</v-list-item-title>
@@ -53,7 +53,7 @@
                 <v-list-item-subtitle>{{ filterIntToReal(valor, true) || '-' }}</v-list-item-subtitle>
               </v-list-item>
             </template>
-            <v-row dense>
+            <v-row density="comfortable">
               <v-col md="6">
                 <v-list-item>
                   <v-list-item-title>Valor Principal</v-list-item-title>
@@ -91,7 +91,7 @@
 
           <v-divider />
 
-          <v-row dense>
+          <v-row density="comfortable">
             <v-col md="6">
               <v-list-item
                 v-if="privado"
@@ -128,7 +128,7 @@
 
           <v-row
             v-if="situacao.codigo == 'CRIADO'"
-            dense
+            density="comfortable"
           >
             <v-col>
               <v-list-item>

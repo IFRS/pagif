@@ -44,7 +44,6 @@
         :model-value="showNoSettings"
         :timeout="-1"
         location="top"
-        multi-line
         vertical
         color="error"
       >

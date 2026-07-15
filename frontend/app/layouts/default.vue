@@ -93,7 +93,7 @@
       >
         <v-card-text>
           <v-row
-            dense
+            density="comfortable"
             class="align-center"
           >
             <v-col v-if="unidade?.imagem">

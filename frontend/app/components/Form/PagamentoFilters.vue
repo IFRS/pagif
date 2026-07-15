@@ -46,7 +46,7 @@
       />
       <v-row
         justify="start"
-        dense
+        density="comfortable"
       >
         <v-col cols="auto">
           <v-btn

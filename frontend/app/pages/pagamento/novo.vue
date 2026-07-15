@@ -249,11 +249,11 @@ async function toClipboard(text) {
       })
   } else if (typeof copy !== 'undefined') {
     await copy(text, { format: 'text/plain' })
-    .then(() => {
-      copiou = true
-    }, () => {
-      copiou = false
-    })
+      .then(() => {
+        copiou = true
+      }, () => {
+        copiou = false
+      })
   } else {
     copiou = false
   }
