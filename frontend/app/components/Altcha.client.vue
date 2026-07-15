@@ -33,7 +33,7 @@ const onStateChange = (ev) => {
 </script>
 
 <template>
-  <!-- eslint-disable-next-line vue/html-self-closing -->
+  <!-- eslint-disable vue/html-self-closing vue/attribute-hyphenation -->
   <altcha-widget
     ref="altchaWidget"
     challenge="/api/altcha/challenge"
