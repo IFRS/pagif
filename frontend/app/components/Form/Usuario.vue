@@ -135,8 +135,8 @@
       </v-expansion-panels>
 
       <v-row
-        justify="start"
         density="comfortable"
+        class="justify-start"
       >
         <v-col cols="auto">
           <v-btn

@@ -62,7 +62,7 @@
           />
         </v-col>
       </v-row>
-      <v-row justify="start">
+      <v-row class="justify-start">
         <v-col cols="auto">
           <v-btn
             color="primary"

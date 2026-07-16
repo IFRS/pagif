@@ -19,8 +19,7 @@
         </v-col>
       </v-row>
       <v-row
-        class="my-10"
-        justify="center"
+        class="my-10 justify-center"
       >
         <v-col cols="auto">
           <v-hover v-slot="{ isHovering, props }">

@@ -133,7 +133,7 @@
 
         <v-divider dark />
 
-        <v-card-text class="text-center text-body-2 text-grey-lighten-2">
+        <v-card-text class="text-center text-body-medium text-grey-lighten-2">
           PagIF - Sistema de Pagamentos integrado ao <a
             href="https://www.gov.br/tesouronacional/pt-br/gru-e-pag-tesouro/pagtesouro"
             class="text-grey-lighten-2"

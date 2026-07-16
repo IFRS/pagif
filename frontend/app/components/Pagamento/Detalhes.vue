@@ -1,7 +1,7 @@
 <template>
   <v-card v-bind="$attrs">
     <template v-if="!loading">
-      <v-card-title class="text-h5">
+      <v-card-title class="text-headline-small">
         Pagamento {{ idPagamento }}
       </v-card-title>
       <v-card-subtitle>

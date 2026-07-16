@@ -12,9 +12,9 @@
       </v-icon>
     </v-sheet>
     <v-card-text class="text-center">
-      <span class="text-h3">{{ num }}</span>
+      <span class="text-display-large">{{ num }}</span>
       <br>
-      <div class="text-subtitle-1">
+      <div class="text-body-large">
         <slot />
       </div>
     </v-card-text>

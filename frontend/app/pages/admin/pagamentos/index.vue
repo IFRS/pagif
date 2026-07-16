@@ -6,7 +6,7 @@
           Pagamentos
           <small
             v-if="!filtros || !filtros.datas || filtros.datas.length === 0"
-            class="text-info text-caption float-md-right d-block d-md-inline-block"
+            class="text-info text-body-small float-md-right d-block d-md-inline-block"
           >
             <v-icon
               color="info"
@@ -160,7 +160,7 @@
       max-width="400"
     >
       <v-card>
-        <v-card-title class="text-h5">
+        <v-card-title class="text-headline-small">
           Deletar o Pagamento "{{ id }}"?
         </v-card-title>
         <v-card-actions>

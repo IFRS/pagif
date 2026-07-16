@@ -91,7 +91,7 @@
       max-width="800"
     >
       <v-card>
-        <v-card-title class="text-h5">
+        <v-card-title class="text-headline-small">
           Pagamento criado com sucesso!
         </v-card-title>
         <v-card-text>

@@ -136,7 +136,7 @@
           />
         </v-col>
       </v-row>
-      <v-row align="center">
+      <v-row class="align-center">
         <v-col>
           <!-- Valor Principal -->
           <v-text-field
@@ -210,8 +210,8 @@
         </v-col>
       </v-row>
       <v-row
-        justify="start"
         density="comfortable"
+        class="justify-start"
       >
         <v-col cols="auto">
           <v-btn

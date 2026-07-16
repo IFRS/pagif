@@ -57,7 +57,7 @@
     </v-main>
     <v-footer
       app
-      class="bg-surface text-body-2 justify-space-between"
+      class="bg-surface text-body-medium justify-space-between"
     >
       <span>
         <a

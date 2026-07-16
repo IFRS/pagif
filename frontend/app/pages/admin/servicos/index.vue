@@ -100,7 +100,7 @@
       max-width="400"
     >
       <v-card>
-        <v-card-title class="text-h5">
+        <v-card-title class="text-headline-small">
           Deletar o Servi&ccedil;o "{{ servicoStore.nome }}"?
         </v-card-title>
         <v-card-actions>
