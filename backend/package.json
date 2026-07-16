@@ -14,8 +14,8 @@
     "superadmin": "node ./db/scripts/superadmin.js"
   },
   "dependencies": {
-    "@casl/ability": "^6.5.0",
-    "@casl/mongoose": "^8.0.1",
+    "@casl/ability": "^7.0.1",
+    "@casl/mongoose": "^9.0.1",
     "@pulsecron/pulse": "^1.5.2",
     "altcha-lib": "^2.2.0",
     "axios": "^1.4.0",
@@ -29,7 +29,7 @@
     "express-validator": "^7.0.1",
     "google-auth-library": "^10.4.0",
     "helmet": "^8.0.0",
-    "mongoose": "^8.5.0",
+    "mongoose": "^9.7.4",
     "tslib": "^2.6.3",
     "winston": "^3.8.2"
   },
