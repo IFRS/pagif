@@ -80,6 +80,8 @@ export default defineNuxtConfig({
         'altcha/i18n', // CJS
         'dayjs',
         'dayjs/locale/pt-br', // CJS
+        'dayjs/plugin/isSameOrAfter', // CJS
+        'dayjs/plugin/isSameOrBefore', // CJS
         'iframe-resizer/js/iframeResizer', // CJS
         'maska',
         'maska/vue',
