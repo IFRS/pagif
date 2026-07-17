@@ -1,5 +1,22 @@
+import 'dotenv/config';
 import winston from 'winston';
 import path from 'node:path';
+
+const logLevel = process.env.LOG_LEVEL || 'info';
+const shouldLogToFile = process.env.LOG_TO_FILE === 'true';
+
+const pagTesouroTransports = [new winston.transports.Console()];
+const geralTransports = [new winston.transports.Console({ level: logLevel })];
+const exceptionHandlers = [new winston.transports.Console({ level: logLevel })];
+const rejectionHandlers = [new winston.transports.Console({ level: logLevel })];
+
+if (shouldLogToFile) {
+  pagTesouroTransports.push(new winston.transports.File({ filename: path.resolve('logs/pagtesouro.log'), maxsize: 10000000, maxFiles: 10, tailable: true }));
+  geralTransports.push(new winston.transports.File({ filename: path.resolve('logs/error.log'), level: 'error' }));
+  geralTransports.push(new winston.transports.File({ filename: path.resolve('logs/all.log') }));
+  exceptionHandlers.push(new winston.transports.File({ filename: path.resolve('logs/exceptions.log') }));
+  rejectionHandlers.push(new winston.transports.File({ filename: path.resolve('logs/rejections.log') }));
+}
 
 winston.loggers.add('pagtesouro', {
   format: winston.format.combine(
@@ -13,9 +30,7 @@ winston.loggers.add('pagtesouro', {
       return `(${info.timestamp}) ${info.level} ${info.message.replace(/\n/g, ' ')}\n`;
     }),
   ),
-  transports: [
-    new winston.transports.File({ filename: path.resolve('logs/pagtesouro.log'), maxsize: 10000000, maxFiles: 10, tailable: true }),
-  ],
+  transports: pagTesouroTransports,
 });
 
 winston.loggers.add('geral', {
@@ -36,16 +51,9 @@ winston.loggers.add('geral', {
       return `(${info.timestamp}) ${info.level} ${info.message}`;
     }),
   ),
-  transports: [
-    new winston.transports.File({ filename: path.resolve('logs/error.log'), level: 'error' }),
-    new winston.transports.File({ filename: path.resolve('logs/all.log') }),
-  ],
-  exceptionHandlers: [
-    new winston.transports.File({ filename: path.resolve('logs/exceptions.log') }),
-  ],
-  rejectionHandlers: [
-    new winston.transports.File({ filename: path.resolve('logs/rejections.log') }),
-  ],
+  transports: geralTransports,
+  exceptionHandlers,
+  rejectionHandlers,
 });
 
 const loggerPagTesouro = winston.loggers.get('pagtesouro');
