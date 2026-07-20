@@ -1,4 +1,5 @@
 import process from 'node:process';
+import mongo from '../db/index.js';
 import pulse from './index.js';
 import { logger } from '../logger/index.js';
 
@@ -9,6 +10,7 @@ import { logger } from '../logger/index.js';
 
 async function graceful(signal) {
   await pulse.stop();
+  await mongo.close();
 
   const code = signal instanceof Error ? 1 : 0;
   process.exitCode = code;

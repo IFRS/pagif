@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { fork } from 'node:child_process';
 import api from './api/index.js';
 
-let fila = fork('./queue/process.js');
+const fila = fork('./queue/process.js');
 
 fila.on('error', (error) => {
   console.error(`Erro na fila: ${error}`);
@@ -17,9 +17,16 @@ const server = api.listen(port, () => {
   console.info(`API rodando na porta ${port}`);
 });
 
-process.on('SIGTERM', () => {
-  console.debug('Sinal SIGTERM recebido: fechando o servidor HTTP...');
+function shutdown(signal) {
+  console.debug(`Sinal ${signal} recebido: fechando o servidor HTTP e a fila...`);
+
+  fila.kill('SIGTERM');
+
   server.close(() => {
     console.info('Servidor da API fechado.');
   });
-});
+}
+
+process.once('SIGHUP', () => shutdown('SIGHUP'));
+process.once('SIGINT', () => shutdown('SIGINT'));
+process.once('SIGTERM', () => shutdown('SIGTERM'));
