@@ -68,7 +68,7 @@ session_store.on('error', function (error) {
 });
 
 app.use(cors({
-  origin: process.env.BROWSER_BASE_URL,
+  origin: process.env.APP_URL,
   optionsSuccessStatus: 200,
 }));
 app.use(helmet());
