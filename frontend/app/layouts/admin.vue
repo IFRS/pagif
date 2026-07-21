@@ -10,7 +10,6 @@
     </v-app-bar>
     <v-navigation-drawer
       :rail="miniVariant"
-      expand-on-hover
     >
       <v-list nav>
         <v-list-item
