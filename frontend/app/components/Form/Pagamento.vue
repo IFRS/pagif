@@ -65,6 +65,7 @@
             transition="scale-transition"
             max-width="auto"
             min-width="auto"
+            @click:outside="showCompetencia = false"
           >
             <template #activator="{ props }">
               <v-text-field
@@ -74,7 +75,7 @@
                 prepend-icon="mdi-calendar-month"
                 readonly
                 clearable
-                @click:clear="competencia = null"
+                @click:clear.stop="competencia = null"
               />
             </template>
             <v-month-picker
@@ -90,6 +91,7 @@
             transition="scale-transition"
             max-width="auto"
             min-width="auto"
+            @click:outside="showVencimento = false"
           >
             <template #activator="{ props }">
               <v-text-field
@@ -100,7 +102,7 @@
                 prepend-icon="mdi-calendar"
                 readonly
                 clearable
-                @click:clear="vencimento = null"
+                @click:clear.stop="vencimento = null"
               />
             </template>
             <v-date-picker
