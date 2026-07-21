@@ -77,9 +77,8 @@
                 @click:clear="competencia = null"
               />
             </template>
-            <v-date-picker
+            <v-month-picker
               v-model="competencia"
-              hide-header
             />
           </v-menu>
         </v-col>
@@ -240,6 +239,7 @@
 <script setup>
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
+import { VMonthPicker } from 'vuetify/labs/VMonthPicker'
 
 const dayjs = utilDayJS(customParseFormat, isSameOrAfter)
 
@@ -355,7 +355,7 @@ watch(vencimento, () => {
 const competenciaFormatted = computed(() => {
   if (!competencia.value) return null
 
-  return dayjs(competencia.value).format('MM/YYYY')
+  return dayjs(competencia.value, 'YYYY-MM').format('MM/YYYY')
 })
 
 const vencimentoFormatted = computed(() => {
