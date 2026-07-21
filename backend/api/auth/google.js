@@ -3,6 +3,23 @@ const router = Router();
 import { OAuth2Client } from 'google-auth-library';
 import Usuario from '../../db/models/Usuario.js';
 
+const allowedGoogleHostedDomains = (process.env.GOOGLE_ALLOWED_HOSTED_DOMAINS || '')
+  .split(',')
+  .map(domain => domain.trim().toLowerCase())
+  .filter(Boolean);
+
+const hasAllowedHostedDomain = (hostedDomain) => {
+  if (!allowedGoogleHostedDomains.length) return true;
+  if (!hostedDomain) return false;
+
+  return allowedGoogleHostedDomains.includes(hostedDomain.trim().toLowerCase());
+};
+
+const toSessionSafeUser = usuario => usuario.toObject({
+  flattenObjectIds: true,
+  depopulate: true,
+});
+
 router.post('/auth/google/login', async function (req, res) {
   if (req.body.client_id && req.body.credential) {
     const client = new OAuth2Client(req.body.client_id);
@@ -11,7 +28,7 @@ router.post('/auth/google/login', async function (req, res) {
     });
     const userInfo = ticket.getPayload();
 
-    if (!userInfo.email_verified || !userInfo.hd?.endsWith('ifrs.edu.br')) return res.status(406).end();
+    if (!userInfo.email_verified || !hasAllowedHostedDomain(userInfo.hd)) return res.status(401).end();
 
     Usuario.findOne({ email: userInfo.email })
       .then(async (usuario) => {
@@ -29,9 +46,11 @@ router.post('/auth/google/login', async function (req, res) {
           req.session.cookie.maxAge = ttl || undefined;
         }
 
-        req.session.user = usuario.toJSON();
+        const sessionUser = toSessionSafeUser(usuario);
 
-        return res.json(usuario.toJSON());
+        req.session.user = sessionUser;
+
+        return res.json(sessionUser);
       })
       .catch((error) => {
         console.error(error);

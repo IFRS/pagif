@@ -10,7 +10,6 @@
     </v-app-bar>
     <v-navigation-drawer
       :rail="miniVariant"
-      expand-on-hover
     >
       <v-list nav>
         <v-list-item
@@ -44,7 +43,6 @@
         :model-value="showNoSettings"
         :timeout="-1"
         location="top"
-        multi-line
         vertical
         color="error"
       >
@@ -58,7 +56,7 @@
     </v-main>
     <v-footer
       app
-      class="bg-surface text-body-2 justify-space-between"
+      class="bg-surface text-body-medium justify-space-between"
     >
       <span>
         <a
@@ -93,7 +91,7 @@ const configStore = useConfigStore()
 const { darkMode, sigla, orgao } = storeToRefs(configStore)
 
 const showNoSettings = computed(() => {
-  return useACL().can('manage', 'Settings') && (!sigla || !orgao)
+  return useACL().can('manage', 'Settings') && (!sigla.value || !orgao.value)
 })
 
 const loaded = ref(false)

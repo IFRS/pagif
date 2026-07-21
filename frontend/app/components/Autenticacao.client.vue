@@ -35,7 +35,7 @@ async function handleGoogle(response) {
   loading.value = true
   const { data, error } = await useFetch('/api/auth/google/login', { method: 'POST', body: response })
   if (error.value) {
-    useToast().error('Ocorreu um erro ao logar com o Google.')
+    useToast().error('Ocorreu um erro ao logar com o Google. Verifique se você está utilizando um e-mail autorizado.')
     console.error(error.value)
   }
   authStore.user = data.value

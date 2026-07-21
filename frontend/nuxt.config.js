@@ -45,7 +45,6 @@ export default defineNuxtConfig({
     public: {
       pagtesouroURL: process.env.PAGTESOURO_URL,
       googleClientId: process.env.GOOGLE_CLIENT_ID,
-      GA: process.env.GA,
     },
   },
 
@@ -70,6 +69,28 @@ export default defineNuxtConfig({
           isCustomElement: tag => ['altcha-widget'].includes(tag),
         },
       },
+    },
+    optimizeDeps: {
+      include: [
+        '@vue/devtools-core',
+        '@vue/devtools-kit',
+        '@casl/ability',
+        '@date-io/dayjs',
+        'chart.js',
+        'copy-to-clipboard',
+        'altcha/i18n', // CJS
+        'dayjs',
+        'dayjs/locale/pt-br', // CJS
+        'dayjs/plugin/customParseFormat', // CJS
+        'dayjs/plugin/isSameOrAfter', // CJS
+        'dayjs/plugin/isSameOrBefore', // CJS
+        'iframe-resizer/js/iframeResizer', // CJS
+        'maska',
+        'maska/vue',
+        'vue-chartjs',
+        'vue3-google-login',
+        'vuetify-pro-tiptap',
+      ],
     },
   },
 
@@ -100,6 +121,14 @@ export default defineNuxtConfig({
     },
   },
 
+  /* GTag */
+  gtag: {
+    id: process.env.GTAG_ID,
+    params: {
+      send_page_view: false,
+    },
+  },
+
   /* nuxt-proxy-request */
   proxy: {
     options: {
@@ -109,13 +138,6 @@ export default defineNuxtConfig({
         '^/api': '',
       },
       pathFilter: ['/api/**'],
-    },
-  },
-
-  /* GTag */
-  gtag: {
-    params: {
-      send_page_view: false,
     },
   },
 })

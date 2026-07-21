@@ -4,7 +4,7 @@
     v-bind="$attrs"
     @submit.prevent
   >
-    <p class="text-body-2 text--secondary mb-3">
+    <p class="text-body-medium text--secondary mb-3">
       As informa&ccedil;&otilde;es abaixo s&atilde;o opcionais.
     </p>
 
@@ -26,18 +26,17 @@
     >
       <template #activator="{ props }">
         <v-text-field
-          v-model="competenciaFormatted"
+          :model-value="competenciaFormatted"
           v-bind="props"
           label="Competência"
-          hint="Selecione qualquer data dentro do mês desejado."
+          hint="Selecione o mês desejado."
           persistent-hint
           prepend-icon="mdi-calendar-month"
           readonly
         />
       </template>
-      <v-date-picker
+      <v-month-picker
         v-model="competencia"
-        hide-header
       />
     </v-menu>
   </v-form>
@@ -45,6 +44,7 @@
 
 <script setup>
 import { watch } from 'vue'
+import { VMonthPicker } from 'vuetify/labs/VMonthPicker'
 
 const form = ref(null)
 async function validateForm() {
@@ -90,7 +90,7 @@ const dayjs = utilDayJS()
 const competenciaFormatted = computed(() => {
   if (!competencia.value) return null
 
-  return dayjs(competencia.value).format('MM/YYYY')
+  return dayjs(competencia.value, 'YYYY-MM').format('MM/YYYY')
 })
 
 watch(competencia, async () => {

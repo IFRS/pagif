@@ -91,7 +91,7 @@
       max-width="800"
     >
       <v-card>
-        <v-card-title class="text-h5">
+        <v-card-title class="text-headline-small">
           Pagamento criado com sucesso!
         </v-card-title>
         <v-card-text>
@@ -247,8 +247,13 @@ async function toClipboard(text) {
       }, () => {
         copiou = false
       })
-  } else if (typeof copy !== 'undefined' && copy(text, { format: 'text/plain' })) {
-    copiou = true
+  } else if (typeof copy !== 'undefined') {
+    await copy(text, { format: 'text/plain' })
+      .then(() => {
+        copiou = true
+      }, () => {
+        copiou = false
+      })
   } else {
     copiou = false
   }

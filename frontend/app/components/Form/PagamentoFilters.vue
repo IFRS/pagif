@@ -10,7 +10,7 @@
   >
     <template #prepend>
       <v-toolbar
-        dense
+        density="compact"
         flat
         color="transparent"
       >
@@ -45,8 +45,8 @@
         @filtro="addFiltro"
       />
       <v-row
-        justify="start"
-        dense
+        density="comfortable"
+        class="justify-start"
       >
         <v-col cols="auto">
           <v-btn

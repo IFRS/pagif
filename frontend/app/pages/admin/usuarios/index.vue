@@ -99,7 +99,7 @@
       max-width="400"
     >
       <v-card>
-        <v-card-title class="text-h5">
+        <v-card-title class="text-headline-small">
           Deletar o Usu&aacute;rio "{{ usuarioStore.nome || usuarioStore.email }}"?
         </v-card-title>
         <v-card-actions>

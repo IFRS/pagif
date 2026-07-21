@@ -1,4 +1,3 @@
-
 <script setup>
 import { Line } from 'vue-chartjs'
 import { Chart as ChartJS, Tooltip, Legend, LineController, LineElement, CategoryScale, LinearScale, PointElement } from 'chart.js'
@@ -71,7 +70,7 @@ const chartData = computed(() => {
 
   const labelsFormatted = labels.map(formatPeriod)
 
-  const datasets = datasetsRaw.map((ds, i) => {
+  const datasets = datasetsRaw.map((ds) => {
     const { border, background } = colorForSituacao(ds.label)
     return {
       ...ds,

@@ -19,7 +19,7 @@
       label="CPF / CNPJ"
       :rules="validation.cnpjCpf"
       validate-on="blur"
-      inputmode="numeric"
+      inputmode="text"
       required
     />
   </v-form>

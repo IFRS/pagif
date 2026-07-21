@@ -33,12 +33,12 @@ const onStateChange = (ev) => {
 </script>
 
 <template>
-  <!-- eslint-disable-next-line vue/html-self-closing -->
+  <!-- eslint-disable vue/html-self-closing vue/attribute-hyphenation -->
   <altcha-widget
     ref="altchaWidget"
-    challengeurl="/api/altcha/challenge"
+    challenge="/api/altcha/challenge"
     :refetchonexpire="false"
-    hidelogo
+    hideFooter
     class="altcha-widget"
     @load="model = ''"
     @statechange="onStateChange"
@@ -49,12 +49,9 @@ const onStateChange = (ev) => {
 .altcha-widget {
   --altcha-border-width: 1px;
   --altcha-border-radius: 4px;
-  --altcha-color-base: #ffffff;
-  --altcha-color-border: rgb(var(--v-border-color, #a0a0a0));
-  --altcha-color-text: currentColor;
-  --altcha-color-border-focus: currentColor;
-  --altcha-color-error-text: rgb(var(--v-theme-error, #f23939));
-  --altcha-color-footer-bg: rgb(var(--v-theme-surface-light, #f4f4f4));
+  --altcha-input-border-radius: 4px;
   --altcha-max-width: 100%;
+
+  min-width: 250px;
 }
 </style>

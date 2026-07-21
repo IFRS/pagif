@@ -71,6 +71,7 @@ export default defineNuxtPlugin(({ vueApp }) => {
         color: 'primary',
         variant: 'elevated',
         rounded: 'pill',
+        class: 'text-uppercase',
       },
       VAutocomplete: {
         variant: 'underlined',

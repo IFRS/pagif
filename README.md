@@ -69,12 +69,41 @@ $ npm run superadmin email@example.com
 
 ## Deploy
 
-O _deploy_ é feito com **Docker Compose**. Já há configurações adequadas para geração das imagens e criação dos containers.
+O _deploy_ é feito com **Docker Compose**. O repositório já traz Dockerfiles, healthchecks e exemplos de ambiente, mas cada instalação deve ajustar as variáveis conforme o domínio, o banco e o provedor de autenticação da instituição.
+
+### Arquivos de ambiente
+
+- `backend/.env`: variáveis de execução do backend, incluindo banco, sessão, proxy e URL pública da aplicação.
+- `frontend/.env`: variáveis usadas no frontend em desenvolvimento e build de produção.
+- `/.env`: variáveis usadas pelo `docker compose` para interpolação.
+
+### Variáveis mais importantes
+
+- `APP_URL`: URL pública da aplicação, usada para CORS, nas URLs de retorno e notificação do PagTesouro.
+- `API_BASE`: URL que o frontend usa para alcançar o backend. Em Compose, normalmente aponta para o serviço interno `http://backend:3030`.
+- `TRUST_PROXY`: use `1` ou um valor equivalente quando houver reverse proxy ou ingress na frente do backend.
+- `PAGTESOURO_URL`: ambiente do PagTesouro usado pela instituição.
+- `GOOGLE_CLIENT_ID` e `GOOGLE_ALLOWED_HOSTED_DOMAINS`: necessários quando a autenticação Google estiver habilitada.
+
+### Subida padrão com Compose
 
 ```bash
 # inicia a stack (todos os containers necessários) construindo as imagens antes
 docker compose up -d --build
 ```
+
+### Cenários recomendados
+
+- Instalação simples em uma única rede: use o backend e o frontend pela rede interna do Compose e exponha apenas o frontend.
+- Instalação atrás de proxy reverso: mantenha `TRUST_PROXY=1`, aponte `APP_URL` para o domínio público e configure o proxy para encaminhar `HTTP`/`HTTPS` corretamente.
+- Instalação com domínios diferentes por instituição: mantenha `API_BASE` apontando para o backend alcançável pelo frontend e ajuste `GOOGLE_ALLOWED_HOSTED_DOMAINS` e `PAGTESOURO_URL` conforme o ambiente.
+
+### Antes de subir em produção
+
+1. Copie os arquivos de exemplo para os arquivos reais de ambiente.
+2. Preencha as URLs públicas da instituição e os segredos do banco/sessão.
+3. Revise o valor de `TRUST_PROXY` se houver proxy, load balancer ou ingress.
+4. Rode `docker compose up -d --build` e valide os healthchecks.
 
 ## Contribuição
 

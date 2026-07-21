@@ -68,7 +68,7 @@
           />
         </v-col>
       </v-row>
-      <v-row justify="center">
+      <v-row class="justify-center">
         <v-col
           v-if="imagem"
           cols="12"
@@ -76,7 +76,7 @@
           md="4"
           lg="3"
         >
-          <p class="text-caption text-center">
+          <p class="text-body-small text-center">
             Pré-visualização da imagem no site.
           </p>
           <v-hover v-slot="{ isHovering, props }">
@@ -155,8 +155,8 @@
         </v-col>
       </v-row>
       <v-row
-        justify="start"
-        dense
+        density="comfortable"
+        class="justify-start"
       >
         <v-col cols="auto">
           <v-btn

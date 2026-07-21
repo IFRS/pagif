@@ -35,10 +35,10 @@
             item-value="codigo"
             required
           >
-            <template #item="{ props, item }">
+            <template #item="{ props, internalItem }">
               <v-list-item
                 v-bind="props"
-                :title="item.raw.codigo + ' - ' + item.raw.nome"
+                :title="internalItem.raw.codigo + ' - ' + internalItem.raw.nome"
               />
             </template>
           </v-autocomplete>
@@ -77,9 +77,8 @@
                 @click:clear="competencia = null"
               />
             </template>
-            <v-date-picker
+            <v-month-picker
               v-model="competencia"
-              hide-header
             />
           </v-menu>
         </v-col>
@@ -136,7 +135,7 @@
           />
         </v-col>
       </v-row>
-      <v-row align="center">
+      <v-row class="align-center">
         <v-col>
           <!-- Valor Principal -->
           <v-text-field
@@ -210,8 +209,8 @@
         </v-col>
       </v-row>
       <v-row
-        justify="start"
-        dense
+        density="comfortable"
+        class="justify-start"
       >
         <v-col cols="auto">
           <v-btn
@@ -240,6 +239,7 @@
 <script setup>
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
+import { VMonthPicker } from 'vuetify/labs/VMonthPicker'
 
 const dayjs = utilDayJS(customParseFormat, isSameOrAfter)
 
@@ -355,7 +355,7 @@ watch(vencimento, () => {
 const competenciaFormatted = computed(() => {
   if (!competencia.value) return null
 
-  return dayjs(competencia.value).format('MM/YYYY')
+  return dayjs(competencia.value, 'YYYY-MM').format('MM/YYYY')
 })
 
 const vencimentoFormatted = computed(() => {

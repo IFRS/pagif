@@ -30,7 +30,7 @@
     <v-card>
       <v-list>
         <v-list-item>
-          <v-list-item-title class="text-h6">
+          <v-list-item-title class="text-title-large">
             {{ user.nome }}
           </v-list-item-title>
           <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
