@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## [0.2.4] - 2026-07-21
+### Changed
+- Ajustado o `Dockerfile` do backend para melhorar a previsibilidade do build em ambiente containerizado, mantendo a aplicação em execução com o usuário `node`.
+
+### Fixed
+- Corrigido o comportamento dos seletores de competência e vencimento no formulário administrativo de Pagamentos, que agora fecham corretamente ao clicar fora do campo.
+- Corrigido o fluxo de limpeza dos campos de competência e vencimento para evitar reabertura automática do seletor após usar `clear`.
+- Adicionado suporte para limpar a competência na etapa Extra do fluxo público de Pagamento, melhorando a usabilidade em seleções feitas por engano.
+
 ## [0.2.3] - 2026-07-21
 ### Added
 - Suporte a CNPJ alfanumérico no fluxo de pagamentos, incluindo validação no backend e ajustes de máscara, filtro e validação no frontend.
