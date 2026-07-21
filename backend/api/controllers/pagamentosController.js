@@ -5,6 +5,7 @@ import pagtesouro from '../pagtesouro.js';
 import dayjs from 'dayjs';
 import { createMongoAbility } from '@casl/ability';
 import { ApiError } from '../utils/ApiError.js';
+import { isValidCpfOrCnpj, normalizeCpfCnpj } from '../utils/validateCpfCnpj.js';
 
 export const showPublic = function (req, res, next) {
   Pagamento.findById(req.params.id).select('-token -tipoPagamentoEscolhido -nomePSP -transacaoPSP')
@@ -103,13 +104,14 @@ export const save = [
   validator.body('nomeContribuinte', '')
     .notEmpty()
     .trim()
-    .isAlphanumeric('pt-BR', { ignore: ' _-' })
+    .isAlphanumeric('pt-BR', { ignore: ' _-.' })
     .isLength({ min: 2, max: 45 }),
   validator.body('cnpjCpf', '')
+    .customSanitizer(normalizeCpfCnpj)
     .notEmpty()
-    .trim()
-    .isNumeric({ no_symbols: true })
-    .isLength({ min: 11, max: 14 }),
+    .withMessage('CPF ou CNPJ é obrigatório.')
+    .custom(isValidCpfOrCnpj)
+    .withMessage('CPF ou CNPJ inválido.'),
   validator.body('valorPrincipal', '')
     .trim()
     .notEmpty()
