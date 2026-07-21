@@ -23,6 +23,7 @@
       transition="scale-transition"
       max-width="auto"
       min-width="auto"
+      @click:outside="showCompetencia = false"
     >
       <template #activator="{ props }">
         <v-text-field
@@ -33,6 +34,8 @@
           persistent-hint
           prepend-icon="mdi-calendar-month"
           readonly
+          clearable
+          @click:clear.stop="competencia = null"
         />
       </template>
       <v-month-picker
