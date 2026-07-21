@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## [0.2.3] - 2026-07-21
+### Added
+- Suporte a CNPJ alfanumérico no fluxo de pagamentos, incluindo validação no backend e ajustes de máscara, filtro e validação no frontend.
+- Configuração de domínios permitidos para autenticação via Google.
+- Detecção de proxy no backend para manter o rate limiting funcional em ambientes com proxy reverso.
+
+### Changed
+- Atualização da integração com ALTCHA para a nova versão, com ajustes no middleware e no widget cliente.
+- Atualização de dependências principais do projeto, incluindo Vuetify, Pinia, MongoDB/ACL e Altcha, com os ajustes de compatibilidade necessários.
+- Campo de competência nos formulários de pagamento passou a utilizar o componente `month-picker`.
+- Melhoria no tratamento de logs do backend em ambiente Docker e no controle dos processos filho da fila.
+- Melhoria na mensagem exibida em falhas de autenticação.
+
+### Fixed
+- Corrigida a incompatibilidade de BSON que afetava a sessão do login Google.
+- Corrigida a exibição do aviso de configuração faltando na área administrativa.
+- Ajustado o comportamento de cópia para a área de transferência na página de novo pagamento.
+- Ajustado o comportamento do menu e da página administrativa de Pagamentos.
+- Validação do nome do contribuinte passou a aceitar mais caracteres especiais válidos.
+
 ## [0.2.2] - 2025-11-13
 ### Added
 - Background job (fila) para atualização automática de pagamentos com status `CRIADO` há mais de 7 dias.
