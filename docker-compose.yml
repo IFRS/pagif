@@ -21,6 +21,9 @@ services:
     container_name: pagif-frontend
     image: ifrs/pagif-frontend:latest
     build: ./frontend/
+    depends_on:
+      backend:
+        condition: service_healthy
     restart: unless-stopped
     environment:
       - NODE_ENV=production
