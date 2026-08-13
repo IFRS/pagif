@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [0.2.5] - 2026-08-13
+### Fixed
+- Corrigida a inicialização do backend em container ao remover o entrypoint personalizado e manter a aplicação em execução como usuário `node`, evitando problemas de permissões durante o boot.
+- Corrigida a ordem de inicialização no Docker Compose, com o frontend aguardando a saúde do backend antes de subir, melhorando a previsibilidade de deploy e reduzindo falhas de dependência em ambiente containerizado.
+
 ## [0.2.4] - 2026-07-21
 ### Changed
 - Ajustado o `Dockerfile` do backend para melhorar a previsibilidade do build em ambiente containerizado, mantendo a aplicação em execução com o usuário `node`.

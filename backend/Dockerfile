@@ -10,16 +10,10 @@ COPY --chown=node:node . .
 
 RUN mkdir -p ./logs && chown -R node:node ./logs
 
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-
-RUN chmod 755 /usr/local/bin/docker-entrypoint.sh
-
-USER node
-
 EXPOSE ${LISTEN_PORT:-"3030"}
 
 HEALTHCHECK --interval=5m --start-period=1m CMD node ./healthcheck.js
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+USER node
 
 CMD ["npm", "run", "start"]
