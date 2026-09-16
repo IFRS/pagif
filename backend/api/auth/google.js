@@ -15,10 +15,14 @@ const hasAllowedHostedDomain = (hostedDomain) => {
   return allowedGoogleHostedDomains.includes(hostedDomain.trim().toLowerCase());
 };
 
-const toSessionSafeUser = usuario => usuario.toObject({
-  flattenObjectIds: true,
-  depopulate: true,
-});
+const toSessionSafeUser = (usuario) => {
+  const { _id, email, abilities, nome, foto } = usuario.toObject({
+    flattenObjectIds: true,
+    depopulate: true,
+  });
+
+  return JSON.parse(JSON.stringify({ _id, email, abilities, nome, foto }));
+};
 
 router.post('/auth/google/login', async function (req, res) {
   if (req.body.client_id && req.body.credential) {

@@ -37,7 +37,6 @@ const onStateChange = (ev) => {
   <altcha-widget
     ref="altchaWidget"
     challenge="/api/altcha/challenge"
-    :refetchonexpire="false"
     hideFooter
     class="altcha-widget"
     @load="model = ''"
