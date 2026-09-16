@@ -4,7 +4,7 @@ WORKDIR /home/node/app
 
 COPY --chown=node:node package*.json ./
 
-RUN npm install --loglevel error --omit=dev
+RUN npm ci --loglevel error --omit=dev
 
 COPY --chown=node:node . .
 
