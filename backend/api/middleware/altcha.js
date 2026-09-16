@@ -19,9 +19,11 @@ const createAltcha = async () => {
     deriveKey,
     createChallengeParameters: () => ({
       algorithm: 'PBKDF2/SHA-256',
+      // cost/counter seguem a recomendação oficial da ALTCHA para PBKDF2 (mantém a robustez do captcha)
       cost: 5000,
       counter: randomInt(10_000, 5_000),
-      expiresAt: new Date(Date.now() + 60 * 1000),
+      // janela ampla o suficiente para cobrir o tempo até o usuário marcar a caixa + resolver o desafio
+      expiresAt: new Date(Date.now() + 5 * 60 * 1000),
     }),
   });
 };

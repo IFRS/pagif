@@ -81,8 +81,8 @@ app.use(session({
     maxAge: expire,
   },
   store: session_store,
-  resave: true,
-  saveUninitialized: true,
+  resave: false,
+  saveUninitialized: false,
 }));
 
 const globalLimiter = rateLimit({
