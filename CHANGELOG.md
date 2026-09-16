@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [0.2.6] - 2026-09-16
+### Changed
+- Ajustado o comportamento do ALTCHA para renovar automaticamente desafios expirados, reduzindo falhas ao concluir o CAPTCHA em fluxos mais lentos ou com maior tempo de resposta do usuário.
+
+### Fixed
+- Corrigida a serialização da sessão do login com Google para preservar apenas os dados necessários, evitando sessões inválidas e falhas de autenticação.
+- Ajustada a persistência e a expiração das sessões para evitar gravações desnecessárias e reduzir problemas de expiração em ambientes com comportamento variável de navegação e resposta.
+
 ## [0.2.5] - 2026-08-13
 ### Fixed
 - Corrigida a inicialização do backend em container ao remover o entrypoint personalizado e manter a aplicação em execução como usuário `node`, evitando problemas de permissões durante o boot.
